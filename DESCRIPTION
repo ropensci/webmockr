@@ -1,0 +1,9 @@
+Package: webmockr
+Title: Stubbing and setting expectations on HTTP requests
+Description: What the package does (one paragraph)
+Version: 0.0.1.99
+Authors@R: "First Last <first.last@example.com> [aut, cre]"
+License: MIT + file LICSENSE
+LazyData: true
+Imports:
+    httr
