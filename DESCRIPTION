@@ -1,9 +1,13 @@
 Package: webmockr
-Title: Stubbing and setting expectations on HTTP requests
-Description: What the package does (one paragraph)
-Version: 0.0.1.99
-Authors@R: "First Last <first.last@example.com> [aut, cre]"
+Title: Stubbing and Setting Expectations on 'HTTP' Requests
+Description: Stubbing and setting expectations on 'HTTP' requests.
+Version: 0.0.2.9000
+Authors@R: person("Scott", "Chamberlain", role = c("aut", "cre"), email =
+    "myrmecocystus@gmail.com")
 License: MIT + file LICSENSE
+URL: https://github.com/ropenscilabs/webmockr
+BugReports: https://github.com/ropenscilabs/webmockr/issues
 LazyData: true
 Imports:
-    httr
+    httr (>= 1.1.0)
+RoxygenNote: 5.0.1
