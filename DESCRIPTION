@@ -4,7 +4,7 @@ Description: Stubbing and setting expectations on 'HTTP' requests.
 Version: 0.0.2.9000
 Authors@R: person("Scott", "Chamberlain", role = c("aut", "cre"), email =
     "myrmecocystus@gmail.com")
-License: MIT + file LICSENSE
+License: MIT + file LICENSE
 URL: https://github.com/ropenscilabs/webmockr
 BugReports: https://github.com/ropenscilabs/webmockr/issues
 LazyData: true
