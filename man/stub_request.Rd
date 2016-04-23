@@ -17,7 +17,7 @@ regular expression to match many incantations of a url}
 Stub an http request
 }
 \examples{
-\donttest{
+\dontrun{
 # basic stubbing
 stub_request("get", url="http://google.com/")
 

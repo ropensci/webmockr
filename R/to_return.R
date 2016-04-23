@@ -11,7 +11,7 @@ to_return <- function(.data, ...) {
 }
 
 #' @export
-#' @rdname wi_th
+#' @rdname to_return
 to_return_ <- function(.data, ..., .dots) {
   tmp <- lazyeval::all_dots(.dots, ...)
   if (length(tmp) == 0) {

@@ -2,9 +2,12 @@
 % Please edit documentation in R/to_return.R
 \name{to_return}
 \alias{to_return}
+\alias{to_return_}
 \title{Expection for a stubbed request}
 \usage{
 to_return(.data, ...)
+
+to_return_(.data, ..., .dots)
 }
 \arguments{
 \item{.data}{input. Anything that can be coerced to a StubbedRequest class
