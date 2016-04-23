@@ -1,7 +1,9 @@
 #' Stubbing and setting expectations on HTTP requests
 #'
-#' @name webmockr
 #' @docType package
-#' @title Stubbing and setting expectations on HTTP requests
+#' @name webmockr-package
+#' @aliases webmockr
+#' @docType package
 #' @keywords package
+#' @author Scott Chamberlain
 NULL

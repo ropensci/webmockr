@@ -4,22 +4,31 @@
 \alias{stub_request}
 \title{Stub an http request}
 \usage{
-stub_request(verb = "get", url)
+stub_request(method = "get", url)
 }
 \arguments{
-\item{verb}{curl verb, one of get, post, put, patch, head, delete.}
+\item{method}{(character) HTTP method, one of "get", "post", "put", "patch",
+"head", "delete", "options" - or the special "any" (for any method)}
 
-\item{url}{Base url for the stub reqeust}
-
-\item{where}{Where to store stubbed request. Only tests/cache/ for now.}
+\item{url}{(character) The request url. Can be a full url, partial, or a
+regular expression to match many incantations of a url}
 }
 \description{
 Stub an http request
 }
 \examples{
 \donttest{
+# basic stubbing
 stub_request("get", url="http://google.com/")
-GET("http://google.com/")
+
+# add header
+stub_request("get", url="http://google.com/") \%>\%
+   wi_th(headers = list('User-Agent' = 'R'))
+
+# add expectation with to_return
+stub_request("get", url="http://google.com/") \%>\%
+  wi_th(query = list(hello = "world"), headers = list('User-Agent' = 'R')) \%>\%
+  to_return(status = 200, body = "", headers = list())
 }
 }
 

@@ -1,11 +1,12 @@
-#' Save results locally
-#' @import digest
-#' @param x Output from API call
-#' @param y Cache key
-#' @export
-#' @keywords internal
-save_local <- function(x, y, path="~/") {
-  hash <- digest::digest(y)
-  filepath <- paste(path, hash, ".rds", sep="")
-  saveRDS(object = x, file = filepath)
+http_verbs <- c("get","post","put","patch","head","delete")
+
+cc <- function(x) Filter(Negate(is.null), x)
+
+hdl_lst <- function(x) {
+  if (is.null(x) || length(x) == 0) return("")
+  if (inherits(x, "list")) {
+    return(paste(names(x), unname(x), sep = "=", collapse = ", "))
+  } else {
+    x
+  }
 }
