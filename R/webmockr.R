@@ -1,6 +1,6 @@
 #' Stubbing and setting expectations on HTTP requests
 #'
-#' @docType package
+#' @import httr magrittr lazyeval R6
 #' @name webmockr-package
 #' @aliases webmockr
 #' @docType package

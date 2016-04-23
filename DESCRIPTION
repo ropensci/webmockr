@@ -11,5 +11,6 @@ LazyData: true
 Imports:
     httr (>= 1.1.0),
     magrittr,
-    lazyeval
+    lazyeval,
+    R6
 RoxygenNote: 5.0.1
