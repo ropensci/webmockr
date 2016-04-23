@@ -5,6 +5,7 @@
 #' "head", "delete", "options" - or the special "any" (for any method)
 #' @param url (character) The request url. Can be a full url, partial, or a
 #' regular expression to match many incantations of a url
+#' @template stub_egs
 #' @examples \dontrun{
 #' # basic stubbing
 #' stub_request("get", url="http://google.com/")

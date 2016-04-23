@@ -1,2 +1,7 @@
 ^.*\.Rproj$
 ^\.Rproj\.user$
+man-roxygen/
+^README.Rmd$
+^\.travis.yml$
+^CONDUCT\.md$
+Makefile
