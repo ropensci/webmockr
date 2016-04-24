@@ -18,17 +18,14 @@ Stub an http request
 }
 \examples{
 \dontrun{
-# basic stubbing
-stub_request("get", url="http://google.com/")
+# URI regex
+stub_request("get", ".*google.*")
 
 # add header
-stub_request("get", url="http://google.com/") \%>\%
-   wi_th(headers = list('User-Agent' = 'R'))
+stub_request("get", ".*google.*")
 
 # add expectation with to_return
-stub_request("get", url="http://google.com/") \%>\%
-  wi_th(query = list(hello = "world"), headers = list('User-Agent' = 'R')) \%>\%
-  to_return(status = 200, body = "", headers = list())
+stub_request("get", ".*google.*")
 }
 }
 

@@ -9,8 +9,10 @@ URL: https://github.com/ropenscilabs/webmockr
 BugReports: https://github.com/ropenscilabs/webmockr/issues
 LazyData: true
 Imports:
-    httr (>= 1.1.0),
-    magrittr,
-    lazyeval,
-    R6
+    magrittr (>= 1.5),
+    lazyeval (>= 0.1.10),
+    R6 (>= 2.1.2),
+    urltools
+Suggests:
+    httr (>= 1.1.0)
 RoxygenNote: 5.0.1

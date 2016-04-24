@@ -27,6 +27,7 @@ StubbedRequest <- R6::R6Class(
   public = list(
     method = NULL,
     uri = NULL,
+    uri_parts = NULL,
     host = NULL,
     query = NULL,
     body = NULL,
@@ -38,7 +39,10 @@ StubbedRequest <- R6::R6Class(
         verb <- match.arg(tolower(method), http_verbs)
         self$method <- verb
       }
-      if (!missing(uri)) self$uri <- uri
+      if (!missing(uri)) {
+        self$uri <- uri
+        self$uri_parts <- parseurl(self$uri)
+      }
     },
 
     print = function(x, ...) {
