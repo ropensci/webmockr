@@ -1,18 +1,25 @@
 #' StubbedRequest class
 #'
 #' @keywords internal
-#' @param method the HTTP method (i.e. :head, :options, :get, :post, :put, :patch or :delete)
-#' @param uri the request URI
-#' @param body the request body
-#' @param headers the request headers
+#' @param method the HTTP method (any, head, options, get, post, put,
+#' patch, trace, or delete). "any" matches any HTTP method. required.
+#' @param uri (character) request URI. required.
+#' @param body (list) request body, as a list. optional
+#' @param query (list) query parameters, as a list. optional
+#' @param headers (list) request headers. optional.
 #' @details
 #' \strong{Methods}
 #'   \describe{
-#'     \item{\code{to_hash()}}{
-#'       Create a hash.
+#'     \item{\code{with()}}{
+#'       with slots for:
+#'       \itemize{
+#'        \item status
+#'        \item body
+#'        \item headers
+#'       }
 #'     }
-#'     \item{\code{from_hash()}}{
-#'       Get a hash back to an R list.
+#'     \item{\code{to_return()}}{
+#'       Stubbed response
 #'     }
 #'   }
 #' @examples \dontrun{
@@ -20,7 +27,8 @@
 #' x$method
 #' x$uri
 #' x$with(headers = list('User-Agent' = 'R'))
-#' x$to_return(status = 200, body = "", headers = list())
+#' x$to_return(status = 200, body = "foobar", headers = list())
+#' x$to_s()
 #' }
 StubbedRequest <- R6::R6Class(
   'StubbedRequest',
@@ -71,6 +79,19 @@ StubbedRequest <- R6::R6Class(
         body = body,
         headers = headers
       )
+    },
+
+    to_s = function() {
+      gsub("^\\s+|\\s+$", "", sprintf(
+        "  %s: %s %s %s",
+        self$method,
+        url_build(
+          self$uri,
+          self$query
+        ),
+        make_body(self$body),
+        make_headers(self$headers)
+      ))
     }
   )
 )

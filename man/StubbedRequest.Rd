@@ -9,13 +9,16 @@
 StubbedRequest
 }
 \arguments{
-\item{method}{the HTTP method (i.e. :head, :options, :get, :post, :put, :patch or :delete)}
+\item{method}{the HTTP method (any, head, options, get, post, put,
+patch, trace, or delete). "any" matches any HTTP method. required.}
 
-\item{uri}{the request URI}
+\item{uri}{(character) request URI. required.}
 
-\item{body}{the request body}
+\item{body}{(list) request body, as a list. optional}
 
-\item{headers}{the request headers}
+\item{query}{(list) query parameters, as a list. optional}
+
+\item{headers}{(list) request headers. optional.}
 }
 \description{
 StubbedRequest class
@@ -23,11 +26,16 @@ StubbedRequest class
 \details{
 \strong{Methods}
   \describe{
-    \item{\code{to_hash()}}{
-      Create a hash.
+    \item{\code{with()}}{
+      with slots for:
+      \itemize{
+       \item status
+       \item body
+       \item headers
+      }
     }
-    \item{\code{from_hash()}}{
-      Get a hash back to an R list.
+    \item{\code{to_return()}}{
+      Stubbed response
     }
   }
 }
@@ -37,7 +45,8 @@ x <- StubbedRequest$new(method = "get", uri = "api.crossref.org")
 x$method
 x$uri
 x$with(headers = list('User-Agent' = 'R'))
-x$to_return(status = 200, body = "", headers = list())
+x$to_return(status = 200, body = "foobar", headers = list())
+x$to_s()
 }
 }
 \keyword{internal}
