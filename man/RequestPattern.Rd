@@ -36,10 +36,10 @@ x$uri_pattern
 x$to_s()
 
 # make a request signature
-rs <- "x"
+rs <- request_signature
 
 # check if it matches
-x$matches(rs)
+x$matches(request_signature)
 }
 }
 \keyword{datasets}

@@ -40,6 +40,7 @@ StubbedRequest <- R6::R6Class(
     query = NULL,
     body = NULL,
     headers = NULL,
+    response = NULL,
     responses_sequences = NULL,
 
     initialize = function(method, uri) {
@@ -93,5 +94,7 @@ StubbedRequest <- R6::R6Class(
         make_headers(self$headers)
       ))
     }
+
+    #response = list()
   )
 )

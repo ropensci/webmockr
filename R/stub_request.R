@@ -24,8 +24,10 @@
 #' stub_request("get", "www.example.com/{id}/")
 #' stub_request("get", "/.*example.*/")
 #' stub_request("get", "www.example.com/thing/{id}.json{?x,y,z}{&other*}")
-#' httr::GET('www.example.com/thing/5.json?x=1&y=2&z=3&anyParam=4')
+#' # httr::GET('www.example.com/thing/5.json?x=1&y=2&z=3&anyParam=4')
 #' }
 stub_request <- function(method = "get", url) {
-  StubbedRequest$new(method = method, uri = url)
+  tmp <- StubbedRequest$new(method = method, uri = url)
+  webmockr_stub_registry$register_stub(tmp)
+  return(tmp)
 }

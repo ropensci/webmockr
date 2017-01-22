@@ -1,6 +1,7 @@
 #' httr library adapter
 #'
-#' @keywords internal
+#' @export
+
 #' @family http_lib_adapters
 #' @param x input
 #' @details This adapter modifies \pkg{httr} to allow mocking HTTP requests
@@ -8,12 +9,31 @@
 HttrAdapter <- R6::R6Class(
   'HttrAdapter',
   public = list(
+    name = "httr_adapter",
+
     enable = function() {
-      message("enabled!")
+      message("HttrAdapter enabled!")
+      webmockr_lightswitch$httr <- TRUE
     },
 
     disable = function() {
-      message("disabled!")
+      message("HttrAdapter disabled!")
+      webmockr_lightswitch$httr <- FALSE
+    },
+
+    build_request_signature = function(x) {
+      RequestSignature$new(
+        method = x$method,
+        uri = x$url,
+        options = list(
+          body = x$body %||% NULL,
+          headers = x$headers %||% NULL
+        )
+      )
+    },
+
+    handle_request = function() {
+      "fadfas"
     }
   )
 )
@@ -34,7 +54,11 @@ request_perform <- function(req, handle, refresh = TRUE) {
   curl::handle_setheaders(handle, .list = req$headers)
   on.exit(curl::handle_reset(handle), add = TRUE)
 
-  if (request_is_in_cache(request_signature)) {
+  # put request in cache
+  request_signature <- HttrAdapter$build_request_signature(req)
+  webmockr_request_registry$register_request(request_signature)
+
+  if (request_is_in_cache(req)) {
     StubRegistry$find_stubbed_request(req)
   } else {
     resp <- httr:::request_fetch(req$output, req$url, handle)
@@ -72,5 +96,5 @@ request_perform <- function(req, handle, refresh = TRUE) {
 }
 
 request_is_in_cache <- function(request_signature) {
-  StubRegistry$is_registered(request_signature)
+  webmockr_stub_registry$is_registered(request_signature)
 }

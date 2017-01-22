@@ -26,10 +26,10 @@
 #' x$to_s()
 #'
 #' # make a request signature
-#' rs <- "x"
+#' rs <- request_signature
 #'
 #' # check if it matches
-#' x$matches(rs)
+#' x$matches(request_signature)
 #' }
 RequestPattern <- R6::R6Class(
   'RequestPattern',
@@ -48,7 +48,7 @@ RequestPattern <- R6::R6Class(
     matches = function(request_signature) {
       c_type <- if (!is.null(request_signature$headers)) request_signature$headers$`Content-Type` else NULL
       c_type <- if (!is.null(c_type)) strsplit(c_type, ';')[[1]][1]
-      self$method_pattern$matches(request_signature) &&
+      self$method_pattern$matches(request_signature$method) &&
         self$uri_pattern$matches(request_signature$uri) &&
         (is.null(self$body_pattern) || self$body_pattern$matches(request_signature$body, c_type %||% "")) &&
         (is.null(self$headers_pattern) || self$headers_pattern$matches(request_signature$headers))
@@ -123,7 +123,7 @@ MethodPattern <- R6::R6Class(
     },
 
     matches = function(method) {
-      self$pattern == method || Self$pattern == "any"
+      self$pattern == method || self$pattern == "any"
     },
 
     to_s = function() self$pattern

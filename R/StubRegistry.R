@@ -1,5 +1,6 @@
 #' Stub registry
 #'
+#' @export
 #' @keywords internal
 #' @param stub an object of class \code{StubbedRequest}
 #' @details
@@ -39,6 +40,7 @@ StubRegistry <- R6::R6Class(
   public = list(
     stub = NULL,
     request_stubs = list(),
+    global_stubs = list(),
 
     print = function(x, ...) {
       cat("<webmockr stub registry> ", sep = "\n")
@@ -65,8 +67,22 @@ StubRegistry <- R6::R6Class(
       self$request_stubs <- Filter(length, c(self$request_stubs, stub))
     },
 
-    find_stubbed_request = function() {
-      "fart"
+    find_stubbed_request = function(req) {
+      stubs <- c(self$global_stubs, self$request_stubs)
+      stubs[self$request_stub_for(req)]
+    },
+
+    response_for_request = function(request_signature) {
+      stub <- self$request_stub_for(request_signature)
+      evaluate_response_for_request(stub$response, request_signature) %||% NULL
+    },
+
+    request_stub_for = function(request_signature) {
+      stubs <- c(self$global_stubs, self$request_stubs)
+      vapply(stubs, function(z) {
+        tmp <- RequestPattern$new(method = z$method, uri = z$uri)
+        tmp$matches(request_signature)
+      }, logical(1))
     },
 
     remove_request_stub = function(stub) {
@@ -83,9 +99,11 @@ StubRegistry <- R6::R6Class(
       }
     },
 
-    is_registered = function(x) {
-      "poo"
-    }
+    remove_all_request_stubs = function() {
+      self$request_stubs <- list()
+    },
+
+    is_registered = function(x) any(self$request_stub_for(x))
   )
 )
 
