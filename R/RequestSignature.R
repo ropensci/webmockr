@@ -7,6 +7,8 @@ RequestSignature <- R6::R6Class(
     uri = NULL,
     body = NULL,
     headers = NULL,
+    proxies = NULL,
+    auth = NULL,
 
     initialize = function(method, uri, options = list()) {
       self$method <- method

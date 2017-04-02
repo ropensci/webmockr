@@ -27,7 +27,9 @@ CrulAdapter <- R6::R6Class(
         uri = x$url$url,
         options = list(
           body = x$body %||% NULL,
-          headers = x$headers %||% NULL
+          headers = x$headers %||% NULL,
+          proxies = x$proxies %||% NULL,
+          auth = x$auth %||% NULL
         )
       )
     },
@@ -36,9 +38,16 @@ CrulAdapter <- R6::R6Class(
       if (inherits(resp, "Response")) {
         crul::HttpStubbedResponse$new(
           method = req$method,
-          url = req$url$url,
+          url = req$url,
           status_code = resp$status_code,
           request_headers = c(useragent = req$options$useragent, req$headers),
+          response_headers = {
+            if (grepl("^ftp://", resp$url)) {
+              list()
+            } else {
+              headers_parse(curl::parse_headers(rawToChar(resp$headers)))
+            }
+          },
           content = resp$body,
           handle = req$url$handle,
           request = req
@@ -46,10 +55,16 @@ CrulAdapter <- R6::R6Class(
       } else {
         crul::HttpResponse$new(
           method = req$method,
-          url = req$url$url,
+          url = req$url,
           status_code = resp$status_code,
           request_headers = c(useragent = req$options$useragent, req$headers),
-          response_headers = resp$response_headers,
+          response_headers = {
+            if (grepl("^ftp://", resp$url)) {
+              list()
+            } else {
+              headers_parse(curl::parse_headers(rawToChar(resp$headers)))
+            }
+          },
           modified = resp$modified,
           times = resp$times,
           content = resp$content,
