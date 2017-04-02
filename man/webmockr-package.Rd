@@ -2,8 +2,8 @@
 % Please edit documentation in R/webmockr.R
 \docType{package}
 \name{webmockr-package}
-\alias{webmockr}
 \alias{webmockr-package}
+\alias{webmockr}
 \title{Stubbing and setting expectations on HTTP requests}
 \description{
 Stubbing and setting expectations on HTTP requests
@@ -12,4 +12,3 @@ Stubbing and setting expectations on HTTP requests
 Scott Chamberlain
 }
 \keyword{package}
-

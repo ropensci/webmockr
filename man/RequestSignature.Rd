@@ -12,4 +12,3 @@ RequestSignature
 general purpose request signature builder
 }
 \keyword{internal}
-

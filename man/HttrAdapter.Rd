@@ -22,4 +22,3 @@ when one is using \pkg{httr} in their code
 Other http_lib_adapters: \code{\link{CrulAdapter}}
 }
 \keyword{datasets}
-

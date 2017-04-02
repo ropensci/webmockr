@@ -19,4 +19,3 @@ x$adapters
 x$adapters[[1]]$name
 }
 \keyword{datasets}
-

@@ -21,4 +21,3 @@ to \code{\link[lazyeval]{lazy_dots}}}
 \description{
 Expection for a stubbed request
 }
-
