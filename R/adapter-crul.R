@@ -35,43 +35,30 @@ CrulAdapter <- R6::R6Class(
     },
 
     build_crul_response = function(req, resp) {
-      if (inherits(resp, "Response")) {
-        crul::HttpStubbedResponse$new(
-          method = req$method,
-          url = req$url,
-          status_code = resp$status_code,
-          request_headers = c(useragent = req$options$useragent, req$headers),
-          response_headers = {
-            if (grepl("^ftp://", resp$url)) {
+      crul::HttpResponse$new(
+        method = req$method,
+        url = req$url$url,
+        status_code = resp$status_code,
+        request_headers = c(useragent = req$options$useragent, req$headers),
+        #response_headers = list(),
+        response_headers = {
+          if (grepl("^ftp://", resp$url)) {
+            list()
+          } else {
+            hh <- rawToChar(resp$response_headers %||% raw(0))
+            if (is.null(hh) || nchar(hh) == 0) {
               list()
             } else {
-              headers_parse(curl::parse_headers(rawToChar(resp$headers)))
+              crul:::headers_parse(curl::parse_headers(hh))
             }
-          },
-          content = resp$body,
-          handle = req$url$handle,
-          request = req
-        )
-      } else {
-        crul::HttpResponse$new(
-          method = req$method,
-          url = req$url,
-          status_code = resp$status_code,
-          request_headers = c(useragent = req$options$useragent, req$headers),
-          response_headers = {
-            if (grepl("^ftp://", resp$url)) {
-              list()
-            } else {
-              headers_parse(curl::parse_headers(rawToChar(resp$headers)))
-            }
-          },
-          modified = resp$modified,
-          times = resp$times,
-          content = resp$content,
-          handle = req$url$handle,
-          request = req
-        )
-      }
+          }
+        },
+        modified = resp$modified,
+        times = resp$times,
+        content = resp$content,
+        handle = req$url$handle,
+        request = req
+      )
     },
 
     handle_request = function(req) {
@@ -86,20 +73,23 @@ CrulAdapter <- R6::R6Class(
         # even if net connects allowed, we check if stubbed found first
         #  and return that if found
         # get stub with response
-        ss <- webmockr_stub_registry$find_stubbed_request(request_signature)
+        ss <- webmockr_stub_registry$find_stubbed_request(request_signature)[[1]]
         resp <- Response$new()
+        resp$set_url(ss$uri)
         resp$set_body(ss$body)
-        resp$set_headers(ss$headers)
+        resp$set_request_headers(ss$request_headers)
+        resp$set_response_headers(ss$response_headers)
 
         # generate crul response
         crul_resp <- self$build_crul_response(req, resp)
 
       } else if (webmockr_net_connect_allowed()) {
+        cat("howdy how")
         # if real requests ARE allowed && nothing found above
         tmp <- crul::HttpClient$new(url = req$url$url)
-        tmp2 <- tmp$.__enclos_env__$private$crul_fetch(req)
-        build_crul_response(req, tmp2)
-
+        #tmp2 <- tmp$.__enclos_env__$private$crul_fetch(req)
+        tmp2 <- crul:::crul_fetch(req)
+        crul_resp <- self$build_crul_response(req, tmp2)
       } else {
         # no stubs found and net connect not allowed
         stop("net connections not allowed", call. = FALSE)

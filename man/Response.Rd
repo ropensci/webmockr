@@ -17,12 +17,19 @@ Response class
 \details{
 \strong{Methods}
   \describe{
-    \item{\code{set_headers(headers)}}{
-      set headers
+    \item{\code{set_request_headers(headers)}}{
+      set request headers
       - headers: a list of key-value pair headers
     }
-    \item{\code{get_headers()}}{
-      get headers
+    \item{\code{get_request_headers()}}{
+      get request headers
+    }
+    \item{\code{set_response_headers(headers)}}{
+      set response headers
+      - headers: a list of key-value pair headers
+    }
+    \item{\code{get_response_headers()}}{
+      get response headers
     }
     \item{\code{set_body(body)}}{
       - body: must be a string
@@ -36,6 +43,9 @@ Response class
     \item{\code{get_status()}}{
       get status code
     }
+    \item{\code{set_exception()}}{
+      set exception
+    }
     \item{\code{get_exception()}}{
       get exception
     }
@@ -45,17 +55,28 @@ Response class
 \dontrun{
 (x <- Response$new())
 
-x$set_headers(list('Content-Type' = "application/json"))
+x$set_url("https://httpbin.org/get")
 x
-x$headers
 
-x$set_status(200)
+x$set_request_headers(list('Content-Type' = "application/json"))
+x
+x$request_headers
+
+x$set_response_headers(list('Host' = "httpbin.org"))
+x
+x$response_headers
+
+x$set_status(404)
 x
 x$get_status()
 
 x$set_body("hello world")
 x
 x$get_body()
+
+x$set_exception("exception")
+x
+x$get_exception()
 }
 }
 \keyword{internal}

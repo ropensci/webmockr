@@ -75,23 +75,24 @@ webmockr_disable <- function() {
 
 #' @export
 #' @rdname webmockr_configure
-webmockr_allow_net_connect <- function() {d
+webmockr_allow_net_connect <- function() {
   message("net connect allowed")
-  assign('allow_net_collect', TRUE, envir = webmockr_conf_env)
+  assign('allow_net_connect', TRUE, envir = webmockr_conf_env)
 }
 
 #' @export
 #' @rdname webmockr_configure
 webmockr_disable_net_connect <- function() {
   message("net connect disabled")
-  assign('allow_net_collect', FALSE, envir = webmockr_conf_env)
+  assign('allow_net_connect', FALSE, envir = webmockr_conf_env)
 }
 
 #' @export
 #' @rdname webmockr_configure
 webmockr_net_connect_allowed <- function() {
   #webmockr_conf_env$allow_net_connect
-  get('allow_net_collect', envir = webmockr_conf_env)
+  webmockr_conf_env$allow_net_connect
+  #get('allow_net_connect', envir = webmockr_conf_env)
 }
 
 

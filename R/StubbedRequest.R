@@ -15,7 +15,8 @@
 #'       \itemize{
 #'        \item status
 #'        \item body
-#'        \item headers
+#'        \item request_headers
+#'        \item response_headers
 #'       }
 #'     }
 #'     \item{\code{to_return()}}{
@@ -26,8 +27,8 @@
 #' x <- StubbedRequest$new(method = "get", uri = "api.crossref.org")
 #' x$method
 #' x$uri
-#' x$with(headers = list('User-Agent' = 'R'))
-#' x$to_return(status = 200, body = "foobar", headers = list())
+#' x$with(request_headers = list('User-Agent' = 'R'))
+#' x$to_return(status = 200, body = "foobar", response_headers = list())
 #' x$to_s()
 #' }
 StubbedRequest <- R6::R6Class(
@@ -39,7 +40,8 @@ StubbedRequest <- R6::R6Class(
     host = NULL,
     query = NULL,
     body = NULL,
-    headers = NULL,
+    request_headers = NULL,
+    response_headers = NULL,
     response = NULL,
     responses_sequences = NULL,
 
@@ -61,24 +63,30 @@ StubbedRequest <- R6::R6Class(
       cat("  with: ", sep = "\n")
       cat(paste0("    query: ", hdl_lst(self$query)), sep = "\n")
       cat(paste0("    body: ", hdl_lst(self$body)), sep = "\n")
-      cat(paste0("    headers: ", hdl_lst(self$headers)), sep = "\n")
+      cat(paste0("    request_headers: ", hdl_lst(self$request_headers)),
+          sep = "\n")
+      cat(paste0("    response_headers: ", hdl_lst(self$response_headers)),
+          sep = "\n")
       cat("  to_return: ", sep = "\n")
-      cat(paste0("    status: ", hdl_lst(self$responses_sequences$status)), sep = "\n")
-      cat(paste0("    body: ", hdl_lst(self$responses_sequences$body)), sep = "\n")
-      cat(paste0("    headers: ", hdl_lst(self$responses_sequences$headers)), sep = "\n")
+      cat(paste0("    status: ", hdl_lst(self$responses_sequences$status)),
+          sep = "\n")
+      cat(paste0("    body: ", hdl_lst(self$responses_sequences$body)),
+          sep = "\n")
+      cat(paste0("    headers: ", hdl_lst(self$responses_sequences$headers)),
+          sep = "\n")
     },
 
-    with = function(query = NULL, body = NULL, headers = NULL) {
+    with = function(query = NULL, body = NULL, request_headers = NULL) {
       self$query <- query
       self$body <- body
-      self$headers <- headers
+      self$request_headers <- request_headers
     },
 
-    to_return = function(status, body, headers) {
+    to_return = function(status, body, response_headers) {
       self$responses_sequences <- list(
         status = status,
         body = body,
-        headers = headers
+        response_headers = response_headers
       )
     },
 
@@ -91,10 +99,8 @@ StubbedRequest <- R6::R6Class(
           self$query
         ),
         make_body(self$body),
-        make_headers(self$headers)
+        make_headers(self$request_headers)
       ))
     }
-
-    #response = list()
   )
 )

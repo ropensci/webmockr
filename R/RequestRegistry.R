@@ -76,9 +76,5 @@ RequestRegistry <- R6::R6Class(
 `%||%` <- function(x, y) if (is.null(x)) y else x
 
 # initialize empty request registry on package load
-  webmockr_request_registry <- new.env()
+webmockr_request_registry <- new.env()
 webmockr_request_registry <- RequestRegistry$new()
-
-
-
-

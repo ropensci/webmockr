@@ -55,7 +55,7 @@ StubRegistry <- R6::R6Class(
               self$request_stubs[[i]]$query
             ),
             make_body(self$request_stubs[[i]]$body),
-            make_headers(self$request_stubs[[i]]$headers)
+            make_headers(self$request_stubs[[i]]$request_headers)
           ),
           sep = "\n"
         )

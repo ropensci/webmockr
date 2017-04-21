@@ -19,6 +19,10 @@ to_return_ <- function(.data, ..., .dots) {
   } else {
     z <- lapply(tmp, function(x) eval(x$expr))
   }
-  .data$to_return(status = z$status, body = z$body, headers = z$headers)
+  .data$to_return(
+    status = z$status,
+    body = z$body,
+    response_headers = z$response_headers
+  )
   return(.data)
 }

@@ -19,6 +19,10 @@ wi_th_ <- function(.data, ..., .dots) {
   } else {
     z <- lapply(tmp, function(x) eval(x$expr))
   }
-  .data$with(query = z$query, body = z$body, headers = z$headers)
+  .data$with(
+    query = z$query,
+    body = z$body,
+    request_headers = z$request_headers
+  )
   return(.data)
 }

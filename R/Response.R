@@ -5,12 +5,19 @@
 #' @details
 #' \strong{Methods}
 #'   \describe{
-#'     \item{\code{set_headers(headers)}}{
-#'       set headers
+#'     \item{\code{set_request_headers(headers)}}{
+#'       set request headers
 #'       - headers: a list of key-value pair headers
 #'     }
-#'     \item{\code{get_headers()}}{
-#'       get headers
+#'     \item{\code{get_request_headers()}}{
+#'       get request headers
+#'     }
+#'     \item{\code{set_response_headers(headers)}}{
+#'       set response headers
+#'       - headers: a list of key-value pair headers
+#'     }
+#'     \item{\code{get_response_headers()}}{
+#'       get response headers
 #'     }
 #'     \item{\code{set_body(body)}}{
 #'       - body: must be a string
@@ -24,6 +31,9 @@
 #'     \item{\code{get_status()}}{
 #'       get status code
 #'     }
+#'     \item{\code{set_exception()}}{
+#'       set exception
+#'     }
 #'     \item{\code{get_exception()}}{
 #'       get exception
 #'     }
@@ -31,24 +41,37 @@
 #' @examples \dontrun{
 #' (x <- Response$new())
 #'
-#' x$set_headers(list('Content-Type' = "application/json"))
+#' x$set_url("https://httpbin.org/get")
 #' x
-#' x$headers
 #'
-#' x$set_status(200)
+#' x$set_request_headers(list('Content-Type' = "application/json"))
+#' x
+#' x$request_headers
+#'
+#' x$set_response_headers(list('Host' = "httpbin.org"))
+#' x
+#' x$response_headers
+#'
+#' x$set_status(404)
 #' x
 #' x$get_status()
 #'
 #' x$set_body("hello world")
 #' x
 #' x$get_body()
+#'
+#' x$set_exception("exception")
+#' x
+#' x$get_exception()
 #' }
 Response <- R6::R6Class(
   'Response',
   public = list(
+    url = NULL,
     body = NULL,
     content = NULL,
-    headers = NULL,
+    request_headers = NULL,
+    response_headers = NULL,
     options = NULL,
     status_code = 200,
     exception = NULL,
@@ -64,18 +87,39 @@ Response <- R6::R6Class(
 
     print = function(x, ...) {
       cat("<webmockr response> ", sep = "\n")
+      cat(paste0("  url: ", self$url), sep = "\n")
       cat(paste0("  status: ", self$status_code), sep = "\n")
       cat("  headers: ", sep = "\n")
-      for (i in seq_along(self$headers)) {
-        cat(paste0("     ", names(self$headers)[i], self$headers[[i]]), sep = "\n")
+      for (i in seq_along(self$request_headers)) {
+        cat("    request headers: ", sep = "\n")
+        cat(paste0("     ",
+            paste(names(self$request_headers)[i], self$request_headers[[i]],
+                  sep = ": ")), sep = "\n")
       }
+      for (i in seq_along(self$response_headers)) {
+        cat("    response headers: ", sep = "\n")
+        cat(paste0("     ",
+            paste(names(self$response_headers)[i], self$response_headers[[i]],
+                   sep = ": ")), sep = "\n")
+      }
+      cat(paste0("  exception: ", self$exception), sep = "\n")
       cat(paste0("  body: ", self$body), sep = "\n")
     },
 
-    set_headers = function(headers) {
-      self$headers <- private$normalize_headers(headers)
+    set_url = function(url) {
+      self$url <- url
     },
-    get_headers = function() self$headers,
+    get_url = function() self$url,
+
+    set_request_headers = function(headers) {
+      self$request_headers <- private$normalize_headers(headers)
+    },
+    get_request_headers = function() self$request_headers,
+
+    set_response_headers = function(headers) {
+      self$response_headers <- private$normalize_headers(headers)
+    },
+    get_respone_headers = function() self$response_headers,
 
     set_body = function(body) {
       self$body <- body
@@ -87,6 +131,9 @@ Response <- R6::R6Class(
     },
     get_status = function() self$status_code %||% 200,
 
+    set_exception = function(exception) {
+      self$exception <- exception
+    },
     get_exception = function() self$exception
   ),
 

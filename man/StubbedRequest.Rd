@@ -31,7 +31,8 @@ StubbedRequest class
       \itemize{
        \item status
        \item body
-       \item headers
+       \item request_headers
+       \item response_headers
       }
     }
     \item{\code{to_return()}}{
@@ -44,8 +45,8 @@ StubbedRequest class
 x <- StubbedRequest$new(method = "get", uri = "api.crossref.org")
 x$method
 x$uri
-x$with(headers = list('User-Agent' = 'R'))
-x$to_return(status = 200, body = "foobar", headers = list())
+x$with(request_headers = list('User-Agent' = 'R'))
+x$to_return(status = 200, body = "foobar", response_headers = list())
 x$to_s()
 }
 }
