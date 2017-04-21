@@ -3,10 +3,13 @@
 \docType{data}
 \name{StubRegistry}
 \alias{StubRegistry}
+\alias{stub_registry}
 \title{Stub registry}
 \format{An object of class \code{R6ClassGenerator} of length 24.}
 \usage{
 StubRegistry
+
+stub_registry()
 }
 \arguments{
 \item{stub}{an object of class \code{StubbedRequest}}
@@ -27,16 +30,10 @@ Stub registry
 }
 \examples{
 \dontrun{
-# just playin'
-x <- StubRegistry$new()
-x$register_stub(stub = "hello world")
-x
-x$request_stubs
-
 # an actual stub
 stub1 <- StubbedRequest$new(method = "get", uri = "api.crossref.org")
-stub1$with(headers = list('User-Agent' = 'R'))
-stub1$to_return(status = 200, body = "foobar", headers = list())
+stub1$with(request_headers = list('User-Agent' = 'R'))
+stub1$to_return(status = 200, body = "foobar", response_headers = list())
 stub1
 
 stub2 <- StubbedRequest$new(method = "get", uri = "api.crossref.org")

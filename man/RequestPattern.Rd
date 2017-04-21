@@ -36,10 +36,10 @@ x$uri_pattern
 x$to_s()
 
 # make a request signature
-rs <- request_signature
+rs <- RequestSignature$new(metho="get", uri="https://httpbin.org/get")
 
 # check if it matches
-x$matches(request_signature)
+x$matches(rs)
 }
 }
 \keyword{datasets}

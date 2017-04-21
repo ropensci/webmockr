@@ -9,6 +9,9 @@ enable(options = list())
 
 disable(options = list())
 }
+\arguments{
+\item{options}{list of options}
+}
 \description{
 Enable or disable webmockr
 }

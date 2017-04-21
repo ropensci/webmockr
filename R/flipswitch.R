@@ -1,10 +1,12 @@
 webmockr_lightswitch <- new.env()
-webmockr_lightswitch$httr <- FALSE
+#webmockr_lightswitch$httr <- FALSE
 webmockr_lightswitch$crul <- FALSE
 
 #' Enable or disable webmockr
 #'
+#'
 #' @export
+#' @param options list of options
 enable <- function(options = list()) {
   lapply(http_lib_adapter_registry$adapters, function(z) {
     z$enable

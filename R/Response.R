@@ -1,5 +1,6 @@
 #' Response class
 #'
+#' @export
 #' @keywords internal
 #' @param options (list) a list of options
 #' @details

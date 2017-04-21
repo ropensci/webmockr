@@ -33,7 +33,7 @@ stub_request("get", url="https://httpbin.org/get")
 stub_request("post", url="https://httpbin.org/post")
 
 # list stubs
-webmockr_stub_registry
+stub_registry()
 
 # add header
 stub_request("get", url="https://httpbin.org/get") \%>\%
@@ -47,12 +47,11 @@ stub_request("get", url="https://httpbin.org/get") \%>\%
   to_return(status = 200, body = "", response_headers = list())
 
 # list stubs again
-webmockr_stub_registry
+stub_registry()
 
 # RFC 6570 templates
 stub_request("get", "www.example.com/{id}/")
 stub_request("get", "/.*example.*/")
 stub_request("get", "www.example.com/thing/{id}.json{?x,y,z}{&other*}")
-# httr::GET('www.example.com/thing/5.json?x=1&y=2&z=3&anyParam=4')
 }
 }

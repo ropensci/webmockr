@@ -8,17 +8,11 @@
 \usage{
 CrulAdapter
 }
-\arguments{
-\item{x}{input}
-}
 \description{
 crul library adapter
 }
 \details{
 This adapter modifies \pkg{crul} to allow mocking HTTP requests
 when one is using \pkg{crul} in their code
-}
-\seealso{
-Other http_lib_adapters: \code{\link{HttrAdapter}}
 }
 \keyword{datasets}

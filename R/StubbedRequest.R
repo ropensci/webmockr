@@ -1,5 +1,6 @@
 #' StubbedRequest class
 #'
+#' @export
 #' @keywords internal
 #' @param method the HTTP method (any, head, options, get, post, put,
 #' patch, trace, or delete). "any" matches any HTTP method. required.
@@ -72,7 +73,7 @@ StubbedRequest <- R6::R6Class(
           sep = "\n")
       cat(paste0("    body: ", hdl_lst(self$responses_sequences$body)),
           sep = "\n")
-      cat(paste0("    headers: ", hdl_lst(self$responses_sequences$headers)),
+      cat(paste0("    response_headers: ", hdl_lst(self$responses_sequences$headers)),
           sep = "\n")
     },
 

@@ -16,6 +16,7 @@ HashCounter <- R6::R6Class(
 
 #' Request registry
 #'
+#' @export
 #' @keywords internal
 #' @param request A request - an object of class \code{RegisteredRequest}
 #' @details

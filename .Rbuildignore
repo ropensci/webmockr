@@ -5,3 +5,4 @@ man-roxygen/
 ^\.travis.yml$
 ^CONDUCT\.md$
 Makefile
+notes.md

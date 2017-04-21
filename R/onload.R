@@ -1,6 +1,10 @@
-.onAttach <- function(libname, pkgname) {
-  webmockr::webmockr_configure()
-}
+#webmockr_stub_registry <- NULL
+#.onLoad <- function(libname, pkgname) {
+  # webmockr::webmockr_configure()
+  # initialize empty stub registry on package load
+  # webmockr_stub_registry <<- new.env()
+  # webmockr_stub_registry <- webmockr::StubRegistry$new()
+#}
 
 # .onAttach <- function(libname, pkgname) {
 #   #base::unlockBinding("request_perform", as.environment("package:httr"))

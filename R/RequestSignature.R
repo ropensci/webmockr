@@ -1,4 +1,5 @@
 #' general purpose request signature builder
+#' @export
 #' @keywords internal
 RequestSignature <- R6::R6Class(
   'RequestSignature',

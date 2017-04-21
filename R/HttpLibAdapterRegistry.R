@@ -3,7 +3,7 @@
 #' @export
 #' @examples
 #' x <- HttpLibAdapaterRegistry$new()
-#' x$register(HttrAdapter$new())
+#' x$register(CrulAdapter$new())
 #' x
 #' x$adapters
 #' x$adapters[[1]]$name

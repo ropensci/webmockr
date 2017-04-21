@@ -2,7 +2,6 @@
 #'
 #' @export
 #' @family http_lib_adapters
-#' @param x input
 #' @details This adapter modifies \pkg{crul} to allow mocking HTTP requests
 #' when one is using \pkg{crul} in their code
 CrulAdapter <- R6::R6Class(

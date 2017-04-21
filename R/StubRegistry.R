@@ -14,16 +14,10 @@
 #'     }
 #'   }
 #' @examples \dontrun{
-#' # just playin'
-#' x <- StubRegistry$new()
-#' x$register_stub(stub = "hello world")
-#' x
-#' x$request_stubs
-#'
 #' # an actual stub
 #' stub1 <- StubbedRequest$new(method = "get", uri = "api.crossref.org")
-#' stub1$with(headers = list('User-Agent' = 'R'))
-#' stub1$to_return(status = 200, body = "foobar", headers = list())
+#' stub1$with(request_headers = list('User-Agent' = 'R'))
+#' stub1$to_return(status = 200, body = "foobar", response_headers = list())
 #' stub1
 #'
 #' stub2 <- StubbedRequest$new(method = "get", uri = "api.crossref.org")
@@ -106,6 +100,10 @@ StubRegistry <- R6::R6Class(
     is_registered = function(x) any(self$request_stub_for(x))
   )
 )
+
+#' @rdname StubRegistry
+#' @export
+stub_registry <- function() webmockr_stub_registry
 
 # initialize empty stub registry on package load
 webmockr_stub_registry <- new.env()

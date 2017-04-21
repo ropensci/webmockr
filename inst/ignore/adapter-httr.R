@@ -3,7 +3,6 @@
 #' @export
 
 #' @family http_lib_adapters
-#' @param x input
 #' @details This adapter modifies \pkg{httr} to allow mocking HTTP requests
 #' when one is using \pkg{httr} in their code
 HttrAdapter <- R6::R6Class(
