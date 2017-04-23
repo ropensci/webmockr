@@ -39,6 +39,9 @@ HashCounter <- R6::R6Class(
 #' # print method to list requests
 #' x
 #'
+#' # hashes, and number of times each requested
+#' x$request_signatures$hash
+#'
 #' # reset the request registry
 #' x$reset()
 #' }

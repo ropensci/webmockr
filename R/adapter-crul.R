@@ -83,7 +83,6 @@ CrulAdapter <- R6::R6Class(
         crul_resp <- self$build_crul_response(req, resp)
 
       } else if (webmockr_net_connect_allowed()) {
-        cat("howdy how")
         # if real requests ARE allowed && nothing found above
         tmp <- crul::HttpClient$new(url = req$url$url)
         #tmp2 <- tmp$.__enclos_env__$private$crul_fetch(req)
@@ -91,7 +90,25 @@ CrulAdapter <- R6::R6Class(
         crul_resp <- self$build_crul_response(req, tmp2)
       } else {
         # no stubs found and net connect not allowed
-        stop("net connections not allowed", call. = FALSE)
+        x <- "Real HTTP connections are disabled.\nUnregistered request:"
+        y <- "\n\nYou can stub this request with the following snippet:\n\n  "
+        z <- "\n\nregistered request stubs:\n\n"
+        msgx <- paste(x, request_signature$to_s())
+        msgy <- paste(
+          y,
+          #make_stub_request_code(request_signature)
+          private$make_stub_request_code(request_signature)
+        )
+        if (length(webmockr_stub_registry$request_stubs)) {
+          msgz <- paste(
+            z,
+            paste0(vapply(webmockr_stub_registry$request_stubs, function(z)
+              z$to_s(), ""), collapse = "\n ")
+          )
+        } else {
+          msgz <- ""
+        }
+        stop(paste0(msgx, msgy, msgz), call. = FALSE)
       }
 
       return(crul_resp)
@@ -99,6 +116,16 @@ CrulAdapter <- R6::R6Class(
 
     remove_crul_stubs = function() {
       webmockr_stub_registry$remove_all_request_stubs()
+    }
+  ),
+
+  private = list(
+    make_stub_request_code = function(x) {
+      sprintf(
+        "stub_request('%s', url = '%s')",
+        x$method,
+        x$uri
+      )
     }
   )
 )

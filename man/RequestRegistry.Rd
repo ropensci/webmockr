@@ -36,6 +36,9 @@ x$register_request(request = "POST https://httpbin.org/post")
 # print method to list requests
 x
 
+# hashes, and number of times each requested
+x$request_signatures$hash
+
 # reset the request registry
 x$reset()
 }
