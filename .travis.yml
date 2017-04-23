@@ -2,6 +2,14 @@ language: r
 sudo: false
 cache: packages
 
+r_github_packages:
+  - jimhester/covr
+
+after_success:
+  - Rscript -e 'covr::codecov()'
+
+r_check_args: "--as-cran"
+
 notifications:
   email:
     on_success: change
