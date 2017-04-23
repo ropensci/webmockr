@@ -24,42 +24,30 @@ Port of the Ruby library [webmock](https://github.com/bblimke/webmock)
 
 ## Install
 
-
-```r
+```{r eval=FALSE}
 devtools::install_github("ropenscilabs/webmockr")
 ```
 
-
-```r
+```{r}
 library(webmockr)
 ```
 
 ## Turn on webmockr
 
-
-```r
+```{r}
 webmockr::enable()
-```
-
-```
-## list()
-```
-
-```r
 crul::mock()
 ```
 
 ## Outside a test framework
 
-
-```r
+```{r}
 library(crul)
 ```
 
 ### Stubbed request based on uri only and with the default response
 
-
-```r
+```{r eval=FALSE}
 stub_request("any", "https://httpbin.org/get")
 x <- HttpClient$new(url = "https://httpbin.org")
 x$get('get')
@@ -67,8 +55,7 @@ x$get('get')
 
 ### Stubbing requests based on method, uri, query params and headers
 
-
-```r
+```{r eval=FALSE}
 stub_request("get", "https://httpbin.org/get") %>% 
   wi_th(
     query = list(hello = "world"), 

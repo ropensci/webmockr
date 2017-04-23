@@ -1,4 +1,4 @@
-http_verbs <- c("get","post","put","patch","head","delete")
+http_verbs <- c("any", "get","post","put","patch","head","delete")
 
 cc <- function(x) Filter(Negate(is.null), x)
 
