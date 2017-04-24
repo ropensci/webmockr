@@ -1,8 +1,8 @@
 #' StubbedRequest class
 #'
 #' @export
-#' @param method the HTTP method (any, head, options, get, post, put,
-#' patch, trace, or delete). "any" matches any HTTP method. required.
+#' @param method the HTTP method (any, head, get, post, put,
+#' patch, or delete). "any" matches any HTTP method. required.
 #' @param uri (character) request URI. required.
 #' @details
 #' **Methods**

@@ -35,7 +35,8 @@ RequestSignature <- R6::R6Class(
     auth = NULL,
 
     initialize = function(method, uri, options = list()) {
-      self$method <- method
+      verb <- match.arg(tolower(method), http_verbs)
+      self$method <- verb
       self$uri <- uri
       if (length(options)) private$assign_options(options)
     },
