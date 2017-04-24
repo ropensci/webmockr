@@ -1,6 +1,16 @@
 #' http lib adapter registry
 #'
 #' @export
+#' @details
+#' **Methods**
+#'   \describe{
+#'     \item{`register(x)`}{
+#'       Register an http library adapter
+#'       x: an http lib adapter, e.g., [CrulAdapter]
+#'     }
+#'   }
+#' @format NULL
+#' @usage NULL
 #' @examples
 #' x <- HttpLibAdapaterRegistry$new()
 #' x$register(CrulAdapter$new())
@@ -25,5 +35,3 @@ HttpLibAdapaterRegistry <- R6::R6Class(
     }
   )
 )
-
-# http_lib_adapter_registry <- HttpLibAdapaterRegistry$new()

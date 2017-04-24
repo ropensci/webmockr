@@ -4,31 +4,23 @@
 \name{RequestRegistry}
 \alias{RequestRegistry}
 \title{Request registry}
-\format{An object of class \code{R6ClassGenerator} of length 24.}
-\usage{
-RequestRegistry
-}
-\arguments{
-\item{request}{A request - an object of class \code{RegisteredRequest}}
-}
 \description{
 Request registry
 }
 \details{
 \strong{Methods}
-  \describe{
-    \item{\code{register_request(request)}}{
-      Register a request
-        - request: a character string of the request, serialized from
-        \code{CrulAdapter} or other adapter
-    }
-    \item{\code{reset()}}{
-      Reset the registry to no registered requests
-    }
-  }
+\describe{
+\item{\code{register_request(request)}}{
+Register a request
+- request: a character string of the request, serialized from
+\link{CrulAdapter} or other adapter
+}
+\item{\code{reset()}}{
+Reset the registry to no registered requests
+}
+}
 }
 \examples{
-\dontrun{
 x <- RequestRegistry$new()
 x$register_request(request = "GET http://scottchamberlain.info")
 x$register_request(request = "GET http://scottchamberlain.info")
@@ -42,5 +34,4 @@ x$request_signatures$hash
 # reset the request registry
 x$reset()
 }
-}
-\keyword{internal}
+\keyword{datasets}

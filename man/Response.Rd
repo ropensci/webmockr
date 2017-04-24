@@ -4,10 +4,6 @@
 \name{Response}
 \alias{Response}
 \title{Response class}
-\format{An object of class \code{R6ClassGenerator} of length 24.}
-\usage{
-Response
-}
 \arguments{
 \item{options}{(list) a list of options}
 }
@@ -16,40 +12,40 @@ Response class
 }
 \details{
 \strong{Methods}
-  \describe{
-    \item{\code{set_request_headers(headers)}}{
-      set request headers
-      - headers: a list of key-value pair headers
-    }
-    \item{\code{get_request_headers()}}{
-      get request headers
-    }
-    \item{\code{set_response_headers(headers)}}{
-      set response headers
-      - headers: a list of key-value pair headers
-    }
-    \item{\code{get_response_headers()}}{
-      get response headers
-    }
-    \item{\code{set_body(body)}}{
-      - body: must be a string
-    }
-    \item{\code{get_body()}}{
-      get body
-    }
-    \item{\code{set_status()}}{
-      - body: must be an integer status code
-    }
-    \item{\code{get_status()}}{
-      get status code
-    }
-    \item{\code{set_exception()}}{
-      set exception
-    }
-    \item{\code{get_exception()}}{
-      get exception
-    }
-  }
+\describe{
+\item{\code{set_request_headers(headers)}}{
+set request headers
+- headers: a list of key-value pair headers
+}
+\item{\code{get_request_headers()}}{
+get request headers
+}
+\item{\code{set_response_headers(headers)}}{
+set response headers
+- headers: a list of key-value pair headers
+}
+\item{\code{get_response_headers()}}{
+get response headers
+}
+\item{\code{set_body(body)}}{
+- body: must be a string
+}
+\item{\code{get_body()}}{
+get body
+}
+\item{\code{set_status()}}{
+- body: must be an integer status code
+}
+\item{\code{get_status()}}{
+get status code
+}
+\item{\code{set_exception()}}{
+set exception
+}
+\item{\code{get_exception()}}{
+get exception
+}
+}
 }
 \examples{
 \dontrun{
@@ -79,4 +75,4 @@ x
 x$get_exception()
 }
 }
-\keyword{internal}
+\keyword{datasets}

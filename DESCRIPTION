@@ -1,13 +1,14 @@
 Package: webmockr
 Title: Stubbing and Setting Expectations on 'HTTP' Requests
 Description: Stubbing and setting expectations on 'HTTP' requests.
-Version: 0.0.4.9410
+Version: 0.0.5.9120
 Authors@R: person("Scott", "Chamberlain", role = c("aut", "cre"), email =
     "myrmecocystus@gmail.com")
 License: MIT + file LICENSE
 URL: https://github.com/ropenscilabs/webmockr
 BugReports: https://github.com/ropenscilabs/webmockr/issues
 LazyData: true
+Roxygen: list(markdown = TRUE)
 Imports:
     curl,
 		jsonlite,

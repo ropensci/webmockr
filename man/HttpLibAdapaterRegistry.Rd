@@ -4,12 +4,17 @@
 \name{HttpLibAdapaterRegistry}
 \alias{HttpLibAdapaterRegistry}
 \title{http lib adapter registry}
-\format{An object of class \code{R6ClassGenerator} of length 24.}
-\usage{
-HttpLibAdapaterRegistry
-}
 \description{
 http lib adapter registry
+}
+\details{
+\strong{Methods}
+\describe{
+\item{\code{register(x)}}{
+Register an http library adapter
+x: an http lib adapter, e.g., \link{CrulAdapter}
+}
+}
 }
 \examples{
 x <- HttpLibAdapaterRegistry$new()

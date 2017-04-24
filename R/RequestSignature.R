@@ -1,6 +1,29 @@
-#' general purpose request signature builder
+#' General purpose request signature builder
+#'
 #' @export
-#' @keywords internal
+#' @param method the HTTP method (any, head, options, get, post, put,
+#' patch, trace, or delete). "any" matches any HTTP method. required.
+#' @param uri (character) request URI. required.
+#' @param options (list) options. optional
+#' @details
+#' **Methods**
+#'   \describe{
+#'     \item{`to_s()`}{
+#'       Request signature to a string
+#'     }
+#'   }
+#' @format NULL
+#' @usage NULL
+#' @examples
+#' # make request signature
+#' x <- RequestSignature$new(method = "get", uri = "https:/httpbin.org/get")
+#' # method
+#' x$method
+#' # uri
+#' x$uri
+#' # request signature to string
+#' x$to_s()
+
 RequestSignature <- R6::R6Class(
   'RequestSignature',
   public = list(

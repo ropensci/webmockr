@@ -1,44 +1,45 @@
 #' Response class
 #'
 #' @export
-#' @keywords internal
 #' @param options (list) a list of options
 #' @details
-#' \strong{Methods}
+#' **Methods**
 #'   \describe{
-#'     \item{\code{set_request_headers(headers)}}{
+#'     \item{`set_request_headers(headers)`}{
 #'       set request headers
 #'       - headers: a list of key-value pair headers
 #'     }
-#'     \item{\code{get_request_headers()}}{
+#'     \item{`get_request_headers()`}{
 #'       get request headers
 #'     }
-#'     \item{\code{set_response_headers(headers)}}{
+#'     \item{`set_response_headers(headers)`}{
 #'       set response headers
 #'       - headers: a list of key-value pair headers
 #'     }
-#'     \item{\code{get_response_headers()}}{
+#'     \item{`get_response_headers()`}{
 #'       get response headers
 #'     }
-#'     \item{\code{set_body(body)}}{
+#'     \item{`set_body(body)`}{
 #'       - body: must be a string
 #'     }
-#'     \item{\code{get_body()}}{
+#'     \item{`get_body()`}{
 #'       get body
 #'     }
-#'     \item{\code{set_status()}}{
+#'     \item{`set_status()`}{
 #'       - body: must be an integer status code
 #'     }
-#'     \item{\code{get_status()}}{
+#'     \item{`get_status()`}{
 #'       get status code
 #'     }
-#'     \item{\code{set_exception()}}{
+#'     \item{`set_exception()`}{
 #'       set exception
 #'     }
-#'     \item{\code{get_exception()}}{
+#'     \item{`get_exception()`}{
 #'       get exception
 #'     }
 #'   }
+#' @format NULL
+#' @usage NULL
 #' @examples \dontrun{
 #' (x <- Response$new())
 #'

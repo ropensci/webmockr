@@ -4,15 +4,36 @@
 \name{CrulAdapter}
 \alias{CrulAdapter}
 \title{crul library adapter}
-\format{An object of class \code{R6ClassGenerator} of length 24.}
-\usage{
-CrulAdapter
-}
 \description{
 crul library adapter
 }
 \details{
+\strong{Methods}
+\describe{
+\item{\code{enable()}}{
+Enable the adapter
+}
+\item{\code{disable()}}{
+Disable the adapter
+}
+\item{\code{build_crul_request(x)}}{
+Build a crul \link{RequestSignature}
+x: crul request parts (list)
+}
+\item{\code{build_crul_response(req, resp)}}{
+Build a crul response
+req: a crul request (list)
+resp: a crul response ()
+}
+\item{\code{handle_request()}}{
+All logic for handling a request
+req: a crul request (list)
+}
+\item{\code{remove_crul_stubs()}}{
+Remove all crul stubs
+}
+}
+
 This adapter modifies \pkg{crul} to allow mocking HTTP requests
-when one is using \pkg{crul} in their code
 }
 \keyword{datasets}

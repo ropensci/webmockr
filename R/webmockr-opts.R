@@ -1,14 +1,14 @@
 #' webmockr configuration
 #'
 #' @export
-#' @param turn_on (logical) Default: \code{FALSE}
-#' @param allow_net_connect (logical) Default: \code{TRUE}
-#' @param allow_localhost  (logical) Default: \code{TRUE}
-#' @param allow (logical) Default: \code{TRUE}
-#' @param net_http_connect_on_start (logical) Default: \code{TRUE}
-#' @param show_stubbing_instructions (logical) Default: \code{TRUE}
-#' @param query_values_notation (logical) Default: \code{TRUE}
-#' @param show_body_diff (logical) Default: \code{TRUE}
+#' @param turn_on (logical) Default: `FALSE`
+#' @param allow_net_connect (logical) Default: `TRUE`
+#' @param allow_localhost  (logical) Default: `TRUE`
+#' @param allow (logical) Default: `TRUE`
+#' @param net_http_connect_on_start (logical) Default: `TRUE`
+#' @param show_stubbing_instructions (logical) Default: `TRUE`
+#' @param query_values_notation (logical) Default: `TRUE`
+#' @param show_body_diff (logical) Default: `TRUE`
 #'
 #' @examples \dontrun{
 #' webmockr_configure()
@@ -103,8 +103,10 @@ print.webmockr_config <- function(x, ...) {
   cat(paste0("  allow_net_collect?: ", x$allow_net_collect), sep = "\n")
   cat(paste0("  allow_localhost?: ", x$allow_localhost), sep = "\n")
   cat(paste0("  allow: ", x$allow), sep = "\n")
-  cat(paste0("  net_http_connect_on_start: ", x$net_http_connect_on_start), sep = "\n")
-  cat(paste0("  show_stubbing_instructions: ", x$show_stubbing_instructions), sep = "\n")
+  cat(paste0("  net_http_connect_on_start: ", x$net_http_connect_on_start),
+      sep = "\n")
+  cat(paste0("  show_stubbing_instructions: ", x$show_stubbing_instructions),
+      sep = "\n")
   cat(paste0("  query_values_notation: ", x$query_values_notation), sep = "\n")
   cat(paste0("  show_body_diff: ", x$show_body_diff), sep = "\n")
 }

@@ -2,8 +2,37 @@
 #'
 #' @export
 #' @family http_lib_adapters
-#' @details This adapter modifies \pkg{crul} to allow mocking HTTP requests
-#' when one is using \pkg{crul} in their code
+#' @details
+#' **Methods**
+#'   \describe{
+#'     \item{`enable()`}{
+#'       Enable the adapter
+#'     }
+#'     \item{`disable()`}{
+#'       Disable the adapter
+#'     }
+#'     \item{`build_crul_request(x)`}{
+#'       Build a crul [RequestSignature]
+#'       x: crul request parts (list)
+#'     }
+#'     \item{`build_crul_response(req, resp)`}{
+#'       Build a crul response
+#'       req: a crul request (list)
+#'       resp: a crul response ()
+#'     }
+#'     \item{`handle_request()`}{
+#'       All logic for handling a request
+#'       req: a crul request (list)
+#'     }
+#'     \item{`remove_crul_stubs()`}{
+#'       Remove all crul stubs
+#'     }
+#'   }
+#'
+#' This adapter modifies \pkg{crul} to allow mocking HTTP requests
+#'
+#' @format NULL
+#' @usage NULL
 CrulAdapter <- R6::R6Class(
   'CrulAdapter',
   public = list(

@@ -17,14 +17,15 @@ RequestPattern class
 }
 \details{
 \strong{Methods}
-  \describe{
-    \item{\code{matches(request_signature)}}{
-      Test if request_signature matches a pattern
-    }
-    \item{\code{to_s()}}{
-      Print pattern for easy human consumption
-    }
-  }
+\describe{
+\item{\code{matches(request_signature)}}{
+Test if request_signature matches a pattern
+- request_signature: a request signature
+}
+\item{\code{to_s()}}{
+Print pattern for easy human consumption
+}
+}
 }
 \examples{
 \dontrun{

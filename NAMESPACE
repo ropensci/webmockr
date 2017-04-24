@@ -2,6 +2,7 @@
 
 export("%>%")
 export(CrulAdapter)
+export(HashCounter)
 export(HttpLibAdapaterRegistry)
 export(RequestPattern)
 export(RequestRegistry)

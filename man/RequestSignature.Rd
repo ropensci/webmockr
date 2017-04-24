@@ -3,12 +3,34 @@
 \docType{data}
 \name{RequestSignature}
 \alias{RequestSignature}
-\title{general purpose request signature builder}
-\format{An object of class \code{R6ClassGenerator} of length 24.}
-\usage{
-RequestSignature
+\title{General purpose request signature builder}
+\arguments{
+\item{method}{the HTTP method (any, head, options, get, post, put,
+patch, trace, or delete). "any" matches any HTTP method. required.}
+
+\item{uri}{(character) request URI. required.}
+
+\item{options}{(list) options. optional}
 }
 \description{
-general purpose request signature builder
+General purpose request signature builder
 }
-\keyword{internal}
+\details{
+\strong{Methods}
+\describe{
+\item{\code{to_s()}}{
+Request signature to a string
+}
+}
+}
+\examples{
+# make request signature
+x <- RequestSignature$new(method = "get", uri = "https:/httpbin.org/get")
+# method
+x$method
+# uri
+x$uri
+# request signature to string
+x$to_s()
+}
+\keyword{datasets}

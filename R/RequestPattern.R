@@ -6,12 +6,13 @@
 #' @param uri (character) request URI. required.
 #' @param options (list) options. optional
 #' @details
-#' \strong{Methods}
+#' **Methods**
 #'   \describe{
-#'     \item{\code{matches(request_signature)}}{
+#'     \item{`matches(request_signature)`}{
 #'       Test if request_signature matches a pattern
+#'       - request_signature: a request signature
 #'     }
-#'     \item{\code{to_s()}}{
+#'     \item{`to_s()`}{
 #'       Print pattern for easy human consumption
 #'     }
 #'   }

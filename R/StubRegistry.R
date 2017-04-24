@@ -1,38 +1,39 @@
 #' Stub registry
 #'
 #' @export
-#' @keywords internal
 #' @details
-#' \strong{Methods}
+#' **Methods**
 #'   \describe{
-#'     \item{\code{register_stub(stub)}}{
+#'     \item{`register_stub(stub)`}{
 #'       Register a stub
 #'       - stub: an object of class [StubbedRequest]
 #'     }
-#'     \item{\code{find_stubbed_request(req)}}{
+#'     \item{`find_stubbed_request(req)`}{
 #'       Find a stubbed request
 #'       - req: an object of class [RequestSignature]
 #'     }
-#'     \item{\code{response_for_request(request_signature)}}{
+#'     \item{`response_for_request(request_signature)`}{
 #'       Find a stubbed request
 #'       - request_signature: an object of class [RequestSignature]
 #'     }
-#'     \item{\code{request_stub_for(request_signature)}}{
+#'     \item{`request_stub_for(request_signature)`}{
 #'       Find a stubbed request
 #'       - request_signature: an object of class [RequestSignature]
 #'     }
-#'     \item{\code{remove_request_stub(stub)}}{
+#'     \item{`remove_request_stub(stub)`}{
 #'       Remove a stubbed request by matching request signature
 #'       - stub: an object of class [StubbedRequest]
 #'     }
-#'     \item{\code{remove_all_request_stubs()}}{
+#'     \item{`remove_all_request_stubs()`}{
 #'       Remove all request stubs
 #'     }
-#'     \item{\code{is_registered(x)}}{
+#'     \item{`is_registered(x)`}{
 #'       Find a stubbed request
 #'       - x: an object of class [RequestSignature]
 #'     }
 #'   }
+#' @format NULL
+#' @usage NULL
 #' @examples \dontrun{
 #' # Make a stub
 #' stub1 <- StubbedRequest$new(method = "get", uri = "api.crossref.org")

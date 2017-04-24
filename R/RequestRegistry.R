@@ -1,4 +1,30 @@
-# hash with counter, to store requests, and count each time it is used
+#' hash with counter, to store requests, and count each time it is used
+#'
+#' @export
+#' @details
+#' **Methods**
+#'   \describe{
+#'     \item{`put(key)`}{
+#'       Register a request by it's key
+#'       - key: a character string of the request, serialized from
+#'        [CrulAdapter] or other adapter
+#'     }
+#'     \item{`get(key)`}{
+#'       Get a request by key
+#'       - key: a character string of the request, serialized from
+#'        [CrulAdapter] or other adapter
+#'     }
+#'   }
+#' @format NULL
+#' @usage NULL
+#' @examples
+#' x <- HashCounter$new()
+#' x$put("foo bar")
+#' x$put("foo bar")
+#' x$put("hello world")
+#' x$put("hello world")
+#' x$put("hello world")
+#' x$hash
 HashCounter <- R6::R6Class(
   'HashCounter',
   public = list(
@@ -17,21 +43,21 @@ HashCounter <- R6::R6Class(
 #' Request registry
 #'
 #' @export
-#' @keywords internal
-#' @param request A request - an object of class \code{RegisteredRequest}
 #' @details
-#' \strong{Methods}
+#' **Methods**
 #'   \describe{
-#'     \item{\code{register_request(request)}}{
+#'     \item{`register_request(request)`}{
 #'       Register a request
 #'         - request: a character string of the request, serialized from
-#'         \code{CrulAdapter} or other adapter
+#'         [CrulAdapter] or other adapter
 #'     }
-#'     \item{\code{reset()}}{
+#'     \item{`reset()`}{
 #'       Reset the registry to no registered requests
 #'     }
 #'   }
-#' @examples \dontrun{
+#' @format NULL
+#' @usage NULL
+#' @examples
 #' x <- RequestRegistry$new()
 #' x$register_request(request = "GET http://scottchamberlain.info")
 #' x$register_request(request = "GET http://scottchamberlain.info")
@@ -44,7 +70,6 @@ HashCounter <- R6::R6Class(
 #'
 #' # reset the request registry
 #' x$reset()
-#' }
 RequestRegistry <- R6::R6Class(
   'RequestRegistry',
   public = list(
@@ -76,8 +101,6 @@ RequestRegistry <- R6::R6Class(
     }
   )
 )
-
-`%||%` <- function(x, y) if (is.null(x)) y else x
 
 # initialize empty request registry on package load
 webmockr_request_registry <- new.env()
