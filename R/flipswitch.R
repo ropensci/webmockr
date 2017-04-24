@@ -4,35 +4,18 @@ webmockr_lightswitch$crul <- FALSE
 
 #' Enable or disable webmockr
 #'
-#'
 #' @export
-#' @param options list of options
+#' @param options list of options - ignored for now.
 enable <- function(options = list()) {
-  lapply(http_lib_adapter_registry$adapters, function(z) {
-    z$enable
-  })
+  vapply(http_lib_adapter_registry$adapters, function(z) {
+    z$enable()
+  }, logical(1))
 }
 
 #' @export
 #' @rdname enable
 disable <- function(options = list()) {
-  lapply(http_lib_adapter_registry$adapters, function(z) {
-    z$disable
-  })
+  unlist(lapply(http_lib_adapter_registry$adapters, function(z) {
+    z$disable()
+  }))
 }
-
-# def self.disable!(options = {})
-# except = [options[:except]].flatten.compact
-# HttpLibAdapterRegistry.instance.each_adapter do |name, adapter|
-#   adapter.enable!
-#   adapter.disable! unless except.include?(name)
-# end
-# end
-#
-# def self.enable!(options = {})
-# except = [options[:except]].flatten.compact
-# HttpLibAdapterRegistry.instance.each_adapter do |name, adapter|
-#   adapter.disable!
-#   adapter.enable! unless except.include?(name)
-# end
-# end

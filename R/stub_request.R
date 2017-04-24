@@ -4,7 +4,7 @@
 #' @param method (character) HTTP method, one of "get", "post", "put", "patch",
 #' "head", "delete", "options" - or the special "any" (for any method)
 #' @param url (character) The request url. Can be a full url, partial, or a
-#' regular expression to match many incantations of a url
+#' regular expression to match many incantations of a url. required.
 #' @template stub_egs
 #' @examples \dontrun{
 #' # basic stubbing
@@ -34,11 +34,8 @@
 #' stub_request("get", "www.example.com/thing/{id}.json{?x,y,z}{&other*}")
 #' }
 stub_request <- function(method = "get", url) {
+  if (missing(url)) stop("url is a required parameter", call. = FALSE)
   tmp <- StubbedRequest$new(method = method, uri = url)
-  #tmp$with(query = query, body = body, request_headers = request_headers)
   webmockr_stub_registry$register_stub(tmp)
   return(tmp)
 }
-
-# query = NULL,
-# body = NULL, request_headers = NULL

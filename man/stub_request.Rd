@@ -11,7 +11,7 @@ stub_request(method = "get", url)
 "head", "delete", "options" - or the special "any" (for any method)}
 
 \item{url}{(character) The request url. Can be a full url, partial, or a
-regular expression to match many incantations of a url}
+regular expression to match many incantations of a url. required.}
 }
 \description{
 Stub an http request

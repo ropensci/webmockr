@@ -1,6 +1,10 @@
 #webmockr_stub_registry <- NULL
+http_lib_adapter_registry <- NULL
 .onLoad <- function(libname, pkgname) {
   webmockr_configure()
+  x <- HttpLibAdapaterRegistry$new()
+  x$register(CrulAdapter$new())
+  http_lib_adapter_registry <<- x
   # initialize empty stub registry on package load
   # webmockr_stub_registry <<- new.env()
   # webmockr_stub_registry <- webmockr::StubRegistry$new()

@@ -26,4 +26,4 @@ HttpLibAdapaterRegistry <- R6::R6Class(
   )
 )
 
-http_lib_adapter_registry <- HttpLibAdapaterRegistry$new()
+# http_lib_adapter_registry <- HttpLibAdapaterRegistry$new()

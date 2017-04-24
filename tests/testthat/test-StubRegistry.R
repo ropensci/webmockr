@@ -1,0 +1,105 @@
+context("StubRegistry")
+
+aa <- StubRegistry$new()
+
+test_that("StubRegistry: bits are correct prior to having data", {
+  expect_is(StubRegistry, "R6ClassGenerator")
+
+  expect_is(aa, "StubRegistry")
+
+  expect_is(aa$global_stubs, "list")
+  expect_equal(length(aa$global_stubs), 0)
+
+  expect_is(aa$request_stubs, "list")
+  expect_equal(length(aa$request_stubs), 0)
+
+  expect_null(aa$stub)
+
+  expect_is(aa$find_stubbed_request, "function")
+  expect_is(aa$is_registered, "function")
+  expect_is(aa$print, "function")
+  expect_is(aa$register_stub, "function")
+  expect_is(aa$remove_all_request_stubs, "function")
+  expect_is(aa$remove_request_stub, "function")
+  expect_is(aa$request_stub_for, "function")
+  expect_is(aa$response_for_request, "function")
+})
+
+
+test_that("StubRegistry: bits are correct after having data", {
+  stub1 <- StubbedRequest$new(method = "get", uri = "api.crossref.org")
+  stub1$with(request_headers = list('User-Agent' = 'R'))
+  stub1$to_return(status = 200, body = "foobar", response_headers = list())
+
+  stub2 <- StubbedRequest$new(method = "get", uri = "https://httpbin.org")
+
+  aa <- StubRegistry$new()
+  expect_is(aa$register_stub(stub = stub1), "list")
+  expect_is(aa$register_stub(stub = stub2), "list")
+
+  expect_is(aa, "StubRegistry")
+
+  # global stubs are still empty
+  expect_is(aa$global_stubs, "list")
+  expect_equal(length(aa$global_stubs), 0)
+
+  # request stubs now length 2
+  expect_is(aa$request_stubs, "list")
+  expect_equal(length(aa$request_stubs), 2)
+
+  expect_null(aa$stub)
+
+  # find_stubbed_request
+  req1 <- RequestSignature$new(
+    method = "get",
+    uri = "http://api.crossref.org",
+    options = list(
+      headers = list('User-Agent' = 'R')
+    )
+  )
+
+  res <- aa$find_stubbed_request(req = req1)
+  expect_is(res, "list")
+  expect_is(res[[1]], "StubbedRequest")
+  expect_equal(res[[1]]$uri, "api.crossref.org")
+
+
+  # is_registered
+  expect_true(aa$is_registered(x = req1))
+
+  # request_stub_for
+  matches <- aa$request_stub_for(request_signature = req1)
+  expect_is(matches, "logical")
+  expect_equal(matches, c(TRUE, FALSE))
+
+  # response_for_request
+  ## FIXME!!!! - internal function not made yet
+  expect_error(aa$response_for_request(request_signature = req1),
+               "could not find function")
+
+  # remove_request_stub
+  res <- aa$remove_request_stub(stub = stub1)
+  expect_is(res, "list")
+  expect_equal(length(res), 1)
+
+  # remove_all_request_stubs
+  ## add another first
+  aa$register_stub(stub = stub1)
+  res <- aa$remove_all_request_stubs()
+  expect_is(res, "list")
+  expect_equal(length(res), 0)
+})
+
+test_that("StubRegistry fails well", {
+  # fill ins ome data first
+  stub1 <- StubbedRequest$new(method = "get", uri = "api.crossref.org")
+  aa <- StubRegistry$new()
+  aa$register_stub(stub = stub1)
+
+  expect_error(aa$find_stubbed_request(), "argument \"req\" is missing")
+  expect_error(aa$is_registered(), "argument \"x\" is missing")
+  expect_error(aa$register_stub(), "argument \"stub\" is missing")
+  expect_error(aa$remove_request_stub(), "argument \"stub\" is missing")
+  expect_error(aa$request_stub_for(), "argument \"request_signature\" is missing")
+  expect_error(aa$response_for_request(), "argument \"request_signature\" is missing")
+})

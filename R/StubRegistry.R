@@ -2,27 +2,49 @@
 #'
 #' @export
 #' @keywords internal
-#' @param stub an object of class \code{StubbedRequest}
 #' @details
 #' \strong{Methods}
 #'   \describe{
 #'     \item{\code{register_stub(stub)}}{
 #'       Register a stub
+#'       - stub: an object of class [StubbedRequest]
 #'     }
-#'     \item{\code{find_stubbed_request()}}{
+#'     \item{\code{find_stubbed_request(req)}}{
 #'       Find a stubbed request
+#'       - req: an object of class [RequestSignature]
+#'     }
+#'     \item{\code{response_for_request(request_signature)}}{
+#'       Find a stubbed request
+#'       - request_signature: an object of class [RequestSignature]
+#'     }
+#'     \item{\code{request_stub_for(request_signature)}}{
+#'       Find a stubbed request
+#'       - request_signature: an object of class [RequestSignature]
+#'     }
+#'     \item{\code{remove_request_stub(stub)}}{
+#'       Remove a stubbed request by matching request signature
+#'       - stub: an object of class [StubbedRequest]
+#'     }
+#'     \item{\code{remove_all_request_stubs()}}{
+#'       Remove all request stubs
+#'     }
+#'     \item{\code{is_registered(x)}}{
+#'       Find a stubbed request
+#'       - x: an object of class [RequestSignature]
 #'     }
 #'   }
 #' @examples \dontrun{
-#' # an actual stub
+#' # Make a stub
 #' stub1 <- StubbedRequest$new(method = "get", uri = "api.crossref.org")
 #' stub1$with(request_headers = list('User-Agent' = 'R'))
 #' stub1$to_return(status = 200, body = "foobar", response_headers = list())
 #' stub1
 #'
+#' # Make another stub
 #' stub2 <- StubbedRequest$new(method = "get", uri = "api.crossref.org")
 #' stub2
 #'
+#' # Put both stubs in the stub registry
 #' reg <- StubRegistry$new()
 #' reg$register_stub(stub = stub1)
 #' reg$register_stub(stub = stub2)
@@ -80,7 +102,7 @@ StubRegistry <- R6::R6Class(
     },
 
     remove_request_stub = function(stub) {
-      xx <- vapply(self$request_stubs, function(x) to_s, "")
+      xx <- vapply(self$request_stubs, function(x) x$to_s(), "")
       if (stub$to_s() %in% xx) {
         self$request_stubs <- self$request_stubs[-which(stub$to_s() %in% xx)]
       } else {
