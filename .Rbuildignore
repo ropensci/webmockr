@@ -6,3 +6,4 @@ man-roxygen/
 ^CONDUCT\.md$
 Makefile
 notes.md
+.github
