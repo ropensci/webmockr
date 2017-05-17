@@ -37,7 +37,7 @@ x$uri_pattern
 x$to_s()
 
 # make a request signature
-rs <- RequestSignature$new(metho="get", uri="https://httpbin.org/get")
+rs <- RequestSignature$new(method = "get", uri = "https://httpbin.org/get")
 
 # check if it matches
 x$matches(rs)

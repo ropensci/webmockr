@@ -10,7 +10,7 @@ patch, trace, or delete). "any" matches any HTTP method. required.}
 
 \item{uri}{(character) request URI. required.}
 
-\item{options}{(list) options. optional}
+\item{options}{(list) options. optional. See Details.}
 }
 \description{
 General purpose request signature builder
@@ -20,9 +20,20 @@ General purpose request signature builder
 \describe{
 \item{\code{to_s()}}{
 Request signature to a string
+return: a character string representation of the request signature
 }
 }
 }
+\section{options}{
+
+\itemize{
+\item body - body as a named list
+\item headers - headers as a named list
+\item proxies - proxies as a named list
+\item auth - authentication details, as a named list
+}
+}
+
 \examples{
 # make request signature
 x <- RequestSignature$new(method = "get", uri = "https:/httpbin.org/get")
@@ -32,5 +43,29 @@ x$method
 x$uri
 # request signature to string
 x$to_s()
+
+# headers
+z <- RequestSignature$new(
+  method = "get",
+  uri = "https:/httpbin.org/get",
+  options = list(headers = list(`User-Agent` = "foobar", stuff = "things"))
+)
+z
+z$headers
+z$to_s()
+
+# headers and body
+z <- RequestSignature$new(
+  method = "get",
+  uri = "https:/httpbin.org/get",
+  options = list(
+    headers = list(`User-Agent` = "foobar", stuff = "things"),
+    body = list(a = "tables")
+  )
+)
+z
+z$headers
+z$body
+z$to_s()
 }
 \keyword{datasets}

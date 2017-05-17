@@ -41,3 +41,12 @@ crul_head_parse <- function(z) {
 }
 
 crul_headers_parse <- function(x) do.call("c", lapply(x, crul_head_parse))
+
+assert <- function(x, y) {
+  if (!is.null(x)) {
+    if (!class(x)[1] %in% y) {
+      stop(deparse(substitute(x)), " must be of class ",
+           paste0(y, collapse = ", "), call. = FALSE)
+    }
+  }
+}

@@ -27,7 +27,7 @@
 #' x$to_s()
 #'
 #' # make a request signature
-#' rs <- RequestSignature$new(metho="get", uri="https://httpbin.org/get")
+#' rs <- RequestSignature$new(method = "get", uri = "https://httpbin.org/get")
 #'
 #' # check if it matches
 #' x$matches(rs)
@@ -47,6 +47,7 @@ RequestPattern <- R6::R6Class(
     },
 
     matches = function(request_signature) {
+      assert(request_signature, "RequestSignature")
       c_type <- if (!is.null(request_signature$headers)) request_signature$headers$`Content-Type` else NULL
       c_type <- if (!is.null(c_type)) strsplit(c_type, ';')[[1]][1]
       self$method_pattern$matches(request_signature$method) &&
@@ -113,7 +114,25 @@ RequestPattern <- R6::R6Class(
   )
 )
 
-# MethodPattern
+#' MethodPattern
+#'
+#' @export
+#' @keywords internal
+#' @param pattern (character) a HTTP method, lowercase
+#' @details
+#' **Methods**
+#'   \describe{
+#'     \item{`matches(method)`}{
+#'       An HTTP method
+#'       - method (character)
+#'     }
+#'   }
+#' @format NULL
+#' @usage NULL
+#' @examples
+#' x <- MethodPattern$new(pattern = "post")
+#' x$pattern
+#' x$matches(method = "post")
 MethodPattern <- R6::R6Class(
   'MethodPattern',
   public = list(
@@ -131,7 +150,25 @@ MethodPattern <- R6::R6Class(
   )
 )
 
-# HeadersPattern
+#' HeadersPattern
+#'
+#' @export
+#' @keywords internal
+#' @param pattern (list) a pattern, as a named list, must be named
+#' @details
+#' **Methods**
+#'   \describe{
+#'     \item{`matches(headers)`}{
+#'       Match a list of headers against that stored
+#'       - headers (list)
+#'     }
+#'   }
+#' @format NULL
+#' @usage NULL
+#' @examples
+#' x <- HeadersPattern$new(pattern = list(a = 5))
+#' x$pattern
+#' x$matches(list(a = 5))
 HeadersPattern <- R6::R6Class(
   'HeadersPattern',
   public = list(
@@ -142,10 +179,10 @@ HeadersPattern <- R6::R6Class(
     },
 
     matches = function(headers) {
-      if (empty_headers(self$pattern)) {
-        empty_headers(headers)
+      if (self$empty_headers(self$pattern)) {
+        self$empty_headers(headers)
       } else {
-        if (empty_headers(headers)) return(FALSE)
+        if (self$empty_headers(headers)) return(FALSE)
         out <- c()
         for (i in seq_along(self$pattern)) {
           out[i] <- names(self$pattern)[i] %in% names(headers) &&
@@ -163,7 +200,27 @@ HeadersPattern <- R6::R6Class(
   )
 )
 
-# BodyPattern
+#' BodyPattern
+#'
+#' @export
+#' @keywords internal
+#' @param pattern (list) a body object
+#' @details
+#' **Methods**
+#'   \describe{
+#'     \item{`matches(body, content_type = "")`}{
+#'       Match a body object against that given in `pattern`
+#'       - body (list) the body
+#'       - content_type (character) content type
+#'     }
+#'   }
+#' @format NULL
+#' @usage NULL
+#' @examples
+#' z <- BodyPattern$new(pattern = list(a = "foobar"))
+#' z$pattern
+#' z$matches(body='{"a": "foobar"}', content_type = "application/json")
+#' z$matches(list(a = "foobar"), content_type = "application/json")
 BodyPattern <- R6::R6Class(
   'BodyPattern',
   public = list(
@@ -239,7 +296,24 @@ BODY_FORMATS <- list(
   'text/plain'             = 'plain'
 )
 
-# UriPattern
+#' UriPattern
+#'
+#' @export
+#' @keywords internal
+#' @param pattern (character) a uri
+#' @details
+#' **Methods**
+#'   \describe{
+#'     \item{`matches(uri)`}{
+#'       Match a uri against that given in `pattern`
+#'       - uri (character) a uri
+#'     }
+#'   }
+#' @format NULL
+#' @usage NULL
+#' @examples
+#' z <- UriPattern$new(pattern = "http://foobar.com")
+#' z$matches("http://foobar.com")
 UriPattern <- R6::R6Class(
   'UriPattern',
   public = list(

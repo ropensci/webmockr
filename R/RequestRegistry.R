@@ -31,10 +31,12 @@ HashCounter <- R6::R6Class(
     hash = list(),
 
     put = function(key) {
+      if (missing(key)) stop("'key' required")
       self$hash[key] <- (self$hash[[key]] %||% 0) + 1
     },
 
     get = function(key) {
+      if (missing(key)) stop("'key' required")
       self$hash[[key]] %||% 0
     }
   )
