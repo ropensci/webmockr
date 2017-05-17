@@ -29,3 +29,15 @@ url_build = function(uri, args = NULL) {
 }
 
 `%||%` <- function(x, y) if (is.null(x)) y else x
+
+crul_head_parse <- function(z) {
+  if (grepl("HTTP\\/", z)) {
+    list(status = z)
+  } else {
+    ff <- regexec("^([^:]*):\\s*(.*)$", z)
+    xx <- regmatches(z, ff)[[1]]
+    as.list(stats::setNames(xx[[3]], tolower(xx[[2]])))
+  }
+}
+
+crul_headers_parse <- function(x) do.call("c", lapply(x, crul_head_parse))

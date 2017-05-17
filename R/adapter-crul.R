@@ -77,7 +77,7 @@ CrulAdapter <- R6::R6Class(
             if (is.null(hh) || nchar(hh) == 0) {
               list()
             } else {
-              crul:::headers_parse(curl::parse_headers(hh))
+              crul_headers_parse(curl::parse_headers(hh))
             }
           }
         },
