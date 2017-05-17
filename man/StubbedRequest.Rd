@@ -5,8 +5,8 @@
 \alias{StubbedRequest}
 \title{StubbedRequest class}
 \arguments{
-\item{method}{the HTTP method (any, head, options, get, post, put,
-patch, trace, or delete). "any" matches any HTTP method. required.}
+\item{method}{the HTTP method (any, head, get, post, put,
+patch, or delete). "any" matches any HTTP method. required.}
 
 \item{uri}{(character) request URI. required.}
 }
