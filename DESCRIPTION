@@ -5,8 +5,8 @@ Version: 0.0.5.9120
 Authors@R: person("Scott", "Chamberlain", role = c("aut", "cre"), email =
     "myrmecocystus@gmail.com")
 License: MIT + file LICENSE
-URL: https://github.com/ropenscilabs/webmockr
-BugReports: https://github.com/ropenscilabs/webmockr/issues
+URL: https://github.com/ropensci/webmockr
+BugReports: https://github.com/ropensci/webmockr/issues
 LazyData: true
 Roxygen: list(markdown = TRUE)
 Imports:

@@ -1,8 +1,8 @@
 webmockr
 ========
 
-[![Build Status](https://travis-ci.org/ropenscilabs/webmockr.svg?branch=master)](https://travis-ci.org/ropenscilabs/webmockr)
-[![codecov](https://codecov.io/gh/ropenscilabs/webmockr/branch/master/graph/badge.svg)](https://codecov.io/gh/ropenscilabs/webmockr)
+[![Build Status](https://travis-ci.org/ropensci/webmockr.svg?branch=master)](https://travis-ci.org/ropensci/webmockr)
+[![codecov](https://codecov.io/gh/ropensci/webmockr/branch/master/graph/badge.svg)](https://codecov.io/gh/ropensci/webmockr)
 
 R library for stubbing and setting expectations on HTTP requests.
 
@@ -26,7 +26,7 @@ Port of the Ruby library [webmock](https://github.com/bblimke/webmock)
 
 
 ```r
-devtools::install_github("ropenscilabs/webmockr")
+devtools::install_github("ropensci/webmockr")
 ```
 
 
@@ -42,7 +42,11 @@ webmockr::enable()
 ```
 
 ```
-## list()
+## CrulAdapter enabled!
+```
+
+```
+## [1] TRUE
 ```
 
 ```r
@@ -69,9 +73,9 @@ x$get('get')
 
 
 ```r
-stub_request("get", "https://httpbin.org/get") %>% 
+stub_request("get", "https://httpbin.org/get") %>%
   wi_th(
-    query = list(hello = "world"), 
+    query = list(hello = "world"),
     request_headers = list(`Accept-Encoding` = "gzip, deflate", `User-Agent` = 'R'))
 x <- HttpClient$new(url = "https://httpbin.org", headers = list(`User-Agent` = 'R'))
 x$get('get', query = list(hello = "world"))
@@ -79,7 +83,7 @@ x$get('get', query = list(hello = "world"))
 
 ## Meta
 
-* Please [report any issues or bugs](https://github.com/ropenscilabs/webmockr/issues).
+* Please [report any issues or bugs](https://github.com/ropensci/webmockr/issues).
 * License: MIT
 * Get citation information for `webmockr` in R doing `citation(package = 'webmockr')`
 * Please note that this project is released with a [Contributor Code of Conduct](CONDUCT.md).
