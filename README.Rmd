@@ -11,10 +11,10 @@ Port of the Ruby library [webmock](https://github.com/bblimke/webmock)
 
 ## Features
 
-* Stubbing HTTP requests at low http client lib level (no need to change tests when you change HTTP library)
+* Stubbing HTTP requests at low http client lib level
 * Setting and verifying expectations on HTTP requests
 * Matching requests based on method, URI, headers and body
-* Support for `testthat` (coming soon via `vcr`)
+* Support for `testthat` coming soon via [vcr](https://github.com/ropenscilabs/vcr)
 
 ## Supported HTTP libraries
 
@@ -23,6 +23,14 @@ Port of the Ruby library [webmock](https://github.com/bblimke/webmock)
 > more to come
 
 ## Install
+
+from cran
+
+```{r eval=FALSE}
+install.packages("webmockr")
+```
+
+Dev version
 
 ```{r eval=FALSE}
 devtools::install_github("ropensci/webmockr")

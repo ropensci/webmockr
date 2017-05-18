@@ -8,6 +8,23 @@
 \description{
 Stubbing and setting expectations on HTTP requests
 }
+\section{Features}{
+
+\itemize{
+\item Stubbing HTTP requests at low http client lib level
+\item Setting and verifying expectations on HTTP requests
+\item Matching requests based on method, URI, headers and body
+\item Can support many HTTP libraries, though only \pkg{crul} for now
+\item Integration with testing libraries (coming soon) via \code{vcr}
+}
+}
+
+\examples{
+library(webmockr)
+stub_request("get", "https://httpbin.org/get")
+stub_request("post", url="https://httpbin.org/post")
+stub_registry()
+}
 \author{
 Scott Chamberlain
 }
