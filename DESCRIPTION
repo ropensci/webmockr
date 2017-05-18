@@ -1,7 +1,11 @@
 Package: webmockr
 Title: Stubbing and Setting Expectations on 'HTTP' Requests
-Description: Stubbing and setting expectations on 'HTTP' requests.
-Version: 0.0.7.9210
+Description: Stubbing and setting expectations on 'HTTP' requests. 
+    Includes tools for stubbing HTTP requests, including expected 
+    request conditions and response conditions. Match on 
+    'HTTP' method, query parameters, request body, headers and 
+    more.
+Version: 0.0.8.9100
 Authors@R: person("Scott", "Chamberlain", role = c("aut", "cre"), email =
     "myrmecocystus@gmail.com")
 License: MIT + file LICENSE
