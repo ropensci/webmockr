@@ -27,7 +27,7 @@ test_that("stub_request bits are correct", {
   expect_output(aa$print(), "<webmockr stub>")
 
   expect_is(aa$to_return, "function")
-  expect_error(aa$to_return(), "argument \"status\" is missing")
+  expect_error(aa$to_return(), "argument \"headers\" is missing")
 
   expect_is(aa$to_s, "function")
   expect_equal(aa$to_s(), "get: https://httpbin.org/get")

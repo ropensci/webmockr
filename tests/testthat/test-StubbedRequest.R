@@ -41,7 +41,7 @@ test_that("StubbedRequest: works", {
   aa$to_return(
     status = 404,
     body = list(hello = "world"),
-    response_headers = list(a = 5)
+    headers = list(a = 5)
   )
   expect_is(aa$responses_sequences, "list")
   expect_is(aa$responses_sequences$body, "list")

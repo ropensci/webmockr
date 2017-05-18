@@ -1,42 +1,36 @@
 context("HttpLibAdapaterRegistry")
 
-test_that("HttpLibAdapaterRegistry: works", {
+test_that("HttpLibAdapaterRegistry: structure", {
   expect_is(HttpLibAdapaterRegistry, "R6ClassGenerator")
 
-  aa <- HttpLibAdapaterRegistry$new(method = "get", uri = "https:/httpbin.org/get")
+  aa <- HttpLibAdapaterRegistry$new()
 
   expect_is(aa, "HttpLibAdapaterRegistry")
 
-  expect_null(aa$auth)
-  expect_null(aa$body)
-  expect_null(aa$headers)
-  expect_null(aa$proxies)
+  expect_null(aa$adapters)
+  expect_is(aa$clone, "function")
+  expect_is(aa$print, "function")
+  expect_is(aa$register, "function")
 
-  expect_is(aa$method, "character")
-  expect_equal(aa$method, "get")
-
-  expect_is(aa$uri, "character")
-  expect_equal(aa$uri, "https:/httpbin.org/get")
-
-  expect_is(aa$to_s, "function")
-  expect_equal(aa$to_s(), "GET https:/httpbin.org/get")
+  expect_output(print(aa), "HttpLibAdapaterRegistry")
 })
 
-test_that("HttpLibAdapaterRegistry: different methods work", {
-  aa <- HttpLibAdapaterRegistry$new(method = "get", uri = "https:/httpbin.org/get")
-  aa$headers <- list(Accept = "application/json")
-  aa$body <- list(foo = "bar")
+test_that("HttpLibAdapaterRegistry: behaves as expected", {
+  aa <- HttpLibAdapaterRegistry$new()
+  aa$register(CrulAdapter$new())
 
-  expect_is(aa$method, "character")
-  expect_is(aa$uri, "character")
-  expect_is(aa$headers, "list")
-  expect_is(aa$body, "list")
+  expect_length(aa$adapters, 1)
+  expect_is(aa$adapters[[1]], "CrulAdapter")
+  expect_equal(aa$adapters[[1]]$name, "crul_adapter")
+
+  expect_output(print(aa), "HttpLibAdapaterRegistry")
+  expect_output(print(aa), "crul_adapter")
 })
 
 test_that("HttpLibAdapaterRegistry fails well", {
-  expect_error(HttpLibAdapaterRegistry$new(), "argument \"method\" is missing")
-  expect_error(HttpLibAdapaterRegistry$new(method = "adf"),
-               "'arg' should be one of")
-  expect_error(HttpLibAdapaterRegistry$new(method = "get"),
-               "argument \"uri\" is missing")
+  x <- HttpLibAdapaterRegistry$new()
+
+  expect_error(x$register(), "argument \"x\" is missing")
+  expect_error(x$register(4),
+               "'x' must be an adapter, such as CrulAdapter")
 })

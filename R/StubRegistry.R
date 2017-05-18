@@ -63,19 +63,20 @@ StubRegistry <- R6::R6Class(
       cat("<webmockr stub registry> ", sep = "\n")
       cat(" Registered Stubs", sep = "\n")
       for (i in seq_along(self$request_stubs)) {
-        cat(
-          sprintf(
-            "  %s: %s %s %s",
-            self$request_stubs[[i]]$method,
-            url_build(
-              self$request_stubs[[i]]$uri,
-              self$request_stubs[[i]]$query
-            ),
-            make_body(self$request_stubs[[i]]$body),
-            make_headers(self$request_stubs[[i]]$request_headers)
-          ),
-          sep = "\n"
-        )
+        cat("  ", self$request_stubs[[i]]$to_s(), "\n")
+        # cat(
+        #   sprintf(
+        #     "  %s: %s %s %s",
+        #     self$request_stubs[[i]]$method,
+        #     url_build(
+        #       self$request_stubs[[i]]$uri,
+        #       self$request_stubs[[i]]$query
+        #     ),
+        #     make_body(self$request_stubs[[i]]$body),
+        #     make_headers(self$request_stubs[[i]]$request_headers)
+        #   ),
+        #   sep = "\n"
+        # )
       }
       invisible(self$request_stubs)
     },
@@ -128,6 +129,12 @@ StubRegistry <- R6::R6Class(
 #' @export
 stub_registry <- function() webmockr_stub_registry
 
+#' @rdname StubRegistry
+#' @export
+stub_registry_clear <- function() {
+  webmockr_stub_registry$remove_all_request_stubs()
+}
+
 # initialize empty stub registry on package load
 webmockr_stub_registry <- new.env()
 webmockr_stub_registry <- StubRegistry$new()
@@ -142,4 +149,10 @@ make_body <- function(x) {
 make_headers <- function(x) {
   if (is.null(x)) return("")
   paste0(" with headers ", jsonlite::toJSON(x, auto_unbox = TRUE))
+}
+
+# madke body info for print method
+make_status <- function(x) {
+  if (is.null(x)) return("")
+  paste0(" with status ", as.character(x))
 }

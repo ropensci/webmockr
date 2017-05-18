@@ -12,7 +12,7 @@
 #'       \itemize{
 #'        \item query (list) request query params, as a named list. optional
 #'        \item body (list) request body, as a named list. optional
-#'        \item request_headers (list) request headers as a named list. optional.
+#'        \item headers (list) request headers as a named list. optional.
 #'       }
 #'     }
 #'     \item{`to_return(status, body, response_headers)`}{
@@ -20,7 +20,7 @@
 #'       \itemize{
 #'        \item status (numeric) an HTTP status code
 #'        \item body (list) response body, as a list. optional
-#'        \item response_headers (list) named list, response headers. optional.
+#'        \item headers (list) named list, response headers. optional.
 #'       }
 #'     }
 #'     \item{`to_s()`}{
@@ -33,8 +33,9 @@
 #' x <- StubbedRequest$new(method = "get", uri = "api.crossref.org")
 #' x$method
 #' x$uri
-#' x$with(request_headers = list('User-Agent' = 'R'))
-#' x$to_return(status = 200, body = "foobar", response_headers = list())
+#' x$with(headers = list('User-Agent' = 'R'))
+#' x$to_return(status = 200, body = "foobar", headers = list(a = 5))
+#' x
 #' x$to_s()
 #' }
 StubbedRequest <- R6::R6Class(
@@ -71,8 +72,8 @@ StubbedRequest <- R6::R6Class(
       cat(paste0("    body: ", hdl_lst(self$body)), sep = "\n")
       cat(paste0("    request_headers: ", hdl_lst(self$request_headers)),
           sep = "\n")
-      cat(paste0("    response_headers: ", hdl_lst(self$response_headers)),
-          sep = "\n")
+      # cat(paste0("    response_headers: ", hdl_lst(self$response_headers)),
+      #     sep = "\n")
       cat("  to_return: ", sep = "\n")
       cat(paste0("    status: ", hdl_lst(self$responses_sequences$status)),
           sep = "\n")
@@ -82,30 +83,39 @@ StubbedRequest <- R6::R6Class(
           sep = "\n")
     },
 
-    with = function(query = NULL, body = NULL, request_headers = NULL) {
+    with = function(query = NULL, body = NULL, headers = NULL) {
       self$query <- query
       self$body <- body
-      self$request_headers <- request_headers
+      self$request_headers <- headers
     },
 
-    to_return = function(status, body, response_headers) {
+    to_return = function(status, body, headers) {
+      self$response_headers <- headers
       self$responses_sequences <- list(
         status = status,
         body = body,
-        response_headers = response_headers
+        headers = headers
       )
     },
 
     to_s = function() {
+      toret <- c(
+        make_body(self$responses_sequences$body),
+        make_status(self$responses_sequences$status),
+        make_headers(self$responses_sequences$headers)
+      )
       gsub("^\\s+|\\s+$", "", sprintf(
-        "  %s: %s %s %s",
+        "  %s: %s %s %s %s",
         self$method,
-        url_build(
-          self$uri,
-          self$query
-        ),
+        url_build(self$uri, self$query),
         make_body(self$body),
-        make_headers(self$request_headers)
+        make_headers(self$request_headers),
+        # response data
+        if (any(nchar(toret) > 0)) {
+          sprintf("| to_return: %s %s %s", toret[1], toret[2], toret[3])
+        } else {
+          ""
+        }
       ))
     }
   )
