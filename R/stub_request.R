@@ -5,7 +5,8 @@
 #' "head", "delete", "options" - or the special "any" (for any method)
 #' @param url (character) The request url. Can be a full url, partial, or a
 #' regular expression to match many incantations of a url. required.
-#' @template stub_egs
+#' @return an object of class `StubbedRequest`, with print method describing
+#' the stub
 #' @examples \dontrun{
 #' # basic stubbing
 #' stub_request("get", url="https://httpbin.org/get")

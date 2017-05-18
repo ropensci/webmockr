@@ -1,12 +1,14 @@
 #' Expection for a stubbed request
 #'
 #' @export
-#' @param .data input. Anything that can be coerced to a StubbedRequest class
+#' @param .data input. Anything that can be coerced to a `StubbedRequest` class
 #' object
 #' @param ... Comma separated list of unquoted variable names, passed on
 #' to [lazyeval::lazy_dots()]. accepts the following: status, body,
 #' headers
 #' @param .dots	Used to work around non-standard evaluation
+#' @return an object of class `StubbedRequest`, with print method describing
+#' the stub
 to_return <- function(.data, ...) {
   to_return_(.data, .dots = lazyeval::lazy_dots(...))
 }

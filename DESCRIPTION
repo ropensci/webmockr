@@ -7,7 +7,7 @@ Description: Stubbing and setting expectations on 'HTTP' requests.
     more.
 Version: 0.0.8.9100
 Authors@R: person("Scott", "Chamberlain", role = c("aut", "cre"), email =
-    "myrmecocystus@gmail.com")
+    "myrmecocystus+r@gmail.com")
 License: MIT + file LICENSE
 URL: https://github.com/ropensci/webmockr
 BugReports: https://github.com/ropensci/webmockr/issues

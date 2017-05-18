@@ -10,7 +10,7 @@ wi_th(.data, ...)
 wi_th_(.data, ..., .dots)
 }
 \arguments{
-\item{.data}{input. Anything that can be coerced to a StubbedRequest class
+\item{.data}{input. Anything that can be coerced to a \code{StubbedRequest} class
 object}
 
 \item{...}{Comma separated list of unquoted variable names, passed on
@@ -19,6 +19,14 @@ headers}
 
 \item{.dots}{Used to work around non-standard evaluation}
 }
+\value{
+an object of class \code{StubbedRequest}, with print method describing
+the stub
+}
 \description{
 Additional inputs to a stubbed request
+}
+\details{
+\code{with} is a function in the \code{base} package, so we went with
+\code{wi_th}
 }

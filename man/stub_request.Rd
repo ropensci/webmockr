@@ -13,20 +13,14 @@ stub_request(method = "get", url)
 \item{url}{(character) The request url. Can be a full url, partial, or a
 regular expression to match many incantations of a url. required.}
 }
+\value{
+an object of class \code{StubbedRequest}, with print method describing
+the stub
+}
 \description{
 Stub an http request
 }
 \examples{
-\dontrun{
-# URI regex
-stub_request("get", ".*google.*")
-
-# add header
-stub_request("get", ".*google.*")
-
-# add expectation with to_return
-stub_request("get", ".*google.*")
-}
 \dontrun{
 # basic stubbing
 stub_request("get", url="https://httpbin.org/get")
