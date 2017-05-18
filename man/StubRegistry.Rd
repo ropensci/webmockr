@@ -4,9 +4,12 @@
 \name{StubRegistry}
 \alias{StubRegistry}
 \alias{stub_registry}
+\alias{stub_registry_clear}
 \title{Stub registry}
 \usage{
 stub_registry()
+
+stub_registry_clear()
 }
 \description{
 Stub registry

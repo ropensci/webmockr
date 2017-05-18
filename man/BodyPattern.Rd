@@ -23,7 +23,5 @@ Match a body object against that given in \code{pattern}
 \examples{
 z <- BodyPattern$new(pattern = list(a = "foobar"))
 z$pattern
-z$matches(body='{"a": "foobar"}', content_type = "application/json")
-z$matches(list(a = "foobar"), content_type = "application/json")
 }
 \keyword{internal}

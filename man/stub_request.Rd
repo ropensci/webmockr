@@ -37,14 +37,14 @@ stub_registry()
 
 # add header
 stub_request("get", url="https://httpbin.org/get") \%>\%
-   wi_th(response_headers = list('User-Agent' = 'R'))
+   wi_th(headers = list('User-Agent' = 'R'))
 
 # add expectation with to_return
 stub_request("get", url="https://httpbin.org/get") \%>\%
   wi_th(
     query = list(hello = "world"),
-    request_headers = list('User-Agent' = 'R')) \%>\%
-  to_return(status = 200, body = "", response_headers = list())
+    headers = list('User-Agent' = 'R')) \%>\%
+  to_return(status = 200, body = "stuff", headers = list(a = 5))
 
 # list stubs again
 stub_registry()
@@ -53,5 +53,8 @@ stub_registry()
 stub_request("get", "www.example.com/{id}/")
 stub_request("get", "/.*example.*/")
 stub_request("get", "www.example.com/thing/{id}.json{?x,y,z}{&other*}")
+
+# clear all stubs
+stub_registry_clear()
 }
 }

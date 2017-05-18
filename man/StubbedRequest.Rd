@@ -21,7 +21,7 @@ Set expectations for what's given in HTTP request
 \itemize{
 \item query (list) request query params, as a named list. optional
 \item body (list) request body, as a named list. optional
-\item request_headers (list) request headers as a named list. optional.
+\item headers (list) request headers as a named list. optional.
 }
 }
 \item{\code{to_return(status, body, response_headers)}}{
@@ -29,7 +29,7 @@ Set expectations for what's returned in HTTP resonse
 \itemize{
 \item status (numeric) an HTTP status code
 \item body (list) response body, as a list. optional
-\item response_headers (list) named list, response headers. optional.
+\item headers (list) named list, response headers. optional.
 }
 }
 \item{\code{to_s()}}{
@@ -42,8 +42,9 @@ Response as a string
 x <- StubbedRequest$new(method = "get", uri = "api.crossref.org")
 x$method
 x$uri
-x$with(request_headers = list('User-Agent' = 'R'))
-x$to_return(status = 200, body = "foobar", response_headers = list())
+x$with(headers = list('User-Agent' = 'R'))
+x$to_return(status = 200, body = "foobar", headers = list(a = 5))
+x
 x$to_s()
 }
 }

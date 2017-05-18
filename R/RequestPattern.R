@@ -219,8 +219,6 @@ HeadersPattern <- R6::R6Class(
 #' @examples
 #' z <- BodyPattern$new(pattern = list(a = "foobar"))
 #' z$pattern
-#' z$matches(body='{"a": "foobar"}', content_type = "application/json")
-#' z$matches(list(a = "foobar"), content_type = "application/json")
 BodyPattern <- R6::R6Class(
   'BodyPattern',
   public = list(

@@ -14,7 +14,8 @@ to_return_(.data, ..., .dots)
 object}
 
 \item{...}{Comma separated list of unquoted variable names, passed on
-to \code{\link[lazyeval:lazy_dots]{lazyeval::lazy_dots()}}}
+to \code{\link[lazyeval:lazy_dots]{lazyeval::lazy_dots()}}. accepts the following: status, body,
+headers}
 
 \item{.dots}{Used to work around non-standard evaluation}
 }

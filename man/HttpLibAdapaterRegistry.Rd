@@ -13,6 +13,7 @@ http lib adapter registry
 \item{\code{register(x)}}{
 Register an http library adapter
 x: an http lib adapter, e.g., \link{CrulAdapter}
+return: nothing, registers the library adapter
 }
 }
 }
