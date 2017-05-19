@@ -3,11 +3,14 @@
 #' @export
 #' @param method the HTTP method (any, head, get, post, put,
 #' patch, or delete). "any" matches any HTTP method. required.
-#' @param uri (character) request URI. required.
+#' @param uri (character) request URI. either this or `uri_regex`
+#' required
+#' @param uri_regex (character) request URI as regex. either this or `uri`
+#' required
 #' @details
 #' **Methods**
 #'   \describe{
-#'     \item{`with(query, body, request_headers)`}{
+#'     \item{`with(query, body, headers)`}{
 #'       Set expectations for what's given in HTTP request
 #'       \itemize{
 #'        \item query (list) request query params, as a named list. optional
@@ -15,7 +18,7 @@
 #'        \item headers (list) request headers as a named list. optional.
 #'       }
 #'     }
-#'     \item{`to_return(status, body, response_headers)`}{
+#'     \item{`to_return(status, body, headers)`}{
 #'       Set expectations for what's returned in HTTP resonse
 #'       \itemize{
 #'        \item status (numeric) an HTTP status code
@@ -29,6 +32,7 @@
 #'   }
 #' @format NULL
 #' @usage NULL
+#' @seealso [stub_request()]
 #' @examples \dontrun{
 #' x <- StubbedRequest$new(method = "get", uri = "api.crossref.org")
 #' x$method
@@ -37,12 +41,19 @@
 #' x$to_return(status = 200, body = "foobar", headers = list(a = 5))
 #' x
 #' x$to_s()
+#'
+#' # uri_regex
+#' (x <- StubbedRequest$new(method = "get", uri_regex = ".+ossref.org"))
+#' x$method
+#' x$uri
+#' x$to_s()
 #' }
 StubbedRequest <- R6::R6Class(
   'StubbedRequest',
   public = list(
     method = NULL,
     uri = NULL,
+    uri_regex = NULL,
     uri_parts = NULL,
     host = NULL,
     query = NULL,
@@ -52,15 +63,16 @@ StubbedRequest <- R6::R6Class(
     response = NULL,
     responses_sequences = NULL,
 
-    initialize = function(method, uri) {
+    initialize = function(method, uri = NULL, uri_regex = NULL) {
       if (!missing(method)) {
         verb <- match.arg(tolower(method), http_verbs)
         self$method <- verb
       }
-      if (!missing(uri)) {
-        self$uri <- uri
-        self$uri_parts <- parseurl(self$uri)
+      if (is.null(uri) && is.null(uri_regex)) {
+        stop("one of uri or uri_regex is required", call. = FALSE)
       }
+      self$uri <- if (!is.null(uri)) uri else uri_regex
+      self$uri_parts <- parseurl(self$uri)
     },
 
     print = function(x, ...) {
@@ -72,8 +84,6 @@ StubbedRequest <- R6::R6Class(
       cat(paste0("    body: ", hdl_lst(self$body)), sep = "\n")
       cat(paste0("    request_headers: ", hdl_lst(self$request_headers)),
           sep = "\n")
-      # cat(paste0("    response_headers: ", hdl_lst(self$response_headers)),
-      #     sep = "\n")
       cat("  to_return: ", sep = "\n")
       cat(paste0("    status: ", hdl_lst(self$responses_sequences$status)),
           sep = "\n")
@@ -107,7 +117,7 @@ StubbedRequest <- R6::R6Class(
       gsub("^\\s+|\\s+$", "", sprintf(
         "  %s: %s %s %s %s",
         self$method,
-        url_build(self$uri, self$query),
+        url_builder(self$uri, self$query),
         make_body(self$body),
         make_headers(self$request_headers),
         # response data

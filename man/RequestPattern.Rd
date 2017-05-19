@@ -8,9 +8,15 @@
 \item{method}{the HTTP method (any, head, options, get, post, put,
 patch, trace, or delete). "any" matches any HTTP method. required.}
 
-\item{uri}{(character) request URI. required.}
+\item{uri}{(character) request URI. required or uri_regex}
 
-\item{options}{(list) options. optional}
+\item{uri_regex}{(character) request URI as regex. required or uri}
+
+\item{query}{(list) query parameters, optional}
+
+\item{body}{(list) body request, optional}
+
+\item{headers}{(list) headers, optional}
 }
 \description{
 RequestPattern class
@@ -41,6 +47,23 @@ rs <- RequestSignature$new(method = "get", uri = "https://httpbin.org/get")
 
 # check if it matches
 x$matches(rs)
+
+# regex uri
+(x <- RequestPattern$new(method = "get", uri_regex = ".+ossref.org"))
+x$uri_pattern
+x$uri_pattern$to_s()
+x$to_s()
+
+# uri with query parameters
+(x <- RequestPattern$new(
+    method = "get", uri = "https://httpbin.org/get",
+    query = list(foo = "bar")
+))
+x$to_s()
 }
+}
+\seealso{
+pattern classes for HTTP method \link{MethodPattern}, headers
+\link{HeadersPattern}, body \link{BodyPattern}, and URI/URL \link{UriPattern}
 }
 \keyword{datasets}

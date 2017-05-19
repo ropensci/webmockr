@@ -18,10 +18,13 @@ An HTTP method
 - method (character)
 }
 }
+
+Matches regardless of case. e.g., POST will match to post
 }
 \examples{
-x <- MethodPattern$new(pattern = "post")
+(x <- MethodPattern$new(pattern = "post"))
 x$pattern
 x$matches(method = "post")
+x$matches(method = "POST")
 }
 \keyword{internal}

@@ -3,24 +3,30 @@
 #' @export
 #' @param method (character) HTTP method, one of "get", "post", "put", "patch",
 #' "head", "delete", "options" - or the special "any" (for any method)
-#' @param url (character) The request url. Can be a full url, partial, or a
-#' regular expression to match many incantations of a url. required.
+#' @param uri (character) The request uri. Can be a full uri, partial, or a
+#' regular expression to match many incantations of a uri. required.
+#' @param uri_regex (character) A URI represented as regex. See examples
 #' @return an object of class `StubbedRequest`, with print method describing
-#' the stub
+#' the stub.
+#' @details Internally, this calls [StubbedRequest] which handles the logic
+#'
+#' See [stub_registry()] for listing stubs, [stub_registry_clear()]
+#' for removing all stubs and [remove_request_stub()] for removing specific
+#' stubs
 #' @examples \dontrun{
 #' # basic stubbing
-#' stub_request("get", url="https://httpbin.org/get")
-#' stub_request("post", url="https://httpbin.org/post")
+#' stub_request("get", "https://httpbin.org/get")
+#' stub_request("post", "https://httpbin.org/post")
 #'
 #' # list stubs
 #' stub_registry()
 #'
 #' # add header
-#' stub_request("get", url="https://httpbin.org/get") %>%
+#' stub_request("get", "https://httpbin.org/get") %>%
 #'    wi_th(headers = list('User-Agent' = 'R'))
 #'
 #' # add expectation with to_return
-#' stub_request("get", url="https://httpbin.org/get") %>%
+#' stub_request("get", "https://httpbin.org/get") %>%
 #'   wi_th(
 #'     query = list(hello = "world"),
 #'     headers = list('User-Agent' = 'R')) %>%
@@ -29,17 +35,17 @@
 #' # list stubs again
 #' stub_registry()
 #'
-#' # RFC 6570 templates
-#' stub_request("get", "www.example.com/{id}/")
-#' stub_request("get", "/.*example.*/")
-#' stub_request("get", "www.example.com/thing/{id}.json{?x,y,z}{&other*}")
+#' # regex
+#' stub_request("get", uri_regex = ".+ample\\..")
 #'
 #' # clear all stubs
 #' stub_registry_clear()
 #' }
-stub_request <- function(method = "get", url) {
-  if (missing(url)) stop("url is a required parameter", call. = FALSE)
-  tmp <- StubbedRequest$new(method = method, uri = url)
+stub_request <- function(method = "get", uri = NULL, uri_regex = NULL) {
+  if (is.null(uri) && is.null(uri_regex)) {
+    stop("one of uri or uri_regex is required", call. = FALSE)
+  }
+  tmp <- StubbedRequest$new(method = method, uri = uri)
   webmockr_stub_registry$register_stub(tmp)
   return(tmp)
 }

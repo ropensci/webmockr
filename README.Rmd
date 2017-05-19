@@ -61,14 +61,15 @@ x <- HttpClient$new(url = "https://httpbin.org")
 x$get('get')
 ```
 
-### Stubbing requests based on method, uri, query params and headers
+### Stubbing requests based on method, uri and query params
 
 ```{r eval=FALSE}
 stub_request("get", "https://httpbin.org/get") %>%
-  wi_th(
-    query = list(hello = "world"),
-    request_headers = list(`Accept-Encoding` = "gzip, deflate", `User-Agent` = 'R'))
-x <- HttpClient$new(url = "https://httpbin.org", headers = list(`User-Agent` = 'R'))
+  wi_th(query = list(hello = "world"), 
+        headers = list('User-Agent' = 'libcurl/7.51.0 r-curl/2.6 crul/0.3.6', 
+                       'Accept-Encoding' = "gzip, deflate"))
+stub_registry()
+x <- HttpClient$new(url = "https://httpbin.org")
 x$get('get', query = list(hello = "world"))
 ```
 

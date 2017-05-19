@@ -5,7 +5,9 @@
 \alias{UriPattern}
 \title{UriPattern}
 \arguments{
-\item{pattern}{(character) a uri}
+\item{pattern}{(character) a uri, either plain character string or
+regex, see \link[base:regex]{base::regex}. if scheme is missing, it is added (we assume
+http)}
 }
 \description{
 UriPattern
@@ -13,14 +15,46 @@ UriPattern
 \details{
 \strong{Methods}
 \describe{
+\item{\code{add_query_params}}{
+Add query parameters to the URI
+- query_params
+}
 \item{\code{matches(uri)}}{
 Match a uri against that given in \code{pattern}
-- uri (character) a uri
+- uri (character) a uri, including scheme (i.e., http or https)
 }
 }
 }
 \examples{
-z <- UriPattern$new(pattern = "http://foobar.com")
+# trailing slash
+(z <- UriPattern$new(pattern = "http://foobar.com"))
 z$matches("http://foobar.com")
+z$matches("http://foobar.com/")
+
+# default ports
+(z <- UriPattern$new(pattern = "http://foobar.com"))
+z$matches("http://foobar.com:80")
+z$matches("http://foobar.com:80/")
+z$matches("http://foobar.com:443")
+z$matches("http://foobar.com:443/")
+
+# user info
+(z <- UriPattern$new(pattern = "http://foobar.com"))
+z$matches("http://user:pass@foobar.com")
+
+# regex
+(z <- UriPattern$new(regex_pattern = ".+ample\\\\.."))
+z$matches("http://sample.org")
+z$matches("http://example.com")
+z$matches("http://tramples.net")
+
+# add query parameters
+(z <- UriPattern$new(pattern = "http://foobar.com"))
+z$add_query_params(list(pizza = "cheese", cheese = "cheddar"))
+z$pattern
+
+(z <- UriPattern$new(pattern = "http://foobar.com"))
+z$add_query_params(list(pizza = "deep dish", cheese = "cheddar"))
+z$pattern
 }
 \keyword{internal}
