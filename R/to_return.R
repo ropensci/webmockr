@@ -1,9 +1,11 @@
-#' Expection for a stubbed request
+#' Expectation for what's returned from a stubbed request
+#'
+#' Set response status code, response body, and/or response headers
 #'
 #' @export
 #' @param .data input. Anything that can be coerced to a `StubbedRequest` class
 #' object
-#' @param ... Comma separated list of unquoted variable names, passed on
+#' @param ... Comma separated list of variable names, passed on
 #' to [lazyeval::lazy_dots()]. accepts the following: status, body,
 #' headers
 #' @param .dots	Used to work around non-standard evaluation

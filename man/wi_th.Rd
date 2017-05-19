@@ -3,7 +3,7 @@
 \name{wi_th}
 \alias{wi_th}
 \alias{wi_th_}
-\title{Additional inputs to a stubbed request}
+\title{Set additional parts of a stubbed request}
 \usage{
 wi_th(.data, ...)
 
@@ -13,7 +13,7 @@ wi_th_(.data, ..., .dots)
 \item{.data}{input. Anything that can be coerced to a \code{StubbedRequest} class
 object}
 
-\item{...}{Comma separated list of unquoted variable names, passed on
+\item{...}{Comma separated list of variable names, passed on
 to \code{\link[lazyeval:lazy_dots]{lazyeval::lazy_dots()}}. accepts the following: query, body,
 headers}
 
@@ -24,7 +24,7 @@ an object of class \code{StubbedRequest}, with print method describing
 the stub
 }
 \description{
-Additional inputs to a stubbed request
+Set query params, request body, and/or request headers
 }
 \details{
 \code{with} is a function in the \code{base} package, so we went with

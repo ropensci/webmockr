@@ -34,6 +34,7 @@
 #'   }
 #' @format NULL
 #' @usage NULL
+#' @family stub-registry
 #' @examples \dontrun{
 #' # Make a stub
 #' stub1 <- StubbedRequest$new(method = "get", uri = "api.crossref.org")
@@ -64,19 +65,6 @@ StubRegistry <- R6::R6Class(
       cat(" Registered Stubs", sep = "\n")
       for (i in seq_along(self$request_stubs)) {
         cat("  ", self$request_stubs[[i]]$to_s(), "\n")
-        # cat(
-        #   sprintf(
-        #     "  %s: %s %s %s",
-        #     self$request_stubs[[i]]$method,
-        #     url_build(
-        #       self$request_stubs[[i]]$uri,
-        #       self$request_stubs[[i]]$query
-        #     ),
-        #     make_body(self$request_stubs[[i]]$body),
-        #     make_headers(self$request_stubs[[i]]$request_headers)
-        #   ),
-        #   sep = "\n"
-        # )
       }
       invisible(self$request_stubs)
     },
@@ -124,16 +112,6 @@ StubRegistry <- R6::R6Class(
     is_registered = function(x) any(self$request_stub_for(x))
   )
 )
-
-#' @rdname StubRegistry
-#' @export
-stub_registry <- function() webmockr_stub_registry
-
-#' @rdname StubRegistry
-#' @export
-stub_registry_clear <- function() {
-  webmockr_stub_registry$remove_all_request_stubs()
-}
 
 # initialize empty stub registry on package load
 webmockr_stub_registry <- new.env()

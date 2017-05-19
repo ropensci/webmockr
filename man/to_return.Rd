@@ -3,7 +3,7 @@
 \name{to_return}
 \alias{to_return}
 \alias{to_return_}
-\title{Expection for a stubbed request}
+\title{Expectation for what's returned from a stubbed request}
 \usage{
 to_return(.data, ...)
 
@@ -13,7 +13,7 @@ to_return_(.data, ..., .dots)
 \item{.data}{input. Anything that can be coerced to a \code{StubbedRequest} class
 object}
 
-\item{...}{Comma separated list of unquoted variable names, passed on
+\item{...}{Comma separated list of variable names, passed on
 to \code{\link[lazyeval:lazy_dots]{lazyeval::lazy_dots()}}. accepts the following: status, body,
 headers}
 
@@ -24,5 +24,5 @@ an object of class \code{StubbedRequest}, with print method describing
 the stub
 }
 \description{
-Expection for a stubbed request
+Set response status code, response body, and/or response headers
 }

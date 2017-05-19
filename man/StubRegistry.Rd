@@ -3,14 +3,7 @@
 \docType{data}
 \name{StubRegistry}
 \alias{StubRegistry}
-\alias{stub_registry}
-\alias{stub_registry_clear}
 \title{Stub registry}
-\usage{
-stub_registry()
-
-stub_registry_clear()
-}
 \description{
 Stub registry
 }
@@ -65,5 +58,10 @@ reg$register_stub(stub = stub2)
 reg
 reg$request_stubs
 }
+}
+\seealso{
+Other stub-registry: \code{\link{remove_request_stub}},
+  \code{\link{stub_registry_clear}},
+  \code{\link{stub_registry}}
 }
 \keyword{datasets}

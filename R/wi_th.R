@@ -1,9 +1,11 @@
-#' Additional inputs to a stubbed request
+#' Set additional parts of a stubbed request
+#'
+#' Set query params, request body, and/or request headers
 #'
 #' @export
 #' @param .data input. Anything that can be coerced to a `StubbedRequest` class
 #' object
-#' @param ... Comma separated list of unquoted variable names, passed on
+#' @param ... Comma separated list of variable names, passed on
 #' to [lazyeval::lazy_dots()]. accepts the following: query, body,
 #' headers
 #' @param .dots	Used to work around non-standard evaluation
