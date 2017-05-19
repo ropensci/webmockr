@@ -30,6 +30,15 @@ url_builder <- function(uri, args = NULL) {
 
 `%||%` <- function(x, y) if (is.null(x)) y else x
 
+assert <- function(x, y) {
+  if (!is.null(x)) {
+    if (!class(x)[1] %in% y) {
+      stop(deparse(substitute(x)), " must be of class ",
+           paste0(y, collapse = ", "), call. = FALSE)
+    }
+  }
+}
+
 crul_head_parse <- function(z) {
   if (grepl("HTTP\\/", z)) {
     list(status = z)
@@ -42,11 +51,14 @@ crul_head_parse <- function(z) {
 
 crul_headers_parse <- function(x) do.call("c", lapply(x, crul_head_parse))
 
-assert <- function(x, y) {
-  if (!is.null(x)) {
-    if (!class(x)[1] %in% y) {
-      stop(deparse(substitute(x)), " must be of class ",
-           paste0(y, collapse = ", "), call. = FALSE)
-    }
+webmockr_crul_fetch <- function(x) {
+  if (is.null(x$disk) && is.null(x$stream)) {
+    curl::curl_fetch_memory(x$url$url, handle = x$url$handle)
+  }
+  else if (!is.null(x$disk)) {
+    curl::curl_fetch_disk(x$url$url, x$disk, handle = x$url$handle)
+  }
+  else {
+    curl::curl_fetch_stream(x$url$url, x$stream, handle = x$url$handle)
   }
 }

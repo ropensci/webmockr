@@ -114,8 +114,7 @@ CrulAdapter <- R6::R6Class(
       } else if (webmockr_net_connect_allowed()) {
         # if real requests ARE allowed && nothing found above
         tmp <- crul::HttpClient$new(url = req$url$url)
-        #tmp2 <- tmp$.__enclos_env__$private$crul_fetch(req)
-        tmp2 <- crul:::crul_fetch(req)
+        tmp2 <- webmockr_crul_fetch(req)
         crul_resp <- self$build_crul_response(req, tmp2)
       } else {
         # no stubs found and net connect not allowed
