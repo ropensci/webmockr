@@ -16,7 +16,7 @@ logical, \code{TRUE} if removed, \code{FALSE} if not removed
 Remove a request stub
 }
 \examples{
-(x <- stub_request("get", url="https://httpbin.org/get"))
+(x <- stub_request("get", "https://httpbin.org/get"))
 stub_registry()
 remove_request_stub(x)
 stub_registry()

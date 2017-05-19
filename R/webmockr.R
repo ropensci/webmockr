@@ -19,6 +19,6 @@
 #' @examples
 #' library(webmockr)
 #' stub_request("get", "https://httpbin.org/get")
-#' stub_request("post", url="https://httpbin.org/post")
+#' stub_request("post", "https://httpbin.org/post")
 #' stub_registry()
 NULL

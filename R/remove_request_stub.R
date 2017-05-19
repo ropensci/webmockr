@@ -5,7 +5,7 @@
 #' @return logical, `TRUE` if removed, `FALSE` if not removed
 #' @family stub-registry
 #' @examples
-#' (x <- stub_request("get", url="https://httpbin.org/get"))
+#' (x <- stub_request("get", "https://httpbin.org/get"))
 #' stub_registry()
 #' remove_request_stub(x)
 #' stub_registry()

@@ -45,7 +45,7 @@ stub_request <- function(method = "get", uri = NULL, uri_regex = NULL) {
   if (is.null(uri) && is.null(uri_regex)) {
     stop("one of uri or uri_regex is required", call. = FALSE)
   }
-  tmp <- StubbedRequest$new(method = method, uri = uri)
+  tmp <- StubbedRequest$new(method = method, uri = uri, uri_regex = uri_regex)
   webmockr_stub_registry$register_stub(tmp)
   return(tmp)
 }
