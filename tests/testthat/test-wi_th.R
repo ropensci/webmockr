@@ -1,7 +1,7 @@
 context("wi_th")
 
 test_that("wi_th: with just headers", {
-  aa <- stub_request("get", url="https://httpbin.org/get") %>%
+  aa <- stub_request("get", "https://httpbin.org/get") %>%
     wi_th(headers = list('User-Agent' = 'R'))
 
   expect_is(aa, "StubbedRequest")
@@ -21,7 +21,7 @@ test_that("wi_th: with just headers", {
 })
 
 test_that("wi_th: with headers and query", {
-  aa <- stub_request("get", url="https://httpbin.org/get") %>%
+  aa <- stub_request("get", "https://httpbin.org/get") %>%
     wi_th(
       query = list(hello = "world"),
       headers = list('User-Agent' = 'R'))

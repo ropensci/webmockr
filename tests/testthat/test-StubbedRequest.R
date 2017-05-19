@@ -80,8 +80,8 @@ test_that("StubbedRequest: different methods work", {
 })
 
 test_that("StubbedRequest fails well", {
-  # doesn't fail, doesn't require any inputs
-  expect_is(StubbedRequest$new(), "StubbedRequest")
+  # requires uri or uri_regex
+  expect_error(StubbedRequest$new(), "one of uri or uri_regex is required")
 
   # method not in acceptable set
   expect_error(StubbedRequest$new(method = "adf"),

@@ -6,8 +6,9 @@ test_that("no stubs exist before stub_request called", {
   expect_equal(length(stub_registry()$request_stubs), 0)
 })
 
+aa <- stub_request("get", "https://httpbin.org/get")
+
 test_that("stub_request bits are correct", {
-  aa <- stub_request("get", url = "https://httpbin.org/get")
 
   expect_is(aa, "StubbedRequest")
   expect_null(aa$body)
@@ -43,7 +44,7 @@ test_that("stubs exist after stub_request called", {
 })
 
 test_that("stub_request fails well", {
-  expect_error(stub_request(), "url is a required parameter")
+  expect_error(stub_request(), "one of uri or uri_regex is required")
   expect_error(stub_request(method = "stuff", "adf"),
                "'arg' should be one of")
 })
