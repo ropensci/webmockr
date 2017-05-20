@@ -1,11 +1,11 @@
 Package: webmockr
 Title: Stubbing and Setting Expectations on 'HTTP' Requests
 Description: Stubbing and setting expectations on 'HTTP' requests. 
-    Includes tools for stubbing HTTP requests, including expected 
+    Includes tools for stubbing 'HTTP' requests, including expected 
     request conditions and response conditions. Match on 
     'HTTP' method, query parameters, request body, headers and 
     more.
-Version: 0.0.8.9139
+Version: 0.1.0
 Authors@R: person("Scott", "Chamberlain", role = c("aut", "cre"), email =
     "myrmecocystus+r@gmail.com")
 License: MIT + file LICENSE
@@ -19,7 +19,7 @@ Imports:
     magrittr (>= 1.5),
     lazyeval (>= 0.2.0),
     R6 (>= 2.1.3),
-    urltools (>= 1.5.1)
+    urltools (>= 1.6.0)
 Suggests:
     roxygen2 (>= 6.0.1),
     testthat,
