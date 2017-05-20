@@ -1,6 +1,14 @@
 webmockr
 ========
 
+```{r echo=FALSE}
+knitr::opts_chunk$set(
+  comment = "#>",
+  collapse = TRUE,
+  warning = FALSE
+)
+```
+
 [![Build Status](https://travis-ci.org/ropensci/webmockr.svg?branch=master)](https://travis-ci.org/ropensci/webmockr)
 [![codecov](https://codecov.io/gh/ropensci/webmockr/branch/master/graph/badge.svg)](https://codecov.io/gh/ropensci/webmockr)
 
@@ -55,8 +63,11 @@ library(crul)
 
 ### Stubbed request based on uri only and with the default response
 
-```{r eval=FALSE}
+```{r}
 stub_request("any", "https://httpbin.org/get")
+```
+
+```{r}
 x <- HttpClient$new(url = "https://httpbin.org")
 x$get('get')
 ```
@@ -76,12 +87,18 @@ x$get('get', query = list(hello = "world"))
 
 ### Stubbing requests based on method, uri and query params
 
-```{r eval=FALSE}
+```{r}
 stub_request("get", "https://httpbin.org/get") %>%
   wi_th(query = list(hello = "world"), 
         headers = list('User-Agent' = 'libcurl/7.51.0 r-curl/2.6 crul/0.3.6', 
                        'Accept-Encoding' = "gzip, deflate"))
+```
+
+```{r}
 stub_registry()
+```
+
+```{r}
 x <- HttpClient$new(url = "https://httpbin.org")
 x$get('get', query = list(hello = "world"))
 ```
