@@ -1,9 +1,9 @@
 Package: webmockr
 Title: Stubbing and Setting Expectations on 'HTTP' Requests
-Description: Stubbing and setting expectations on 'HTTP' requests. 
-    Includes tools for stubbing 'HTTP' requests, including expected 
-    request conditions and response conditions. Match on 
-    'HTTP' method, query parameters, request body, headers and 
+Description: Stubbing and setting expectations on 'HTTP' requests.
+    Includes tools for stubbing 'HTTP' requests, including expected
+    request conditions and response conditions. Match on
+    'HTTP' method, query parameters, request body, headers and
     more.
 Version: 0.1.0
 Authors@R: person("Scott", "Chamberlain", role = c("aut", "cre"), email =
@@ -15,7 +15,7 @@ LazyData: true
 Roxygen: list(markdown = TRUE)
 Imports:
     curl,
-		jsonlite,
+	jsonlite,
     magrittr (>= 1.5),
     lazyeval (>= 0.2.0),
     R6 (>= 2.1.3),
