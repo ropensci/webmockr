@@ -16,6 +16,8 @@ test_that("HttpLibAdapaterRegistry: structure", {
 })
 
 test_that("HttpLibAdapaterRegistry: behaves as expected", {
+  skip_on_cran()
+
   aa <- HttpLibAdapaterRegistry$new()
   aa$register(CrulAdapter$new())
 
