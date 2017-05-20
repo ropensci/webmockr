@@ -99,18 +99,34 @@ CrulAdapter <- R6::R6Class(
       if (request_is_in_cache(request_signature)) {
         # if real requests NOT allowed
         # even if net connects allowed, we check if stubbed found first
-        #  and return that if found
-        # get stub with response
-        ss <- webmockr_stub_registry$find_stubbed_request(request_signature)[[1]]
+
+        # if user wants to return a partial object
+        #   get stub with response and return that
+        ss <-
+          webmockr_stub_registry$find_stubbed_request(request_signature)[[1]]
+
         resp <- Response$new()
         resp$set_url(ss$uri)
         resp$set_body(ss$body)
         resp$set_request_headers(ss$request_headers)
         resp$set_response_headers(ss$response_headers)
-
         # generate crul response
         crul_resp <- self$build_crul_response(req, resp)
 
+        # add to_return() elements if given
+        if (length(cc(ss$responses_sequences)) != 0) {
+          # remove NULLs
+          toadd <- cc(ss$responses_sequences)
+          # modify responses
+          for (i in seq_along(toadd)) {
+            if (names(toadd)[i] == "status")
+              crul_resp$status_code <- toadd[[i]]
+            if (names(toadd)[i] == "body")
+              crul_resp$content <- toadd[[i]]
+            if (names(toadd)[i] == "headers")
+              crul_resp$response_headers <- toadd[[i]]
+          }
+        }
       } else if (webmockr_net_connect_allowed()) {
         # if real requests ARE allowed && nothing found above
         tmp <- crul::HttpClient$new(url = req$url$url)

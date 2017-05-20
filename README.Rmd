@@ -61,6 +61,19 @@ x <- HttpClient$new(url = "https://httpbin.org")
 x$get('get')
 ```
 
+set return objects
+
+```{r}
+stub_request("get", "https://httpbin.org/get") %>%
+  wi_th(
+    query = list(hello = "world")) %>%
+    to_return(status = 418)
+```
+
+```{r}
+x$get('get', query = list(hello = "world"))
+```
+
 ### Stubbing requests based on method, uri and query params
 
 ```{r eval=FALSE}
