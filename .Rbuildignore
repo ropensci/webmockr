@@ -7,3 +7,4 @@ man-roxygen/
 Makefile
 notes.md
 .github
+cran-comments.md
