@@ -13,6 +13,7 @@
 #' `wi_th`
 #' @return an object of class `StubbedRequest`, with print method describing
 #' the stub
+#' @note see examples in [stub_request()]
 wi_th <- function(.data, ...) {
   wi_th_(.data, .dots = lazyeval::lazy_dots(...))
 }

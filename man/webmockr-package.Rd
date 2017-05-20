@@ -26,6 +26,6 @@ stub_request("post", "https://httpbin.org/post")
 stub_registry()
 }
 \author{
-Scott Chamberlain
+Scott Chamberlain \email{myrmecocystus+r@gmail.com}
 }
 \keyword{package}

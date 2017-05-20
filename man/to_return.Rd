@@ -26,3 +26,6 @@ the stub
 \description{
 Set response status code, response body, and/or response headers
 }
+\note{
+see examples in \code{\link[=stub_request]{stub_request()}}
+}

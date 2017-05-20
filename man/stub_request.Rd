@@ -59,3 +59,6 @@ stub_request("get", uri_regex = ".+ample\\\\..")
 stub_registry_clear()
 }
 }
+\seealso{
+\code{\link[=wi_th]{wi_th()}}, \code{\link[=to_return]{to_return()}}
+}

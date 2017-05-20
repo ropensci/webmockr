@@ -8,7 +8,7 @@ webmockr
 
 R library for stubbing and setting expectations on HTTP requests.
 
-Port of the Ruby library [webmock](https://github.com/bblimke/webmock)
+Port of the Ruby gem [webmock](https://github.com/bblimke/webmock)
 
 
 ## Features
@@ -182,11 +182,6 @@ stub_request("get", "https://httpbin.org/get") %>%
 stub_registry()
 #> <webmockr stub registry> 
 #>  Registered Stubs
-#>    get: https://httpbin.org/get?hello=world   | to_return:   with status 418 
-#>    any: https://httpbin.org/get 
-#>    get: https://httpbin.org/get?hello=world   | to_return:   with status 418 
-#>    any: https://httpbin.org/get 
-#>    get: https://httpbin.org/get?hello=world   | to_return:   with status 418 
 #>    any: https://httpbin.org/get 
 #>    get: https://httpbin.org/get?hello=world   | to_return:   with status 418 
 #>    get: https://httpbin.org/get?hello=world   with headers {"User-Agent":"libcurl/7.51.0 r-curl/2.6 crul/0.3.6","Accept-Encoding":"gzip, deflate"}

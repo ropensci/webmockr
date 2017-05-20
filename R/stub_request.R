@@ -13,6 +13,7 @@
 #' See [stub_registry()] for listing stubs, [stub_registry_clear()]
 #' for removing all stubs and [remove_request_stub()] for removing specific
 #' stubs
+#' @seealso [wi_th()], [to_return()]
 #' @examples \dontrun{
 #' # basic stubbing
 #' stub_request("get", "https://httpbin.org/get")

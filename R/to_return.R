@@ -11,6 +11,7 @@
 #' @param .dots	Used to work around non-standard evaluation
 #' @return an object of class `StubbedRequest`, with print method describing
 #' the stub
+#' @note see examples in [stub_request()]
 to_return <- function(.data, ...) {
   to_return_(.data, .dots = lazyeval::lazy_dots(...))
 }

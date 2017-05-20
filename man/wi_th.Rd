@@ -30,3 +30,6 @@ Set query params, request body, and/or request headers
 \code{with} is a function in the \code{base} package, so we went with
 \code{wi_th}
 }
+\note{
+see examples in \code{\link[=stub_request]{stub_request()}}
+}

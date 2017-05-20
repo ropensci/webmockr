@@ -14,7 +14,7 @@ knitr::opts_chunk$set(
 
 R library for stubbing and setting expectations on HTTP requests.
 
-Port of the Ruby library [webmock](https://github.com/bblimke/webmock)
+Port of the Ruby gem [webmock](https://github.com/bblimke/webmock)
 
 
 ## Features
