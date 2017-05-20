@@ -3,8 +3,12 @@ webmockr
 
 
 
+[![Project Status: Active - The project has reached a stable, usable state and is being actively developed.](http://www.repostatus.org/badges/latest/active.svg)](http://www.repostatus.org/#active)
 [![Build Status](https://travis-ci.org/ropensci/webmockr.svg?branch=master)](https://travis-ci.org/ropensci/webmockr)
 [![codecov](https://codecov.io/gh/ropensci/webmockr/branch/master/graph/badge.svg)](https://codecov.io/gh/ropensci/webmockr)
+[![rstudio mirror downloads](http://cranlogs.r-pkg.org/badges/webmockr)](https://github.com/metacran/cranlogs.app)
+[![cran version](https://www.r-pkg.org/badges/version/webmockr)](https://cran.r-project.org/package=webmockr)
+
 
 R library for stubbing and setting expectations on HTTP requests.
 
@@ -66,9 +70,9 @@ library(crul)
 
 
 ```r
-stub_request("any", "https://httpbin.org/get")
+stub_request("get", "https://httpbin.org/get")
 #> <webmockr stub> 
-#>   method: any
+#>   method: get
 #>   uri: https://httpbin.org/get
 #>   with: 
 #>     query: 
@@ -84,28 +88,13 @@ stub_request("any", "https://httpbin.org/get")
 ```r
 x <- HttpClient$new(url = "https://httpbin.org")
 x$get('get')
-#> $url
-#> $url$url
-#> [1] "https://httpbin.org/get"
-#> 
-#> $url$handle
-#> <curl handle> (empty)
-#> 
-#> 
-#> $method
-#> [1] "get"
-#> 
-#> $options
-#> $options$httpget
-#> [1] TRUE
-#> 
-#> 
-#> $headers
-#> $headers$`User-Agent`
-#> [1] "libcurl/7.51.0 r-curl/2.6 crul/0.3.5.9313"
-#> 
-#> $headers$`Accept-Encoding`
-#> [1] "gzip, deflate"
+#> <crul response> 
+#>   url: https://httpbin.org/get
+#>   request_headers: 
+#>     User-Agent: libcurl/7.51.0 r-curl/2.6 crul/0.3.5.9313
+#>     Accept-Encoding: gzip, deflate
+#>   response_headers: 
+#>   status: 200
 ```
 
 set return objects
@@ -132,28 +121,15 @@ stub_request("get", "https://httpbin.org/get") %>%
 
 ```r
 x$get('get', query = list(hello = "world"))
-#> $url
-#> $url$url
-#> [1] "https://httpbin.org/get?hello=world"
-#> 
-#> $url$handle
-#> <curl handle> (empty)
-#> 
-#> 
-#> $method
-#> [1] "get"
-#> 
-#> $options
-#> $options$httpget
-#> [1] TRUE
-#> 
-#> 
-#> $headers
-#> $headers$`User-Agent`
-#> [1] "libcurl/7.51.0 r-curl/2.6 crul/0.3.5.9313"
-#> 
-#> $headers$`Accept-Encoding`
-#> [1] "gzip, deflate"
+#> <crul response> 
+#>   url: https://httpbin.org/get?hello=world
+#>   request_headers: 
+#>     User-Agent: libcurl/7.51.0 r-curl/2.6 crul/0.3.5.9313
+#>     Accept-Encoding: gzip, deflate
+#>   response_headers: 
+#>   params: 
+#>     hello: world
+#>   status: 418
 ```
 
 ### Stubbing requests based on method, uri and query params
@@ -182,7 +158,7 @@ stub_request("get", "https://httpbin.org/get") %>%
 stub_registry()
 #> <webmockr stub registry> 
 #>  Registered Stubs
-#>    any: https://httpbin.org/get 
+#>    get: https://httpbin.org/get 
 #>    get: https://httpbin.org/get?hello=world   | to_return:   with status 418 
 #>    get: https://httpbin.org/get?hello=world   with headers {"User-Agent":"libcurl/7.51.0 r-curl/2.6 crul/0.3.6","Accept-Encoding":"gzip, deflate"}
 ```
@@ -191,28 +167,15 @@ stub_registry()
 ```r
 x <- HttpClient$new(url = "https://httpbin.org")
 x$get('get', query = list(hello = "world"))
-#> $url
-#> $url$url
-#> [1] "https://httpbin.org/get?hello=world"
-#> 
-#> $url$handle
-#> <curl handle> (empty)
-#> 
-#> 
-#> $method
-#> [1] "get"
-#> 
-#> $options
-#> $options$httpget
-#> [1] TRUE
-#> 
-#> 
-#> $headers
-#> $headers$`User-Agent`
-#> [1] "libcurl/7.51.0 r-curl/2.6 crul/0.3.5.9313"
-#> 
-#> $headers$`Accept-Encoding`
-#> [1] "gzip, deflate"
+#> <crul response> 
+#>   url: https://httpbin.org/get?hello=world
+#>   request_headers: 
+#>     User-Agent: libcurl/7.51.0 r-curl/2.6 crul/0.3.5.9313
+#>     Accept-Encoding: gzip, deflate
+#>   response_headers: 
+#>   params: 
+#>     hello: world
+#>   status: 418
 ```
 
 ## Meta

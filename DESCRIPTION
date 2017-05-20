@@ -5,7 +5,7 @@ Description: Stubbing and setting expectations on 'HTTP' requests.
     request conditions and response conditions. Match on
     'HTTP' method, query parameters, request body, headers and
     more.
-Version: 0.1.0
+Version: 0.1.0.9100
 Authors@R: person("Scott", "Chamberlain", role = c("aut", "cre"), email =
     "myrmecocystus+r@gmail.com")
 License: MIT + file LICENSE

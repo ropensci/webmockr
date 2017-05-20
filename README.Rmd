@@ -9,8 +9,12 @@ knitr::opts_chunk$set(
 )
 ```
 
+[![Project Status: Active - The project has reached a stable, usable state and is being actively developed.](http://www.repostatus.org/badges/latest/active.svg)](http://www.repostatus.org/#active)
 [![Build Status](https://travis-ci.org/ropensci/webmockr.svg?branch=master)](https://travis-ci.org/ropensci/webmockr)
 [![codecov](https://codecov.io/gh/ropensci/webmockr/branch/master/graph/badge.svg)](https://codecov.io/gh/ropensci/webmockr)
+[![rstudio mirror downloads](http://cranlogs.r-pkg.org/badges/webmockr)](https://github.com/metacran/cranlogs.app)
+[![cran version](https://www.r-pkg.org/badges/version/webmockr)](https://cran.r-project.org/package=webmockr)
+
 
 R library for stubbing and setting expectations on HTTP requests.
 
@@ -64,7 +68,7 @@ library(crul)
 ### Stubbed request based on uri only and with the default response
 
 ```{r}
-stub_request("any", "https://httpbin.org/get")
+stub_request("get", "https://httpbin.org/get")
 ```
 
 ```{r}
