@@ -14,6 +14,38 @@ R library for stubbing and setting expectations on HTTP requests.
 
 Port of the Ruby gem [webmock](https://github.com/bblimke/webmock)
 
+<details> <summary><strong>How it works it way too much detail</strong></summary> <p>
+
+The very very short version is: `webmockr` helps you stub HTTP requests so you 
+don't have to repeat yourself.
+
+**More details**
+
+You tell `webmockr` what HTTP request you want to match against and if it sees a 
+request matching your criteria it doesn't actually do the HTTP request. Instead,
+it gives back the same object you would have gotten back with a real request, but 
+only with the bits it knows about. For example, we can't give back the actual 
+data you'd get from a real HTTP request as the request wasn't performed.
+
+In addition, if you set an expectation of what `webmockr` should return, we 
+return that. For example, if you expect a request to return a 418 error 
+(I'm a Teapot), then that's what you'll get.
+
+**Scenarios**
+
+There's a few scenarios to think about when using `webmockr`:
+
+* Real HTTP requests allowed:
+* Real HTTP requests dis-allowed:
+* Certain kinds of real HTTP requests allowed:
+* xxxx:
+* xxxx:
+
+**Storing actual HTTP responses**
+
+`webmockr` doesn't do that. You can use `vcr` for that.
+
+</p></details>
 
 ## Features
 
@@ -24,7 +56,8 @@ Port of the Ruby gem [webmock](https://github.com/bblimke/webmock)
 
 ## Supported HTTP libraries
 
-* [crul](https://github.com/ropensci/crul)
+* [crul](https://github.com/ropensci/crul) - an updated `crul` version is coming 
+to CRAN soon, but not up as of today (2017-05-21)
 
 > more to come
 
@@ -91,7 +124,7 @@ x$get('get')
 #> <crul response> 
 #>   url: https://httpbin.org/get
 #>   request_headers: 
-#>     User-Agent: libcurl/7.51.0 r-curl/2.6 crul/0.3.5.9313
+#>     User-Agent: libcurl/7.51.0 r-curl/2.6 crul/0.3.5.9318
 #>     Accept-Encoding: gzip, deflate
 #>   response_headers: 
 #>   status: 200
@@ -124,7 +157,7 @@ x$get('get', query = list(hello = "world"))
 #> <crul response> 
 #>   url: https://httpbin.org/get?hello=world
 #>   request_headers: 
-#>     User-Agent: libcurl/7.51.0 r-curl/2.6 crul/0.3.5.9313
+#>     User-Agent: libcurl/7.51.0 r-curl/2.6 crul/0.3.5.9318
 #>     Accept-Encoding: gzip, deflate
 #>   response_headers: 
 #>   params: 
@@ -160,6 +193,12 @@ stub_registry()
 #>  Registered Stubs
 #>    get: https://httpbin.org/get 
 #>    get: https://httpbin.org/get?hello=world   | to_return:   with status 418 
+#>    get: https://httpbin.org/get?hello=world   with headers {"User-Agent":"libcurl/7.51.0 r-curl/2.6 crul/0.3.6","Accept-Encoding":"gzip, deflate"} 
+#>    get: https://httpbin.org/get 
+#>    get: https://httpbin.org/get?hello=world   | to_return:   with status 418 
+#>    get: https://httpbin.org/get?hello=world   with headers {"User-Agent":"libcurl/7.51.0 r-curl/2.6 crul/0.3.6","Accept-Encoding":"gzip, deflate"} 
+#>    get: https://httpbin.org/get 
+#>    get: https://httpbin.org/get?hello=world   | to_return:   with status 418 
 #>    get: https://httpbin.org/get?hello=world   with headers {"User-Agent":"libcurl/7.51.0 r-curl/2.6 crul/0.3.6","Accept-Encoding":"gzip, deflate"}
 ```
 
@@ -170,7 +209,7 @@ x$get('get', query = list(hello = "world"))
 #> <crul response> 
 #>   url: https://httpbin.org/get?hello=world
 #>   request_headers: 
-#>     User-Agent: libcurl/7.51.0 r-curl/2.6 crul/0.3.5.9313
+#>     User-Agent: libcurl/7.51.0 r-curl/2.6 crul/0.3.5.9318
 #>     Accept-Encoding: gzip, deflate
 #>   response_headers: 
 #>   params: 
