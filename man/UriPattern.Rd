@@ -5,8 +5,11 @@
 \alias{UriPattern}
 \title{UriPattern}
 \arguments{
-\item{pattern}{(character) a uri, either plain character string or
-regex, see \link[base:regex]{base::regex}. if scheme is missing, it is added (we assume
+\item{pattern}{(character) a uri, as a character string. if scheme
+is missing, it is added (we assume http)}
+
+\item{regex_pattern}{(character) a uri as a regex character string,
+see \link[base:regex]{base::regex}. if scheme is missing, it is added (we assume
 http)}
 }
 \description{

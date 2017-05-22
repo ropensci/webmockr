@@ -371,8 +371,10 @@ BODY_FORMATS <- list(
 #'
 #' @export
 #' @keywords internal
-#' @param pattern (character) a uri, either plain character string or
-#' regex, see [base::regex]. if scheme is missing, it is added (we assume
+#' @param pattern (character) a uri, as a character string. if scheme
+#' is missing, it is added (we assume http)
+#' @param regex_pattern (character) a uri as a regex character string,
+#' see [base::regex]. if scheme is missing, it is added (we assume
 #' http)
 #' @details
 #' **Methods**
