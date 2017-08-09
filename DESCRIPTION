@@ -15,7 +15,7 @@ LazyData: true
 Roxygen: list(markdown = TRUE)
 Imports:
     curl,
-	jsonlite,
+	  jsonlite,
     magrittr (>= 1.5),
     lazyeval (>= 0.2.0),
     R6 (>= 2.1.3),
