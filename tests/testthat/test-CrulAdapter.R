@@ -8,8 +8,8 @@ test_that("CrulAdapter bits are correct", {
   expect_is(CrulAdapter, "R6ClassGenerator")
 
   expect_is(aa, "CrulAdapter")
-  expect_is(aa$build_crul_request, "function")
-  expect_is(aa$build_crul_response, "function")
+  expect_null(aa$build_crul_request) # pulled out of object, so should be NULL
+  expect_null(aa$build_crul_response) # pulled out of object, so should be NULL
   expect_is(aa$disable, "function")
   expect_is(aa$enable, "function")
   expect_is(aa$handle_request, "function")
@@ -28,11 +28,11 @@ test_that("CrulAdapter behaves correctly", {
 })
 
 
-test_that("CrulAdapter fails well", {
+test_that("build_crul_request/response fail well", {
   skip_on_cran()
 
-  expect_error(aa$build_crul_request(), "argument \"x\" is missing")
-  expect_error(aa$build_crul_response(), "argument \"req\" is missing")
+  expect_error(build_crul_request(), "argument \"x\" is missing")
+  expect_error(build_crul_response(), "argument \"req\" is missing")
 })
 
 

@@ -55,7 +55,7 @@ test_that("Response: bits are correct after having data", {
   expect_null(aa$name)
 
   expect_equal(aa$body, "hello world")
-  expect_null(aa$content)
+  expect_is(aa$content, "raw")
   expect_equal(aa$exception, "exception")
   expect_equal(aa$get_body(), "hello world")
   expect_equal(aa$get_exception(), "exception")
