@@ -49,49 +49,48 @@ CrulAdapter <- R6::R6Class(
       self$remove_crul_stubs()
     },
 
-    build_crul_request = function(x) {
-      RequestSignature$new(
-        method = x$method,
-        uri = x$url$url,
-        options = list(
-          body = x$body %||% NULL,
-          headers = x$headers %||% NULL,
-          proxies = x$proxies %||% NULL,
-          auth = x$auth %||% NULL
-        )
-      )
-    },
+    # build_crul_request = function(x) {
+    #   RequestSignature$new(
+    #     method = x$method,
+    #     uri = x$url$url,
+    #     options = list(
+    #       body = x$body %||% NULL,
+    #       headers = x$headers %||% NULL,
+    #       proxies = x$proxies %||% NULL,
+    #       auth = x$auth %||% NULL
+    #     )
+    #   )
+    # },
 
-    build_crul_response = function(req, resp) {
-      crul::HttpResponse$new(
-        method = req$method,
-        url = req$url$url,
-        status_code = resp$status_code,
-        request_headers = c(useragent = req$options$useragent, req$headers),
-        #response_headers = list(),
-        response_headers = {
-          if (grepl("^ftp://", resp$url)) {
-            list()
-          } else {
-            hh <- rawToChar(resp$response_headers %||% raw(0))
-            if (is.null(hh) || nchar(hh) == 0) {
-              list()
-            } else {
-              crul_headers_parse(curl::parse_headers(hh))
-            }
-          }
-        },
-        modified = resp$modified,
-        times = resp$times,
-        content = resp$content,
-        handle = req$url$handle,
-        request = req
-      )
-    },
+    # build_crul_response = function(req, resp) {
+    #   crul::HttpResponse$new(
+    #     method = req$method,
+    #     url = req$url$url,
+    #     status_code = resp$status_code,
+    #     request_headers = c(useragent = req$options$useragent, req$headers),
+    #     response_headers = {
+    #       if (grepl("^ftp://", resp$url)) {
+    #         list()
+    #       } else {
+    #         hh <- rawToChar(resp$response_headers %||% raw(0))
+    #         if (is.null(hh) || nchar(hh) == 0) {
+    #           list()
+    #         } else {
+    #           crul_headers_parse(curl::parse_headers(hh))
+    #         }
+    #       }
+    #     },
+    #     modified = resp$modified,
+    #     times = resp$times,
+    #     content = resp$content,
+    #     handle = req$url$handle,
+    #     request = req
+    #   )
+    # },
 
     handle_request = function(req) {
       # put request in request registry
-      request_signature <- self$build_crul_request(req)
+      request_signature <- build_crul_request(req)
       webmockr_request_registry$register_request(
         request = request_signature$to_s()
       )
@@ -110,8 +109,10 @@ CrulAdapter <- R6::R6Class(
         resp$set_body(ss$body)
         resp$set_request_headers(ss$request_headers)
         resp$set_response_headers(ss$response_headers)
+        resp$set_status(ss$status_code)
+
         # generate crul response
-        crul_resp <- self$build_crul_response(req, resp)
+        crul_resp <- build_crul_response(req, resp)
 
         # add to_return() elements if given
         if (length(cc(ss$responses_sequences)) != 0) {
@@ -123,17 +124,39 @@ CrulAdapter <- R6::R6Class(
               crul_resp$status_code <- toadd[[i]]
             if (names(toadd)[i] == "body")
               crul_resp$content <- toadd[[i]]
+              #crul_resp$set_body(toadd[[i]])
             if (names(toadd)[i] == "headers")
               crul_resp$response_headers <- toadd[[i]]
           }
         }
+
+        # if vcr loaded: record http interaction into vcr namespace
+        if ("package:vcr" %in% search()) {
+          # get current cassette
+          cas <- vcr::cassette_current()
+          # record http interaction into vcr http interaction list
+          cas$record_http_interaction(crul_resp)
+          # build crul_resp from vcr http interaction on disk (i.e., on casette)
+          crul_resp <- cas$serialize_to_crul()
+        }
+        # else: since vcr is not loaded - skip
+
       } else if (webmockr_net_connect_allowed()) {
         # if real requests ARE allowed && nothing found above
         tmp <- crul::HttpClient$new(url = req$url$url)
         tmp2 <- webmockr_crul_fetch(req)
-        crul_resp <- self$build_crul_response(req, tmp2)
+        crul_resp <- build_crul_response(req, tmp2)
+
+        # if vcr loaded: record http interaction into vcr namespace
+        if ("package:vcr" %in% search()) {
+          # get current cassette
+          cas <- vcr::cassette_current()
+          # record http interaction into vcr http interaction list
+          cas$record_http_interaction(crul_resp)
+        }
+
       } else {
-        # no stubs found and net connect not allowed
+        # no stubs found and net connect not allowed - STOP basically
         x <- "Real HTTP connections are disabled.\nUnregistered request:"
         y <- "\n\nYou can stub this request with the following snippet:\n\n  "
         z <- "\n\nregistered request stubs:\n\n"
@@ -173,3 +196,52 @@ CrulAdapter <- R6::R6Class(
     }
   )
 )
+
+#' Build a crul response
+#' @export
+#' @param req a request
+#' @param resp a response
+#' @return a crul response
+build_crul_response <- function(req, resp) {
+  crul::HttpResponse$new(
+    method = req$method,
+    url = req$url$url,
+    status_code = resp$status_code,
+    request_headers = c(useragent = req$options$useragent, req$headers),
+    response_headers = {
+      if (grepl("^ftp://", resp$url)) {
+        list()
+      } else {
+        hh <- rawToChar(resp$response_headers %||% raw(0))
+        if (is.null(hh) || nchar(hh) == 0) {
+          list()
+        } else {
+          crul_headers_parse(curl::parse_headers(hh))
+        }
+      }
+    },
+    modified = resp$modified,
+    times = resp$times,
+    content = resp$content,
+    handle = req$url$handle,
+    request = req
+  )
+}
+
+#' Build a crul request
+#' @export
+#' @param x an unexecuted crul request object
+#' @return a crul request
+build_crul_request = function(x) {
+  RequestSignature$new(
+    method = x$method,
+    uri = x$url$url,
+    options = list(
+      body = x$body %||% NULL,
+      headers = x$headers %||% NULL,
+      proxies = x$proxies %||% NULL,
+      auth = x$auth %||% NULL
+    )
+  )
+}
+

@@ -38,8 +38,8 @@
 #' @examples \dontrun{
 #' # Make a stub
 #' stub1 <- StubbedRequest$new(method = "get", uri = "api.crossref.org")
-#' stub1$with(request_headers = list('User-Agent' = 'R'))
-#' stub1$to_return(status = 200, body = "foobar", response_headers = list())
+#' stub1$with(headers = list('User-Agent' = 'R'))
+#' stub1$to_return(status = 200, body = "foobar", headers = list())
 #' stub1
 #'
 #' # Make another stub

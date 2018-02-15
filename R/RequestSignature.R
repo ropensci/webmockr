@@ -35,17 +35,17 @@
 #' x$to_s()
 #'
 #' # headers
-#' z <- RequestSignature$new(
+#' w <- RequestSignature$new(
 #'   method = "get",
 #'   uri = "https:/httpbin.org/get",
 #'   options = list(headers = list(`User-Agent` = "foobar", stuff = "things"))
 #' )
-#' z
-#' z$headers
-#' z$to_s()
+#' w
+#' w$headers
+#' w$to_s()
 #'
 #' # headers and body
-#' z <- RequestSignature$new(
+#' bb <- RequestSignature$new(
 #'   method = "get",
 #'   uri = "https:/httpbin.org/get",
 #'   options = list(
@@ -53,10 +53,10 @@
 #'     body = list(a = "tables")
 #'   )
 #' )
-#' z
-#' z$headers
-#' z$body
-#' z$to_s()
+#' bb
+#' bb$headers
+#' bb$body
+#' bb$to_s()
 
 RequestSignature <- R6::R6Class(
   'RequestSignature',
@@ -67,33 +67,35 @@ RequestSignature <- R6::R6Class(
     headers = NULL,
     proxies = NULL,
     auth = NULL,
+    url = NULL,
 
     initialize = function(method, uri, options = list()) {
       verb <- match.arg(tolower(method), http_verbs)
       self$method <- verb
       self$uri <- uri
+      self$url$url <- uri
       if (length(options)) private$assign_options(options)
     },
 
-    print = function(x, ...) {
+    print = function() {
       cat("<RequestSignature> ", sep = "\n")
       cat(paste0("  method: ", toupper(self$method)), sep = "\n")
       cat(paste0("  uri: ", self$uri), sep = "\n")
       if (!is.null(self$body)) {
         cat("  body: ", sep = "\n")
-        cat_foo(z$body)
+        cat_foo(self$body)
       }
       if (!is.null(self$headers)) {
         cat("  headers: ", sep = "\n")
-        cat_foo(z$headers)
+        cat_foo(self$headers)
       }
       if (!is.null(self$proxies)) {
         cat("  proxies: ", sep = "\n")
-        cat_foo(z$proxies)
+        cat_foo(self$proxies)
       }
       if (!is.null(self$auth)) {
         cat("  auth: ", sep = "\n")
-        cat_foo(z$auth)
+        cat_foo(self$auth)
       }
     },
 

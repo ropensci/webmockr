@@ -105,7 +105,7 @@ Response <- R6::R6Class(
                    sep = ": ")), sep = "\n")
       }
       cat(paste0("  exception: ", self$exception), sep = "\n")
-      cat(paste0("  body: ", self$body), sep = "\n")
+      cat(paste0("  body length: ", length(self$body)), sep = "\n")
     },
 
     set_url = function(url) {
@@ -125,6 +125,11 @@ Response <- R6::R6Class(
 
     set_body = function(body) {
       self$body <- body
+      self$content <- if (!is.null(body) && is.character(body)) {
+        charToRaw(body)
+      } else {
+        raw(0)
+      }
     },
     get_body = function() self$body %||% '',
 

@@ -45,17 +45,17 @@ x$uri
 x$to_s()
 
 # headers
-z <- RequestSignature$new(
+w <- RequestSignature$new(
   method = "get",
   uri = "https:/httpbin.org/get",
   options = list(headers = list(`User-Agent` = "foobar", stuff = "things"))
 )
-z
-z$headers
-z$to_s()
+w
+w$headers
+w$to_s()
 
 # headers and body
-z <- RequestSignature$new(
+bb <- RequestSignature$new(
   method = "get",
   uri = "https:/httpbin.org/get",
   options = list(
@@ -63,9 +63,9 @@ z <- RequestSignature$new(
     body = list(a = "tables")
   )
 )
-z
-z$headers
-z$body
-z$to_s()
+bb
+bb$headers
+bb$body
+bb$to_s()
 }
 \keyword{datasets}
