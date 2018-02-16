@@ -28,6 +28,10 @@ Internally, this calls \link{StubbedRequest} which handles the logic
 See \code{\link[=stub_registry]{stub_registry()}} for listing stubs, \code{\link[=stub_registry_clear]{stub_registry_clear()}}
 for removing all stubs and \code{\link[=remove_request_stub]{remove_request_stub()}} for removing specific
 stubs
+
+If multiple stubs match the same request, we use the first stub. So if you
+want to use a stub that was created after an earlier one that matches,
+remove the earlier one(s).
 }
 \examples{
 \dontrun{

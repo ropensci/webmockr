@@ -13,6 +13,10 @@
 #' See [stub_registry()] for listing stubs, [stub_registry_clear()]
 #' for removing all stubs and [remove_request_stub()] for removing specific
 #' stubs
+#'
+#' If multiple stubs match the same request, we use the first stub. So if you
+#' want to use a stub that was created after an earlier one that matches,
+#' remove the earlier one(s).
 #' @seealso [wi_th()], [to_return()]
 #' @examples \dontrun{
 #' # basic stubbing

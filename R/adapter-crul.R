@@ -49,45 +49,6 @@ CrulAdapter <- R6::R6Class(
       self$remove_crul_stubs()
     },
 
-    # build_crul_request = function(x) {
-    #   RequestSignature$new(
-    #     method = x$method,
-    #     uri = x$url$url,
-    #     options = list(
-    #       body = x$body %||% NULL,
-    #       headers = x$headers %||% NULL,
-    #       proxies = x$proxies %||% NULL,
-    #       auth = x$auth %||% NULL
-    #     )
-    #   )
-    # },
-
-    # build_crul_response = function(req, resp) {
-    #   crul::HttpResponse$new(
-    #     method = req$method,
-    #     url = req$url$url,
-    #     status_code = resp$status_code,
-    #     request_headers = c(useragent = req$options$useragent, req$headers),
-    #     response_headers = {
-    #       if (grepl("^ftp://", resp$url)) {
-    #         list()
-    #       } else {
-    #         hh <- rawToChar(resp$response_headers %||% raw(0))
-    #         if (is.null(hh) || nchar(hh) == 0) {
-    #           list()
-    #         } else {
-    #           crul_headers_parse(curl::parse_headers(hh))
-    #         }
-    #       }
-    #     },
-    #     modified = resp$modified,
-    #     times = resp$times,
-    #     content = resp$content,
-    #     handle = req$url$handle,
-    #     request = req
-    #   )
-    # },
-
     handle_request = function(req) {
       # put request in request registry
       request_signature <- build_crul_request(req)
@@ -161,11 +122,7 @@ CrulAdapter <- R6::R6Class(
         y <- "\n\nYou can stub this request with the following snippet:\n\n  "
         z <- "\n\nregistered request stubs:\n\n"
         msgx <- paste(x, request_signature$to_s())
-        msgy <- paste(
-          y,
-          #make_stub_request_code(request_signature)
-          private$make_stub_request_code(request_signature)
-        )
+        msgy <- paste(y, private$make_stub_request_code(request_signature))
         if (length(webmockr_stub_registry$request_stubs)) {
           msgz <- paste(
             z,
@@ -188,11 +145,24 @@ CrulAdapter <- R6::R6Class(
 
   private = list(
     make_stub_request_code = function(x) {
-      sprintf(
-        "stub_request('%s', url = '%s')",
+      tmp <- sprintf(
+        "stub_request('%s', uri = '%s')",
         x$method,
         x$uri
       )
+      if (!is.null(x$headers)) {
+        hd <- x$headers
+        hd_str <- sprintf(
+          "wi_th(headers = list(%s))",
+          paste0(
+            paste(sprintf("'%s'", names(hd)),
+                  sprintf("'%s'", unlist(unname(hd))), sep = " = "),
+            collapse = ", ")
+        )
+        tmp <- paste0(tmp, " %>%\n    ", hd_str)
+      }
+      cat(tmp, sep = "\n")
+      return(tmp)
     }
   )
 )
