@@ -95,6 +95,7 @@ in the `webmockr_configure()` function.
 * Setting and verifying expectations on HTTP requests
 * Matching requests based on method, URI, headers and body
 * Support for `testthat` coming soon via [vcr](https://github.com/ropenscilabs/vcr)
+* Can be used for testing or outside of a testing context
 
 ## Supported HTTP libraries
 
@@ -133,6 +134,48 @@ webmockr::enable()
 #> [1] TRUE
 crul::mock()
 ```
+
+## Inside a test framework
+
+
+```r
+library(crul)
+library(testthat)
+
+# make a stub
+stub_request("get", "https://httpbin.org/get") %>%
+   to_return(body = "success!", status = 200)
+#> <webmockr stub> 
+#>   method: get
+#>   uri: https://httpbin.org/get
+#>   with: 
+#>     query: 
+#>     body: 
+#>     request_headers: 
+#>   to_return: 
+#>     status: 200
+#>     body: success!
+#>     response_headers: 
+#>   should_timeout: FALSE
+#>   should_raise: FALSE
+
+# check that it's in the stub registry
+stub_registry()
+#> <webmockr stub registry> 
+#>  Registered Stubs
+#>    get: https://httpbin.org/get   | to_return:  with body "success!"  with status 200
+
+# make the request
+z <- crul::HttpClient$new(url = "https://httpbin.org")$get("get")
+
+# run tests
+expect_is(z, "HttpResponse")
+expect_equal(z$status_code, 200)
+expect_equal(z$content, "success!")
+```
+
+
+
 
 ## Outside a test framework
 
