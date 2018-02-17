@@ -90,9 +90,7 @@ webmockr_disable_net_connect <- function() {
 #' @export
 #' @rdname webmockr_configure
 webmockr_net_connect_allowed <- function() {
-  #webmockr_conf_env$allow_net_connect
   webmockr_conf_env$allow_net_connect
-  #get('allow_net_connect', envir = webmockr_conf_env)
 }
 
 
