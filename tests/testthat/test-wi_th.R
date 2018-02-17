@@ -35,4 +35,19 @@ test_that("wi_th: with headers and query", {
 
 test_that("wi_th fails well", {
   expect_error(wi_th(), "argument \".data\" is missing")
+  expect_error(wi_th(5), ".data must be of class StubbedRequest")
+
+  zzz <- stub_request("get", "https://httpbin.org/get")
+
+  # query
+  expect_error(wi_th(zzz, query = list(5, 6)),
+               "'query' must be a named list")
+  expect_error(wi_th(zzz, query = list(a = 5, 6)),
+               "'query' must be a named list")
+
+  # headers
+  expect_error(wi_th(zzz, headers = list(5, 6)),
+               "'headers' must be a named list")
+  expect_error(wi_th(zzz, headers = list(a = 5, 6)),
+               "'headers' must be a named list")
 })

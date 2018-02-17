@@ -70,7 +70,21 @@ CrulAdapter <- R6::R6Class(
         resp$set_body(ss$body)
         resp$set_request_headers(ss$request_headers)
         resp$set_response_headers(ss$response_headers)
-        resp$set_status(ss$status_code)
+        resp$set_status(ss$status_code %||% 200)
+
+        # if user set to_timeout or to_raise, do that
+        #return(list(ss = ss, resp =z resp))
+        if (ss$timeout || ss$raise) {
+          if (ss$timeout) {
+            x <- fauxpas::HTTPRequestTimeout$new()
+            x$do_verbose(resp)
+          }
+          if (ss$raise) {
+            x <- ss$exceptions[[1]]$new()
+            resp$set_status(x$status_code)
+            x$do_verbose(resp)
+          }
+        }
 
         # generate crul response
         crul_resp <- build_crul_response(req, resp)

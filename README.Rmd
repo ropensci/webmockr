@@ -182,6 +182,23 @@ x <- HttpClient$new(url = "https://httpbin.org")
 x$get('get', query = list(hello = "world"))
 ```
 
+### Stubbing requests and set expectation of a timeout
+
+```{r}
+stub_request("post", "https://httpbin.org/post") %>% to_timeout()
+x <- HttpClient$new(url = "https://httpbin.org")
+x$post('post')
+```
+
+### Stubbing requests and set HTTP error expectation
+
+```{r}
+library(fauxpas)
+stub_request("get", "https://httpbin.org/get?a=b") %>% to_raise(HTTPBadRequest)
+x <- HttpClient$new(url = "https://httpbin.org")
+x$get('get', query = list(a = "b"))
+```
+
 ## Meta
 
 * Please [report any issues or bugs](https://github.com/ropensci/webmockr/issues).

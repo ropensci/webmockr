@@ -156,7 +156,9 @@ stub_request("get", "https://httpbin.org/get")
 #>   to_return: 
 #>     status: 
 #>     body: 
-#>     response_headers:
+#>     response_headers: 
+#>   should_timeout: FALSE
+#>   should_raise: FALSE
 ```
 
 
@@ -166,8 +168,9 @@ x$get('get')
 #> <crul response> 
 #>   url: https://httpbin.org/get
 #>   request_headers: 
-#>     User-Agent: libcurl/7.51.0 r-curl/2.6 crul/0.3.5.9991
+#>     User-Agent: libcurl/7.54.0 r-curl/3.1 crul/0.5.0
 #>     Accept-Encoding: gzip, deflate
+#>     Accept: application/json, text/xml, application/xml, */*
 #>   response_headers: 
 #>   status: 200
 ```
@@ -190,7 +193,9 @@ stub_request("get", "https://httpbin.org/get") %>%
 #>   to_return: 
 #>     status: 418
 #>     body: 
-#>     response_headers:
+#>     response_headers: 
+#>   should_timeout: FALSE
+#>   should_raise: FALSE
 ```
 
 
@@ -199,8 +204,9 @@ x$get('get', query = list(hello = "world"))
 #> <crul response> 
 #>   url: https://httpbin.org/get?hello=world
 #>   request_headers: 
-#>     User-Agent: libcurl/7.51.0 r-curl/2.6 crul/0.3.5.9991
+#>     User-Agent: libcurl/7.54.0 r-curl/3.1 crul/0.5.0
 #>     Accept-Encoding: gzip, deflate
+#>     Accept: application/json, text/xml, application/xml, */*
 #>   response_headers: 
 #>   params: 
 #>     hello: world
@@ -225,7 +231,9 @@ stub_request("get", "https://httpbin.org/get") %>%
 #>   to_return: 
 #>     status: 
 #>     body: 
-#>     response_headers:
+#>     response_headers: 
+#>   should_timeout: FALSE
+#>   should_raise: FALSE
 ```
 
 
@@ -233,15 +241,6 @@ stub_request("get", "https://httpbin.org/get") %>%
 stub_registry()
 #> <webmockr stub registry> 
 #>  Registered Stubs
-#>    get: https://httpbin.org/get 
-#>    get: https://httpbin.org/get?hello=world   | to_return:   with status 418 
-#>    get: https://httpbin.org/get?hello=world   with headers {"User-Agent":"libcurl/7.51.0 r-curl/2.6 crul/0.3.6","Accept-Encoding":"gzip, deflate"} 
-#>    get: https://httpbin.org/get 
-#>    get: https://httpbin.org/get?hello=world   | to_return:   with status 418 
-#>    get: https://httpbin.org/get?hello=world   with headers {"User-Agent":"libcurl/7.51.0 r-curl/2.6 crul/0.3.6","Accept-Encoding":"gzip, deflate"} 
-#>    get: https://httpbin.org/get 
-#>    get: https://httpbin.org/get?hello=world   | to_return:   with status 418 
-#>    get: https://httpbin.org/get?hello=world   with headers {"User-Agent":"libcurl/7.51.0 r-curl/2.6 crul/0.3.6","Accept-Encoding":"gzip, deflate"} 
 #>    get: https://httpbin.org/get 
 #>    get: https://httpbin.org/get?hello=world   | to_return:   with status 418 
 #>    get: https://httpbin.org/get?hello=world   with headers {"User-Agent":"libcurl/7.51.0 r-curl/2.6 crul/0.3.6","Accept-Encoding":"gzip, deflate"}
@@ -254,12 +253,62 @@ x$get('get', query = list(hello = "world"))
 #> <crul response> 
 #>   url: https://httpbin.org/get?hello=world
 #>   request_headers: 
-#>     User-Agent: libcurl/7.51.0 r-curl/2.6 crul/0.3.5.9991
+#>     User-Agent: libcurl/7.54.0 r-curl/3.1 crul/0.5.0
 #>     Accept-Encoding: gzip, deflate
+#>     Accept: application/json, text/xml, application/xml, */*
 #>   response_headers: 
 #>   params: 
 #>     hello: world
 #>   status: 418
+```
+
+### Stubbing requests and set expectation of a timeout
+
+
+```r
+stub_request("post", "https://httpbin.org/post") %>% to_timeout()
+#> <webmockr stub> 
+#>   method: post
+#>   uri: https://httpbin.org/post
+#>   with: 
+#>     query: 
+#>     body: 
+#>     request_headers: 
+#>   to_return: 
+#>     status: 
+#>     body: 
+#>     response_headers: 
+#>   should_timeout: TRUE
+#>   should_raise: FALSE
+x <- HttpClient$new(url = "https://httpbin.org")
+x$post('post')
+#> Error: OK (HTTP 200).
+#>  - The client did not produce a request within the time that the server was prepared to wait. The client MAY repeat the request without modifications at any later time.
+```
+
+### Stubbing requests and set HTTP error expectation
+
+
+```r
+library(fauxpas)
+stub_request("get", "https://httpbin.org/get?a=b") %>% to_raise(HTTPBadRequest)
+#> <webmockr stub> 
+#>   method: get
+#>   uri: https://httpbin.org/get?a=b
+#>   with: 
+#>     query: 
+#>     body: 
+#>     request_headers: 
+#>   to_return: 
+#>     status: 
+#>     body: 
+#>     response_headers: 
+#>   should_timeout: FALSE
+#>   should_raise: HTTPBadRequest
+x <- HttpClient$new(url = "https://httpbin.org")
+x$get('get', query = list(a = "b"))
+#> Error: Bad Request (HTTP 400).
+#>  - The request could not be understood by the server due to malformed syntax. The client SHOULD NOT repeat the request without modifications.
 ```
 
 ## Meta

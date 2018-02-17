@@ -56,6 +56,11 @@ x$to_s()
 x$method
 x$uri
 x$to_s()
+
+(x <- StubbedRequest$new(method = "get", uri_regex = ".+ossref.org"))
+x$to_s()
+x$timeout <- TRUE
+x$to_s()
 }
 }
 \seealso{

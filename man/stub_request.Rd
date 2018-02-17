@@ -59,7 +59,24 @@ stub_registry()
 # regex
 stub_request("get", uri_regex = ".+ample\\\\..")
 
+# set stub an expectation to timeout
+stub_request("get", "https://httpbin.org/get") \%>\% to_timeout()
+x <- crul::HttpClient$new(url = "https://httpbin.org")
+crul::mock()
+res <- x$get('get')
+
+# raise exception
+library(fauxpas)
+stub_request("get", "https://httpbin.org/get") \%>\% to_raise(HTTPAccepted)
+stub_request("get", "https://httpbin.org/get") \%>\% to_raise(HTTPAccepted, HTTPGone)
+
+x <- crul::HttpClient$new(url = "https://httpbin.org")
+stub_request("get", "https://httpbin.org/get") \%>\% to_raise(HTTPBadGateway)
+crul::mock()
+x$get('get')
+
 # clear all stubs
+stub_registry()
 stub_registry_clear()
 }
 }

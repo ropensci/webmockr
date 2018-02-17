@@ -14,6 +14,11 @@
 #' @return an object of class `StubbedRequest`, with print method describing
 #' the stub
 #' @note see examples in [stub_request()]
+#' @details Values for status, body, and headers:
+#'
+#' - query: (list) a named list
+#' - body: various, including character string, list, raw, numeric, etc
+#' - headers: (list) a named list
 wi_th <- function(.data, ...) {
   wi_th_(.data, .dots = lazyeval::lazy_dots(...))
 }
@@ -21,12 +26,24 @@ wi_th <- function(.data, ...) {
 #' @export
 #' @rdname wi_th
 wi_th_ <- function(.data, ..., .dots) {
+  assert(.data, 'StubbedRequest')
   tmp <- lazyeval::all_dots(.dots, ...)
   if (length(tmp) == 0) {
     z <- NULL
   } else {
     z <- lapply(tmp, function(x) eval(x$expr))
   }
+
+  # lint user inputs
+  assert(z$query, 'list')
+  if (!all(hz_namez(z$query))) {
+    stop("'query' must be a named list")
+  }
+  assert(z$body, 'list')
+  if (!all(hz_namez(z$headers))) {
+    stop("'headers' must be a named list")
+  }
+
   .data$with(
     query = z$query,
     body = z$body,

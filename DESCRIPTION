@@ -5,7 +5,7 @@ Description: Stubbing and setting expectations on 'HTTP' requests.
     request conditions and response conditions. Match on
     'HTTP' method, query parameters, request body, headers and
     more.
-Version: 0.1.2.9391
+Version: 0.1.3.9410
 Authors@R: person("Scott", "Chamberlain", role = c("aut", "cre"), email =
     "myrmecocystus+r@gmail.com", comment = c(ORCID="0000-0003-1444-9135"))
 License: MIT + file LICENSE
@@ -15,15 +15,16 @@ LazyData: true
 Roxygen: list(markdown = TRUE)
 Imports:
     curl,
-	jsonlite,
+	  jsonlite,
     magrittr (>= 1.5),
     lazyeval (>= 0.2.0),
     R6 (>= 2.1.3),
-    urltools (>= 1.6.0)
+    urltools (>= 1.6.0),
+    fauxpas (>= 0.1.2.9210)
 Suggests:
     roxygen2 (>= 6.0.1),
     testthat,
     crul (>= 0.5.0),
     vcr (>= 0.0.6)
-Remotes: ropensci/vcr@webmockit
+Remotes: ropensci/vcr@webmockit, ropenscilabs/fauxpas
 RoxygenNote: 6.0.1
