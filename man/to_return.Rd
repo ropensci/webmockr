@@ -15,7 +15,7 @@ object}
 
 \item{...}{Comma separated list of variable names, passed on
 to \code{\link[lazyeval:lazy_dots]{lazyeval::lazy_dots()}}. accepts the following: status, body,
-headers}
+headers. See Details for more.}
 
 \item{.dots}{Used to work around non-standard evaluation}
 }
@@ -25,6 +25,14 @@ the stub
 }
 \description{
 Set response status code, response body, and/or response headers
+}
+\details{
+Values for status, body, and headers:
+\itemize{
+\item status: (numeric/integer) three digit status code
+\item body: various, including character string, list, raw, numeric, etc
+\item headers: (list) a named list
+}
 }
 \note{
 see examples in \code{\link[=stub_request]{stub_request()}}

@@ -29,6 +29,13 @@ Set query params, request body, and/or request headers
 \details{
 \code{with} is a function in the \code{base} package, so we went with
 \code{wi_th}
+
+Values for status, body, and headers:
+\itemize{
+\item query: (list) a named list
+\item body: various, including character string, list, raw, numeric, etc
+\item headers: (list) a named list
+}
 }
 \note{
 see examples in \code{\link[=stub_request]{stub_request()}}

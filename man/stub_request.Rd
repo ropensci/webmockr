@@ -62,7 +62,6 @@ stub_request("get", uri_regex = ".+ample\\\\..")
 # set stub an expectation to timeout
 stub_request("get", "https://httpbin.org/get") \%>\% to_timeout()
 x <- crul::HttpClient$new(url = "https://httpbin.org")
-crul::mock()
 res <- x$get('get')
 
 # raise exception
@@ -81,5 +80,5 @@ stub_registry_clear()
 }
 }
 \seealso{
-\code{\link[=wi_th]{wi_th()}}, \code{\link[=to_return]{to_return()}}
+\code{\link[=wi_th]{wi_th()}}, \code{\link[=to_return]{to_return()}}, \code{\link[=to_timeout]{to_timeout()}}, \code{\link[=to_raise]{to_raise()}}
 }
