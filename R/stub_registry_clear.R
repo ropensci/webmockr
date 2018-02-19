@@ -3,7 +3,7 @@
 #' Clear all stubs
 #'
 #' @export
-#' @return nothing, well technically an empty list, but
+#' @return nothing, well technically an empty list invisibly, but
 #' it's not anything useful
 #' @family stub-registry
 #' @examples
@@ -12,5 +12,5 @@
 #' stub_registry_clear()
 #' stub_registry()
 stub_registry_clear <- function() {
-  webmockr_stub_registry$remove_all_request_stubs()
+  invisible(webmockr_stub_registry$remove_all_request_stubs())
 }

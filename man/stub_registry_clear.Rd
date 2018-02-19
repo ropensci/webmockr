@@ -7,7 +7,7 @@
 stub_registry_clear()
 }
 \value{
-nothing, well technically an empty list, but
+nothing, well technically an empty list invisibly, but
 it's not anything useful
 }
 \description{
