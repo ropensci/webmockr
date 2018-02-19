@@ -169,7 +169,7 @@ z <- crul::HttpClient$new(url = "https://httpbin.org")$get("get")
 # run tests (nothing returned means it passed)
 expect_is(z, "HttpResponse")
 expect_equal(z$status_code, 200)
-expect_equal(z$content, "success!")
+expect_equal(z$parse("UTF-8"), "success!")
 ```
 
 
@@ -209,7 +209,7 @@ x$get('get')
 #> <crul response> 
 #>   url: https://httpbin.org/get
 #>   request_headers: 
-#>     User-Agent: libcurl/7.54.0 r-curl/3.1 crul/0.5.0
+#>     User-Agent: libcurl/7.54.0 r-curl/3.1 crul/0.5.1.9210
 #>     Accept-Encoding: gzip, deflate
 #>     Accept: application/json, text/xml, application/xml, */*
 #>   response_headers: 
@@ -245,7 +245,7 @@ x$get('get', query = list(hello = "world"))
 #> <crul response> 
 #>   url: https://httpbin.org/get?hello=world
 #>   request_headers: 
-#>     User-Agent: libcurl/7.54.0 r-curl/3.1 crul/0.5.0
+#>     User-Agent: libcurl/7.54.0 r-curl/3.1 crul/0.5.1.9210
 #>     Accept-Encoding: gzip, deflate
 #>     Accept: application/json, text/xml, application/xml, */*
 #>   response_headers: 
@@ -294,7 +294,7 @@ x$get('get', query = list(hello = "world"))
 #> <crul response> 
 #>   url: https://httpbin.org/get?hello=world
 #>   request_headers: 
-#>     User-Agent: libcurl/7.54.0 r-curl/3.1 crul/0.5.0
+#>     User-Agent: libcurl/7.54.0 r-curl/3.1 crul/0.5.1.9210
 #>     Accept-Encoding: gzip, deflate
 #>     Accept: application/json, text/xml, application/xml, */*
 #>   response_headers: 
@@ -323,7 +323,7 @@ stub_request("post", "https://httpbin.org/post") %>% to_timeout()
 #>   should_raise: FALSE
 x <- HttpClient$new(url = "https://httpbin.org")
 x$post('post')
-#> Error: OK (HTTP 200).
+#> Error: Request Timeout (HTTP 408).
 #>  - The client did not produce a request within the time that the server was prepared to wait. The client MAY repeat the request without modifications at any later time.
 ```
 
