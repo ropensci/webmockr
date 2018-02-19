@@ -482,7 +482,8 @@ prune_trailing_slash <- function(x) sub("/$", "", x)
 
 prune_port <- function(x) gsub("(:80)|(:443)", "", x)
 
-prune_user_pwd <- function(x)
+# not sure what this was supposed to be
+#prune_user_pwd <- function(x)
 
 # matcher helpers --------------------------
 ## URI stuff
@@ -514,7 +515,7 @@ parse_a_url <- function(url) {
 
 uri_fetch <- function(x) {
   x <- as.character(x)
-  tmp <- x[vapply(x, is_url, logical(1))]
+  tmp <- x[vapply(x, FUN = is_url, FUN.VALUE = logical(1))]
   if (length(tmp) == 0) NULL else tmp
 }
 uri_host <- function(x) parse_a_url(x)$domain

@@ -1,5 +1,5 @@
-#webmockr_stub_registry <- NULL
 http_lib_adapter_registry <- NULL
+
 .onLoad <- function(libname, pkgname) {
   # set defaults for webmockr
   webmockr_configure()
