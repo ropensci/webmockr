@@ -4,40 +4,33 @@
 \alias{webmockr_configure}
 \alias{webmockr_configure_reset}
 \alias{webmockr_configuration}
-\alias{webmockr_enable}
-\alias{webmockr_disable}
 \alias{webmockr_allow_net_connect}
 \alias{webmockr_disable_net_connect}
 \alias{webmockr_net_connect_allowed}
 \title{webmockr configuration}
 \usage{
-webmockr_configure(turn_on = FALSE, allow_net_connect = FALSE,
-  allow_localhost = FALSE, allow = FALSE,
-  net_http_connect_on_start = FALSE, show_stubbing_instructions = FALSE,
-  query_values_notation = FALSE, show_body_diff = FALSE)
+webmockr_configure(allow_net_connect = FALSE, allow_localhost = FALSE,
+  allow = NULL, net_http_connect_on_start = FALSE,
+  show_stubbing_instructions = FALSE, query_values_notation = FALSE,
+  show_body_diff = FALSE)
 
 webmockr_configure_reset()
 
 webmockr_configuration()
 
-webmockr_enable()
-
-webmockr_disable()
-
 webmockr_allow_net_connect()
 
-webmockr_disable_net_connect()
+webmockr_disable_net_connect(allow = NULL)
 
-webmockr_net_connect_allowed()
+webmockr_net_connect_allowed(uri = NULL)
 }
 \arguments{
-\item{turn_on}{(logical) Default: \code{FALSE}}
-
 \item{allow_net_connect}{(logical) Default: \code{TRUE}}
 
 \item{allow_localhost}{(logical) Default: \code{TRUE}}
 
-\item{allow}{(logical) Default: \code{TRUE}}
+\item{allow}{(character) one or more URI/URL to allow (and by extension
+all others are not allowed)}
 
 \item{net_http_connect_on_start}{(logical) Default: \code{TRUE}}
 
@@ -46,6 +39,9 @@ webmockr_net_connect_allowed()
 \item{query_values_notation}{(logical) Default: \code{TRUE}}
 
 \item{show_body_diff}{(logical) Default: \code{TRUE}}
+
+\item{uri}{(character) a URI/URL as a character string - to determine
+whether or not it is allowed}
 }
 \description{
 webmockr configuration
@@ -61,7 +57,14 @@ webmockr_configure_reset()
 
 webmockr_allow_net_connect()
 webmockr_net_connect_allowed()
+
+# disable net connect for any URIs
 webmockr_disable_net_connect()
+### gives NULL with no URI passed
 webmockr_net_connect_allowed()
+# disable net connect EXCEPT FOR given URIs
+webmockr_disable_net_connect(allow = "google.com")
+### is a specific URI allowed?
+webmockr_net_connect_allowed("google.com")
 }
 }

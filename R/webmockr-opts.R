@@ -1,14 +1,16 @@
 #' webmockr configuration
 #'
 #' @export
-#' @param turn_on (logical) Default: `FALSE`
 #' @param allow_net_connect (logical) Default: `TRUE`
 #' @param allow_localhost  (logical) Default: `TRUE`
-#' @param allow (logical) Default: `TRUE`
+#' @param allow (character) one or more URI/URL to allow (and by extension
+#' all others are not allowed)
 #' @param net_http_connect_on_start (logical) Default: `TRUE`
 #' @param show_stubbing_instructions (logical) Default: `TRUE`
 #' @param query_values_notation (logical) Default: `TRUE`
 #' @param show_body_diff (logical) Default: `TRUE`
+#' @param uri (character) a URI/URL as a character string - to determine
+#' whether or not it is allowed
 #'
 #' @examples \dontrun{
 #' webmockr_configure()
@@ -20,21 +22,26 @@
 #'
 #' webmockr_allow_net_connect()
 #' webmockr_net_connect_allowed()
+#'
+#' # disable net connect for any URIs
 #' webmockr_disable_net_connect()
+#' ### gives NULL with no URI passed
 #' webmockr_net_connect_allowed()
+#' # disable net connect EXCEPT FOR given URIs
+#' webmockr_disable_net_connect(allow = "google.com")
+#' ### is a specific URI allowed?
+#' webmockr_net_connect_allowed("google.com")
 #' }
 webmockr_configure <- function(
-  turn_on = FALSE,
   allow_net_connect = FALSE,
   allow_localhost = FALSE,
-  allow = FALSE,
+  allow = NULL,
   net_http_connect_on_start = FALSE,
   show_stubbing_instructions = FALSE,
   query_values_notation = FALSE,
   show_body_diff = FALSE) {
 
   opts <- list(
-    turn_on = turn_on,
     allow_net_connect = allow_net_connect,
     allow_localhost = allow_localhost,
     allow = allow,
@@ -61,20 +68,6 @@ webmockr_configuration <- function() {
 
 #' @export
 #' @rdname webmockr_configure
-webmockr_enable <- function() {
-  message("webmockr enabled")
-  assign('turn_on', TRUE, envir = webmockr_conf_env)
-}
-
-#' @export
-#' @rdname webmockr_configure
-webmockr_disable <- function() {
-  message("webmockr disabled")
-  assign('turn_on', FALSE, envir = webmockr_conf_env)
-}
-
-#' @export
-#' @rdname webmockr_configure
 webmockr_allow_net_connect <- function() {
   message("net connect allowed")
   assign('allow_net_connect', TRUE, envir = webmockr_conf_env)
@@ -82,25 +75,53 @@ webmockr_allow_net_connect <- function() {
 
 #' @export
 #' @rdname webmockr_configure
-webmockr_disable_net_connect <- function() {
+webmockr_disable_net_connect <- function(allow = NULL) {
+  assert(allow, "character")
   message("net connect disabled")
   assign('allow_net_connect', FALSE, envir = webmockr_conf_env)
+  assign('allow', allow, envir = webmockr_conf_env)
 }
 
 #' @export
 #' @rdname webmockr_configure
-webmockr_net_connect_allowed <- function() {
-  webmockr_conf_env$allow_net_connect
+webmockr_net_connect_allowed <- function(uri = NULL) {
+  assert(uri, c("character", "list"))
+  if (is.null(uri)) return(webmockr_conf_env$allow_net_connect)
+  uri <- normalize_uri(uri)
+  webmockr_conf_env$allow_net_connect ||
+    (webmockr_conf_env$allow_localhost && is_localhost(uri) ||
+       `!!`(webmockr_conf_env$allow) &&
+       net_connect_explicit_allowed(webmockr_conf_env$allow, uri))
 }
 
+net_connect_explicit_allowed <- function(allowed, uri = NULL) {
+  if (is.null(allowed)) return(FALSE)
+  if (is.null(uri)) return(FALSE)
+  z <- parse_a_url(uri)
+  if (is.na(z$domain)) return(FALSE)
+  if (inherits(allowed, "list")) {
+    any(vapply(allowed, net_connect_explicit_allowed, logical(1), uri = uri))
+  } else if (inherits(allowed, "character")) {
+    if (length(allowed) == 1) {
+      allowed == uri ||
+        allowed == z$domain ||
+        allowed == sprintf("%s:%s", z$domain, z$port) ||
+        allowed == sprintf("%s://%s:%s", z$scheme, z$domain, z$port) ||
+        allowed == sprintf("%s://%s", z$scheme, z$domain) &&
+        z$port == z$default_port
+    } else {
+      any(vapply(allowed, net_connect_explicit_allowed, logical(1), uri = uri))
+    }
+  }
+}
 
-
+#' @export
 print.webmockr_config <- function(x, ...) {
   cat("<webmockr configuration>", sep = "\n")
-  cat(paste0("  enabled?: ", x$turn_on), sep = "\n")
+  cat(paste0("  enabled?: ", webmockr_lightswitch$crul), sep = "\n")
   cat(paste0("  allow_net_collect?: ", x$allow_net_collect), sep = "\n")
   cat(paste0("  allow_localhost?: ", x$allow_localhost), sep = "\n")
-  cat(paste0("  allow: ", x$allow), sep = "\n")
+  cat(paste0("  allow: ", x$allow %||% ""), sep = "\n")
   cat(paste0("  net_http_connect_on_start: ", x$net_http_connect_on_start),
       sep = "\n")
   cat(paste0("  show_stubbing_instructions: ", x$show_stubbing_instructions),

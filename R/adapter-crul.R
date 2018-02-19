@@ -41,12 +41,16 @@ CrulAdapter <- R6::R6Class(
     enable = function() {
       message("CrulAdapter enabled!")
       webmockr_lightswitch$crul <- TRUE
+      crul::mock(TRUE)
+      invisible(TRUE)
     },
 
     disable = function() {
       message("CrulAdapter disabled!")
       webmockr_lightswitch$crul <- FALSE
+      crul::mock(FALSE)
       self$remove_crul_stubs()
+      invisible(FALSE)
     },
 
     handle_request = function(req) {

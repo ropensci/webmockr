@@ -41,6 +41,7 @@ test_that("CrulAdapter works", {
   skip_on_cran()
 
   load("crul_obj.rda")
+  crul_obj$url$handle <- curl::new_handle()
 
   res <- CrulAdapter$new()
   expect_error(

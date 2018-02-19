@@ -128,11 +128,10 @@ devtools::install_github("ropensci/webmockr")
 library(webmockr)
 ```
 
-## Turn on webmockr
+## Enable webmockr
 
 ```{r}
 webmockr::enable()
-crul::mock()
 ```
 
 ## Inside a test framework

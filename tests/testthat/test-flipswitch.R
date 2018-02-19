@@ -18,7 +18,7 @@ test_that("flipswitch - turn on with 'enable'", {
 test_that("flipswitch - turn off with 'disable'", {
   aa <- disable()
 
-  expect_null(aa)
+  expect_false(aa)
 
   expect_false(webmockr_lightswitch$crul)
 })

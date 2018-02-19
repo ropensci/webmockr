@@ -7,15 +7,15 @@ webmockr_lightswitch$crul <- FALSE
 #' @export
 #' @param options list of options - ignored for now.
 enable <- function(options = list()) {
-  vapply(http_lib_adapter_registry$adapters, function(z) {
+  invisible(vapply(http_lib_adapter_registry$adapters, function(z) {
     z$enable()
-  }, logical(1))
+  }, logical(1)))
 }
 
 #' @export
 #' @rdname enable
 disable <- function(options = list()) {
-  unlist(lapply(http_lib_adapter_registry$adapters, function(z) {
+  invisible(unlist(lapply(http_lib_adapter_registry$adapters, function(z) {
     z$disable()
-  }))
+  })))
 }
