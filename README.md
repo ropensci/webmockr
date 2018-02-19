@@ -125,14 +125,12 @@ devtools::install_github("ropensci/webmockr")
 library(webmockr)
 ```
 
-## Turn on webmockr
+## Enable webmockr
 
 
 ```r
 webmockr::enable()
 #> CrulAdapter enabled!
-#> [1] TRUE
-crul::mock()
 ```
 
 ## Inside a test framework
@@ -168,7 +166,7 @@ stub_registry()
 # make the request
 z <- crul::HttpClient$new(url = "https://httpbin.org")$get("get")
 
-# run tests
+# run tests (nothing returned means it passed)
 expect_is(z, "HttpResponse")
 expect_equal(z$status_code, 200)
 expect_equal(z$content, "success!")
