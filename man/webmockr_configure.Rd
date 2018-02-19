@@ -25,20 +25,24 @@ webmockr_disable_net_connect(allow = NULL)
 webmockr_net_connect_allowed(uri = NULL)
 }
 \arguments{
-\item{allow_net_connect}{(logical) Default: \code{TRUE}}
+\item{allow_net_connect}{(logical) Default: \code{FALSE}}
 
-\item{allow_localhost}{(logical) Default: \code{TRUE}}
+\item{allow_localhost}{(logical) Default: \code{FALSE}}
 
 \item{allow}{(character) one or more URI/URL to allow (and by extension
 all others are not allowed)}
 
-\item{net_http_connect_on_start}{(logical) Default: \code{TRUE}}
+\item{net_http_connect_on_start}{(logical) Default: \code{FALSE}. ignored for
+now}
 
-\item{show_stubbing_instructions}{(logical) Default: \code{TRUE}}
+\item{show_stubbing_instructions}{(logical) Default: \code{FALSE}. ignored for
+now}
 
-\item{query_values_notation}{(logical) Default: \code{TRUE}}
+\item{query_values_notation}{(logical) Default: \code{FALSE}. ignored for
+now}
 
-\item{show_body_diff}{(logical) Default: \code{TRUE}}
+\item{show_body_diff}{(logical) Default: \code{FALSE}. ignored for
+now}
 
 \item{uri}{(character) a URI/URL as a character string - to determine
 whether or not it is allowed}

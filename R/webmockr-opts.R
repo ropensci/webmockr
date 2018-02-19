@@ -1,14 +1,18 @@
 #' webmockr configuration
 #'
 #' @export
-#' @param allow_net_connect (logical) Default: `TRUE`
-#' @param allow_localhost  (logical) Default: `TRUE`
+#' @param allow_net_connect (logical) Default: `FALSE`
+#' @param allow_localhost  (logical) Default: `FALSE`
 #' @param allow (character) one or more URI/URL to allow (and by extension
 #' all others are not allowed)
-#' @param net_http_connect_on_start (logical) Default: `TRUE`
-#' @param show_stubbing_instructions (logical) Default: `TRUE`
-#' @param query_values_notation (logical) Default: `TRUE`
-#' @param show_body_diff (logical) Default: `TRUE`
+#' @param net_http_connect_on_start (logical) Default: `FALSE`. ignored for
+#' now
+#' @param show_stubbing_instructions (logical) Default: `FALSE`. ignored for
+#' now
+#' @param query_values_notation (logical) Default: `FALSE`. ignored for
+#' now
+#' @param show_body_diff (logical) Default: `FALSE`. ignored for
+#' now
 #' @param uri (character) a URI/URL as a character string - to determine
 #' whether or not it is allowed
 #'
@@ -119,7 +123,7 @@ net_connect_explicit_allowed <- function(allowed, uri = NULL) {
 print.webmockr_config <- function(x, ...) {
   cat("<webmockr configuration>", sep = "\n")
   cat(paste0("  enabled?: ", webmockr_lightswitch$crul), sep = "\n")
-  cat(paste0("  allow_net_collect?: ", x$allow_net_collect), sep = "\n")
+  cat(paste0("  allow_net_connect?: ", x$allow_net_connect), sep = "\n")
   cat(paste0("  allow_localhost?: ", x$allow_localhost), sep = "\n")
   cat(paste0("  allow: ", x$allow %||% ""), sep = "\n")
   cat(paste0("  net_http_connect_on_start: ", x$net_http_connect_on_start),
