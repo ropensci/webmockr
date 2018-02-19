@@ -77,10 +77,10 @@ CrulAdapter <- R6::R6Class(
         resp$set_status(ss$status_code %||% 200)
 
         # if user set to_timeout or to_raise, do that
-        #return(list(ss = ss, resp =z resp))
         if (ss$timeout || ss$raise) {
           if (ss$timeout) {
             x <- fauxpas::HTTPRequestTimeout$new()
+            resp$set_status(x$status_code)
             x$do_verbose(resp)
           }
           if (ss$raise) {
