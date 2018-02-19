@@ -34,4 +34,8 @@ x$request_signatures$hash
 # reset the request registry
 x$reset()
 }
+\seealso{
+Other request-registry: \code{\link{HashCounter}},
+  \code{\link{request_registry}}
+}
 \keyword{datasets}

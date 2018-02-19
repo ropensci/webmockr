@@ -17,6 +17,7 @@
 #'   }
 #' @format NULL
 #' @usage NULL
+#' @family request-registry
 #' @examples
 #' x <- HashCounter$new()
 #' x$put("foo bar")
@@ -59,6 +60,7 @@ HashCounter <- R6::R6Class(
 #'   }
 #' @format NULL
 #' @usage NULL
+#' @family request-registry
 #' @examples
 #' x <- RequestRegistry$new()
 #' x$register_request(request = "GET http://scottchamberlain.info")

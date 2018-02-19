@@ -31,4 +31,8 @@ x$put("hello world")
 x$put("hello world")
 x$hash
 }
+\seealso{
+Other request-registry: \code{\link{RequestRegistry}},
+  \code{\link{request_registry}}
+}
 \keyword{datasets}
