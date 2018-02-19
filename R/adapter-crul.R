@@ -99,13 +99,16 @@ CrulAdapter <- R6::R6Class(
           toadd <- cc(ss$responses_sequences)
           # modify responses
           for (i in seq_along(toadd)) {
-            if (names(toadd)[i] == "status")
+            if (names(toadd)[i] == "status") {
               crul_resp$status_code <- toadd[[i]]
-            if (names(toadd)[i] == "body")
-              crul_resp$content <- toadd[[i]]
-              #crul_resp$set_body(toadd[[i]])
-            if (names(toadd)[i] == "headers")
+            }
+            if (names(toadd)[i] == "body") {
+              # crul_resp$content <- toadd[[i]]
+              crul_resp$content <- ss$responses_sequences$body_raw
+            }
+            if (names(toadd)[i] == "headers") {
               crul_resp$response_headers <- toadd[[i]]
+            }
           }
         }
 
@@ -135,7 +138,7 @@ CrulAdapter <- R6::R6Class(
         }
 
       } else {
-        # no stubs found and net connect not allowed - STOP basically
+        # no stubs found and net connect not allowed - STOP
         x <- "Real HTTP connections are disabled.\nUnregistered request:"
         y <- "\n\nYou can stub this request with the following snippet:\n\n  "
         z <- "\n\nregistered request stubs:\n\n"

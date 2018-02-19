@@ -119,6 +119,23 @@ StubbedRequest <- R6::R6Class(
         body = body,
         headers = headers
       )
+      self$responses_sequences$body_raw = {
+        if (inherits(body, "logical")) {
+          if (!body) raw() else stop("Unknown type of `body`: must be NULL, FALSE, character, raw or list",
+                                     call. = FALSE)
+        } else if (inherits(body, "raw")) {
+          body
+        } else if (is.null(body)) {
+          raw()
+        } else if (is.character(body)) {
+          charToRaw(body)
+        } else if (!is.list(body)) {
+          stop("Unknown type of `body`: must be NULL, FALSE, character, raw or list",
+            call. = FALSE)
+        } else {
+          charToRaw(jsonlite::toJSON(body, auto_unbox = TRUE))
+        }
+      }
     },
 
     to_timeout = function() {

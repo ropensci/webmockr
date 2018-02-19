@@ -4,6 +4,7 @@ cc <- function(x) Filter(Negate(is.null), x)
 
 hdl_lst <- function(x) {
   if (is.null(x) || length(x) == 0) return("")
+  if (is.raw(x)) return(paste0("raw bytes, length: ", length(x)))
   if (inherits(x, "list")) {
     return(paste(names(x), unname(x), sep = "=", collapse = ", "))
   } else {

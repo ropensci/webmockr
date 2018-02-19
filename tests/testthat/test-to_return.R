@@ -29,7 +29,7 @@ test_that("stub_request bits are correct", {
   expect_equal(aa$response_headers$a, 5)
 
   expect_is(aa$responses_sequences, "list")
-  expect_named(aa$responses_sequences, c("status", "body", "headers"))
+  expect_named(aa$responses_sequences, c("status", "body", "headers", "body_raw"))
   expect_equal(aa$responses_sequences$status, 200)
   expect_equal(aa$responses_sequences$body, "stuff")
 })
