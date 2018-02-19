@@ -123,8 +123,9 @@ CrulAdapter <- R6::R6Class(
         }
         # else: since vcr is not loaded - skip
 
-      } else if (webmockr_net_connect_allowed()) {
-        # if real requests ARE allowed && nothing found above
+      } else if (webmockr_net_connect_allowed(uri = req$url$url)) {
+        # if real requests || localhost || certain exceptions ARE
+        #   allowed && nothing found above
         tmp <- crul::HttpClient$new(url = req$url$url)
         tmp2 <- webmockr_crul_fetch(req)
         crul_resp <- build_crul_response(req, tmp2)
