@@ -8,3 +8,4 @@ Makefile
 notes.md
 .github
 cran-comments.md
+^codemeta\.json$
