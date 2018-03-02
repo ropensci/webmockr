@@ -21,8 +21,8 @@ Imports:
     lazyeval (>= 0.2.0),
     R6 (>= 2.1.3),
     urltools (>= 1.6.0),
-    fauxpas (>= 0.2.0),
-    crul (>= 0.5.2)
+    fauxpas,
+    crul (>= 0.4.0)
 Suggests:
     roxygen2 (>= 6.0.1),
     testthat
