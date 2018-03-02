@@ -224,13 +224,20 @@ build_crul_response <- function(req, resp) {
       if (grepl("^ftp://", resp$url)) {
         list()
       } else {
+        # cat("\n", paste0(names(resp), collapse = ", "), sep = "\n\n")
+        # cat("\n", class(resp$response_headers), sep = "\n\n")
         hds <- resp$headers
         
         if (is.null(hds)) {
           hds <- resp$response_headers
-          stopifnot(is.list(hds))
-          stopifnot(is.character(hds[[1]]))
-          hds
+
+          if (is.null(hds)) {
+            list()
+          } else {  
+            stopifnot(is.list(hds))
+            stopifnot(is.character(hds[[1]]))
+            hds
+          }
         } else {
           hh <- rawToChar(hds %||% raw(0))
           if (is.null(hh) || nchar(hh) == 0) {

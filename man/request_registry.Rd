@@ -19,6 +19,9 @@ webmockr::enable()
 stub_request("get", "https://httpbin.org/get") \%>\%
   to_return(body = "success!", status = 200)
 
+# nothing in the request registry
+request_registry()
+
 # make the request
 z <- crul::HttpClient$new(url = "https://httpbin.org")$get("get")
 
