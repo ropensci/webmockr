@@ -1,7 +1,7 @@
 ## Test environments
 
-* local OS X install, R 3.4.0
-* ubuntu 12.04 (on travis-ci), R 3.4.0
+* local OS X install, R 3.4.3 patched
+* ubuntu 12.04 (on travis-ci), R 3.4.3
 * win-builder (devel and release)
 
 ## R CMD check results
@@ -11,17 +11,16 @@
   License components with restrictions and base license permitting such:
     MIT + file LICENSE
   File 'LICENSE':
-    YEAR: 2017
+    YEAR: 2018
     COPYRIGHT HOLDER: Scott Chamberlain
 
 ## Reverse dependencies
 
-This is a new package, there are no reverse dependencies.
+I have checked the one reverse dependency, and there were no problems. It's maintainer is also me.
 
 ---
 
-This is a new release. I have read and agree to the the CRAN
-policies at https://cran.r-project.org/web/packages/policies.html
+This version adds a number of new functions and greatly improves documentation.
 
 Thanks!
 Scott Chamberlain
