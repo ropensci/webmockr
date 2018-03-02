@@ -113,16 +113,14 @@ CrulAdapter <- R6::R6Class(
         }
 
         # if vcr loaded: record http interaction into vcr namespace
-        ## FIXME (lines below): put back after vcr on CRAN
-        # if ("package:vcr" %in% search()) {
-        #   # get current cassette
-        #   cas <- vcr::cassette_current()
-        #   # record http interaction into vcr http interaction list
-        #   cas$record_http_interaction(crul_resp)
-        #   # build crul_resp from vcr http interaction on disk (i.e., on casette)
-        #   crul_resp <- cas$serialize_to_crul()
-        # }
-        ## FIXME (lines above): put back after vcr on CRAN
+        if ("package:vcr" %in% search()) {
+          # get current cassette
+          cas <- vcr::cassette_current()
+          # record http interaction into vcr http interaction list
+          cas$record_http_interaction(crul_resp)
+          # build crul_resp from vcr http interaction on disk (i.e., on casette)
+          crul_resp <- cas$serialize_to_crul()
+        }
         # else: since vcr is not loaded - skip
 
       } else if (webmockr_net_connect_allowed(uri = req$url$url)) {
@@ -133,14 +131,12 @@ CrulAdapter <- R6::R6Class(
         crul_resp <- build_crul_response(req, tmp2)
 
         # if vcr loaded: record http interaction into vcr namespace
-        ## FIXME (lines below): put back after vcr on CRAN
-        # if ("package:vcr" %in% search()) {
-        #   # get current cassette
-        #   cas <- vcr::cassette_current()
-        #   # record http interaction into vcr http interaction list
-        #   cas$record_http_interaction(crul_resp)
-        # }
-        ## FIXME (lines above): put back after vcr on CRAN
+        if ("package:vcr" %in% search()) {
+          # get current cassette
+          cas <- vcr::cassette_current()
+          # record http interaction into vcr http interaction list
+          cas$record_http_interaction(crul_resp)
+        }
 
       } else {
         # no stubs found and net connect not allowed - STOP
