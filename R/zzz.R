@@ -77,3 +77,12 @@ hz_namez <- function(x) {
     !(is.na(nms) | nms == "")
   }
 }
+
+# check for a package
+check_for_pkg <- function(x) {
+  if (!requireNamespace(x, quietly = TRUE)) {
+    stop(sprintf("Please install '%s'", x), call. = FALSE)
+  } else {
+   invisible(TRUE)
+  }
+}
