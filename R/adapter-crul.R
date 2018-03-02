@@ -91,23 +91,34 @@ CrulAdapter <- R6::R6Class(
         }
 
         # generate crul response
-        crul_resp <- build_crul_response(req, resp)
+        if ("package:vcr" %in% search()) {
+          cas <- vcr::cassette_current()
+          if (length(cas$previously_recorded_interactions()) == 0) {
+            # using vcr, but no recorded interactions to the cassette yet
+            # do real request
+            tmp <- crul::HttpClient$new(url = req$url$url)
+            tmp2 <- webmockr_crul_fetch(req)
+            crul_resp <- build_crul_response(req, tmp2)
+          }
+        } else {
+          crul_resp <- build_crul_response(req, resp)
 
-        # add to_return() elements if given
-        if (length(cc(ss$responses_sequences)) != 0) {
-          # remove NULLs
-          toadd <- cc(ss$responses_sequences)
-          # modify responses
-          for (i in seq_along(toadd)) {
-            if (names(toadd)[i] == "status") {
-              crul_resp$status_code <- toadd[[i]]
-            }
-            if (names(toadd)[i] == "body") {
-              # crul_resp$content <- toadd[[i]]
-              crul_resp$content <- ss$responses_sequences$body_raw
-            }
-            if (names(toadd)[i] == "headers") {
-              crul_resp$response_headers <- toadd[[i]]
+          # add to_return() elements if given
+          if (length(cc(ss$responses_sequences)) != 0) {
+            # remove NULLs
+            toadd <- cc(ss$responses_sequences)
+            # modify responses
+            for (i in seq_along(toadd)) {
+              if (names(toadd)[i] == "status") {
+                crul_resp$status_code <- toadd[[i]]
+              }
+              if (names(toadd)[i] == "body") {
+                # crul_resp$content <- toadd[[i]]
+                crul_resp$content <- ss$responses_sequences$body_raw
+              }
+              if (names(toadd)[i] == "headers") {
+                crul_resp$response_headers <- toadd[[i]]
+              }
             }
           }
         }
@@ -116,12 +127,21 @@ CrulAdapter <- R6::R6Class(
         if ("package:vcr" %in% search()) {
           # get current cassette
           cas <- vcr::cassette_current()
+          # FIXME: doing this fix for record:once - not sure will work for other record modes
+          ## OLD STUFF
           # record http interaction into vcr http interaction list
-          cas$record_http_interaction(crul_resp)
+          # cas$record_http_interaction(crul_resp)
+          ## OLD STUFF
+          # SO, don't record interaction since we have a match
+
+          if (length(cas$previously_recorded_interactions()) == 0) {
+            cas$record_http_interaction(crul_resp)
+          }
+          
           # build crul_resp from vcr http interaction on disk (i.e., on casette)
           crul_resp <- cas$serialize_to_crul()
-        }
-        # else: since vcr is not loaded - skip
+
+        } # vcr is not loaded, skip
 
       } else if (webmockr_net_connect_allowed(uri = req$url$url)) {
         # if real requests || localhost || certain exceptions ARE
@@ -204,15 +224,24 @@ build_crul_response <- function(req, resp) {
       if (grepl("^ftp://", resp$url)) {
         list()
       } else {
-        hh <- rawToChar(resp$headers %||% raw(0))
-        if (is.null(hh) || nchar(hh) == 0) {
-          list()
+        hds <- resp$headers
+        
+        if (is.null(hds)) {
+          hds <- resp$response_headers
+          stopifnot(is.list(hds))
+          stopifnot(is.character(hds[[1]]))
+          hds
         } else {
-          crul_headers_parse(curl::parse_headers(hh))
+          hh <- rawToChar(hds %||% raw(0))
+          if (is.null(hh) || nchar(hh) == 0) {
+            list()
+          } else {
+            crul_headers_parse(curl::parse_headers(hh))
+          }
         }
       }
     },
-    modified = resp$modified,
+    modified = resp$modified %||% NA,
     times = resp$times,
     content = resp$content,
     handle = req$url$handle,

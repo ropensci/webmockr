@@ -29,7 +29,7 @@ url_builder <- function(uri, args = NULL) {
   paste0(uri, "?", paste(names(args), args, sep = "=", collapse = ","))
 }
 
-`%||%` <- function(x, y) if (is.null(x) || length(x) == 0 || nchar(x) == 0) y else x
+`%||%` <- function(x, y) if (is.null(x) || length(x) == 0 || nchar(x) == 0 || all(is.na(x))) y else x
 
 `!!` <- function(x) if (is.null(x) || is.na(x)) FALSE else TRUE
 
