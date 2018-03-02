@@ -6,7 +6,7 @@ Description: Stubbing and setting expectations on 'HTTP' requests.
     'HTTP' method, query parameters, request body, headers and
     more. Can be used for unit tests or outside of a testing 
     context.
-Version: 0.1.7.9421
+Version: 0.1.9.9910
 Authors@R: person("Scott", "Chamberlain", role = c("aut", "cre"), email =
     "myrmecocystus+r@gmail.com", comment = c(ORCID="0000-0003-1444-9135"))
 License: MIT + file LICENSE
