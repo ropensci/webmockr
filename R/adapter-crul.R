@@ -138,7 +138,8 @@ CrulAdapter <- R6::R6Class(
             cas$record_http_interaction(crul_resp)
           }
           
-          # build crul_resp from vcr http interaction on disk (i.e., on casette)
+          # build crul_resp from vcr http interaction on disk or previously 
+          # recorded in memory
           crul_resp <- cas$serialize_to_crul()
 
         } # vcr is not loaded, skip
@@ -152,6 +153,10 @@ CrulAdapter <- R6::R6Class(
 
         # if vcr loaded: record http interaction into vcr namespace
         if ("package:vcr" %in% search()) {
+          # stub request so next time we match it
+          ## FIXME: need to cover more cases than just method + uri
+          stub_request(method = req$method, uri = req$url$url)
+
           # get current cassette
           cas <- vcr::cassette_current()
           # record http interaction into vcr http interaction list
@@ -224,8 +229,6 @@ build_crul_response <- function(req, resp) {
       if (grepl("^ftp://", resp$url)) {
         list()
       } else {
-        # cat("\n", paste0(names(resp), collapse = ", "), sep = "\n\n")
-        # cat("\n", class(resp$response_headers), sep = "\n\n")
         hds <- resp$headers
         
         if (is.null(hds)) {
