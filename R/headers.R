@@ -1,6 +1,5 @@
 # headers <- list(`Content-type` = 'application/json', Stuff = "things")
 # normalize_headers(x = headers)
-
 normalize_headers <- function(x = NULL) {
   if (is.null(x) || length(x) == 0) return(x)
   res <- Map(function(name, value) {
@@ -24,29 +23,3 @@ simple_cap <- function(x) {
   paste(toupper(substring(s, 1, 1)), substring(s, 2),
         sep = "", collapse = " ")
 }
-
-# class Headers
-
-#   def self.sorted_headers_string(headers)
-#     headers = WebMock::Util::Headers.normalize_headers(headers)
-#     str = '{'
-#     str << headers.map do |k,v|
-#       v = case v
-#         when Regexp then v.inspect
-#         when Array then "["+v.map{|w| "'#{w.to_s}'"}.join(", ")+"]"
-#         else "'#{v.to_s}'"
-#       end
-#       "'#{k}'=>#{v}"
-#     end.sort.join(", ")
-#     str << '}'
-#   end
-
-#   def self.decode_userinfo_from_header(header)
-#     header.sub(/^Basic /, "").unpack("m").first
-#   end
-
-#   def self.basic_auth_header(*credentials)
-#     "Basic #{Base64.strict_encode64(credentials.join(':')).chomp}"
-#   end
-
-# end

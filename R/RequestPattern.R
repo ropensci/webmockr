@@ -230,11 +230,6 @@ HeadersPattern <- R6::R6Class(
 
     initialize = function(pattern) {
       stopifnot(is.list(pattern))
-      # # normalize names
-      # names(pattern) <- tolower(names(pattern))
-      # # normalize symbols
-      # ## underscores to single dash
-      # names(pattern) <- gsub("_", "-", names(pattern))
       pattern <- private$normalize_headers(pattern)
       self$pattern <- pattern
     },
@@ -440,7 +435,7 @@ UriPattern <- R6::R6Class(
       # normalize uri
       uri <- normalize_uri(uri)
 
-      # FIXME, may need to match optionally to URI alone or URI + query
+      # FIXME: may need to match optionally to URI alone or URI + query
       # params, etc.
       if (!self$regex) return(uri == self$pattern)
       if (self$regex) return(grepl(self$pattern, uri))
@@ -481,9 +476,6 @@ normalize_uri <- function(x) {
 prune_trailing_slash <- function(x) sub("/$", "", x)
 
 prune_port <- function(x) gsub("(:80)|(:443)", "", x)
-
-# not sure what this was supposed to be
-#prune_user_pwd <- function(x)
 
 # matcher helpers --------------------------
 ## URI stuff
