@@ -54,6 +54,11 @@ crul_head_parse <- function(z) {
 
 crul_headers_parse <- function(x) do.call("c", lapply(x, crul_head_parse))
 
+#' execute a curl request
+#' @export
+#' @noRd
+#' @param x an object
+#' @return a curl response
 webmockr_crul_fetch <- function(x) {
   if (is.null(x$disk) && is.null(x$stream)) {
     curl::curl_fetch_memory(x$url$url, handle = x$url$handle)
