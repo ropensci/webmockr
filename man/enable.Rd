@@ -2,16 +2,30 @@
 % Please edit documentation in R/flipswitch.R
 \name{enable}
 \alias{enable}
+\alias{enabled}
 \alias{disable}
 \title{Enable or disable webmockr}
 \usage{
 enable(options = list())
+
+enabled(adapter = "crul")
 
 disable(options = list())
 }
 \arguments{
 \item{options}{list of options - ignored for now.}
 }
+\value{
+\code{enable()} and \code{disable()} invisibly returns booleans for
+each adapter (currently only \pkg{crul}), as a result of running
+enable or disable, respectively, on each \link{HttpLibAdapaterRegistry}
+object. \code{enabled} returns a single boolean
+}
 \description{
 Enable or disable webmockr
+}
+\details{
+\code{enable()} enables \pkg{webmockr} for all adapters.
+\code{disable()} disables \pkg{webmockr} for all adapters.  \code{enabled()}
+answers whether \pkg{webmockr} is enabled for a given adapter
 }
