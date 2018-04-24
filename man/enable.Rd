@@ -14,6 +14,8 @@ disable(options = list())
 }
 \arguments{
 \item{options}{list of options - ignored for now.}
+
+\item{adapter}{(character) the adapter to enable, only 'crul' for now}
 }
 \value{
 \code{enable()} and \code{disable()} invisibly returns booleans for
