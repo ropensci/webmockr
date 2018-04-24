@@ -97,12 +97,12 @@ CrulAdapter <- R6::R6Class(
           if (length(cas$previously_recorded_interactions()) == 0) {
             # using vcr, but no recorded interactions to the cassette yet
             # do real request
-            tmp <- crul::HttpClient$new(url = req$url$url)
-            tmp2 <- webmockr_crul_fetch(req)
-            crul_resp <- build_crul_response(req, tmp2)
+            # tmp <- crul::HttpClient$new(url = req$url$url)
+            # tmp2 <- webmockr_crul_fetch(req)
+            # crul_resp <- build_crul_response(req, tmp2)
 
             # use RequestHandler - gets current cassette & record interaction
-            # crul_resp <- vcr::RequestHandler$new(req)$handle()
+            crul_resp <- vcr::RequestHandlerCrul$new(req)$handle()
           }
         } else {
           crul_resp <- build_crul_response(req, resp)
@@ -139,32 +139,33 @@ CrulAdapter <- R6::R6Class(
           ## OLD STUFF
           # SO, don't record interaction since we have a match
 
-          if (length(cas$previously_recorded_interactions()) == 0) {
-            cas$record_http_interaction(crul_resp)
-          }
+          # if (length(cas$previously_recorded_interactions()) == 0) {
+          #   cas$record_http_interaction(crul_resp)
+          # }
 
           # use RequestHandler instead? - which gets current cassette for us
           #  here, record interaction
-          # vcr::RequestHandler$new(req)$handle()
+          cat(paste0("class <req>: ", paste0(class(req), collapse = ", ")), sep = "\n")
+          crul_resp <- vcr::RequestHandlerCrul$new(req)$handle()
           
           # build crul_resp from vcr http interaction on disk or previously 
           # recorded in memory
-          crul_resp <- cas$serialize_to_crul()
+          # crul_resp <- cas$serialize_to_crul()
 
         } # vcr is not loaded, skip
 
       } else if (webmockr_net_connect_allowed(uri = req$url$url)) {
-        # fail early here if certaion failure conditions met
+        # fail early here if certain failure conditions met
         # VCR: unhandled
         if ("package:vcr" %in% search()) {
           # get current cassette
-          cas <- vcr::cassette_current()
+          # cas <- vcr::cassette_current()
           # since no match for given request, then error here
           #   if certain conditions met
-          vcr::UnhandledHTTPRequestError$new(req, cas)$run()
+          # vcr::UnhandledHTTPRequestError$new(req, cas)$run()
           
-          # use RequestHandler instead?
-          # vcr::RequestHandler$new(req)$handle()
+          # use RequestHandler instead
+          vcr::RequestHandlerCrul$new(req)$handle()
         }
 
         # if real requests || localhost || certain exceptions ARE
@@ -195,12 +196,12 @@ CrulAdapter <- R6::R6Class(
           }
 
           # get current cassette
-          cas <- vcr::cassette_current()
+          # cas <- vcr::cassette_current()
           # record http interaction into vcr http interaction list
-          cas$record_http_interaction(crul_resp)
+          # cas$record_http_interaction(crul_resp)
 
           # use RequestHandler instead? - which gets current cassette for us
-          # vcr::RequestHandler$new(req)$handle()
+          vcr::RequestHandlerCrul$new(req)$handle()
         }
 
       } else {

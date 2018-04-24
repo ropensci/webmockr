@@ -73,8 +73,10 @@ webmockr_configuration <- function() {
 #' @export
 #' @rdname webmockr_configure
 webmockr_allow_net_connect <- function() {
-  message("net connect allowed")
-  assign('allow_net_connect', TRUE, envir = webmockr_conf_env)
+  if (!webmockr_net_connect_allowed()) {
+    message("net connect allowed")
+    assign('allow_net_connect', TRUE, envir = webmockr_conf_env)
+  }
 }
 
 #' @export
