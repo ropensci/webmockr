@@ -145,7 +145,7 @@ CrulAdapter <- R6::R6Class(
 
           # use RequestHandler instead? - which gets current cassette for us
           #  here, record interaction
-          cat(paste0("class <req>: ", paste0(class(req), collapse = ", ")), sep = "\n")
+          # cat(paste0("class <req>: ", paste0(class(req), collapse = ", ")), sep = "\n")
           crul_resp <- vcr::RequestHandlerCrul$new(req)$handle()
           
           # build crul_resp from vcr http interaction on disk or previously 
