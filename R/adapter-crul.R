@@ -157,16 +157,16 @@ CrulAdapter <- R6::R6Class(
       } else if (webmockr_net_connect_allowed(uri = req$url$url)) {
         # fail early here if certain failure conditions met
         # VCR: unhandled
-        if ("package:vcr" %in% search()) {
-          # get current cassette
-          # cas <- vcr::cassette_current()
-          # since no match for given request, then error here
-          #   if certain conditions met
-          # vcr::UnhandledHTTPRequestError$new(req, cas)$run()
+        # if ("package:vcr" %in% search()) {
+        #   # get current cassette
+        #   # cas <- vcr::cassette_current()
+        #   # since no match for given request, then error here
+        #   #   if certain conditions met
+        #   # vcr::UnhandledHTTPRequestError$new(req)$run()
           
-          # use RequestHandler instead
-          vcr::RequestHandlerCrul$new(req)$handle()
-        }
+        #   # use RequestHandler instead
+        #   vcr::RequestHandlerCrul$new(req)$handle()
+        # }
 
         # if real requests || localhost || certain exceptions ARE
         #   allowed && nothing found above
@@ -181,13 +181,13 @@ CrulAdapter <- R6::R6Class(
           urip <- crul::url_parse(req$url$url)
           m <- vcr::vcr_configuration()$match_requests_on
           
-          if (all(m == c("method", "uri")) && length(m) == 2) {
+          if (all(m %in% c("method", "uri")) && length(m) == 2) {
             stub_request(req$method, req$url$url)
-          } else if (all(m == c("method", "uri", "query")) && length(m) == 3) {
+          } else if (all(m %in% c("method", "uri", "query")) && length(m) == 3) {
             stub_request(req$method, req$url$url) %>% wi_th(query = urip$parameter)
-          } else if (all(m == c("method", "uri", "headers")) && length(m) == 3) {
+          } else if (all(m %in% c("method", "uri", "headers")) && length(m) == 3) {
             stub_request(req$method, req$url$url) %>% wi_th(headers = req$headers)
-          } else if (all(m == c("method", "uri", "headers", "query")) && length(m) == 4) {
+          } else if (all(m %in% c("method", "uri", "headers", "query")) && length(m) == 4) {
             stub_request(req$method, req$url$url) %>%
               wi_th(
                 query = urip$parameter,
