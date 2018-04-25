@@ -113,13 +113,13 @@ Response <- R6::R6Class(
     },
     get_url = function() self$url,
 
-    set_request_headers = function(headers) {
-      self$request_headers <- private$normalize_headers(headers)
+    set_request_headers = function(headers, capitalize = TRUE) {
+      self$request_headers <- private$normalize_headers(headers, capitalize)
     },
     get_request_headers = function() self$request_headers,
 
-    set_response_headers = function(headers) {
-      self$response_headers <- private$normalize_headers(headers)
+    set_response_headers = function(headers, capitalize = TRUE) {
+      self$response_headers <- private$normalize_headers(headers, capitalize)
     },
     get_respone_headers = function() self$response_headers,
 

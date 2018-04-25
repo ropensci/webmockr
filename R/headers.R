@@ -1,15 +1,19 @@
 # headers <- list(`Content-type` = 'application/json', Stuff = "things")
 # normalize_headers(x = headers)
 #
-# headers <- list(`Content-type` = 'application/json', `x-frame-options` = c("SAMEORIGIN", "sameorigin"))
+# headers <- list(`content-type` = 'application/json', stuff = "things")
+# normalize_headers(x = headers, capitalize = FALSE)
+#
+# headers <- list(`content-type` = 'application/json', `x-frame-options` = c("SAMEORIGIN", "sameorigin"))
 # normalize_headers(x = headers)
-normalize_headers <- function(x = NULL) {
+# normalize_headers(x = headers, FALSE)
+normalize_headers <- function(x = NULL, capitalize = TRUE) {
   if (is.null(x) || length(x) == 0) return(x)
 
   res <- list()
   for (i in seq_along(x)) {
     name <- paste0(
-      vapply(strsplit(as.character(names(x)[i]), '_|-')[[1]], function(w) simple_cap(w), ""),
+      vapply(strsplit(as.character(names(x)[i]), '_|-')[[1]], function(w) simple_cap(w, capitalize), ""),
       collapse = "-"
     )
     value <- switch(
@@ -23,8 +27,12 @@ normalize_headers <- function(x = NULL) {
   unlist(lapply(res, function(z) stats::setNames(z[2], z[1])), FALSE)
 }
 
-simple_cap <- function(x) {
-  s <- strsplit(x, " ")[[1]]
-  paste(toupper(substring(s, 1, 1)), substring(s, 2),
-        sep = "", collapse = " ")
+simple_cap <- function(x, capitalize) {
+  if (capitalize) {
+    s <- strsplit(x, " ")[[1]]
+    paste(toupper(substring(s, 1, 1)), substring(s, 2),
+          sep = "", collapse = " ")
+  } else {
+    x
+  }
 }
