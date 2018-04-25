@@ -145,7 +145,7 @@ Response <- R6::R6Class(
   ),
 
   private = list(
-    normalize_headers = function(x) normalize_headers(x)
+    normalize_headers = function(x, capitalize = TRUE) normalize_headers(x, capitalize)
   )
 )
 
