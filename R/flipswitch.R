@@ -13,6 +13,7 @@ webmockr_lightswitch$crul <- FALSE
 #' enable or disable, respectively, on each [HttpLibAdapaterRegistry]
 #' object. `enabled` returns a single boolean
 #' @param options list of options - ignored for now.
+#' @param adapter (character) the adapter to enable, only 'crul' for now
 enable <- function(options = list()) {
   invisible(vapply(http_lib_adapter_registry$adapters, function(z) {
     z$enable()

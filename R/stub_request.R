@@ -57,6 +57,10 @@
 #' stub_request("get", "https://httpbin.org/get") %>% to_raise(HTTPBadGateway)
 #' crul::mock()
 #' x$get('get')
+#' 
+#' # pass options to .list to avoid NSE
+#' z <- stub_request("get", "https://httpbin.org/get")
+#' wi_th(z, .list = list(query = list(foo = "bar")))
 #'
 #' # clear all stubs
 #' stub_registry()

@@ -56,7 +56,7 @@ crul_headers_parse <- function(x) do.call("c", lapply(x, crul_head_parse))
 
 #' execute a curl request
 #' @export
-#' @noRd
+#' @keywords internal
 #' @param x an object
 #' @return a curl response
 webmockr_crul_fetch <- function(x) {

@@ -99,9 +99,11 @@ test_that("webmockr_disable_net_connect", {
 
 context("util fxns: webmockr_allow_net_connect")
 test_that("webmockr_allow_net_connect", {
+  # first call, sets to TRUE, and returns message
+
   # nothing passed
-  expect_true(sm(webmockr_allow_net_connect()))
-  expect_message(webmockr_allow_net_connect(), "net connect allowed")
+  expect_message(z <- webmockr_allow_net_connect(), "net connect allowed")
+  expect_true(z)
 
   # check if net collect allowed afterwards, should be TRUE
   expect_true(webmockr_net_connect_allowed())
