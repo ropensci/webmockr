@@ -3,7 +3,7 @@
 man-roxygen/
 ^README.Rmd$
 ^\.travis.yml$
-^CONDUCT\.md$
+^CODE_OF_CONDUCT\.md$
 Makefile
 notes.md
 .github
