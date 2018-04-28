@@ -93,7 +93,7 @@ CrulAdapter <- R6::R6Class(
         # generate crul response
         # VCR: recordable/ignored
         if ("package:vcr" %in% search()) {
-          cas <- vcr::cassette_current()
+          cas <- vcr::current_cassette()
           if (length(cas$previously_recorded_interactions()) == 0) {
             # using vcr, but no recorded interactions to the cassette yet
             # do real request
@@ -131,7 +131,7 @@ CrulAdapter <- R6::R6Class(
         # VCR: recordable/stubbed_by_vcr ??
         if ("package:vcr" %in% search()) {
           # get current cassette
-          cas <- vcr::cassette_current()
+          cas <- vcr::current_cassette()
           # FIXME: doing this fix for record:once - not sure will work for other record modes
           ## OLD STUFF
           # record http interaction into vcr http interaction list
@@ -147,8 +147,8 @@ CrulAdapter <- R6::R6Class(
           #  here, record interaction
           # cat(paste0("class <req>: ", paste0(class(req), collapse = ", ")), sep = "\n")
           crul_resp <- vcr::RequestHandlerCrul$new(req)$handle()
-          
-          # build crul_resp from vcr http interaction on disk or previously 
+
+          # build crul_resp from vcr http interaction on disk or previously
           # recorded in memory
           # crul_resp <- cas$serialize_to_crul()
 
@@ -159,11 +159,11 @@ CrulAdapter <- R6::R6Class(
         # VCR: unhandled
         # if ("package:vcr" %in% search()) {
         #   # get current cassette
-        #   # cas <- vcr::cassette_current()
+        #   # cas <- vcr::current_cassette()
         #   # since no match for given request, then error here
         #   #   if certain conditions met
         #   # vcr::UnhandledHTTPRequestError$new(req)$run()
-          
+
         #   # use RequestHandler instead
         #   vcr::RequestHandlerCrul$new(req)$handle()
         # }
@@ -180,7 +180,7 @@ CrulAdapter <- R6::R6Class(
           # stub request so next time we match it
           urip <- crul::url_parse(req$url$url)
           m <- vcr::vcr_configuration()$match_requests_on
-          
+
           if (all(m %in% c("method", "uri")) && length(m) == 2) {
             stub_request(req$method, req$url$url)
           } else if (all(m %in% c("method", "uri", "query")) && length(m) == 3) {
@@ -196,7 +196,7 @@ CrulAdapter <- R6::R6Class(
           }
 
           # get current cassette
-          # cas <- vcr::cassette_current()
+          # cas <- vcr::current_cassette()
           # record http interaction into vcr http interaction list
           # cas$record_http_interaction(crul_resp)
 
@@ -271,13 +271,13 @@ build_crul_response <- function(req, resp) {
         list()
       } else {
         hds <- resp$headers
-        
+
         if (is.null(hds)) {
           hds <- resp$response_headers
 
           if (is.null(hds)) {
             list()
-          } else {  
+          } else {
             stopifnot(is.list(hds))
             stopifnot(is.character(hds[[1]]))
             hds
