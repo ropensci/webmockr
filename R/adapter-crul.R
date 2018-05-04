@@ -163,7 +163,7 @@ CrulAdapter <- R6::R6Class(
 
       } else {
         # no stubs found and net connect not allowed - STOP
-        x <- "Real HTTP connections are disabled.\nUnregistered request:"
+        x <- "Real HTTP connections are disabled.\nUnregistered request:\n "
         y <- "\n\nYou can stub this request with the following snippet:\n\n  "
         z <- "\n\nregistered request stubs:\n\n"
         msgx <- paste(x, request_signature$to_s())
@@ -177,7 +177,8 @@ CrulAdapter <- R6::R6Class(
         } else {
           msgz <- ""
         }
-        stop(paste0(msgx, msgy, msgz), call. = FALSE)
+        ending <- "\n============================================================"
+        stop(paste0(msgx, msgy, msgz, ending), call. = FALSE)
       }
 
       return(crul_resp)
@@ -195,18 +196,36 @@ CrulAdapter <- R6::R6Class(
         x$method,
         x$uri
       )
-      if (!is.null(x$headers)) {
-        hd <- x$headers
-        hd_str <- sprintf(
-          "wi_th(headers = list(%s))",
-          paste0(
+      if (!is.null(x$headers) || !is.null(x$body)) {
+        # set defaults to ""
+        hd_str <- bd_str <- ""
+
+        # headers has to be a named list, so easier to deal with
+        if (!is.null(x$headers)) {
+          hd <- x$headers
+          hd_str <- paste0(
             paste(sprintf("'%s'", names(hd)),
                   sprintf("'%s'", unlist(unname(hd))), sep = " = "),
             collapse = ", ")
-        )
-        tmp <- paste0(tmp, " %>%\n    ", hd_str)
+        }
+
+        # body can be lots of things, so need to handle various cases
+        if (!is.null(x$body)) {
+          bd <- x$body
+          bd_str <- hdl_lst2(bd)
+        }
+
+        if (nzchar(hd_str) && nzchar(bd_str)) {
+          with_str <- sprintf(" wi_th(\n       headers = list(%s),\n       body = list(%s)\n     )",
+                              hd_str, bd_str)
+        } else if (nzchar(hd_str) && !nzchar(bd_str)) {
+          with_str <- sprintf(" wi_th(\n       headers = list(%s)\n     )", hd_str)
+        } else if (!nzchar(hd_str) && nzchar(bd_str)) {
+          with_str <- sprintf(" wi_th(\n       body = list(%s)\n     )", bd_str)
+        }
+
+        tmp <- paste0(tmp, " %>%\n    ", with_str)
       }
-      cat(tmp, sep = "\n")
       return(tmp)
     }
   )
@@ -266,7 +285,7 @@ build_crul_request = function(x) {
     method = x$method,
     uri = x$url$url,
     options = list(
-      body = x$body %||% NULL,
+      body = x$fields %||% NULL,
       headers = x$headers %||% NULL,
       proxies = x$proxies %||% NULL,
       auth = x$auth %||% NULL

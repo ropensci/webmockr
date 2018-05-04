@@ -12,6 +12,27 @@ hdl_lst <- function(x) {
   }
 }
 
+hdl_lst2 <- function(x) {
+  if (is.null(x) || length(x) == 0) return("")
+  if (is.raw(x)) return(rawToChar(x))
+  if (inherits(x, "list")) {
+    out <- vector(mode = "character", length = length(x))
+    for (i in seq_along(x)) {
+      targ <- x[[i]]
+      out[[i]] <- paste(names(x)[i], switch(
+        class(targ)[1L],
+        character = sprintf('\"%s\"', targ),
+        list = sprintf("list(%s)", hdl_lst2(targ)),
+        targ
+      ), sep = "=")
+    }
+    return(paste(out, collapse = ", "))
+  } else {
+    # FIXME: dumping ground, just spit out whatever and hope for the best
+    return(x)
+  }
+}
+
 parseurl <- function(x) {
   tmp <- urltools::url_parse(x)
   tmp <- as.list(tmp)

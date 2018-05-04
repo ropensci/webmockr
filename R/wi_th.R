@@ -9,7 +9,7 @@
 #' to [lazyeval::lazy_dots()]. accepts the following: query, body,
 #' headers
 #' @param .dots	Used to work around non-standard evaluation
-#' @param .list named list of things, has to be one of 'query', 'body', 
+#' @param .list named list of things, has to be one of 'query', 'body',
 #' and/or 'headers'. This is an escape hatch to avoid NSE (non-standard
 #' evaluation), so don't pass the same thing to both, e.g. don't pass
 #' 'query' via NSE, and also 'query' to this parameter
@@ -23,6 +23,31 @@
 #' - query: (list) a named list
 #' - body: various, including character string, list, raw, numeric, etc
 #' - headers: (list) a named list
+#'
+#' @examples
+#' # first, make a stub object
+#' req <- stub_request("post", "https://httpbin.org/post")
+#'
+#' # add body
+#' # list
+#' wi_th(req, body = list(foo = "bar"))
+#' # string
+#' wi_th(req, body = '{"foo": "bar"}')
+#' # raw
+#' wi_th(req, body = charToRaw('{"foo": "bar"}'))
+#' # numeric
+#' wi_th(req, body = 5)
+#'
+#' # add query - has to be a named list
+#' wi_th(req, query = list(foo = "bar"))
+#'
+#' # add headers - has to be a named list
+#' wi_th(req, headers = list(foo = "bar"))
+#' wi_th(req, headers = list(`User-Agent` = "webmockr/v1", hello="world"))
+#'
+#'
+#' # .list NSE escape hatch
+#' wi_th(req, .list = list(body = list(foo = "bar")))
 wi_th <- function(.data, ..., .list = list()) {
   wi_th_(.data, .dots = lazyeval::lazy_dots(...), .list = .list)
 }
@@ -48,7 +73,7 @@ wi_th_ <- function(.data, ..., .dots, .list) {
   if (!all(hz_namez(z$query))) {
     stop("'query' must be a named list")
   }
-  assert(z$body, 'list')
+  assert(z$headers, 'list')
   if (!all(hz_namez(z$headers))) {
     stop("'headers' must be a named list")
   }

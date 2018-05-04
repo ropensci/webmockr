@@ -46,7 +46,7 @@ test_that("CrulAdapter works", {
   res <- CrulAdapter$new()
   expect_error(
     res$handle_request(crul_obj),
-    "Real HTTP connections are disabled.\nUnregistered request: GET http://localhost:9000/get\n\nYou can stub this request with the following snippet"
+    "Real HTTP connections are disabled.\nUnregistered request:\n  GET http://localhost:9000/get\n\nYou can stub this request with the following snippet:\n\n   stub_request\\('get', uri = 'http://localhost:9000/get'\\)\n============================================================"
   )
 
   invisible(stub_request("get", "http://localhost:9000/get"))

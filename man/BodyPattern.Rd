@@ -21,7 +21,18 @@ Match a body object against that given in \code{pattern}
 }
 }
 \examples{
-z <- BodyPattern$new(pattern = list(a = "foobar"))
+# make a request signature
+bb <- RequestSignature$new(
+  method = "get",
+  uri = "https:/httpbin.org/get",
+  options = list(
+    body = list(foo = "bar", a = 5)
+  )
+)
+
+# make body pattern object
+z <- BodyPattern$new(pattern = list(foo = "bar"))
 z$pattern
+z$matches(bb$body)
 }
 \keyword{internal}

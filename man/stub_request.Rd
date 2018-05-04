@@ -42,9 +42,18 @@ stub_request("post", "https://httpbin.org/post")
 # list stubs
 stub_registry()
 
-# add header
+# request headers
 stub_request("get", "https://httpbin.org/get") \%>\%
    wi_th(headers = list('User-Agent' = 'R'))
+
+# request body
+stub_request("get", "https://httpbin.org/get") \%>\%
+   wi_th(body = list(foo = 'bar'))
+stub_registry()
+library(crul)
+x <- crul::HttpClient$new(url = "https://httpbin.org")
+crul::mock()
+x$get('get')
 
 # add expectation with to_return
 stub_request("get", "https://httpbin.org/get") \%>\%
