@@ -162,6 +162,12 @@ CrulAdapter <- R6::R6Class(
         }
 
       } else {
+        # throw vcr error: should happen when user not using
+        #  use_cassette or insert_cassette
+        if ("package:vcr" %in% search()) {
+          vcr::RequestHandlerCrul$new(req)$handle()
+        }
+
         # no stubs found and net connect not allowed - STOP
         x <- "Real HTTP connections are disabled.\nUnregistered request:\n "
         y <- "\n\nYou can stub this request with the following snippet:\n\n  "

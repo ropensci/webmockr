@@ -42,8 +42,18 @@ test_that("CrulAdapter works", {
 
   load("crul_obj.rda")
   crul_obj$url$handle <- curl::new_handle()
-
   res <- CrulAdapter$new()
+
+  # with vcr message
+  library(vcr)
+  expect_error(
+    res$handle_request(crul_obj),
+    "There is currently no cassette in use"
+  )
+
+  # with webmockr message
+  # unload vcr
+  unloadNamespace("vcr")
   expect_error(
     res$handle_request(crul_obj),
     "Real HTTP connections are disabled.\nUnregistered request:\n  GET http://localhost:9000/get\n\nYou can stub this request with the following snippet:\n\n   stub_request\\('get', uri = 'http://localhost:9000/get'\\)\n============================================================"
