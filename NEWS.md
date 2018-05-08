@@ -1,3 +1,21 @@
+webmockr 0.2.4
+==============
+
+### MINOR IMPROVEMENTS
+
+* matching by request body was not supported, it now is (#36)
+* make sure that the adapter for `crul` handles all types of matches (#29)
+* removed all internal usage of pipes in the package. still exporting
+pipe for users (#30)
+* fixed internals to give vcr error when vcr loaded - for future release
+with vcr support (#34)
+
+### BUG FIXES
+
+* Error messages with the suggest stub were not giving bodies. They 
+now give bodies if needed along with method, uri, headers, query (#37)
+
+
 webmockr 0.2.0
 ==============
 
