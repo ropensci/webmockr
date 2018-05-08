@@ -92,14 +92,14 @@ CrulAdapter <- R6::R6Class(
 
         # generate crul response
         # VCR: recordable/ignored
-        if ("package:vcr" %in% search()) {
-          cas <- vcr::current_cassette()
-          if (length(cas$previously_recorded_interactions()) == 0) {
-            # using vcr, but no recorded interactions to the cassette yet
-            # use RequestHandler - gets current cassette & record interaction
-            crul_resp <- vcr::RequestHandlerCrul$new(req)$handle()
-          }
-        } else {
+        # if ("package:vcr" %in% search()) {
+        #   # cas <- vcr::current_cassette()
+        #   # if (length(cas$previously_recorded_interactions()) == 0) {
+        #   #   # using vcr, but no recorded interactions to the cassette yet
+        #   #   # use RequestHandler - gets current cassette & record interaction
+        #   #   crul_resp <- vcr::RequestHandlerCrul$new(req)$handle()
+        #   # }
+        # } else {
           crul_resp <- build_crul_response(req, resp)
 
           # add to_return() elements if given
@@ -120,15 +120,15 @@ CrulAdapter <- R6::R6Class(
               }
             }
           }
-        }
+        # }
 
         # if vcr loaded: record http interaction into vcr namespace
         # VCR: recordable/stubbed_by_vcr ??
-        if ("package:vcr" %in% search()) {
-          # get current cassette
-          cas <- vcr::current_cassette()
-          crul_resp <- vcr::RequestHandlerCrul$new(req)$handle()
-        } # vcr is not loaded, skip
+        # if ("package:vcr" %in% search()) {
+        #   # get current cassette
+        #   cas <- vcr::current_cassette()
+        #   crul_resp <- vcr::RequestHandlerCrul$new(req)$handle()
+        # } # vcr is not loaded, skip
 
       } else if (webmockr_net_connect_allowed(uri = req$url$url)) {
         # if real requests || localhost || certain exceptions ARE
@@ -139,34 +139,34 @@ CrulAdapter <- R6::R6Class(
 
         # if vcr loaded: record http interaction into vcr namespace
         # VCR: recordable
-        if ("package:vcr" %in% search()) {
-          # stub request so next time we match it
-          urip <- crul::url_parse(req$url$url)
-          m <- vcr::vcr_configuration()$match_requests_on
-
-          if (all(m %in% c("method", "uri")) && length(m) == 2) {
-            stub_request(req$method, req$url$url)
-          } else if (all(m %in% c("method", "uri", "query")) && length(m) == 3) {
-            tmp <- stub_request(req$method, req$url$url)
-            wi_th(tmp, .list = list(query = urip$parameter))
-          } else if (all(m %in% c("method", "uri", "headers")) && length(m) == 3) {
-            tmp <- stub_request(req$method, req$url$url)
-            wi_th(tmp, .list = list(query = req$headers))
-          } else if (all(m %in% c("method", "uri", "headers", "query")) && length(m) == 4) {
-            tmp <- stub_request(req$method, req$url$url)
-            wi_th(tmp, .list = list(query = urip$parameter, headers = req$headers))
-          }
-
-          # use RequestHandler instead? - which gets current cassette for us
-          vcr::RequestHandlerCrul$new(req)$handle()
-        }
+        # if ("package:vcr" %in% search()) {
+        #   # stub request so next time we match it
+        #   urip <- crul::url_parse(req$url$url)
+        #   m <- vcr::vcr_configuration()$match_requests_on
+        #
+        #   if (all(m %in% c("method", "uri")) && length(m) == 2) {
+        #     stub_request(req$method, req$url$url)
+        #   } else if (all(m %in% c("method", "uri", "query")) && length(m) == 3) {
+        #     tmp <- stub_request(req$method, req$url$url)
+        #     wi_th(tmp, .list = list(query = urip$parameter))
+        #   } else if (all(m %in% c("method", "uri", "headers")) && length(m) == 3) {
+        #     tmp <- stub_request(req$method, req$url$url)
+        #     wi_th(tmp, .list = list(query = req$headers))
+        #   } else if (all(m %in% c("method", "uri", "headers", "query")) && length(m) == 4) {
+        #     tmp <- stub_request(req$method, req$url$url)
+        #     wi_th(tmp, .list = list(query = urip$parameter, headers = req$headers))
+        #   }
+        #
+        #   # use RequestHandler instead? - which gets current cassette for us
+        #   vcr::RequestHandlerCrul$new(req)$handle()
+        # }
 
       } else {
         # throw vcr error: should happen when user not using
         #  use_cassette or insert_cassette
-        if ("package:vcr" %in% search()) {
-          vcr::RequestHandlerCrul$new(req)$handle()
-        }
+        # if ("package:vcr" %in% search()) {
+        #   vcr::RequestHandlerCrul$new(req)$handle()
+        # }
 
         # no stubs found and net connect not allowed - STOP
         x <- "Real HTTP connections are disabled.\nUnregistered request:\n "

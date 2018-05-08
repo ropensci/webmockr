@@ -36,35 +36,35 @@ test_that("build_crul_request/response fail well", {
 })
 
 
-context("CrulAdapter - with real data")
-test_that("CrulAdapter works", {
-  skip_on_cran()
-
-  load("crul_obj.rda")
-  crul_obj$url$handle <- curl::new_handle()
-  res <- CrulAdapter$new()
-
-  # with vcr message
-  library(vcr)
-  expect_error(
-    res$handle_request(crul_obj),
-    "There is currently no cassette in use"
-  )
-
-  # with webmockr message
-  # unload vcr
-  unloadNamespace("vcr")
-  expect_error(
-    res$handle_request(crul_obj),
-    "Real HTTP connections are disabled.\nUnregistered request:\n  GET http://localhost:9000/get\n\nYou can stub this request with the following snippet:\n\n   stub_request\\('get', uri = 'http://localhost:9000/get'\\)\n============================================================"
-  )
-
-  invisible(stub_request("get", "http://localhost:9000/get"))
-
-  aa <- res$handle_request(crul_obj)
-
-  expect_is(res, "CrulAdapter")
-  expect_is(aa, "HttpResponse")
-  expect_equal(aa$method, "get")
-  expect_equal(aa$url, "http://localhost:9000/get")
-})
+# context("CrulAdapter - with real data")
+# test_that("CrulAdapter works", {
+#   skip_on_cran()
+#
+#   load("crul_obj.rda")
+#   crul_obj$url$handle <- curl::new_handle()
+#   res <- CrulAdapter$new()
+#
+#   # with vcr message
+#   library(vcr)
+#   expect_error(
+#     res$handle_request(crul_obj),
+#     "There is currently no cassette in use"
+#   )
+#
+#   # with webmockr message
+#   # unload vcr
+#   unloadNamespace("vcr")
+#   expect_error(
+#     res$handle_request(crul_obj),
+#     "Real HTTP connections are disabled.\nUnregistered request:\n  GET http://localhost:9000/get\n\nYou can stub this request with the following snippet:\n\n   stub_request\\('get', uri = 'http://localhost:9000/get'\\)\n============================================================"
+#   )
+#
+#   invisible(stub_request("get", "http://localhost:9000/get"))
+#
+#   aa <- res$handle_request(crul_obj)
+#
+#   expect_is(res, "CrulAdapter")
+#   expect_is(aa, "HttpResponse")
+#   expect_equal(aa$method, "get")
+#   expect_equal(aa$url, "http://localhost:9000/get")
+# })
