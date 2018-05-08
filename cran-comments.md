@@ -22,8 +22,9 @@ I have notified the one other maintainer.
 
 ---
 
-This version fixes matching by request body, prints request body in 
-suggested stub, and a few other small fixes.
+This version gains a new function, adds a parameter to the wi_th function, 
+fixes matching by request body, prints request body in suggested stub, and 
+a few other small fixes.
 
 Thanks!
 Scott Chamberlain

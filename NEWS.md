@@ -1,19 +1,30 @@
 webmockr 0.2.4
 ==============
 
+### NEW FEATURES
+
+* New function `enabled()` to ask if `webmockr` is enabled, gives a
+boolean
+* `wi_th()` gains new parameter `.list` as an escape hatch to avoid
+NSE. examples added in the `wi_th` man file to clarify its use
+
 ### MINOR IMPROVEMENTS
 
-* matching by request body was not supported, it now is (#36)
+* matching by request body was not supported, it now is; added examples
+of matching on request body, see `?stub_request`  (#36)
 * make sure that the adapter for `crul` handles all types of matches (#29)
 * removed all internal usage of pipes in the package. still exporting
 pipe for users (#30)
 * fixed internals to give vcr error when vcr loaded - for future release
 with vcr support (#34)
+* require newest `crul` version
 
 ### BUG FIXES
 
 * Error messages with the suggest stub were not giving bodies. They 
 now give bodies if needed along with method, uri, headers, query (#37)
+* Fixed `Response` class that was not dealing with capitalization 
+correctly
 
 
 webmockr 0.2.0
