@@ -17,11 +17,13 @@
 ## Reverse dependencies
 
 I have checked the 2 reverse dependencies, and there were no problems. 
+See (<https://github.com/ropensci/webmockr/tree/master/revdep#platform>).
 I have notified the one other maintainer.
 
 ---
 
-This version xxxx.
+This version fixes matching by request body, prints request body in 
+suggested stub, and a few other small fixes.
 
 Thanks!
 Scott Chamberlain
