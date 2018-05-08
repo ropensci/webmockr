@@ -39,6 +39,9 @@ remove the earlier one(s).
 stub_request("get", "https://httpbin.org/get")
 stub_request("post", "https://httpbin.org/post")
 
+# any method, use "any"
+stub_request("any", "https://httpbin.org/get")
+
 # list stubs
 stub_registry()
 

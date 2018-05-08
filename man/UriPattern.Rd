@@ -57,6 +57,7 @@ z$add_query_params(list(pizza = "cheese", cheese = "cheddar"))
 z$pattern
 
 (z <- UriPattern$new(pattern = "http://foobar.com"))
+z$pattern
 z$add_query_params(list(pizza = "deep dish", cheese = "cheddar"))
 z$pattern
 }
