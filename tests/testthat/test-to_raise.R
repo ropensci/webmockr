@@ -46,11 +46,4 @@ test_that("stub_request fails well", {
   zzz <- stub_request("get", "https://httpbin.org/get")
   expect_error(to_raise(zzz, "foo"),
                "all objects must be error classes from fauxpas")
-
-  # without fauxpas loaded
-  unloadNamespace("fauxpas")
-  expect_error(
-    stub_request("get", "https://httpbin.org/get") %>% to_raise(HTTPAccepted),
-    "object 'HTTPAccepted' not found"
-  )
 })
