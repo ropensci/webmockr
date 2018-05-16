@@ -20,7 +20,7 @@ R library for stubbing and setting expectations on HTTP requests.
 
 Port of the Ruby gem [webmock](https://github.com/bblimke/webmock)
 
-<details> <summary><strong>How it works in way too much detail</strong></summary> <p>
+<details> <summary><strong>How it works in detail</strong></summary> <p>
 
 The very very short version is: `webmockr` helps you stub HTTP requests so you 
 don't have to repeat yourself.
@@ -91,7 +91,7 @@ in the `webmockr_configure()` function.
 
 **Storing actual HTTP responses**
 
-`webmockr` doesn't do that. Check out [vcr](https://github.com/ropensci/vcr).
+`webmockr` doesn't do that. Check out [vcr][]
 
 </p></details>
 
@@ -100,14 +100,14 @@ in the `webmockr_configure()` function.
 * Stubbing HTTP requests at low http client lib level
 * Setting and verifying expectations on HTTP requests
 * Matching requests based on method, URI, headers and body
-* Support for `testthat` coming soon via [vcr](https://github.com/ropenscilabs/vcr)
+* Support for `testthat` via [vcr][]
 * Can be used for testing or outside of a testing context
 
 ## Supported HTTP libraries
 
 * [crul](https://github.com/ropensci/crul)
 
-> more to come
+> more to come: curl, httr
 
 ## Install
 
@@ -234,3 +234,6 @@ x$get('get', query = list(a = "b"))
 By participating in this project you agree to abide by its terms.
 
 [![ropensci_footer](https://ropensci.org/public_images/github_footer.png)](https://ropensci.org)
+
+
+[vcr]: https://github.com/ropensci/vcr
