@@ -32,6 +32,7 @@ Suggests:
     testthat,
     xml2,
     vcr
+Remotes: sckott/curl@mocking
 RoxygenNote: 6.0.1
 X-schema.org-applicationCategory: Web
 X-schema.org-keywords: http, https, API, web-services, curl, mock, mocking, fakeweb, http-mocking, testing, testing-tools, tdd
