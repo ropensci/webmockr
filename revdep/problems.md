@@ -23,3 +23,15 @@ Version: 0.1.7
       All declared Imports should be used.
     ```
 
+# vcr
+
+Version: 0.1.0
+
+## In both
+
+*   checking dependencies in R code ... NOTE
+    ```
+    Namespace in Imports field not imported from: ‘crul’
+      All declared Imports should be used.
+    ```
+

@@ -16,15 +16,12 @@
 
 ## Reverse dependencies
 
-I have checked the 2 reverse dependencies, and there were no problems. 
+I have checked the 3 reverse dependencies, and there were no problems. 
 See (<https://github.com/ropensci/webmockr/tree/master/revdep#platform>).
-I have notified the one other maintainer.
 
 ---
 
-This version gains a new function, adds a parameter to the wi_th function, 
-fixes matching by request body, prints request body in suggested stub, and 
-a few other small fixes.
+This version gains support for integration with package vcr.
 
 Thanks!
 Scott Chamberlain
