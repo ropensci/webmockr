@@ -1,3 +1,11 @@
+webmockr 0.2.6
+==============
+
+### NEW FEATURES
+
+* Added support for integration with package `vcr` (now on CRAN) for doing HTTP request caching
+
+
 webmockr 0.2.4
 ==============
 
