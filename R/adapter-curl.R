@@ -33,6 +33,44 @@
 #'
 #' @format NULL
 #' @usage NULL
+#' 
+#' @examples
+#' library(curl)
+#' 
+#' # before mocking turned on
+#' h <- new_handle()
+#' curl_fetch_memory("https://httpbin.org/get?foo=bar", h)
+#' 
+#' # after mocking turned on
+#' curl::mock()
+#' curl_fetch_memory("https://httpbin.org/get?foo=bar", h)
+#' 
+#' # after stubbing request
+#' stub_request("get", "https://httpbin.org/get?foo=bar")
+#' stub_registry()
+#' 
+#' # now you get a mocked response
+#' curl_fetch_memory("https://httpbin.org/get?foo=bar", h)
+#' 
+#' # another request, this time setting what to return
+#' h2 <- new_handle()
+#' g = curl_fetch_memory("https://httpbin.org/get?bear=brown", h2)
+#' stub_request('get', uri = 'https://httpbin.org/get?bear=brown') %>% 
+#'     to_return(status = 418, body = "stuff", headers = list(a = 5))
+#' stub_registry()
+#' 
+#' # make request, inspect returned items
+#' g = curl_fetch_memory("https://httpbin.org/get?bear=brown", h2)
+#' g
+#' rawToChar(g$headers)
+#' rawToChar(g$content)
+#' 
+#' # allow net connect - NOT WORKING YET
+#' # webmockr_allow_net_connect()
+#' # webmockr_net_connect_allowed()
+#' # h3 <- new_handle()
+#' # curl_fetch_memory("https://httpbin.org/get?cow=brown", h3)
+#' 
 CurlAdapter <- R6::R6Class(
   'CurlAdapter',
   public = list(
@@ -41,25 +79,26 @@ CurlAdapter <- R6::R6Class(
     enable = function() {
       message("CurlAdapter enabled!")
       webmockr_lightswitch$curl <- TRUE
-      crul::mock(TRUE)
+      curl::mock(TRUE)
       invisible(TRUE)
     },
 
     disable = function() {
       message("CurlAdapter disabled!")
       webmockr_lightswitch$curl <- FALSE
-      crul::mock(FALSE)
+      curl::mock(FALSE)
       self$remove_curl_stubs()
       invisible(FALSE)
     },
 
-    handle_request = function(url, handle) {
+    handle_request = function(req) {
       # put request in request registry
-      request_signature <- build_curl_request(url)
+      request_signature <- build_curl_request(req)
       webmockr_request_registry$register_request(
         request = request_signature$to_s()
       )
 
+      # cat(paste0("is request in cache: ", request_is_in_cache(request_signature)), "\n")
       if (request_is_in_cache(request_signature)) {
         # if real requests NOT allowed
         # even if net connects allowed, we check if stubbed found first
@@ -90,6 +129,7 @@ CurlAdapter <- R6::R6Class(
           }
         }
 
+        # cat("build_curl_response call", "\n")
         curl_resp <- build_curl_response(req, resp)
 
         # add to_return() elements if given
@@ -106,16 +146,19 @@ CurlAdapter <- R6::R6Class(
               curl_resp$content <- ss$responses_sequences$body_raw
             }
             if (names(toadd)[i] == "headers") {
-              curl_resp$response_headers <- toadd[[i]]
+              curl_resp$headers <- charToRaw(make_curl_headers(toadd[[i]]))
             }
           }
         }
-      } else if (webmockr_net_connect_allowed(uri = req$url$url)) {
+
+      } else if (webmockr_net_connect_allowed(uri = req$url)) {
         # if real requests || localhost || certain exceptions ARE
         #   allowed && nothing found above
-        tmp <- crul::HttpClient$new(url = req$url$url)
-        tmp2 <- webmockr_crul_fetch(req)
-        curl_resp <- build_curl_response(req, tmp2)
+        stop("FIXME: webmockr net connect allowed not working yet")
+        # curl::mock(FALSE) # tempoarily disable
+        # resp <- eval(as.expression(paste0("curl::", req$called)))(req$url, req$handle)
+        # curl_resp <- build_curl_response(req, resp)
+        # curl::mock(TRUE) # re-enable
       } else {
         # no stubs found and net connect not allowed - STOP
         x <- "Real HTTP connections are disabled.\nUnregistered request:\n "
@@ -136,6 +179,7 @@ CurlAdapter <- R6::R6Class(
         stop(paste0(msgx, msgy, msgz, ending), call. = FALSE)
       }
 
+      # cat("returngin curl_resp", "\n")
       return(curl_resp)
     },
 
@@ -192,42 +236,20 @@ CurlAdapter <- R6::R6Class(
 #' @param resp a response
 #' @return a curl response
 build_curl_response <- function(req, resp) {
-  crul::HttpResponse$new(
-    method = req$method,
-    url = req$url$url,
+  headers <- NULL
+  if (!is.null(resp$response_headers)) {
+    headers <- charToRaw(make_curl_headers(resp$response_headers))
+  }
+  if (!is.null(resp$headers)) {
+    if (inherits(resp$headers, "raw")) headers <- resp$headers
+  }
+  list(
+    url = req$url,
     status_code = resp$status_code,
-    request_headers = c('User-Agent' = req$options$useragent, req$headers),
-    response_headers = {
-      if (grepl("^ftp://", resp$url)) {
-        list()
-      } else {
-        hds <- resp$headers
-
-        if (is.null(hds)) {
-          hds <- resp$response_headers
-
-          if (is.null(hds)) {
-            list()
-          } else {
-            stopifnot(is.list(hds))
-            stopifnot(is.character(hds[[1]]))
-            hds
-          }
-        } else {
-          hh <- rawToChar(hds %||% raw(0))
-          if (is.null(hh) || nchar(hh) == 0) {
-            list()
-          } else {
-            crul_headers_parse(curl::parse_headers(hh))
-          }
-        }
-      }
-    },
+    headers = headers %||% raw(0),
     modified = resp$modified %||% NA,
-    times = resp$times,
-    content = resp$content,
-    handle = req$url$handle,
-    request = req
+    times = resp$times %||% numeric(0),
+    content = resp$content
   )
 }
 
@@ -236,12 +258,11 @@ build_curl_response <- function(req, resp) {
 #' @param x an unexecuted curl request object
 #' @return a curl request
 build_curl_request = function(x) {
-  x <- urltools::url_parse(x)
   RequestSignature$new(
-    method = "get",
-    uri = urltools::url_compose(x),
+    method = x$method,
+    uri = x$url,
     options = list(
-      body = x$fields %||% NULL,
+      body = x$body %||% NULL,
       headers = x$headers %||% NULL,
       proxies = x$proxies %||% NULL,
       auth = x$auth %||% NULL
@@ -249,3 +270,16 @@ build_curl_request = function(x) {
   )
 }
 
+#' @keywords internal
+#' @examples 
+#' foo <- list(a = 5, `User-Agent` = "ropensci")
+#' make_curl_headers(foo)
+#' cat(make_curl_headers(foo))
+make_curl_headers <- function(x) {
+  stopifnot(is.list(x))
+  paste0(paste0(
+    paste(names(x), unname(unlist(x)), sep = ": "),
+    collapse = "\r\n"
+  ), "\r\n\r\n")
+}
+# "HTTP/1.1 405 METHOD NOT ALLOWED\r\nConnection: keep-alive\r\nServer: gunicorn/19.8.1\r\nDate: Fri, 18 May 2018 18:37:00 GMT\r\nContent-Type: text/html\r\nAllow: OPTIONS, PUT\r\nContent-Length: 178\r\nAccess-Control-Allow-Origin: *\r\nAccess-Control-Allow-Credentials: true\r\nVia: 1.1 vegur\r\n\r\n"
