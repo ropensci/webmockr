@@ -34,7 +34,7 @@
 #' @format NULL
 #' @usage NULL
 #' 
-#' @examples
+#' @examples \dontrun{
 #' library(curl)
 #' 
 #' # before mocking turned on
@@ -70,7 +70,7 @@
 #' # webmockr_net_connect_allowed()
 #' # h3 <- new_handle()
 #' # curl_fetch_memory("https://httpbin.org/get?cow=brown", h3)
-#' 
+#' }
 CurlAdapter <- R6::R6Class(
   'CurlAdapter',
   public = list(

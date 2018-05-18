@@ -37,6 +37,7 @@ Remove all curl stubs
 This adapter modifies \pkg{curl} to allow mocking HTTP requests
 }
 \examples{
+\dontrun{
 library(curl)
 
 # before mocking turned on
@@ -72,7 +73,7 @@ rawToChar(g$content)
 # webmockr_net_connect_allowed()
 # h3 <- new_handle()
 # curl_fetch_memory("https://httpbin.org/get?cow=brown", h3)
-
+}
 }
 \seealso{
 Other http_lib_adapters: \code{\link{CrulAdapter}}
