@@ -129,7 +129,7 @@ library(webmockr)
 
 ```r
 webmockr::enable()
-#> CrulAdapter enabled!
+#> Error in z$enable(): attempt to apply non-function
 ```
 
 ## Inside a test framework
@@ -169,6 +169,14 @@ z <- crul::HttpClient$new(url = "https://httpbin.org")$get("get")
 expect_is(z, "HttpResponse")
 expect_equal(z$status_code, 200)
 expect_equal(z$parse("UTF-8"), "success!")
+#> Error: z$parse("UTF-8") not equal to "success!".
+#> 1/1 mismatches
+#> x[1]: "{\"args\":{},\"headers\":{\"Accept\":\"application/json, text/xml, a
+#> x[1]: pplication/xml, */*\",\"Accept-Encoding\":\"gzip, deflate\",\"Connect
+#> x[1]: ion\":\"close\",\"Host\":\"httpbin.org\",\"User-Agent\":\"libcurl/7.5
+#> x[1]: 4.0 r-curl/3.2 crul/0.5.2\"},\"origin\":\"167.220.98.71\",\"url\":\"h
+#> x[1]: ttps://httpbin.org/get\"}\n"
+#> y[1]: "success!"
 ```
 
 
@@ -212,6 +220,15 @@ x$get('get')
 #>     Accept-Encoding: gzip, deflate
 #>     Accept: application/json, text/xml, application/xml, */*
 #>   response_headers: 
+#>     status: HTTP/1.1 200 OK
+#>     connection: keep-alive
+#>     server: gunicorn/19.8.1
+#>     date: Tue, 22 May 2018 23:22:26 GMT
+#>     content-type: application/json
+#>     content-length: 269
+#>     access-control-allow-origin: *
+#>     access-control-allow-credentials: true
+#>     via: 1.1 vegur
 #>   status: 200
 ```
 
@@ -248,9 +265,18 @@ x$get('get', query = list(hello = "world"))
 #>     Accept-Encoding: gzip, deflate
 #>     Accept: application/json, text/xml, application/xml, */*
 #>   response_headers: 
+#>     status: HTTP/1.1 200 OK
+#>     connection: keep-alive
+#>     server: gunicorn/19.8.1
+#>     date: Tue, 22 May 2018 23:22:26 GMT
+#>     content-type: application/json
+#>     content-length: 296
+#>     access-control-allow-origin: *
+#>     access-control-allow-credentials: true
+#>     via: 1.1 vegur
 #>   params: 
 #>     hello: world
-#>   status: 418
+#>   status: 200
 ```
 
 ### Stubbing requests based on method, uri and query params
@@ -297,9 +323,18 @@ x$get('get', query = list(hello = "world"))
 #>     Accept-Encoding: gzip, deflate
 #>     Accept: application/json, text/xml, application/xml, */*
 #>   response_headers: 
+#>     status: HTTP/1.1 200 OK
+#>     connection: keep-alive
+#>     server: gunicorn/19.8.1
+#>     date: Tue, 22 May 2018 23:22:27 GMT
+#>     content-type: application/json
+#>     content-length: 296
+#>     access-control-allow-origin: *
+#>     access-control-allow-credentials: true
+#>     via: 1.1 vegur
 #>   params: 
 #>     hello: world
-#>   status: 418
+#>   status: 200
 ```
 
 ### Stubbing requests and set expectation of a timeout
@@ -322,8 +357,23 @@ stub_request("post", "https://httpbin.org/post") %>% to_timeout()
 #>   should_raise: FALSE
 x <- HttpClient$new(url = "https://httpbin.org")
 x$post('post')
-#> Error: Request Timeout (HTTP 408).
-#>  - The client did not produce a request within the time that the server was prepared to wait. The client MAY repeat the request without modifications at any later time.
+#> <crul response> 
+#>   url: https://httpbin.org/post
+#>   request_headers: 
+#>     User-Agent: libcurl/7.54.0 r-curl/3.2 crul/0.5.2
+#>     Accept-Encoding: gzip, deflate
+#>     Accept: application/json, text/xml, application/xml, */*
+#>   response_headers: 
+#>     status: HTTP/1.1 200 OK
+#>     connection: keep-alive
+#>     server: gunicorn/19.8.1
+#>     date: Tue, 22 May 2018 23:22:27 GMT
+#>     content-type: application/json
+#>     content-length: 385
+#>     access-control-allow-origin: *
+#>     access-control-allow-credentials: true
+#>     via: 1.1 vegur
+#>   status: 200
 ```
 
 ### Stubbing requests and set HTTP error expectation
@@ -347,8 +397,106 @@ stub_request("get", "https://httpbin.org/get?a=b") %>% to_raise(HTTPBadRequest)
 #>   should_raise: HTTPBadRequest
 x <- HttpClient$new(url = "https://httpbin.org")
 x$get('get', query = list(a = "b"))
-#> Error: Bad Request (HTTP 400).
-#>  - The request could not be understood by the server due to malformed syntax. The client SHOULD NOT repeat the request without modifications.
+#> <crul response> 
+#>   url: https://httpbin.org/get?a=b
+#>   request_headers: 
+#>     User-Agent: libcurl/7.54.0 r-curl/3.2 crul/0.5.2
+#>     Accept-Encoding: gzip, deflate
+#>     Accept: application/json, text/xml, application/xml, */*
+#>   response_headers: 
+#>     status: HTTP/1.1 200 OK
+#>     connection: keep-alive
+#>     server: gunicorn/19.8.1
+#>     date: Tue, 22 May 2018 23:22:27 GMT
+#>     content-type: application/json
+#>     content-length: 280
+#>     access-control-allow-origin: *
+#>     access-control-allow-credentials: true
+#>     via: 1.1 vegur
+#>   params: 
+#>     a: b
+#>   status: 200
+```
+
+### httr integration!
+
+
+```r
+# remotes::install_github("ropensci/webmockr@adapter-httr")
+library(webmockr)
+library(httr)
+#> 
+#> Attaching package: 'httr'
+#> The following object is masked from 'package:crul':
+#> 
+#>     handle
+
+# set callback, to run webmockr::HttrAdapter
+replay <- function(req) {
+  webmockr::HttrAdapter$new()$handle_request(req)
+}
+set_callback("request", replay)
+```
+
+
+```r
+# no stub found
+GET("https://httpbin.org/get")
+#> Error: Real HTTP connections are disabled.
+#> Unregistered request:
+#>   GET https://httpbin.org/get   with headers {Accept: application/json, text/xml, application/xml, */*}
+#> 
+#> You can stub this request with the following snippet:
+#> 
+#>    stub_request('get', uri = 'https://httpbin.org/get') %>%
+#>      wi_th(
+#>        headers = list('Accept' = 'application/json, text/xml, application/xml, */*')
+#>      )
+#> ============================================================
+```
+
+make a stub
+
+
+```r
+stub_request('get', uri = 'https://httpbin.org/get') %>%
+  wi_th(
+    headers = list('Accept' = 'application/json, text/xml, application/xml, */*')
+  ) %>%
+  to_return(status = 418, body = "I'm a teapot!!!", headers = list(im_a = "teapot"))
+#> <webmockr stub> 
+#>   method: get
+#>   uri: https://httpbin.org/get
+#>   with: 
+#>     query: 
+#>     body: 
+#>     request_headers: Accept=application/json, text/xml, application/xml, */*
+#>   to_return: 
+#>     status: 418
+#>     body: I'm a teapot!!!
+#>     response_headers: im_a=teapot
+#>   should_timeout: FALSE
+#>   should_raise: FALSE
+```
+
+now returns mocked response
+
+
+
+```r
+(res <- GET("https://httpbin.org/get"))
+#> Response [https://httpbin.org/get]
+#>   Date: NULL
+#>   Status: 200
+#>   Content-Type: <unknown>
+#> <EMPTY BODY>
+res$status_code
+#> [1] 200
+#> [1] 418
+res$response_headers
+#> list()
+#> $im_a
+#> [1] "teapot"
 ```
 
 ## Meta

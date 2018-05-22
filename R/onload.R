@@ -9,6 +9,7 @@ http_lib_adapter_registry <- NULL
   ##  later change to making user set the adapter themselves
   x <- HttpLibAdapaterRegistry$new()
   x$register(CrulAdapter$new())
+  x$register(HttrAdapter$new())
   http_lib_adapter_registry <<- x
 
   # initialize empty stub registry on package load

@@ -36,4 +36,7 @@ Remove all crul stubs
 
 This adapter modifies \pkg{crul} to allow mocking HTTP requests
 }
+\seealso{
+Other http_lib_adapters: \code{\link{HttrAdapter}}
+}
 \keyword{datasets}
