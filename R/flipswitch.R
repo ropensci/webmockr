@@ -1,5 +1,5 @@
 webmockr_lightswitch <- new.env()
-#webmockr_lightswitch$httr <- FALSE
+webmockr_lightswitch$httr <- FALSE
 webmockr_lightswitch$crul <- FALSE
 
 #' Enable or disable webmockr

@@ -226,6 +226,58 @@ x <- HttpClient$new(url = "https://httpbin.org")
 x$get('get', query = list(a = "b"))
 ```
 
+### httr integration!
+
+```{r}
+# remotes::install_github("ropensci/webmockr@adapter-httr")
+library(webmockr)
+library(httr)
+
+# set callback, to run webmockr::HttrAdapter
+replay <- function(req) {
+  webmockr::HttrAdapter$new()$handle_request(req)
+}
+set_callback("request", replay)
+```
+
+```{r eval=FALSE}
+# no stub found
+GET("https://httpbin.org/get")
+#> Error: Real HTTP connections are disabled.
+#> Unregistered request:
+#>   GET https://httpbin.org/get   with headers {Accept: application/json, text/xml, application/xml, */*}
+#> 
+#> You can stub this request with the following snippet:
+#> 
+#>    stub_request('get', uri = 'https://httpbin.org/get') %>%
+#>      wi_th(
+#>        headers = list('Accept' = 'application/json, text/xml, application/xml, */*')
+#>      )
+#> ============================================================
+```
+
+make a stub
+
+```{r}
+stub_request('get', uri = 'https://httpbin.org/get') %>%
+  wi_th(
+    headers = list('Accept' = 'application/json, text/xml, application/xml, */*')
+  ) %>%
+  to_return(status = 418, body = "I'm a teapot!!!", headers = list(im_a = "teapot"))
+```
+
+now returns mocked response
+
+
+```{r}
+(res <- GET("https://httpbin.org/get"))
+res$status_code
+#> [1] 418
+res$response_headers
+#> $im_a
+#> [1] "teapot"
+```
+
 ## Meta
 
 * Please [report any issues or bugs](https://github.com/ropensci/webmockr/issues).
