@@ -71,14 +71,14 @@ HttrAdapter <- R6::R6Class(
     enable = function() {
       message("HttrAdapter enabled!")
       webmockr_lightswitch$httr <- TRUE
-      httr_mock(TRUE)
+      # httr_mock(TRUE)
       invisible(TRUE)
     },
 
     disable = function() {
       message("HttrAdapter disabled!")
       webmockr_lightswitch$httr <- FALSE
-      httr_mock(FALSE)
+      # httr_mock(FALSE)
       self$remove_httr_stubs()
       invisible(FALSE)
     },
