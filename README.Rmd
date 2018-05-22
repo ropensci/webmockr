@@ -277,6 +277,15 @@ res$response_headers
 #> [1] "teapot"
 ```
 
+#### httr/webmockr/vcr
+
+```{r}
+library(vcr)
+use_cassette("howdy_how", {
+  (res <- GET("https://httpbin.org/get"))
+})
+```
+
 ## Meta
 
 * Please [report any issues or bugs](https://github.com/ropensci/webmockr/issues).

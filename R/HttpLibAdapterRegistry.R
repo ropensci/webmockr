@@ -37,7 +37,7 @@ HttpLibAdapaterRegistry <- R6::R6Class(
       if (!inherits(x, c("CrulAdapter", "HttrAdapter"))) {
         stop("'x' must be an adapter, such as CrulAdapter", call. = FALSE)
       }
-      self$adapters <- cc(list(self$adapters, x))
+      self$adapters <- c(self$adapters, x)
     }
   )
 )
