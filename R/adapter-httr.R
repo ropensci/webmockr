@@ -12,20 +12,20 @@
 #'       Disable the adapter
 #'     }
 #'     \item{`build_httr_request(x)`}{
-#'       Build a crul [RequestSignature]
-#'       x: crul request parts (list)
+#'       Build a httr [RequestSignature]
+#'       x: httr request parts (list)
 #'     }
 #'     \item{`build_httr_response(req, resp)`}{
-#'       Build a crul response
-#'       req: a crul request (list)
-#'       resp: a crul response ()
+#'       Build a httr response
+#'       req: a httr request (list)
+#'       resp: a httr response ()
 #'     }
 #'     \item{`handle_request()`}{
 #'       All logic for handling a request
-#'       req: a crul request (list)
+#'       req: a httr request (list)
 #'     }
 #'     \item{`remove_httr_stubs()`}{
-#'       Remove all crul stubs
+#'       Remove all httr stubs
 #'     }
 #'   }
 #'
@@ -220,11 +220,11 @@ HttrAdapter <- R6::R6Class(
   )
 )
 
-#' Build a crul response
+#' Build a httr response
 #' @export
 #' @param req a request
 #' @param resp a response
-#' @return a crul response
+#' @return a httr response
 build_httr_response <- function(req, resp) {
   structure(list(
     method = req$method,
@@ -249,25 +249,18 @@ build_httr_response <- function(req, resp) {
           }
         } else {
           hds
-          # hh <- rawToChar(hds %||% raw(0))
-          # if (is.null(hh) || nchar(hh) == 0) {
-          #   list()
-          # } else {
-          #   crul_headers_parse(curl::parse_headers(hh))
-          # }
         }
       }
     },
     content = resp$content,
-    # handle = req$url$handle %||% NA,
     request = req
   ), class = "response")
 }
 
-#' Build a crul request
+#' Build a httr request
 #' @export
-#' @param x an unexecuted crul request object
-#' @return a crul request
+#' @param x an unexecuted httr request object
+#' @return a httr request
 build_httr_request = function(x) {
   RequestSignature$new(
     method = x$method,
@@ -281,6 +274,4 @@ build_httr_request = function(x) {
   )
 }
 
-# httr_mock <- function() {
-  
-# }
+# httr_mock <- function() {}
