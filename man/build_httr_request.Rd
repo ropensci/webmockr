@@ -2,16 +2,16 @@
 % Please edit documentation in R/adapter-httr.R
 \name{build_httr_request}
 \alias{build_httr_request}
-\title{Build a crul request}
+\title{Build a httr request}
 \usage{
 build_httr_request(x)
 }
 \arguments{
-\item{x}{an unexecuted crul request object}
+\item{x}{an unexecuted httr request object}
 }
 \value{
-a crul request
+a httr request
 }
 \description{
-Build a crul request
+Build a httr request
 }
