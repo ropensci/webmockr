@@ -2,7 +2,7 @@
 % Please edit documentation in R/adapter-httr.R
 \name{build_httr_response}
 \alias{build_httr_response}
-\title{Build a crul response}
+\title{Build a httr response}
 \usage{
 build_httr_response(req, resp)
 }
@@ -12,8 +12,8 @@ build_httr_response(req, resp)
 \item{resp}{a response}
 }
 \value{
-a crul response
+a httr response
 }
 \description{
-Build a crul response
+Build a httr response
 }

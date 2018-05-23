@@ -17,20 +17,20 @@ Enable the adapter
 Disable the adapter
 }
 \item{\code{build_httr_request(x)}}{
-Build a crul \link{RequestSignature}
-x: crul request parts (list)
+Build a httr \link{RequestSignature}
+x: httr request parts (list)
 }
 \item{\code{build_httr_response(req, resp)}}{
-Build a crul response
-req: a crul request (list)
-resp: a crul response ()
+Build a httr response
+req: a httr request (list)
+resp: a httr response ()
 }
 \item{\code{handle_request()}}{
 All logic for handling a request
-req: a crul request (list)
+req: a httr request (list)
 }
 \item{\code{remove_httr_stubs()}}{
-Remove all crul stubs
+Remove all httr stubs
 }
 }
 
@@ -38,34 +38,27 @@ This adapter modifies \pkg{httr} to allow mocking HTTP requests
 }
 \examples{
 \dontrun{
-# httr_mock(TRUE)
 library(httr)
-replay <- function(req) req
-old_req <- set_callback("request", replay)
-req <- GET("https://httpbin.org")
-x <- HttrAdapter$new()
-x$handle_request(req)
 
-stub_request('get', uri = 'https://httpbin.org') \%>\%
-  wi_th(
-    headers = list('Accept' = 'application/json, text/xml, application/xml, */*')
-)
-stub_registry()
-x$handle_request(req)
-
-# another eg
-library(httr)
-replay <- function(req) {
-  webmockr::HttrAdapter$new()$handle_request(req)
-}
-old_req <- set_callback("request", replay)
+# normal httr request, works fine
 GET("https://httpbin.org/get")
+
+# with webmockr
+library(webmockr)
+## turn on httr mocking 
+httr_mock()
+## now this request isn't allowed
+GET("https://httpbin.org/get")
+## stub the request 
 stub_request('get', uri = 'https://httpbin.org/get') \%>\%
   wi_th(
     headers = list('Accept' = 'application/json, text/xml, application/xml, */*')
   ) \%>\%
-  to_return(status = 200, body = "stuff", headers = list(a = 5))
-GET("https://httpbin.org/get")
+  to_return(status = 418, body = "I'm a teapot!", headers = list(a = 5))
+## now the request succeeds and returns a mocked response
+res <- GET("https://httpbin.org/get")
+res$status_code
+rawToChar(res$content)
 }
 }
 \seealso{
