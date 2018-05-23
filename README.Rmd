@@ -268,7 +268,7 @@ stub_request('get', uri = 'https://httpbin.org/get') %>%
 now returns mocked response
 
 
-```{r}
+```{r eval=FALSE} 
 (res <- GET("https://httpbin.org/get"))
 res$status_code
 #> [1] 418
@@ -279,7 +279,9 @@ res$response_headers
 
 #### httr/webmockr/vcr
 
-```{r}
+doesn't quite work yet ...
+
+```{r eval=FALSE}
 library(vcr)
 use_cassette("howdy_how", {
   (res <- GET("https://httpbin.org/get"))
