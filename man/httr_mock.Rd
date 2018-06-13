@@ -4,7 +4,11 @@
 \alias{httr_mock}
 \title{Turn on httr mocking}
 \usage{
-httr_mock()
+httr_mock(on = TRUE)
+}
+\arguments{
+\item{on}{(logical) set to \code{TRUE} to turn on, and \code{FALSE}
+to turn off. default: \code{TRUE}}
 }
 \value{
 silently sets a callback that routes httr request

@@ -35,26 +35,34 @@
 #' @usage NULL
 #' @examples \dontrun{
 #' library(httr)
-#' 
+#'
 #' # normal httr request, works fine
 #' GET("https://httpbin.org/get")
-#' 
+#'
 #' # with webmockr
 #' library(webmockr)
-#' ## turn on httr mocking 
+#' ## turn on httr mocking
 #' httr_mock()
 #' ## now this request isn't allowed
 #' GET("https://httpbin.org/get")
-#' ## stub the request 
+#' ## stub the request
 #' stub_request('get', uri = 'https://httpbin.org/get') %>%
 #'   wi_th(
 #'     headers = list('Accept' = 'application/json, text/xml, application/xml, */*')
 #'   ) %>%
 #'   to_return(status = 418, body = "I'm a teapot!", headers = list(a = 5))
 #' ## now the request succeeds and returns a mocked response
-#' res <- GET("https://httpbin.org/get")
+#' (res <- GET("https://httpbin.org/get"))
 #' res$status_code
 #' rawToChar(res$content)
+#'
+#' # allow real requests while webmockr is loaded
+#' webmockr_allow_net_connect()
+#' webmockr_net_connect_allowed()
+#' GET("https://httpbin.org/get?animal=chicken")
+#' webmockr_disable_net_connect()
+#' webmockr_net_connect_allowed()
+#' # GET("https://httpbin.org/get?animal=chicken")
 #' }
 HttrAdapter <- R6::R6Class(
   'HttrAdapter',
@@ -64,14 +72,14 @@ HttrAdapter <- R6::R6Class(
     enable = function() {
       message("HttrAdapter enabled!")
       webmockr_lightswitch$httr <- TRUE
-      # httr_mock(TRUE)
+      httr_mock(TRUE)
       invisible(TRUE)
     },
 
     disable = function() {
       message("HttrAdapter disabled!")
       webmockr_lightswitch$httr <- FALSE
-      # httr_mock(FALSE)
+      httr_mock(FALSE)
       self$remove_httr_stubs()
       invisible(FALSE)
     },
@@ -138,11 +146,9 @@ HttrAdapter <- R6::R6Class(
       } else if (webmockr_net_connect_allowed(uri = req$url)) {
         # if real requests || localhost || certain exceptions ARE
         #   allowed && nothing found above
-        # tmp <- crul::HttpClient$new(url = req$url$url)
-        # tmp2 <- webmockr_httr_fetch(req)
-        # httr_resp <- build_httr_response(req, tmp2)
-        stop('net connect allowed, not supported yet though')
-
+        httr_mock(FALSE)
+        httr_resp <- eval(parse(text = paste0("httr::", req$method)))(req$url)
+        httr_mock(TRUE)
       } else {
         # no stubs found and net connect not allowed - STOP
         x <- "Real HTTP connections are disabled.\nUnregistered request:\n "
@@ -269,12 +275,18 @@ build_httr_request = function(x) {
 
 #' Turn on httr mocking
 #' @export
+#' @param on (logical) set to `TRUE` to turn on, and `FALSE`
+#' to turn off. default: `TRUE`
 #' @return silently sets a callback that routes httr request
 #' through webmockr
-httr_mock <- function() {
+httr_mock <- function(on = TRUE) {
   check_for_pkg("httr")
   webmockr_handle <- function(req) {
     webmockr::HttrAdapter$new()$handle_request(req)
   }
-  httr::set_callback("request", webmockr_handle)
+  if (on) {
+    httr::set_callback("request", webmockr_handle)
+  } else {
+    httr::set_callback("request", NULL)
+  }
 }
