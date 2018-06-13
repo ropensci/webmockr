@@ -58,7 +58,7 @@ curl_fetch_memory("https://httpbin.org/get?foo=bar", h)
 # another request, this time setting what to return
 h2 <- new_handle()
 g = curl_fetch_memory("https://httpbin.org/get?bear=brown", h2)
-stub_request('get', uri = 'https://httpbin.org/get?bear=brown') \%>\% 
+stub_request('get', uri = 'https://httpbin.org/get?bear=brown') \%>\%
     to_return(status = 418, body = "stuff", headers = list(a = 5))
 stub_registry()
 
@@ -68,11 +68,15 @@ g
 rawToChar(g$headers)
 rawToChar(g$content)
 
-# allow net connect - NOT WORKING YET
-# webmockr_allow_net_connect()
-# webmockr_net_connect_allowed()
-# h3 <- new_handle()
-# curl_fetch_memory("https://httpbin.org/get?cow=brown", h3)
+# allow net connect
+webmockr_allow_net_connect()
+webmockr_net_connect_allowed()
+h3 <- new_handle()
+curl_fetch_memory("https://httpbin.org/get?cow=brown", h3)
+## disable again
+webmockr_disable_net_connect()
+stub_request("get", "https://httpbin.org/get?cow=brown")
+curl_fetch_memory("https://httpbin.org/get?cow=brown", h3)
 }
 }
 \seealso{

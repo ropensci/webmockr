@@ -33,43 +33,47 @@
 #'
 #' @format NULL
 #' @usage NULL
-#' 
+#'
 #' @examples \dontrun{
 #' library(curl)
-#' 
+#'
 #' # before mocking turned on
 #' h <- new_handle()
 #' curl_fetch_memory("https://httpbin.org/get?foo=bar", h)
-#' 
+#'
 #' # after mocking turned on
 #' curl::mock()
 #' curl_fetch_memory("https://httpbin.org/get?foo=bar", h)
-#' 
+#'
 #' # after stubbing request
 #' stub_request("get", "https://httpbin.org/get?foo=bar")
 #' stub_registry()
-#' 
+#'
 #' # now you get a mocked response
 #' curl_fetch_memory("https://httpbin.org/get?foo=bar", h)
-#' 
+#'
 #' # another request, this time setting what to return
 #' h2 <- new_handle()
 #' g = curl_fetch_memory("https://httpbin.org/get?bear=brown", h2)
-#' stub_request('get', uri = 'https://httpbin.org/get?bear=brown') %>% 
+#' stub_request('get', uri = 'https://httpbin.org/get?bear=brown') %>%
 #'     to_return(status = 418, body = "stuff", headers = list(a = 5))
 #' stub_registry()
-#' 
+#'
 #' # make request, inspect returned items
 #' g = curl_fetch_memory("https://httpbin.org/get?bear=brown", h2)
 #' g
 #' rawToChar(g$headers)
 #' rawToChar(g$content)
-#' 
-#' # allow net connect - NOT WORKING YET
-#' # webmockr_allow_net_connect()
-#' # webmockr_net_connect_allowed()
-#' # h3 <- new_handle()
-#' # curl_fetch_memory("https://httpbin.org/get?cow=brown", h3)
+#'
+#' # allow net connect
+#' webmockr_allow_net_connect()
+#' webmockr_net_connect_allowed()
+#' h3 <- new_handle()
+#' curl_fetch_memory("https://httpbin.org/get?cow=brown", h3)
+#' ## disable again
+#' webmockr_disable_net_connect()
+#' stub_request("get", "https://httpbin.org/get?cow=brown")
+#' curl_fetch_memory("https://httpbin.org/get?cow=brown", h3)
 #' }
 CurlAdapter <- R6::R6Class(
   'CurlAdapter',
@@ -154,11 +158,10 @@ CurlAdapter <- R6::R6Class(
       } else if (webmockr_net_connect_allowed(uri = req$url)) {
         # if real requests || localhost || certain exceptions ARE
         #   allowed && nothing found above
-        stop("FIXME: webmockr net connect allowed not working yet")
-        # curl::mock(FALSE) # tempoarily disable
-        # resp <- eval(as.expression(paste0("curl::", req$called)))(req$url, req$handle)
-        # curl_resp <- build_curl_response(req, resp)
-        # curl::mock(TRUE) # re-enable
+        curl::mock(FALSE) # siable
+        resp <- eval(parse(text = paste0("curl::", strsplit(req$called, '\\\"')[[1]][1])))(req$url, req$handle)
+        curl_resp <- build_curl_response(req, resp)
+        curl::mock(TRUE) # re-enable
       } else {
         # no stubs found and net connect not allowed - STOP
         x <- "Real HTTP connections are disabled.\nUnregistered request:\n "
@@ -271,7 +274,7 @@ build_curl_request = function(x) {
 }
 
 #' @keywords internal
-#' @examples 
+#' @examples
 #' foo <- list(a = 5, `User-Agent` = "ropensci")
 #' make_curl_headers(foo)
 #' cat(make_curl_headers(foo))
