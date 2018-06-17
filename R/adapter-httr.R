@@ -37,7 +37,7 @@
 #' library(httr)
 #'
 #' # normal httr request, works fine
-#' GET("https://httpbin.org/get")
+#' real <- GET("https://httpbin.org/get")
 #'
 #' # with webmockr
 #' library(webmockr)
@@ -105,7 +105,7 @@ HttrAdapter <- R6::R6Class(
         resp$set_body(ss$body)
         resp$set_request_headers(ss$request_headers)
         resp$set_response_headers(ss$response_headers)
-        resp$set_status(ss$status_code %||% 200)
+        resp$set_status(as.integer(ss$status_code %||% 200))
 
         # if user set to_timeout or to_raise, do that
         if (ss$timeout || ss$raise) {
@@ -131,14 +131,14 @@ HttrAdapter <- R6::R6Class(
           # modify responses
           for (i in seq_along(toadd)) {
             if (names(toadd)[i] == "status") {
-              httr_resp$status_code <- toadd[[i]]
+              httr_resp$status_code <- as.integer(toadd[[i]])
             }
             if (names(toadd)[i] == "body") {
               # httr_resp$content <- toadd[[i]]
               httr_resp$content <- ss$responses_sequences$body_raw
             }
             if (names(toadd)[i] == "headers") {
-              httr_resp$response_headers <- toadd[[i]]
+              httr_resp$headers <- toadd[[i]]
             }
           }
         }
@@ -225,12 +225,10 @@ HttrAdapter <- R6::R6Class(
 #' @param resp a response
 #' @return a httr response
 build_httr_response <- function(req, resp) {
-  structure(list(
-    method = req$method,
+  lst <- list(
     url = req$url,
-    status_code = resp$status_code,
-    request_headers = c('User-Agent' = req$options$useragent, req$headers),
-    response_headers = {
+    status_code = as.integer(resp$status_code),
+    headers = {
       if (grepl("^ftp://", resp$url)) {
         list()
       } else {
@@ -251,9 +249,31 @@ build_httr_response <- function(req, resp) {
         }
       }
     },
+    all_headers = list(),
+    cookies = httr_cookies_df(),
     content = resp$content,
-    request = req
-  ), class = "response")
+    date = {
+      if (!is.null(resp$response_headers$date)) {
+        resp$response_headers$date
+      }
+    },
+    times = numeric(0),
+    request = req,
+    handle = NA
+  )
+  lst$all_headers <- list(list(
+    status = lst$status_code,
+    version = "",
+    headers = lst$headers
+  ))
+  structure(lst, class = "response")
+}
+
+httr_cookies_df <- function() {
+  df <- data.frame(matrix(ncol = 7, nrow = 0))
+  x <- c("domain", "flag", "path", "secure", "expiration", "name", "value")
+  colnames(df) <- x
+  df
 }
 
 #' Build a httr request
