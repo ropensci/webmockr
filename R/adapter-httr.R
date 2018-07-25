@@ -44,7 +44,7 @@
 #' ## turn on httr mocking
 #' httr_mock()
 #' ## now this request isn't allowed
-#' GET("https://httpbin.org/get")
+#' # GET("https://httpbin.org/get")
 #' ## stub the request
 #' stub_request('get', uri = 'https://httpbin.org/get') %>%
 #'   wi_th(
@@ -122,26 +122,44 @@ HttrAdapter <- R6::R6Class(
         }
 
         # generate httr response
-        httr_resp <- build_httr_response(req, resp)
+        # VCR: recordable/ignored
+        if ("package:vcr" %in% search()) {
+          cas <- vcr::current_cassette()
+          if (length(cas$previously_recorded_interactions()) == 0) {
+            # using vcr, but no recorded interactions to the cassette yet
+            # use RequestHandler - gets current cassette & record interaction
+            crul_resp <- vcr::RequestHandlerHttr$new(req)$handle()
+          }
+        } else {
+          httr_resp <- build_httr_response(req, resp)
 
-        # add to_return() elements if given
-        if (length(cc(ss$responses_sequences)) != 0) {
-          # remove NULLs
-          toadd <- cc(ss$responses_sequences)
-          # modify responses
-          for (i in seq_along(toadd)) {
-            if (names(toadd)[i] == "status") {
-              httr_resp$status_code <- as.integer(toadd[[i]])
-            }
-            if (names(toadd)[i] == "body") {
-              # httr_resp$content <- toadd[[i]]
-              httr_resp$content <- ss$responses_sequences$body_raw
-            }
-            if (names(toadd)[i] == "headers") {
-              httr_resp$headers <- toadd[[i]]
+          # add to_return() elements if given
+          if (length(cc(ss$responses_sequences)) != 0) {
+            # remove NULLs
+            toadd <- cc(ss$responses_sequences)
+            # modify responses
+            for (i in seq_along(toadd)) {
+              if (names(toadd)[i] == "status") {
+                httr_resp$status_code <- as.integer(toadd[[i]])
+              }
+              if (names(toadd)[i] == "body") {
+                # httr_resp$content <- toadd[[i]]
+                httr_resp$content <- ss$responses_sequences$body_raw
+              }
+              if (names(toadd)[i] == "headers") {
+                httr_resp$headers <- toadd[[i]]
+              }
             }
           }
         }
+
+        # if vcr loaded: record http interaction into vcr namespace
+        # VCR: recordable/stubbed_by_vcr ??
+        if ("package:vcr" %in% search()) {
+          # get current cassette
+          cas <- vcr::current_cassette()
+          crul_resp <- vcr::RequestHandlerHttr$new(req)$handle()
+        } # vcr is not loaded, skip
 
       } else if (webmockr_net_connect_allowed(uri = req$url)) {
         # if real requests || localhost || certain exceptions ARE
@@ -149,7 +167,37 @@ HttrAdapter <- R6::R6Class(
         httr_mock(FALSE)
         httr_resp <- eval(parse(text = paste0("httr::", req$method)))(req$url)
         httr_mock(TRUE)
+
+        # if vcr loaded: record http interaction into vcr namespace
+        # VCR: recordable
+        if ("package:vcr" %in% search()) {
+          # stub request so next time we match it
+          urip <- crul::url_parse(req$url$url)
+          m <- vcr::vcr_configuration()$match_requests_on
+        
+          if (all(m %in% c("method", "uri")) && length(m) == 2) {
+            stub_request(req$method, req$url$url)
+          } else if (all(m %in% c("method", "uri", "query")) && length(m) == 3) {
+            tmp <- stub_request(req$method, req$url$url)
+            wi_th(tmp, .list = list(query = urip$parameter))
+          } else if (all(m %in% c("method", "uri", "headers")) && length(m) == 3) {
+            tmp <- stub_request(req$method, req$url$url)
+            wi_th(tmp, .list = list(query = req$headers))
+          } else if (all(m %in% c("method", "uri", "headers", "query")) && length(m) == 4) {
+            tmp <- stub_request(req$method, req$url$url)
+            wi_th(tmp, .list = list(query = urip$parameter, headers = req$headers))
+          }
+        
+          vcr::RequestHandlerHttr$new(req)$handle()
+        }
+
       } else {
+        # throw vcr error: should happen when user not using
+        #  use_cassette or insert_cassette
+        if ("package:vcr" %in% search()) {
+          vcr::RequestHandlerHttr$new(req)$handle()
+        }
+
         # no stubs found and net connect not allowed - STOP
         x <- "Real HTTP connections are disabled.\nUnregistered request:\n "
         y <- "\n\nYou can stub this request with the following snippet:\n\n  "

@@ -41,14 +41,14 @@ This adapter modifies \pkg{httr} to allow mocking HTTP requests
 library(httr)
 
 # normal httr request, works fine
-GET("https://httpbin.org/get")
+real <- GET("https://httpbin.org/get")
 
 # with webmockr
 library(webmockr)
 ## turn on httr mocking
 httr_mock()
 ## now this request isn't allowed
-GET("https://httpbin.org/get")
+# GET("https://httpbin.org/get")
 ## stub the request
 stub_request('get', uri = 'https://httpbin.org/get') \%>\%
   wi_th(

@@ -23,12 +23,12 @@ enable <- function(options = list()) {
 #' @export
 #' @rdname enable
 enabled <- function(adapter = "crul") {
-  adapters <- c('crul')
+  adapters <- c('crul', 'httr')
   if (!adapter %in% adapters) {
     stop("'adapter' must be in the set ", 
       paste0(adapters, collapse = ", "))
   }
-  webmockr_lightswitch$crul
+  webmockr_lightswitch[[adapter]]
 }
 
 #' @export
