@@ -172,19 +172,19 @@ HttrAdapter <- R6::R6Class(
         # VCR: recordable
         if ("package:vcr" %in% search()) {
           # stub request so next time we match it
-          urip <- crul::url_parse(req$url$url)
+          urip <- crul::url_parse(req$url)
           m <- vcr::vcr_configuration()$match_requests_on
         
           if (all(m %in% c("method", "uri")) && length(m) == 2) {
-            stub_request(req$method, req$url$url)
+            stub_request(req$method, req$url)
           } else if (all(m %in% c("method", "uri", "query")) && length(m) == 3) {
-            tmp <- stub_request(req$method, req$url$url)
+            tmp <- stub_request(req$method, req$url)
             wi_th(tmp, .list = list(query = urip$parameter))
           } else if (all(m %in% c("method", "uri", "headers")) && length(m) == 3) {
-            tmp <- stub_request(req$method, req$url$url)
+            tmp <- stub_request(req$method, req$url)
             wi_th(tmp, .list = list(query = req$headers))
           } else if (all(m %in% c("method", "uri", "headers", "query")) && length(m) == 4) {
-            tmp <- stub_request(req$method, req$url$url)
+            tmp <- stub_request(req$method, req$url)
             wi_th(tmp, .list = list(query = urip$parameter, headers = req$headers))
           }
         
