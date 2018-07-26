@@ -274,7 +274,7 @@ HttrAdapter <- R6::R6Class(
 #' @return a httr response
 build_httr_response <- function(req, resp) {
   lst <- list(
-    url = req$url,
+    url = req$url$url,
     status_code = as.integer(resp$status_code),
     headers = {
       if (grepl("^ftp://", resp$url)) {
