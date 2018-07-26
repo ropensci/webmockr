@@ -128,7 +128,7 @@ HttrAdapter <- R6::R6Class(
           if (length(cas$previously_recorded_interactions()) == 0) {
             # using vcr, but no recorded interactions to the cassette yet
             # use RequestHandler - gets current cassette & record interaction
-            crul_resp <- vcr::RequestHandlerHttr$new(req)$handle()
+            httr_resp <- vcr::RequestHandlerHttr$new(req)$handle()
           }
         } else {
           httr_resp <- build_httr_response(req, resp)
@@ -158,7 +158,7 @@ HttrAdapter <- R6::R6Class(
         if ("package:vcr" %in% search()) {
           # get current cassette
           cas <- vcr::current_cassette()
-          crul_resp <- vcr::RequestHandlerHttr$new(req)$handle()
+          httr_resp <- vcr::RequestHandlerHttr$new(req)$handle()
         } # vcr is not loaded, skip
 
       } else if (webmockr_net_connect_allowed(uri = req$url)) {
