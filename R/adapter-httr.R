@@ -313,6 +313,7 @@ build_httr_response <- function(req, resp) {
   )
   if ("content-type" %in% lst$headers) {
     lst$headers$`Content-Type` <- lst$headers$`content-type`
+    lst$headers$`content-type` <- NULL
   } 
   lst$all_headers <- list(list(
     status = lst$status_code,
