@@ -311,7 +311,7 @@ build_httr_response <- function(req, resp) {
     request = req,
     handle = NA
   )
-  if ("content-type" %in% lst$headers) {
+  if ("content-type" %in% names(lst$headers)) {
     lst$headers$`Content-Type` <- lst$headers$`content-type`
     lst$headers$`content-type` <- NULL
   } 
