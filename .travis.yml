@@ -12,6 +12,7 @@ matrix:
       env: R_CODECOV=true
     - os: linux
       r: devel
+    - os: windows
 
 r_github_packages:
   - jimhester/covr
