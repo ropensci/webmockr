@@ -2,6 +2,7 @@ webmockr
 ========
 
 
+
 [![cran checks](https://cranchecks.info/badges/worst/webmockr)](https://cranchecks.info/pkgs/webmockr)
 [![Project Status: Active - The project has reached a stable, usable state and is being actively developed.](http://www.repostatus.org/badges/latest/active.svg)](http://www.repostatus.org/#active)
 [![Build Status](https://travis-ci.org/ropensci/webmockr.svg?branch=master)](https://travis-ci.org/ropensci/webmockr)
@@ -100,8 +101,9 @@ in the `webmockr_configure()` function.
 ## Supported HTTP libraries
 
 * [crul](https://github.com/ropensci/crul)
+* [httr](https://github.com/r-lib/httr)
 
-> more to come: curl, httr
+> in development: curl
 
 ## Install
 
@@ -130,7 +132,6 @@ library(webmockr)
 ```r
 webmockr::enable()
 #> CrulAdapter enabled!
-#> HttrAdapter enabled!
 ```
 
 ## Inside a test framework
@@ -209,7 +210,7 @@ x$get('get')
 #> <crul response> 
 #>   url: https://httpbin.org/get
 #>   request_headers: 
-#>     User-Agent: libcurl/7.54.0 r-curl/3.2 crul/0.5.2
+#>     User-Agent: libcurl/7.54.0 r-curl/3.2 crul/0.6.0
 #>     Accept-Encoding: gzip, deflate
 #>     Accept: application/json, text/xml, application/xml, */*
 #>   response_headers: 
@@ -245,7 +246,7 @@ x$get('get', query = list(hello = "world"))
 #> <crul response> 
 #>   url: https://httpbin.org/get?hello=world
 #>   request_headers: 
-#>     User-Agent: libcurl/7.54.0 r-curl/3.2 crul/0.5.2
+#>     User-Agent: libcurl/7.54.0 r-curl/3.2 crul/0.6.0
 #>     Accept-Encoding: gzip, deflate
 #>     Accept: application/json, text/xml, application/xml, */*
 #>   response_headers: 
@@ -294,7 +295,7 @@ x$get('get', query = list(hello = "world"))
 #> <crul response> 
 #>   url: https://httpbin.org/get?hello=world
 #>   request_headers: 
-#>     User-Agent: libcurl/7.54.0 r-curl/3.2 crul/0.5.2
+#>     User-Agent: libcurl/7.54.0 r-curl/3.2 crul/0.6.0
 #>     Accept-Encoding: gzip, deflate
 #>     Accept: application/json, text/xml, application/xml, */*
 #>   response_headers: 
@@ -352,11 +353,10 @@ x$get('get', query = list(a = "b"))
 #>  - The request could not be understood by the server due to malformed syntax. The client SHOULD NOT repeat the request without modifications.
 ```
 
-### httr integration!
+## httr integration
 
 
 ```r
-# remotes::install_github("ropensci/webmockr@adapter-httr")
 library(webmockr)
 library(httr)
 #> 
@@ -365,11 +365,9 @@ library(httr)
 #> 
 #>     handle
 
-# set callback, to run webmockr::HttrAdapter
-replay <- function(req) {
-  webmockr::HttrAdapter$new()$handle_request(req)
-}
-set_callback("request", replay)
+# turn on httr mocking
+httr_mock()
+#> Error in httr_mock(): could not find function "httr_mock"
 ```
 
 
@@ -424,18 +422,6 @@ res$status_code
 res$response_headers
 #> $im_a
 #> [1] "teapot"
-```
-
-#### httr/webmockr/vcr
-
-doesn't quite work yet ...
-
-
-```r
-library(vcr)
-use_cassette("howdy_how", {
-  (res <- GET("https://httpbin.org/get"))
-})
 ```
 
 ## Meta

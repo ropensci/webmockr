@@ -38,6 +38,7 @@
 #'
 #' # normal httr request, works fine
 #' real <- GET("https://httpbin.org/get")
+#' real
 #'
 #' # with webmockr
 #' library(webmockr)

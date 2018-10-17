@@ -107,8 +107,9 @@ in the `webmockr_configure()` function.
 ## Supported HTTP libraries
 
 * [crul](https://github.com/ropensci/crul)
+* [httr](https://github.com/r-lib/httr)
 
-> more to come: curl, httr
+> in development: curl
 
 ## Install
 
@@ -226,18 +227,14 @@ x <- HttpClient$new(url = "https://httpbin.org")
 x$get('get', query = list(a = "b"))
 ```
 
-### httr integration!
+## httr integration
 
 ```{r}
-# remotes::install_github("ropensci/webmockr@adapter-httr")
 library(webmockr)
 library(httr)
 
-# set callback, to run webmockr::HttrAdapter
-replay <- function(req) {
-  webmockr::HttrAdapter$new()$handle_request(req)
-}
-set_callback("request", replay)
+# turn on httr mocking
+httr_mock()
 ```
 
 ```{r eval=FALSE}
@@ -276,17 +273,6 @@ res$status_code
 res$response_headers
 #> $im_a
 #> [1] "teapot"
-```
-
-#### httr/webmockr/vcr
-
-doesn't quite work yet ...
-
-```{r eval=FALSE}
-library(vcr)
-use_cassette("howdy_how", {
-  (res <- GET("https://httpbin.org/get"))
-})
 ```
 
 ## Meta
