@@ -64,4 +64,5 @@ Other stub-registry: \code{\link{remove_request_stub}},
   \code{\link{stub_registry_clear}},
   \code{\link{stub_registry}}
 }
+\concept{stub-registry}
 \keyword{datasets}

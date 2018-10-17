@@ -14,8 +14,9 @@ Stubbing and setting expectations on HTTP requests
 \item Stubbing HTTP requests at low http client lib level
 \item Setting and verifying expectations on HTTP requests
 \item Matching requests based on method, URI, headers and body
-\item Can support many HTTP libraries, though only \pkg{crul} for now
-\item Integration with testing libraries (coming soon) via \code{vcr}
+\item Supports multiple HTTP libraries, including \pkg{crul} and
+\pkg{httr}
+\item Integration with HTTP test caching libraty \pkg{vcr}
 }
 }
 

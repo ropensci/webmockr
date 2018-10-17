@@ -26,3 +26,4 @@ Other stub-registry: \code{\link{StubRegistry}},
   \code{\link{stub_registry_clear}},
   \code{\link{stub_registry}}
 }
+\concept{stub-registry}

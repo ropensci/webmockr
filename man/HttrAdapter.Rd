@@ -42,6 +42,7 @@ library(httr)
 
 # normal httr request, works fine
 real <- GET("https://httpbin.org/get")
+real
 
 # with webmockr
 library(webmockr)
@@ -72,4 +73,5 @@ webmockr_net_connect_allowed()
 \seealso{
 Other http_lib_adapters: \code{\link{CrulAdapter}}
 }
+\concept{http_lib_adapters}
 \keyword{datasets}

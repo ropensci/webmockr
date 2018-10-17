@@ -38,4 +38,5 @@ x$reset()
 Other request-registry: \code{\link{HashCounter}},
   \code{\link{request_registry}}
 }
+\concept{request-registry}
 \keyword{datasets}

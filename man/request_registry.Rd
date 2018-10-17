@@ -38,3 +38,4 @@ request_registry()
 Other request-registry: \code{\link{HashCounter}},
   \code{\link{RequestRegistry}}
 }
+\concept{request-registry}
