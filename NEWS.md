@@ -3,7 +3,8 @@ webmockr 0.2.8
 
 ### NEW FEATURES
 
-* Added support for integration with package `httr`; `webmockr` now integrates with two HTTP R packages: `crul` and `httr` (#43) (#44)
+* Added support for integration with package `httr`; see `HttrAdapter` for the details; `webmockr` now integrates with two HTTP R packages: `crul` and `httr` (#43) (#44)
+* Along with `httr` integration is a new method `httr_mock()` to turn on mocking for `httr`; and two methods `build_httr_response` and `build_httr_request` meant for internal use
 
 
 webmockr 0.2.6
