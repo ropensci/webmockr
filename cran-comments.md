@@ -16,7 +16,7 @@
 
 ## Reverse dependencies
 
-I have checked the 3 reverse dependencies, and there were no problems. 
+I have checked the 8 reverse dependencies, and there were no problems. 
 See (<https://github.com/ropensci/webmockr/tree/master/revdep>).
 
 ---
