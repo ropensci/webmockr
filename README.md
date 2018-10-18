@@ -132,6 +132,7 @@ library(webmockr)
 ```r
 webmockr::enable()
 #> CrulAdapter enabled!
+#> HttrAdapter enabled!
 ```
 
 ## Inside a test framework
@@ -367,7 +368,6 @@ library(httr)
 
 # turn on httr mocking
 httr_mock()
-#> Error in httr_mock(): could not find function "httr_mock"
 ```
 
 
