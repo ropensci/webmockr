@@ -1,3 +1,11 @@
+webmockr 0.2.8
+==============
+
+### NEW FEATURES
+
+* Added support for integration with package `httr`; `webmockr` now integrates with two HTTP R packages: `crul` and `httr` (#43) (#44)
+
+
 webmockr 0.2.6
 ==============
 

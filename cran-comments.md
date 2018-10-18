@@ -1,7 +1,7 @@
 ## Test environments
 
-* local OS X install, R 3.5.0
-* ubuntu 12.04 (on travis-ci), R 3.5.0
+* local OS X install, R 3.5.1 Patched
+* ubuntu 14.04 (on travis-ci), R 3.5.1
 * win-builder (devel and release)
 
 ## R CMD check results
@@ -17,11 +17,11 @@
 ## Reverse dependencies
 
 I have checked the 3 reverse dependencies, and there were no problems. 
-See (<https://github.com/ropensci/webmockr/tree/master/revdep#platform>).
+See (<https://github.com/ropensci/webmockr/tree/master/revdep>).
 
 ---
 
-This version gains support for integration with package vcr.
+This version adds integration with the httr package.
 
 Thanks!
 Scott Chamberlain
