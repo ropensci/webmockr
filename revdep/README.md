@@ -27,7 +27,7 @@
 |crul                             |0.6.0   |      |        |     |
 |[HIBPwned](problems.md#hibpwned) |0.1.7   |      |        |1    |
 |rdatacite                        |0.4.0   |      |        |     |
-|ritis                            |0.7.2   |-1    |        |     |
+|ritis                            |0.7.2   |      |        |     |
 |rplos                            |0.8.4   |      |        |     |
 |rredlist                         |0.5.0   |      |        |     |
 |[vcr](problems.md#vcr)           |0.1.0   |      |        |1    |
