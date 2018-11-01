@@ -34,6 +34,7 @@
 #' @format NULL
 #' @usage NULL
 #' @examples \dontrun{
+#' if (requireNamespace("httr", quietly = TRUE)) {
 #' library(httr)
 #'
 #' # normal httr request, works fine
@@ -64,6 +65,7 @@
 #' webmockr_disable_net_connect()
 #' webmockr_net_connect_allowed()
 #' # GET("https://httpbin.org/get?animal=chicken")
+#' }
 #' }
 HttrAdapter <- R6::R6Class(
   'HttrAdapter',

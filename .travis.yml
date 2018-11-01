@@ -13,8 +13,9 @@ matrix:
     - os: linux
       r: devel
 
-r_github_packages:
-  - jimhester/covr
+r_binary_packages:
+  - covr
+  - httr
 
 after_success:
   - if [[ "${R_CODECOV}" ]]; then R -e 'covr::codecov()'; fi

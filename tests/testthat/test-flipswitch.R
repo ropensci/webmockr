@@ -13,6 +13,7 @@ test_that("flipswitch - turn on with 'enable'", {
   expect_equal(length(aa), 2)
 
   expect_true(webmockr_lightswitch$crul)
+  skip_if_not_installed("httr")
   expect_true(webmockr_lightswitch$httr)
 })
 
@@ -23,10 +24,11 @@ test_that("flipswitch - turn off with 'disable'", {
   expect_true(!all(aa))
 
   expect_false(webmockr_lightswitch$crul)
+  skip_if_not_installed("httr")
   expect_false(webmockr_lightswitch$httr)
 })
 
 test_that("enable and disable fail well", {
-  expect_error(enable(a = 5), "unused argument")
-  expect_error(disable(a = 5), "unused argument")
+  expect_error(enable(wasp = 5), "unused argument")
+  expect_error(disable(bee = 5), "unused argument")
 })
