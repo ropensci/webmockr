@@ -13,13 +13,14 @@ Version: 0.1.7
 
 # vcr
 
-Version: 0.1.0
+Version: 0.2.0
 
 ## In both
 
 *   checking dependencies in R code ... NOTE
     ```
-    Namespace in Imports field not imported from: ‘crul’
+    Namespaces in Imports field not imported from:
+      ‘crul’ ‘httr’
       All declared Imports should be used.
     ```
 

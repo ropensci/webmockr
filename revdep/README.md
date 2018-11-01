@@ -10,13 +10,13 @@
 |collate  |en_US.UTF-8                                 |
 |ctype    |en_US.UTF-8                                 |
 |tz       |US/Pacific                                  |
-|date     |2018-10-18                                  |
+|date     |2018-11-01                                  |
 
 # Dependencies
 
-|package  |old   |new   |Δ  |
-|:--------|:-----|:-----|:--|
-|webmockr |0.2.6 |0.2.8 |*  |
+|package  |old   |new |Δ  |
+|:--------|:-----|:---|:--|
+|webmockr |0.2.8 |NA  |*  |
 
 # Revdeps
 
@@ -30,6 +30,6 @@
 |ritis                            |0.7.2   |      |        |     |
 |rplos                            |0.8.4   |      |        |     |
 |rredlist                         |0.5.0   |      |        |     |
-|[vcr](problems.md#vcr)           |0.1.0   |      |        |1    |
+|[vcr](problems.md#vcr)           |0.2.0   |      |        |1    |
 |worrms                           |0.2.8   |      |        |     |
 
