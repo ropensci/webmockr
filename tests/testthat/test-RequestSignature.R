@@ -19,7 +19,7 @@ test_that("RequestSignature: works", {
   expect_equal(aa$uri, "https:/httpbin.org/get")
 
   expect_is(aa$to_s, "function")
-  expect_equal(aa$to_s(), "GET https:/httpbin.org/get")
+  expect_equal(aa$to_s(), "GET:  https:/httpbin.org/get")
 })
 
 test_that("RequestSignature: different methods work", {

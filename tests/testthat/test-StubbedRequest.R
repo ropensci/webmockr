@@ -26,7 +26,7 @@ test_that("StubbedRequest: works", {
   expect_equal(aa$uri_parts$path, "httpbin.org/get")
 
   expect_is(aa$to_s, "function")
-  expect_equal(aa$to_s(), "get: https:/httpbin.org/get")
+  expect_equal(aa$to_s(), "GET: https:/httpbin.org/get")
 
   # with
   expect_is(aa$with, "function")

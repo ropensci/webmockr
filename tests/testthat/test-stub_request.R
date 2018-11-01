@@ -31,7 +31,7 @@ test_that("stub_request bits are correct", {
   expect_error(aa$to_return(), "argument \"headers\" is missing")
 
   expect_is(aa$to_s, "function")
-  expect_equal(aa$to_s(), "get: https://httpbin.org/get")
+  expect_equal(aa$to_s(), "GET: https://httpbin.org/get")
 
   expect_is(aa$with, "function")
   expect_null(aa$with())
