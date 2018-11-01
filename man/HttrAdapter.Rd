@@ -38,6 +38,7 @@ This adapter modifies \pkg{httr} to allow mocking HTTP requests
 }
 \examples{
 \dontrun{
+if (requireNamespace("httr", quietly = TRUE)) {
 library(httr)
 
 # normal httr request, works fine
@@ -68,6 +69,7 @@ GET("https://httpbin.org/get?animal=chicken")
 webmockr_disable_net_connect()
 webmockr_net_connect_allowed()
 # GET("https://httpbin.org/get?animal=chicken")
+}
 }
 }
 \seealso{
