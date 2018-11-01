@@ -1,3 +1,18 @@
+webmockr 0.2.9
+==============
+
+### MINOR IMPROVEMENTS
+
+* make `request_registry()` and `stub_registry()` print methods more similar to avoid confusion for users (#35)
+* update docs for `enable`/`disable` to indicate that `crul` and `httr` supported (#46) (related to #45)
+* wrap httr adapter examples in `requireNamespace` so only run when httr available
+* clean up `.onLoad` call, removing commented out code, and add note about creating adapter objects does not load crul and httr packages
+
+### BUG FIXES
+
+* fix to `enable()` and `disable()` methods. even though `httr` is in Suggests, we were loading all adapters (crul, httr) with `stop` when the package was not found. We now give a message and skip when a package not installed. In addition, we `enable()` and `disable()` gain an `adapter` parameter to indicate which package you want to enable or disable. If `adapter` not given we attempt all adapters. Note that this bug shouldn't have affected `vcr` users as `httr` is in Imports in that package, so you'd have to have `httr` installed   (#45) thanks to @maelle for uncovering the problem
+
+
 webmockr 0.2.8
 ==============
 

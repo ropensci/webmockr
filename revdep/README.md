@@ -14,9 +14,9 @@
 
 # Dependencies
 
-|package  |old   |new |Δ  |
-|:--------|:-----|:---|:--|
-|webmockr |0.2.8 |NA  |*  |
+|package  |old   |new   |Δ  |
+|:--------|:-----|:-----|:--|
+|webmockr |0.2.8 |0.2.9 |*  |
 
 # Revdeps
 

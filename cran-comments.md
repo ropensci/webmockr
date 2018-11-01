@@ -21,7 +21,7 @@ See (<https://github.com/ropensci/webmockr/tree/master/revdep>).
 
 ---
 
-This version adds integration with the httr package.
+This version fixes a bug related to when the httr package is not available; and some other minor changes.
 
 Thanks!
 Scott Chamberlain
