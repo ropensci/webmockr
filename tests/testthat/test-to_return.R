@@ -51,3 +51,28 @@ test_that("stub_request fails well", {
   expect_error(to_return(zzz, headers = list(5, 6)), "'headers' must be a named list")
   expect_error(to_return(zzz, headers = list(a = 5, 6)), "'headers' must be a named list")
 })
+
+stub_registry_clear()
+enable()
+
+test_that("to_return (response) headers are all lowercase, crul", {
+  stub <- stub_request(uri = "http://httpbin.org/get") %>%
+    to_return(headers = list("Foo-Bar" = "baz"))
+  cli <- crul::HttpClient$new(url = "http://httpbin.org/")
+  x <- cli$get("get")
+
+  expect_is(x$response_headers, "list")
+  expect_named(x$response_headers, "foo-bar")
+})
+
+stub_registry_clear()
+
+test_that("to_return (response) headers are all lowercase, httr", {
+  loadNamespace("httr")
+  stub <- stub_request(uri = "http://httpbin.org/get") %>%
+    to_return(headers = list("Foo-Bar" = "baz"))
+  x <- httr::GET("http://httpbin.org/get")
+
+  expect_is(x$headers, "list")
+  expect_named(x$headers, "foo-bar")
+})

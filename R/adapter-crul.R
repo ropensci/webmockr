@@ -116,7 +116,7 @@ CrulAdapter <- R6::R6Class(
                 crul_resp$content <- ss$responses_sequences$body_raw
               }
               if (names(toadd)[i] == "headers") {
-                crul_resp$response_headers <- toadd[[i]]
+                crul_resp$response_headers <- names_to_lower(toadd[[i]])
               }
             }
           }

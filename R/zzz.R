@@ -119,3 +119,9 @@ check_for_pkg <- function(x) {
    invisible(TRUE)
   }
 }
+
+# lower case names in a list, return that list
+names_to_lower <- function(x) {
+  names(x) <- tolower(names(x))
+  return(x)
+}
