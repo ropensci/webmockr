@@ -150,7 +150,8 @@ HttrAdapter <- R6::R6Class(
                 httr_resp$content <- ss$responses_sequences$body_raw
               }
               if (names(toadd)[i] == "headers") {
-                httr_resp$headers <- names_to_lower(toadd[[i]])
+                httr_resp$headers <- 
+                  names_to_lower(as_character(toadd[[i]]))
               }
             }
           }

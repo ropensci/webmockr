@@ -125,3 +125,8 @@ names_to_lower <- function(x) {
   names(x) <- tolower(names(x))
   return(x)
 }
+
+as_character <- function(x) {
+  stopifnot(is.list(x))
+  lapply(x, as.character)
+}

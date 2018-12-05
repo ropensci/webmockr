@@ -33,6 +33,11 @@ Values for status, body, and headers:
 \item body: various, including character string, list, raw, numeric, etc
 \item headers: (list) a named list
 }
+
+response headers are returned with all lowercase names and the values
+are all of type character. if numeric/integer values are given
+(e.g., \code{to_return(headers = list(a = 10))}), we'll coerce any
+numeric/integer values to character.
 }
 \note{
 see examples in \code{\link[=stub_request]{stub_request()}}
