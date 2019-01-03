@@ -118,6 +118,8 @@ CrulAdapter <- R6::R6Class(
               if (names(toadd)[i] == "headers") {
                 crul_resp$response_headers <- 
                   names_to_lower(as_character(toadd[[i]]))
+                crul_resp$response_headers_all <- 
+                  list(crul_resp$response_headers)
               }
             }
           }
@@ -244,37 +246,38 @@ CrulAdapter <- R6::R6Class(
 #' @param resp a response
 #' @return a crul response
 build_crul_response <- function(req, resp) {
+  # prep headers
+  if (grepl("^ftp://", resp$url)) {
+    headers <- list()
+  } else {
+    hds <- resp$headers
+    if (is.null(hds)) {
+      hds <- resp$response_headers
+      headers <- if (is.null(hds)) {
+        list()
+      } else {
+        stopifnot(is.list(hds))
+        stopifnot(is.character(hds[[1]]))
+        hds
+      }
+    } else {
+      hh <- rawToChar(hds %||% raw(0))
+      if (is.null(hh) || nchar(hh) == 0) {
+        headers <- list()
+      } else {
+        headers <- lapply(curl::parse_headers(hh, multiple = TRUE), 
+          crul_headers_parse)
+      }
+    }
+  }
+
   crul::HttpResponse$new(
     method = req$method,
     url = req$url$url,
     status_code = resp$status_code,
     request_headers = c('User-Agent' = req$options$useragent, req$headers),
-    response_headers = {
-      if (grepl("^ftp://", resp$url)) {
-        list()
-      } else {
-        hds <- resp$headers
-
-        if (is.null(hds)) {
-          hds <- resp$response_headers
-
-          if (is.null(hds)) {
-            list()
-          } else {
-            stopifnot(is.list(hds))
-            stopifnot(is.character(hds[[1]]))
-            hds
-          }
-        } else {
-          hh <- rawToChar(hds %||% raw(0))
-          if (is.null(hh) || nchar(hh) == 0) {
-            list()
-          } else {
-            crul_headers_parse(curl::parse_headers(hh))
-          }
-        }
-      }
-    },
+    response_headers = last(headers),
+    response_headers_all = headers,
     modified = resp$modified %||% NA,
     times = resp$times,
     content = resp$content,

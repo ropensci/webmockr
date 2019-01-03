@@ -130,3 +130,8 @@ as_character <- function(x) {
   stopifnot(is.list(x))
   lapply(x, as.character)
 }
+
+last <- function(x) {
+  if (length(x) == 0) return(list())
+  x[[length(x)]]
+}
