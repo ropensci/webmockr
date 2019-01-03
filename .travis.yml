@@ -12,6 +12,9 @@ matrix:
       env: R_CODECOV=true
     - os: linux
       r: devel
+    - os: osx
+      osx_image: xcode7.3
+      r: oldrel
 
 r_binary_packages:
   - covr
