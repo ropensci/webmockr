@@ -39,6 +39,7 @@ test_that("build_crul_request/response fail well", {
 context("CrulAdapter - with real data")
 test_that("CrulAdapter works", {
   skip_on_cran()
+  skip_if_not_installed('vcr')
 
   load("crul_obj.rda")
   crul_obj$url$handle <- curl::new_handle()
