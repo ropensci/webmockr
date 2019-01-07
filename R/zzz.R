@@ -105,8 +105,7 @@ hz_namez <- function(x) {
   nms <- names(x)
   if (is.null(nms)) {
     along_rep(x, FALSE)
-  }
-  else {
+  } else {
     !(is.na(nms) | nms == "")
   }
 }
