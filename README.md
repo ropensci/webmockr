@@ -163,7 +163,7 @@ stub_request("get", "https://httpbin.org/get") %>%
 stub_registry()
 #> <webmockr stub registry> 
 #>  Registered Stubs
-#>    get: https://httpbin.org/get   | to_return:  with body "success!"  with status 200
+#>    GET: https://httpbin.org/get   | to_return:  with body "success!"  with status 200
 
 # make the request
 z <- crul::HttpClient$new(url = "https://httpbin.org")$get("get")
@@ -211,7 +211,7 @@ x$get('get')
 #> <crul response> 
 #>   url: https://httpbin.org/get
 #>   request_headers: 
-#>     User-Agent: libcurl/7.54.0 r-curl/3.2 crul/0.6.0
+#>     User-Agent: libcurl/7.54.0 r-curl/3.2 crul/0.7.0.9100
 #>     Accept-Encoding: gzip, deflate
 #>     Accept: application/json, text/xml, application/xml, */*
 #>   response_headers: 
@@ -247,7 +247,7 @@ x$get('get', query = list(hello = "world"))
 #> <crul response> 
 #>   url: https://httpbin.org/get?hello=world
 #>   request_headers: 
-#>     User-Agent: libcurl/7.54.0 r-curl/3.2 crul/0.6.0
+#>     User-Agent: libcurl/7.54.0 r-curl/3.2 crul/0.7.0.9100
 #>     Accept-Encoding: gzip, deflate
 #>     Accept: application/json, text/xml, application/xml, */*
 #>   response_headers: 
@@ -284,9 +284,9 @@ stub_request("get", "https://httpbin.org/get") %>%
 stub_registry()
 #> <webmockr stub registry> 
 #>  Registered Stubs
-#>    get: https://httpbin.org/get 
-#>    get: https://httpbin.org/get?hello=world   | to_return:   with status 418 
-#>    get: https://httpbin.org/get?hello=world   with headers {"User-Agent":"libcurl/7.51.0 r-curl/2.6 crul/0.3.6","Accept-Encoding":"gzip, deflate"}
+#>    GET: https://httpbin.org/get 
+#>    GET: https://httpbin.org/get?hello=world   | to_return:   with status 418 
+#>    GET: https://httpbin.org/get?hello=world   with headers {"User-Agent":"libcurl/7.51.0 r-curl/2.6 crul/0.3.6","Accept-Encoding":"gzip, deflate"}
 ```
 
 
@@ -296,7 +296,7 @@ x$get('get', query = list(hello = "world"))
 #> <crul response> 
 #>   url: https://httpbin.org/get?hello=world
 #>   request_headers: 
-#>     User-Agent: libcurl/7.54.0 r-curl/3.2 crul/0.6.0
+#>     User-Agent: libcurl/7.54.0 r-curl/3.2 crul/0.7.0.9100
 #>     Accept-Encoding: gzip, deflate
 #>     Accept: application/json, text/xml, application/xml, */*
 #>   response_headers: 
