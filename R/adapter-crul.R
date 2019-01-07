@@ -276,7 +276,9 @@ build_crul_response <- function(req, resp) {
     url = req$url$url,
     status_code = resp$status_code,
     request_headers = c('User-Agent' = req$options$useragent, req$headers),
-    response_headers = last(headers),
+    response_headers = {
+      if (all(hz_namez(headers))) headers else last(headers)
+    },
     response_headers_all = headers,
     modified = resp$modified %||% NA,
     times = resp$times,
