@@ -1,3 +1,14 @@
+webmockr 0.3.0
+==============
+
+### MINOR IMPROVEMENTS
+
+* returned mocked response headers were retaining case that the user gave - whereas they should be all lowercased to match the output in `crul` and `httr`. now fixed. (#49) thanks @hlapp
+* returned mocked response headers were not all of character class, but depended on what class was given by the user on creating the stub. this is now fixed, returning all character class values for response headers (#48) thanks @hlapp
+* skip tests that require `vcr` if `vcr` is not available (#53)
+* internal change to crul adapter to produce the same http response as a new version of crul returns - adds a `response_headers_all` slot  (#51) (#54)
+
+
 webmockr 0.2.9
 ==============
 

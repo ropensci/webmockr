@@ -1,7 +1,7 @@
 ## Test environments
 
-* local OS X install, R 3.5.1 Patched
-* ubuntu 14.04 (on travis-ci), R 3.5.1
+* local OS X install, R 3.5.2 Patched
+* ubuntu 14.04 (on travis-ci), R 3.5.2
 * win-builder (devel and release)
 
 ## R CMD check results
@@ -11,7 +11,7 @@
   License components with restrictions and base license permitting such:
     MIT + file LICENSE
   File 'LICENSE':
-    YEAR: 2018
+    YEAR: 2019
     COPYRIGHT HOLDER: Scott Chamberlain
 
 ## Reverse dependencies
@@ -21,7 +21,7 @@ See (<https://github.com/ropensci/webmockr/tree/master/revdep>).
 
 ---
 
-This version fixes a bug related to when the httr package is not available; and some other minor changes.
+This version contains fixes for returned mocked response headers, matches mocked responses to new crul version responses, and skips tests that require vcr if vcr is not available on the system.
 
 Thanks!
 Scott Chamberlain
