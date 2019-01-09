@@ -50,13 +50,19 @@ url_builder <- function(uri, args = NULL) {
   paste0(uri, "?", paste(names(args), args, sep = "=", collapse = ","))
 }
 
-`%||%` <- function(x, y) if (is.null(x) || length(x) == 0 || nchar(x) == 0 || all(is.na(x))) y else x
+`%||%` <- function(x, y) {
+  if (
+    is.null(x) || length(x) == 0 || all(nchar(x) == 0) || all(is.na(x))
+  ) y else x
+}
 
 # tryCatch version of above
 `%|s|%` <- function(x, y) {
   z <- tryCatch(x)
   if (inherits(z, "error")) return(y)
-  if (is.null(z) || length(z) == 0 || nchar(z) == 0 || all(is.na(z))) y else x
+  if (
+    is.null(z) || length(z) == 0 || all(nchar(z) == 0) || all(is.na(z))
+  ) y else x
 }
 
 `!!` <- function(x) if (is.null(x) || is.na(x)) FALSE else TRUE
