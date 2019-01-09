@@ -1,4 +1,4 @@
-http_lib_adapter_registry <- NULL
+http_lib_adapter_registry <- NULL # nocov start
 .onLoad <- function(libname, pkgname) {
   # set defaults for webmockr
   webmockr_configure()
@@ -9,4 +9,4 @@ http_lib_adapter_registry <- NULL
   x$register(CrulAdapter$new())
   x$register(HttrAdapter$new())
   http_lib_adapter_registry <<- x
-}
+} # nocov end
