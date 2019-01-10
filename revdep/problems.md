@@ -1,15 +1,3 @@
-# crul
-
-Version: 0.5.2
-
-## In both
-
-*   checking dependencies in R code ... NOTE
-    ```
-    Namespace in Imports field not imported from: ‘httpcode’
-      All declared Imports should be used.
-    ```
-
 # HIBPwned
 
 Version: 0.1.7
@@ -23,15 +11,28 @@ Version: 0.1.7
       All declared Imports should be used.
     ```
 
-# vcr
+# RTD
 
-Version: 0.1.0
+Version: 0.1.1
 
 ## In both
 
 *   checking dependencies in R code ... NOTE
     ```
-    Namespace in Imports field not imported from: ‘crul’
+    Namespace in Imports field not imported from: ‘openssl’
+      All declared Imports should be used.
+    ```
+
+# vcr
+
+Version: 0.2.0
+
+## In both
+
+*   checking dependencies in R code ... NOTE
+    ```
+    Namespaces in Imports field not imported from:
+      ‘crul’ ‘httr’
       All declared Imports should be used.
     ```
 

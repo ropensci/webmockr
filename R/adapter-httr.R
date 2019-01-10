@@ -1,4 +1,4 @@
-#' crul library adapter
+#' httr library adapter
 #'
 #' @export
 #' @family http_lib_adapters
@@ -11,51 +11,85 @@
 #'     \item{`disable()`}{
 #'       Disable the adapter
 #'     }
-#'     \item{`build_crul_request(x)`}{
-#'       Build a crul [RequestSignature]
-#'       x: crul request parts (list)
+#'     \item{`build_httr_request(x)`}{
+#'       Build a httr [RequestSignature]
+#'       x: httr request parts (list)
 #'     }
-#'     \item{`build_crul_response(req, resp)`}{
-#'       Build a crul response
-#'       req: a crul request (list)
-#'       resp: a crul response ()
+#'     \item{`build_httr_response(req, resp)`}{
+#'       Build a httr response
+#'       req: a httr request (list)
+#'       resp: a httr response ()
 #'     }
 #'     \item{`handle_request()`}{
 #'       All logic for handling a request
-#'       req: a crul request (list)
+#'       req: a httr request (list)
 #'     }
-#'     \item{`remove_crul_stubs()`}{
-#'       Remove all crul stubs
+#'     \item{`remove_httr_stubs()`}{
+#'       Remove all httr stubs
 #'     }
 #'   }
 #'
-#' This adapter modifies \pkg{crul} to allow mocking HTTP requests
+#' This adapter modifies \pkg{httr} to allow mocking HTTP requests
 #'
 #' @format NULL
 #' @usage NULL
-CrulAdapter <- R6::R6Class(
-  'CrulAdapter',
+#' @examples \dontrun{
+#' if (requireNamespace("httr", quietly = TRUE)) {
+#' library(httr)
+#'
+#' # normal httr request, works fine
+#' real <- GET("https://httpbin.org/get")
+#' real
+#'
+#' # with webmockr
+#' library(webmockr)
+#' ## turn on httr mocking
+#' httr_mock()
+#' ## now this request isn't allowed
+#' # GET("https://httpbin.org/get")
+#' ## stub the request
+#' stub_request('get', uri = 'https://httpbin.org/get') %>%
+#'   wi_th(
+#'     headers = list('Accept' = 'application/json, text/xml, application/xml, */*')
+#'   ) %>%
+#'   to_return(status = 418, body = "I'm a teapot!", headers = list(a = 5))
+#' ## now the request succeeds and returns a mocked response
+#' (res <- GET("https://httpbin.org/get"))
+#' res$status_code
+#' rawToChar(res$content)
+#'
+#' # allow real requests while webmockr is loaded
+#' webmockr_allow_net_connect()
+#' webmockr_net_connect_allowed()
+#' GET("https://httpbin.org/get?animal=chicken")
+#' webmockr_disable_net_connect()
+#' webmockr_net_connect_allowed()
+#' # GET("https://httpbin.org/get?animal=chicken")
+#' }
+#' }
+HttrAdapter <- R6::R6Class(
+  'HttrAdapter',
   public = list(
-    name = "crul_adapter",
+    name = "httr_adapter",
 
     enable = function() {
-      message("CrulAdapter enabled!")
-      webmockr_lightswitch$crul <- TRUE
-      crul::mock(TRUE)
+      message("HttrAdapter enabled!")
+      webmockr_lightswitch$httr <- TRUE
+      httr_mock(TRUE)
       invisible(TRUE)
     },
 
     disable = function() {
-      message("CrulAdapter disabled!")
-      webmockr_lightswitch$crul <- FALSE
-      crul::mock(FALSE)
-      self$remove_crul_stubs()
+      message("HttrAdapter disabled!")
+      webmockr_lightswitch$httr <- FALSE
+      httr_mock(FALSE)
+      self$remove_httr_stubs()
       invisible(FALSE)
     },
 
     handle_request = function(req) {
       # put request in request registry
-      request_signature <- build_crul_request(req)
+      request_signature <- build_httr_request(req)
       webmockr_request_registry$register_request(
         request = request_signature$to_s()
       )
@@ -74,7 +108,7 @@ CrulAdapter <- R6::R6Class(
         resp$set_body(ss$body)
         resp$set_request_headers(ss$request_headers)
         resp$set_response_headers(ss$response_headers)
-        resp$set_status(ss$status_code %||% 200)
+        resp$set_status(as.integer(ss$status_code %||% 200))
 
         # if user set to_timeout or to_raise, do that
         if (ss$timeout || ss$raise) {
@@ -90,17 +124,17 @@ CrulAdapter <- R6::R6Class(
           }
         }
 
-        # generate crul response
+        # generate httr response
         # VCR: recordable/ignored
         if ("package:vcr" %in% search()) {
           cas <- vcr::current_cassette()
           if (length(cas$previously_recorded_interactions()) == 0) {
             # using vcr, but no recorded interactions to the cassette yet
             # use RequestHandler - gets current cassette & record interaction
-            crul_resp <- vcr::RequestHandlerCrul$new(req)$handle()
+            httr_resp <- vcr::RequestHandlerHttr$new(req)$handle()
           }
         } else {
-          crul_resp <- build_crul_response(req, resp)
+          httr_resp <- build_httr_response(req, resp)
 
           # add to_return() elements if given
           if (length(cc(ss$responses_sequences)) != 0) {
@@ -109,17 +143,15 @@ CrulAdapter <- R6::R6Class(
             # modify responses
             for (i in seq_along(toadd)) {
               if (names(toadd)[i] == "status") {
-                crul_resp$status_code <- toadd[[i]]
+                httr_resp$status_code <- as.integer(toadd[[i]])
               }
               if (names(toadd)[i] == "body") {
-                # crul_resp$content <- toadd[[i]]
-                crul_resp$content <- ss$responses_sequences$body_raw
+                # httr_resp$content <- toadd[[i]]
+                httr_resp$content <- ss$responses_sequences$body_raw
               }
               if (names(toadd)[i] == "headers") {
-                crul_resp$response_headers <- 
+                httr_resp$headers <- 
                   names_to_lower(as_character(toadd[[i]]))
-                crul_resp$response_headers_all <- 
-                  list(crul_resp$response_headers)
               }
             }
           }
@@ -130,45 +162,44 @@ CrulAdapter <- R6::R6Class(
         if ("package:vcr" %in% search()) {
           # get current cassette
           cas <- vcr::current_cassette()
-          crul_resp <- vcr::RequestHandlerCrul$new(req)$handle()
+          httr_resp <- vcr::RequestHandlerHttr$new(req)$handle()
         } # vcr is not loaded, skip
 
-      } else if (webmockr_net_connect_allowed(uri = req$url$url)) {
+      } else if (webmockr_net_connect_allowed(uri = req$url)) {
         # if real requests || localhost || certain exceptions ARE
         #   allowed && nothing found above
-        tmp <- crul::HttpClient$new(url = req$url$url)
-        tmp2 <- webmockr_crul_fetch(req)
-        crul_resp <- build_crul_response(req, tmp2)
+        httr_mock(FALSE)
+        httr_resp <- eval(parse(text = paste0("httr::", req$method)))(req$url)
+        httr_mock(TRUE)
 
         # if vcr loaded: record http interaction into vcr namespace
         # VCR: recordable
         if ("package:vcr" %in% search()) {
           # stub request so next time we match it
-          urip <- crul::url_parse(req$url$url)
+          urip <- crul::url_parse(req$url)
           m <- vcr::vcr_configuration()$match_requests_on
         
           if (all(m %in% c("method", "uri")) && length(m) == 2) {
-            stub_request(req$method, req$url$url)
+            stub_request(req$method, req$url)
           } else if (all(m %in% c("method", "uri", "query")) && length(m) == 3) {
-            tmp <- stub_request(req$method, req$url$url)
+            tmp <- stub_request(req$method, req$url)
             wi_th(tmp, .list = list(query = urip$parameter))
           } else if (all(m %in% c("method", "uri", "headers")) && length(m) == 3) {
-            tmp <- stub_request(req$method, req$url$url)
+            tmp <- stub_request(req$method, req$url)
             wi_th(tmp, .list = list(query = req$headers))
           } else if (all(m %in% c("method", "uri", "headers", "query")) && length(m) == 4) {
-            tmp <- stub_request(req$method, req$url$url)
+            tmp <- stub_request(req$method, req$url)
             wi_th(tmp, .list = list(query = urip$parameter, headers = req$headers))
           }
         
-          # use RequestHandler instead? - which gets current cassette for us
-          vcr::RequestHandlerCrul$new(req)$handle()
+          vcr::RequestHandlerHttr$new(req)$handle()
         }
 
       } else {
         # throw vcr error: should happen when user not using
         #  use_cassette or insert_cassette
         if ("package:vcr" %in% search()) {
-          vcr::RequestHandlerCrul$new(req)$handle()
+          vcr::RequestHandlerHttr$new(req)$handle()
         }
 
         # no stubs found and net connect not allowed - STOP
@@ -190,10 +221,10 @@ CrulAdapter <- R6::R6Class(
         stop(paste0(msgx, msgy, msgz, ending), call. = FALSE)
       }
 
-      return(crul_resp)
+      return(httr_resp)
     },
 
-    remove_crul_stubs = function() {
+    remove_httr_stubs = function() {
       webmockr_stub_registry$remove_all_request_stubs()
     }
   ),
@@ -240,68 +271,100 @@ CrulAdapter <- R6::R6Class(
   )
 )
 
-#' Build a crul response
+#' Build a httr response
 #' @export
 #' @param req a request
 #' @param resp a response
-#' @return a crul response
-build_crul_response <- function(req, resp) {
-  # prep headers
-  if (grepl("^ftp://", resp$url)) {
-    headers <- list()
-  } else {
-    hds <- resp$headers
-    if (is.null(hds)) {
-      hds <- resp$response_headers
-      headers <- if (is.null(hds)) {
+#' @return a httr response
+build_httr_response <- function(req, resp) {
+  try_url <- tryCatch(req$url$url, error = function(e) e)
+
+  lst <- list(
+    url = try_url %|s|% req$url,
+    status_code = as.integer(resp$status_code),
+    headers = {
+      if (grepl("^ftp://", resp$url)) {
         list()
       } else {
-        stopifnot(is.list(hds))
-        stopifnot(is.character(hds[[1]]))
-        hds
-      }
-    } else {
-      hh <- rawToChar(hds %||% raw(0))
-      if (is.null(hh) || nchar(hh) == 0) {
-        headers <- list()
-      } else {
-        headers <- lapply(curl::parse_headers(hh, multiple = TRUE), 
-          crul_headers_parse)
-      }
-    }
-  }
+        hds <- resp$headers
 
-  crul::HttpResponse$new(
-    method = req$method,
-    url = req$url$url,
-    status_code = resp$status_code,
-    request_headers = c('User-Agent' = req$options$useragent, req$headers),
-    response_headers = {
-      if (all(hz_namez(headers))) headers else last(headers)
+        if (is.null(hds)) {
+          hds <- resp$response_headers
+
+          if (is.null(hds)) {
+            list()
+          } else {
+            stopifnot(is.list(hds))
+            stopifnot(is.character(hds[[1]]))
+            hds
+          }
+        } else {
+          hds
+        }
+      }
     },
-    response_headers_all = headers,
-    modified = resp$modified %||% NA,
-    times = resp$times,
+    all_headers = list(),
+    cookies = httr_cookies_df(),
     content = resp$content,
-    handle = req$url$handle,
-    request = req
+    date = {
+      if (!is.null(resp$response_headers$date)) {
+        resp$response_headers$date
+      }
+    },
+    times = numeric(0),
+    request = req,
+    handle = NA
   )
+  if ("content-type" %in% names(lst$headers)) {
+    lst$headers$`Content-Type` <- lst$headers$`content-type`
+    lst$headers$`content-type` <- NULL
+  } 
+  lst$all_headers <- list(list(
+    status = lst$status_code,
+    version = "",
+    headers = lst$headers
+  ))
+  structure(lst, class = "response")
 }
 
-#' Build a crul request
+httr_cookies_df <- function() {
+  df <- data.frame(matrix(ncol = 7, nrow = 0))
+  x <- c("domain", "flag", "path", "secure", "expiration", "name", "value")
+  colnames(df) <- x
+  df
+}
+
+#' Build a httr request
 #' @export
-#' @param x an unexecuted crul request object
-#' @return a crul request
-build_crul_request = function(x) {
+#' @param x an unexecuted httr request object
+#' @return a httr request
+build_httr_request = function(x) {
   RequestSignature$new(
     method = x$method,
-    uri = x$url$url,
+    uri = x$url,
     options = list(
       body = x$fields %||% NULL,
-      headers = x$headers %||% NULL,
+      headers = as.list(x$headers) %||% NULL,
       proxies = x$proxies %||% NULL,
       auth = x$auth %||% NULL
     )
   )
 }
 
+#' Turn on httr mocking
+#' @export
+#' @param on (logical) set to `TRUE` to turn on, and `FALSE`
+#' to turn off. default: `TRUE`
+#' @return silently sets a callback that routes httr request
+#' through webmockr
+httr_mock <- function(on = TRUE) {
+  check_for_pkg("httr")
+  webmockr_handle <- function(req) {
+    webmockr::HttrAdapter$new()$handle_request(req)
+  }
+  if (on) {
+    httr::set_callback("request", webmockr_handle)
+  } else {
+    httr::set_callback("request", NULL)
+  }
+}

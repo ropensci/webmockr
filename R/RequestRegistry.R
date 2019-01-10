@@ -82,7 +82,7 @@ RequestRegistry <- R6::R6Class(
 
     print = function(x, ...) {
       cat("<webmockr request registry> ", sep = "\n")
-      cat("  Registered Requests", sep = "\n")
+      cat(" Registered Requests", sep = "\n")
       for (i in seq_along(self$request_signatures$hash)) {
         cat(
           sprintf(

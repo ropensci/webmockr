@@ -1,3 +1,38 @@
+webmockr 0.3.0
+==============
+
+### MINOR IMPROVEMENTS
+
+* returned mocked response headers were retaining case that the user gave - whereas they should be all lowercased to match the output in `crul` and `httr`. now fixed. (#49) thanks @hlapp
+* returned mocked response headers were not all of character class, but depended on what class was given by the user on creating the stub. this is now fixed, returning all character class values for response headers (#48) thanks @hlapp
+* skip tests that require `vcr` if `vcr` is not available (#53)
+* internal change to crul adapter to produce the same http response as a new version of crul returns - adds a `response_headers_all` slot  (#51) (#54)
+
+
+webmockr 0.2.9
+==============
+
+### MINOR IMPROVEMENTS
+
+* make `request_registry()` and `stub_registry()` print methods more similar to avoid confusion for users (#35)
+* update docs for `enable`/`disable` to indicate that `crul` and `httr` supported (#46) (related to #45)
+* wrap httr adapter examples in `requireNamespace` so only run when httr available
+* clean up `.onLoad` call, removing commented out code, and add note about creating adapter objects does not load crul and httr packages
+
+### BUG FIXES
+
+* fix to `enable()` and `disable()` methods. even though `httr` is in Suggests, we were loading all adapters (crul, httr) with `stop` when the package was not found. We now give a message and skip when a package not installed. In addition, we `enable()` and `disable()` gain an `adapter` parameter to indicate which package you want to enable or disable. If `adapter` not given we attempt all adapters. Note that this bug shouldn't have affected `vcr` users as `httr` is in Imports in that package, so you'd have to have `httr` installed   (#45) thanks to @maelle for uncovering the problem
+
+
+webmockr 0.2.8
+==============
+
+### NEW FEATURES
+
+* Added support for integration with package `httr`; see `HttrAdapter` for the details; `webmockr` now integrates with two HTTP R packages: `crul` and `httr` (#43) (#44)
+* Along with `httr` integration is a new method `httr_mock()` to turn on mocking for `httr`; and two methods `build_httr_response` and `build_httr_request` meant for internal use
+
+
 webmockr 0.2.6
 ==============
 

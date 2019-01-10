@@ -101,7 +101,7 @@ RequestSignature <- R6::R6Class(
 
     to_s = function() {
       gsub("^\\s+|\\s+$", "", paste(
-        toupper(self$method),
+        paste0(toupper(self$method), ": "),
         self$uri,
         if (!is.null(self$body) && length(self$body)) {
           paste0(" with body ", to_string(self$body))

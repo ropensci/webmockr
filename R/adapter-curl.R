@@ -72,8 +72,11 @@
 #' curl_fetch_memory("https://httpbin.org/get?cow=brown", h3)
 #' ## disable again
 #' webmockr_disable_net_connect()
-#' stub_request("get", "https://httpbin.org/get?cow=brown")
-#' curl_fetch_memory("https://httpbin.org/get?cow=brown", h3)
+#' stub_request("get", "https://httpbin.org/get?cow=brown") %>% 
+#'   to_return(headers = list(brown = "cow"))
+#' x <- curl_fetch_memory("https://httpbin.org/get?cow=brown", h3)
+#' x
+#' rawToChar(x$headers)
 #' }
 CurlAdapter <- R6::R6Class(
   'CurlAdapter',
@@ -249,11 +252,17 @@ build_curl_response <- function(req, resp) {
   list(
     url = req$url,
     status_code = resp$status_code,
+    type = ctype_fetch(resp$response_headers) %||% NA,
     headers = headers %||% raw(0),
     modified = resp$modified %||% NA,
     times = resp$times %||% numeric(0),
     content = resp$content
   )
+}
+
+ctype_fetch <- function(x) {
+  match_ctype <- which("content-type" == tolower(names(x)))
+  if (length(match_ctype) > 0) x[[match_ctype]]
 }
 
 #' Build a curl request
@@ -286,3 +295,22 @@ make_curl_headers <- function(x) {
   ), "\r\n\r\n")
 }
 # "HTTP/1.1 405 METHOD NOT ALLOWED\r\nConnection: keep-alive\r\nServer: gunicorn/19.8.1\r\nDate: Fri, 18 May 2018 18:37:00 GMT\r\nContent-Type: text/html\r\nAllow: OPTIONS, PUT\r\nContent-Length: 178\r\nAccess-Control-Allow-Origin: *\r\nAccess-Control-Allow-Credentials: true\r\nVia: 1.1 vegur\r\n\r\n"
+
+#' Turn on curl mocking
+#' @export
+#' @param on (logical) set to `TRUE` to turn on, and `FALSE`
+#' to turn off. default: `TRUE`
+#' @return sets a env var to TRUE
+curl_mock <- function(on = TRUE) {
+  check_for_pkg("curl")
+  curl::mock()
+  enable()
+  # webmockr_handle <- function(req) {
+  #   webmockr::CurlAdapter$new()$handle_request(req)
+  # }
+  # if (on) {
+  #   httr::set_callback("request", webmockr_handle)
+  # } else {
+  #   httr::set_callback("request", NULL)
+  # }
+}

@@ -75,7 +75,8 @@ RequestPattern <- R6::R6Class(
       self$body_pattern <- if (!is.null(body)) BodyPattern$new(pattern = body)
       self$headers_pattern <- if (!is.null(headers))
         HeadersPattern$new(pattern = headers)
-      #if (length(options)) private$assign_options(options)
+      # FIXME: all private methods used in the below line, see if needed or remove
+      # if (length(options)) private$assign_options(options)
     },
 
     matches = function(request_signature) {

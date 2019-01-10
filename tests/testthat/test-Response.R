@@ -26,6 +26,7 @@ test_that("Response: bits are correct prior to having data", {
 
   expect_null(aa$request_headers)
   expect_null(aa$response_headers)
+  expect_null(aa$response_headers_all)
   expect_equal(aa$status_code, 200)
   expect_null(aa$url)
   expect_null(aa$name)
@@ -49,6 +50,8 @@ test_that("Response: bits are correct after having data", {
   expect_named(aa$request_headers, "Content-Type")
   expect_is(aa$response_headers, "list")
   expect_named(aa$response_headers, "Host")
+  # response_headers_all doesn't exist in Response, it's specific to crul
+  expect_null(aa$response_headers_all)
 
   expect_equal(aa$status_code, 404)
   expect_equal(aa$url, "https://httpbin.org/get")

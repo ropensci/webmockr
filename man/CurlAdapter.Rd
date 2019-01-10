@@ -75,11 +75,16 @@ h3 <- new_handle()
 curl_fetch_memory("https://httpbin.org/get?cow=brown", h3)
 ## disable again
 webmockr_disable_net_connect()
-stub_request("get", "https://httpbin.org/get?cow=brown")
-curl_fetch_memory("https://httpbin.org/get?cow=brown", h3)
+stub_request("get", "https://httpbin.org/get?cow=brown") \%>\% 
+  to_return(headers = list(brown = "cow"))
+x <- curl_fetch_memory("https://httpbin.org/get?cow=brown", h3)
+x
+rawToChar(x$headers)
 }
 }
 \seealso{
-Other http_lib_adapters: \code{\link{CrulAdapter}}
+Other http_lib_adapters: \code{\link{CrulAdapter}},
+  \code{\link{HttrAdapter}}
 }
+\concept{http_lib_adapters}
 \keyword{datasets}

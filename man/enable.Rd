@@ -6,22 +6,23 @@
 \alias{disable}
 \title{Enable or disable webmockr}
 \usage{
-enable(options = list())
+enable(adapter = NULL, options = list())
 
 enabled(adapter = "crul")
 
-disable(options = list())
+disable(adapter = NULL, options = list())
 }
 \arguments{
-\item{options}{list of options - ignored for now.}
+\item{adapter}{(character) the adapter name, 'crul', 'httr',
+or 'curl'. if none given, we attempt to enable both adapters}
 
-\item{adapter}{(character) the adapter to enable, only 'crul' for now}
+\item{options}{list of options - ignored for now.}
 }
 \value{
 \code{enable()} and \code{disable()} invisibly returns booleans for
-each adapter (currently only \pkg{crul}), as a result of running
-enable or disable, respectively, on each \link{HttpLibAdapaterRegistry}
-object. \code{enabled} returns a single boolean
+each adapter, as a result of running enable or disable, respectively,
+on each \link{HttpLibAdapaterRegistry} object. \code{enabled} returns a
+single boolean
 }
 \description{
 Enable or disable webmockr

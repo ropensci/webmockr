@@ -35,4 +35,5 @@ x$hash
 Other request-registry: \code{\link{RequestRegistry}},
   \code{\link{request_registry}}
 }
+\concept{request-registry}
 \keyword{datasets}

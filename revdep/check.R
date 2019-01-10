@@ -1,2 +1,2 @@
-library("revdepcheck")
-res <- revdep_check()
+revdepcheck::revdep_reset()
+revdepcheck::revdep_check(num_workers = 2)

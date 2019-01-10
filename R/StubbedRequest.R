@@ -155,7 +155,7 @@ StubbedRequest <- R6::R6Class(
       )
       gsub("^\\s+|\\s+$", "", sprintf(
         "  %s: %s %s %s %s %s",
-        self$method,
+        toupper(self$method),
         url_builder(self$uri, self$query),
         make_body(self$body),
         make_headers(self$request_headers),

@@ -50,7 +50,20 @@ url_builder <- function(uri, args = NULL) {
   paste0(uri, "?", paste(names(args), args, sep = "=", collapse = ","))
 }
 
-`%||%` <- function(x, y) if (is.null(x) || length(x) == 0 || nchar(x) == 0 || all(is.na(x))) y else x
+`%||%` <- function(x, y) {
+  if (
+    is.null(x) || length(x) == 0 || all(nchar(x) == 0) || all(is.na(x))
+  ) y else x
+}
+
+# tryCatch version of above
+`%|s|%` <- function(x, y) {
+  z <- tryCatch(x)
+  if (inherits(z, "error")) return(y)
+  if (
+    is.null(z) || length(z) == 0 || all(nchar(z) == 0) || all(is.na(z))
+  ) y else x
+}
 
 `!!` <- function(x) if (is.null(x) || is.na(x)) FALSE else TRUE
 
@@ -98,8 +111,7 @@ hz_namez <- function(x) {
   nms <- names(x)
   if (is.null(nms)) {
     along_rep(x, FALSE)
-  }
-  else {
+  } else {
     !(is.na(nms) | nms == "")
   }
 }
@@ -111,4 +123,20 @@ check_for_pkg <- function(x) {
   } else {
    invisible(TRUE)
   }
+}
+
+# lower case names in a list, return that list
+names_to_lower <- function(x) {
+  names(x) <- tolower(names(x))
+  return(x)
+}
+
+as_character <- function(x) {
+  stopifnot(is.list(x))
+  lapply(x, as.character)
+}
+
+last <- function(x) {
+  if (length(x) == 0) return(list())
+  x[[length(x)]]
 }

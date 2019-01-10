@@ -9,8 +9,10 @@ knitr::opts_chunk$set(
 )
 ```
 
+[![cran checks](https://cranchecks.info/badges/worst/webmockr)](https://cranchecks.info/pkgs/webmockr)
 [![Project Status: Active - The project has reached a stable, usable state and is being actively developed.](http://www.repostatus.org/badges/latest/active.svg)](http://www.repostatus.org/#active)
 [![Build Status](https://travis-ci.org/ropensci/webmockr.svg?branch=master)](https://travis-ci.org/ropensci/webmockr)
+[![Build status](https://ci.appveyor.com/api/projects/status/47scc0vur41sbfyx?svg=true)](https://ci.appveyor.com/project/sckott/webmockr)
 [![codecov](https://codecov.io/gh/ropensci/webmockr/branch/master/graph/badge.svg)](https://codecov.io/gh/ropensci/webmockr)
 [![rstudio mirror downloads](http://cranlogs.r-pkg.org/badges/webmockr)](https://github.com/metacran/cranlogs.app)
 [![cran version](https://www.r-pkg.org/badges/version/webmockr)](https://cran.r-project.org/package=webmockr)
@@ -106,8 +108,9 @@ in the `webmockr_configure()` function.
 ## Supported HTTP libraries
 
 * [crul](https://github.com/ropensci/crul)
+* [httr](https://github.com/r-lib/httr)
 
-> more to come: curl, httr
+> in development: curl
 
 ## Install
 
@@ -223,6 +226,102 @@ library(fauxpas)
 stub_request("get", "https://httpbin.org/get?a=b") %>% to_raise(HTTPBadRequest)
 x <- HttpClient$new(url = "https://httpbin.org")
 x$get('get', query = list(a = "b"))
+```
+
+## httr integration
+
+```{r}
+library(webmockr)
+library(httr)
+
+# turn on httr mocking
+httr_mock()
+```
+
+```{r eval=FALSE}
+# no stub found
+GET("https://httpbin.org/get")
+#> Error: Real HTTP connections are disabled.
+#> Unregistered request:
+#>   GET https://httpbin.org/get   with headers {Accept: application/json, text/xml, application/xml, */*}
+#> 
+#> You can stub this request with the following snippet:
+#> 
+#>    stub_request('get', uri = 'https://httpbin.org/get') %>%
+#>      wi_th(
+#>        headers = list('Accept' = 'application/json, text/xml, application/xml, */*')
+#>      )
+#> ============================================================
+```
+
+make a stub
+
+```{r}
+stub_request('get', uri = 'https://httpbin.org/get') %>%
+  wi_th(
+    headers = list('Accept' = 'application/json, text/xml, application/xml, */*')
+  ) %>%
+  to_return(status = 418, body = "I'm a teapot!!!", headers = list(im_a = "teapot"))
+```
+
+now returns mocked response
+
+
+```{r eval=FALSE} 
+(res <- GET("https://httpbin.org/get"))
+res$status_code
+#> [1] 418
+res$response_headers
+#> $im_a
+#> [1] "teapot"
+```
+
+## curl integration
+
+```{r}
+library(webmockr)
+library(curl)
+
+# turn on curl mocking
+#curl_mock()
+enable('curl')
+#disable('curl')
+#curl::mock(FALSE)
+```
+
+```{r eval=TRUE}
+# no stub found
+curl_fetch_memory("https://httpbin.org/get")
+#> Error: Real HTTP connections are disabled.
+#> Unregistered request:
+#>   GET https://httpbin.org/get   with headers {accept: */*, accept-encoding: gzip, deflate, user-agent: R (3.5.2 x86_64-apple-darwin15.6.0 x86_64 darwin15.6.0)}
+#> 
+#> You can stub this request with the following snippet:
+#> 
+#>    stub_request('get', uri = 'https://httpbin.org/get') %>%
+#>      wi_th(
+#>        headers = list('accept' = '*/*', 'accept-encoding' = 'gzip, deflate', 'user-agent' = 'R (3.5.2 x86_64-apple-darwin15.6.0 x86_64 darwin15.6.0)')
+#>      )
+#> ============================================================
+```
+
+make a stub
+
+```{r}
+stub_request('get', uri = 'https://httpbin.org/get') %>%
+  to_return(status = 418, body = "I'm a teapot!!!", 
+    headers = list(im_a = "teapot", 'content-type' = "tea/pot")
+  )
+```
+
+now returns mocked response
+
+
+```{r} 
+res <- curl_fetch_memory("https://httpbin.org/get")
+res
+res$type
+cat(rawToChar(res$headers))
 ```
 
 ## Meta

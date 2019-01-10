@@ -17,6 +17,11 @@
 #' - status: (numeric/integer) three digit status code
 #' - body: various, including character string, list, raw, numeric, etc
 #' - headers: (list) a named list
+#' 
+#' response headers are returned with all lowercase names and the values
+#' are all of type character. if numeric/integer values are given 
+#' (e.g., `to_return(headers = list(a = 10))`), we'll coerce any 
+#' numeric/integer values to character.
 to_return <- function(.data, ...) {
   to_return_(.data, .dots = lazyeval::lazy_dots(...))
 }

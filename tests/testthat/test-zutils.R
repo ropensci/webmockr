@@ -179,3 +179,12 @@ test_that("hdl_lst2 works", {
 
   expect_equal(hdl_lst2(1.5), 1.5)
 })
+
+context("query_mapper") 
+test_that("query_mapper", {
+  expect_is(query_mapper, "function")
+  expect_null(query_mapper(NULL))
+  expect_equal(query_mapper(5), 5)
+  expect_equal(query_mapper('aaa'), 'aaa')
+  expect_equal(query_mapper(mtcars), mtcars)
+})
