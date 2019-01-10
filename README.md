@@ -134,6 +134,7 @@ library(webmockr)
 webmockr::enable()
 #> CrulAdapter enabled!
 #> HttrAdapter enabled!
+#> CurlAdapter enabled!
 ```
 
 ## Inside a test framework
@@ -212,7 +213,7 @@ x$get('get')
 #> <crul response> 
 #>   url: https://httpbin.org/get
 #>   request_headers: 
-#>     User-Agent: libcurl/7.54.0 r-curl/3.3.9000 crul/0.7.0.9100
+#>     User-Agent: libcurl/7.54.0 r-curl/3.3.9311 crul/0.7.0.9100
 #>     Accept-Encoding: gzip, deflate
 #>     Accept: application/json, text/xml, application/xml, */*
 #>   response_headers: 
@@ -248,7 +249,7 @@ x$get('get', query = list(hello = "world"))
 #> <crul response> 
 #>   url: https://httpbin.org/get?hello=world
 #>   request_headers: 
-#>     User-Agent: libcurl/7.54.0 r-curl/3.3.9000 crul/0.7.0.9100
+#>     User-Agent: libcurl/7.54.0 r-curl/3.3.9311 crul/0.7.0.9100
 #>     Accept-Encoding: gzip, deflate
 #>     Accept: application/json, text/xml, application/xml, */*
 #>   response_headers: 
@@ -297,7 +298,7 @@ x$get('get', query = list(hello = "world"))
 #> <crul response> 
 #>   url: https://httpbin.org/get?hello=world
 #>   request_headers: 
-#>     User-Agent: libcurl/7.54.0 r-curl/3.3.9000 crul/0.7.0.9100
+#>     User-Agent: libcurl/7.54.0 r-curl/3.3.9311 crul/0.7.0.9100
 #>     Accept-Encoding: gzip, deflate
 #>     Accept: application/json, text/xml, application/xml, */*
 #>   response_headers: 
@@ -431,45 +432,16 @@ res$response_headers
 ```r
 library(webmockr)
 library(curl)
-#> 
-#> Attaching package: 'curl'
-#> The following object is masked from 'package:httr':
-#> 
-#>     handle_reset
-#> The following object is masked from 'package:crul':
-#> 
-#>     mock
 
 # turn on curl mocking
-curl::mock()
+disable() # disable other adapters
+enable('curl')
 ```
 
 
 ```r
 # no stub found
 curl_fetch_memory("https://httpbin.org/get")
-#> eval(expr, envir, enclos) 
-#> mocking? TRUE 
-#> calling curl_echo from inside mock_req 
-#> curl_echo(h) 
-#> GET
-#> $url
-#> [1] "https://httpbin.org/get"
-#> 
-#> $status_code
-#> [1] 200
-#> 
-#> $headers
-#> raw(0)
-#> 
-#> $modified
-#> [1] NA
-#> 
-#> $times
-#> numeric(0)
-#> 
-#> $content
-#> raw(0)
 #> Error: Real HTTP connections are disabled.
 #> Unregistered request:
 #>   GET https://httpbin.org/get   with headers {accept: */*, accept-encoding: gzip, deflate, user-agent: R (3.5.2 x86_64-apple-darwin15.6.0 x86_64 darwin15.6.0)}
@@ -488,7 +460,9 @@ make a stub
 
 ```r
 stub_request('get', uri = 'https://httpbin.org/get') %>%
-  to_return(status = 418, body = "I'm a teapot!!!", headers = list(im_a = "teapot"))
+  to_return(status = 418, body = "I'm a teapot!!!", 
+    headers = list(im_a = "teapot", 'content-type' = "tea/pot")
+  )
 #> <webmockr stub> 
 #>   method: get
 #>   uri: https://httpbin.org/get
@@ -499,7 +473,7 @@ stub_request('get', uri = 'https://httpbin.org/get') %>%
 #>   to_return: 
 #>     status: 418
 #>     body: I'm a teapot!!!
-#>     response_headers: im_a=teapot
+#>     response_headers: im_a=teapot, content-type=tea/pot
 #>   should_timeout: FALSE
 #>   should_raise: FALSE
 ```
@@ -510,20 +484,19 @@ now returns mocked response
 
 ```r
 res <- curl_fetch_memory("https://httpbin.org/get")
-#> eval(expr, envir, enclos) 
-#> mocking? TRUE 
-#> calling curl_echo from inside mock_req 
-#> curl_echo(h) 
-#> GET
 res
 #> $url
 #> [1] "https://httpbin.org/get"
 #> 
 #> $status_code
-#> [1] 200
+#> [1] 418
+#> 
+#> $type
+#> [1] "tea/pot"
 #> 
 #> $headers
-#> raw(0)
+#>  [1] 69 6d 5f 61 3a 20 74 65 61 70 6f 74 0d 0a 63 6f 6e 74 65 6e 74 2d 74
+#> [24] 79 70 65 3a 20 74 65 61 2f 70 6f 74 0d 0a 0d 0a
 #> 
 #> $modified
 #> [1] NA
@@ -532,7 +505,13 @@ res
 #> numeric(0)
 #> 
 #> $content
-#> raw(0)
+#>  [1] 49 27 6d 20 61 20 74 65 61 70 6f 74 21 21 21
+res$type
+#> [1] "tea/pot"
+cat(rawToChar(res$headers))
+#> im_a: teapot
+#> content-type: tea/pot
+#> 
 ```
 
 ## Meta

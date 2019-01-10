@@ -278,18 +278,16 @@ res$response_headers
 
 ## curl integration
 
-```{r}
+```{r message=FALSE}
 library(webmockr)
 library(curl)
 
 # turn on curl mocking
-#curl_mock()
+disable() # disable other adapters
 enable('curl')
-#disable('curl')
-#curl::mock(FALSE)
 ```
 
-```{r eval=TRUE}
+```{r eval=FALSE}
 # no stub found
 curl_fetch_memory("https://httpbin.org/get")
 #> Error: Real HTTP connections are disabled.

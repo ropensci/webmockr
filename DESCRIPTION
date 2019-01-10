@@ -20,7 +20,7 @@ LazyData: true
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
 Imports:
-    curl,
+    curl (>= 3.3.9311),
     jsonlite,
     magrittr (>= 1.5),
     lazyeval (>= 0.2.0),
