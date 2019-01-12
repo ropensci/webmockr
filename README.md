@@ -134,7 +134,10 @@ library(webmockr)
 webmockr::enable()
 #> CrulAdapter enabled!
 #> HttrAdapter enabled!
+<<<<<<< HEAD
 #> CurlAdapter enabled!
+=======
+>>>>>>> master
 ```
 
 ## Inside a test framework
@@ -213,7 +216,11 @@ x$get('get')
 #> <crul response> 
 #>   url: https://httpbin.org/get
 #>   request_headers: 
+<<<<<<< HEAD
 #>     User-Agent: libcurl/7.54.0 r-curl/3.3.9311 crul/0.7.0.9100
+=======
+#>     User-Agent: libcurl/7.54.0 r-curl/3.2 crul/0.7.0.9100
+>>>>>>> master
 #>     Accept-Encoding: gzip, deflate
 #>     Accept: application/json, text/xml, application/xml, */*
 #>   response_headers: 
@@ -249,7 +256,11 @@ x$get('get', query = list(hello = "world"))
 #> <crul response> 
 #>   url: https://httpbin.org/get?hello=world
 #>   request_headers: 
+<<<<<<< HEAD
 #>     User-Agent: libcurl/7.54.0 r-curl/3.3.9311 crul/0.7.0.9100
+=======
+#>     User-Agent: libcurl/7.54.0 r-curl/3.2 crul/0.7.0.9100
+>>>>>>> master
 #>     Accept-Encoding: gzip, deflate
 #>     Accept: application/json, text/xml, application/xml, */*
 #>   response_headers: 
@@ -298,7 +309,11 @@ x$get('get', query = list(hello = "world"))
 #> <crul response> 
 #>   url: https://httpbin.org/get?hello=world
 #>   request_headers: 
+<<<<<<< HEAD
 #>     User-Agent: libcurl/7.54.0 r-curl/3.3.9311 crul/0.7.0.9100
+=======
+#>     User-Agent: libcurl/7.54.0 r-curl/3.2 crul/0.7.0.9100
+>>>>>>> master
 #>     Accept-Encoding: gzip, deflate
 #>     Accept: application/json, text/xml, application/xml, */*
 #>   response_headers: 
@@ -426,6 +441,7 @@ res$response_headers
 #> [1] "teapot"
 ```
 
+<<<<<<< HEAD
 ## curl integration
 
 
@@ -514,6 +530,8 @@ cat(rawToChar(res$headers))
 #> 
 ```
 
+=======
+>>>>>>> master
 ## Meta
 
 * Please [report any issues or bugs](https://github.com/ropensci/webmockr/issues).

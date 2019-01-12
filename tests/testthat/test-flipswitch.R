@@ -15,6 +15,7 @@ test_that("flipswitch - turn on with 'enable'", {
 
   expect_true(webmockr_lightswitch$crul)
   expect_true(webmockr_lightswitch$curl)
+
   skip_if_not_installed("httr")
   expect_true(webmockr_lightswitch$httr)
 })

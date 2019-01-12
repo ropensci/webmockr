@@ -282,6 +282,7 @@ build_curl_request = function(x) {
   )
 }
 
+#' @noRd
 #' @keywords internal
 #' @examples
 #' foo <- list(a = 5, `User-Agent` = "ropensci")
