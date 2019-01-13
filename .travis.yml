@@ -17,6 +17,11 @@ matrix:
       osx_image: xcode7.3
       r: oldrel
 
+addons:
+  apt:
+    packages:
+    - libcurl4-openssl-dev
+    
 r_binary_packages:
   - covr
   - httr
