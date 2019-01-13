@@ -45,8 +45,9 @@ h <- new_handle()
 curl_fetch_memory("https://httpbin.org/get?foo=bar", h)
 
 # after mocking turned on
-curl::mock()
-curl_fetch_memory("https://httpbin.org/get?foo=bar", h)
+disable()
+enable("curl")
+# curl_fetch_memory("https://httpbin.org/get?foo=bar", h)
 
 # after stubbing request
 stub_request("get", "https://httpbin.org/get?foo=bar")
@@ -57,7 +58,7 @@ curl_fetch_memory("https://httpbin.org/get?foo=bar", h)
 
 # another request, this time setting what to return
 h2 <- new_handle()
-g = curl_fetch_memory("https://httpbin.org/get?bear=brown", h2)
+# g = curl_fetch_memory("https://httpbin.org/get?bear=brown", h2)
 stub_request('get', uri = 'https://httpbin.org/get?bear=brown') \%>\%
     to_return(status = 418, body = "stuff", headers = list(a = 5))
 stub_registry()
@@ -72,7 +73,7 @@ rawToChar(g$content)
 webmockr_allow_net_connect()
 webmockr_net_connect_allowed()
 h3 <- new_handle()
-curl_fetch_memory("https://httpbin.org/get?cow=brown", h3)
+# curl_fetch_memory("https://httpbin.org/get?cow=brown", h3)
 ## disable again
 webmockr_disable_net_connect()
 stub_request("get", "https://httpbin.org/get?cow=brown") \%>\% 

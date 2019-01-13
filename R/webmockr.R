@@ -3,6 +3,8 @@
 #' @importFrom lazyeval lazy_dots all_dots
 #' @importFrom R6 R6Class
 #' @importFrom fauxpas HTTPRequestTimeout
+#' @importFrom curl parse_headers curl_echo curl_fetch_memory 
+#' curl_fetch_disk curl_fetch_stream
 #' @name webmockr-package
 #' @aliases webmockr
 #' @docType package

@@ -48,7 +48,8 @@ real
 # with webmockr
 library(webmockr)
 ## turn on httr mocking
-httr_mock()
+disable()
+enable("httr")
 ## now this request isn't allowed
 # GET("https://httpbin.org/get")
 ## stub the request
