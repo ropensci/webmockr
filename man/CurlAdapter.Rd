@@ -47,7 +47,7 @@ curl_fetch_memory("https://httpbin.org/get?foo=bar", h)
 # after mocking turned on
 disable()
 enable("curl")
-# curl_fetch_memory("https://httpbin.org/get?foo=bar", h)
+# curl_fetch_memory("https://httpbin.org/get?foo=bar", h) # fails
 
 # after stubbing request
 stub_request("get", "https://httpbin.org/get?foo=bar")
@@ -73,7 +73,7 @@ rawToChar(g$content)
 webmockr_allow_net_connect()
 webmockr_net_connect_allowed()
 h3 <- new_handle()
-# curl_fetch_memory("https://httpbin.org/get?cow=brown", h3)
+# curl_fetch_memory("https://httpbin.org/get?cow=brown", h3) # fails
 ## disable again
 webmockr_disable_net_connect()
 stub_request("get", "https://httpbin.org/get?cow=brown") \%>\% 
@@ -81,6 +81,26 @@ stub_request("get", "https://httpbin.org/get?cow=brown") \%>\%
 x <- curl_fetch_memory("https://httpbin.org/get?cow=brown", h3)
 x
 rawToChar(x$headers)
+
+
+# curl_fetch_disk
+## NOTE: behavior should change as $content when using curl_fetch_disk
+##  should have a file path as a character string, not raw bytes
+library(curl)
+res <- curl_fetch_disk("https://httpbin.org/stream/10", tempfile())
+res$content
+readLines(res$content)
+disable()
+enable("curl")
+# curl_fetch_disk("http://httpbin.org/stream/10", tempfile()) # fails
+stub_request("get", "https://httpbin.org/stream/10") \%>\% 
+  to_return(body = "{\\"foo\\": \\"bar\\"}")
+stub_registry()
+# stub_registry_clear()
+out <- curl_fetch_disk("https://httpbin.org/stream/10", tempfile())
+out
+out$content
+rawToChar(out$content)
 }
 }
 \seealso{

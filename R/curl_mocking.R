@@ -8,9 +8,11 @@ curl_mock <- function(on = TRUE) curl_mock_env$mock <- on
 
 #' mock a curl request
 #' @export
-#' @param url (character) a url
-#' @param h a curl handle
-#' @param called the expression called. maybe remove this.
+#' @param url (character) a url, see [curl::curl_fetch]
+#' @param h a curl handle, see [curl::new_handle()]
+#' @param path a path. default: `NULL`. see [curl::curl_fetch]
+#' @param called the expression called, used in webmockr
+#' internals
 #' @examples
 #' library(curl)
 #' h <- new_handle()
@@ -19,8 +21,8 @@ curl_mock <- function(on = TRUE) curl_mock_env$mock <- on
 #' # curl_mock_req("https://httpbin.org/get", h, "")
 #' stub_request("get", "https://httpbin.org/get")
 #' curl_mock_req("https://httpbin.org/get", h, "")
-curl_mock_req <- function(url, h, called = "") {
-  res <- curl::curl_echo(h, progress = FALSE)
+curl_mock_req <- function(url, h, path = NULL, called = "") {
+  res <- curl::curl_echo(h, progress = FALSE, file = path)
   req <- list(url = url, handle = h, called = called)
   req$method <- res$method
   if (!is.null(res$http_authorization)) {

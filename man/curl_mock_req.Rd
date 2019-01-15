@@ -4,14 +4,17 @@
 \alias{curl_mock_req}
 \title{mock a curl request}
 \usage{
-curl_mock_req(url, h, called = "")
+curl_mock_req(url, h, path = NULL, called = "")
 }
 \arguments{
-\item{url}{(character) a url}
+\item{url}{(character) a url, see \link[curl:curl_fetch]{curl::curl_fetch}}
 
-\item{h}{a curl handle}
+\item{h}{a curl handle, see \code{\link[curl:new_handle]{curl::new_handle()}}}
 
-\item{called}{the expression called. maybe remove this.}
+\item{path}{a path. default: \code{NULL}. see \link[curl:curl_fetch]{curl::curl_fetch}}
+
+\item{called}{the expression called, used in webmockr
+internals}
 }
 \description{
 mock a curl request
