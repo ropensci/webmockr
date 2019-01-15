@@ -87,7 +87,6 @@ CurlAdapter <- R6::R6Class(
     enable = function() {
       message("CurlAdapter enabled!")
       webmockr_lightswitch$curl <- TRUE
-      # curl::mock(TRUE)
       curl_mock(TRUE)
       invisible(TRUE)
     },
@@ -95,7 +94,6 @@ CurlAdapter <- R6::R6Class(
     disable = function() {
       message("CurlAdapter disabled!")
       webmockr_lightswitch$curl <- FALSE
-      # curl::mock(FALSE)
       curl_mock(FALSE)
       self$remove_curl_stubs()
       invisible(FALSE)
@@ -164,10 +162,10 @@ CurlAdapter <- R6::R6Class(
       } else if (webmockr_net_connect_allowed(uri = req$url)) {
         # if real requests || localhost || certain exceptions ARE
         #   allowed && nothing found above
-        curl::mock(FALSE) # siable
+        curl_mock(FALSE) # disable
         resp <- eval(parse(text = paste0("curl::", strsplit(req$called, '\\\"')[[1]][1])))(req$url, req$handle)
         curl_resp <- build_curl_response(req, resp)
-        curl::mock(TRUE) # re-enable
+        curl_mock(TRUE) # enable
       } else {
         # no stubs found and net connect not allowed - STOP
         x <- "Real HTTP connections are disabled.\nUnregistered request:\n "
@@ -188,7 +186,6 @@ CurlAdapter <- R6::R6Class(
         stop(paste0(msgx, msgy, msgz, ending), call. = FALSE)
       }
 
-      # cat("returngin curl_resp", "\n")
       return(curl_resp)
     },
 
@@ -298,10 +295,3 @@ make_curl_headers <- function(x) {
     collapse = "\r\n"
   ), "\r\n\r\n")
 }
-# "HTTP/1.1 405 METHOD NOT ALLOWED\r\nConnection: keep-alive\r\nServer: gunicorn/19.8.1\r\nDate: Fri, 18 May 2018 18:37:00 GMT\r\nContent-Type: text/html\r\nAllow: OPTIONS, PUT\r\nContent-Length: 178\r\nAccess-Control-Allow-Origin: *\r\nAccess-Control-Allow-Credentials: true\r\nVia: 1.1 vegur\r\n\r\n"
-
-# curl_mock <- function(on = TRUE) {
-#   check_for_pkg("curl")
-#   curl::mock()
-#   enable()
-# }

@@ -2,7 +2,7 @@ webmockr_lightswitch <- new.env()
 webmockr_lightswitch$crul <- FALSE
 webmockr_lightswitch$httr <- FALSE
 webmockr_lightswitch$curl <- FALSE
-webmockr_adapters <- c('crul', 'httr', 'curl')
+# webmockr_adapters <- c('crul', 'httr', 'curl')
 
 #' Enable or disable webmockr
 #'
@@ -22,7 +22,7 @@ enable <- function(adapter = NULL, options = list()) {
     sub("_adapter", "", w$name)
   }, "")
   if (!is.null(adapter)) {
-    if (!adapter %in% webmockr_adapters) {
+    if (!adapter %in% c('crul', 'httr', 'curl')) {
       stop("adapter must be one of 'crul', 'httr', or 'curl'")
     }
     if (!requireNamespace(adapter, quietly = TRUE)) {
@@ -48,9 +48,9 @@ enable <- function(adapter = NULL, options = list()) {
 #' @export
 #' @rdname enable
 enabled <- function(adapter = "crul") {
-  if (!adapter %in% webmockr_adapters) {
+  if (!adapter %in% c('crul', 'httr', 'curl')) {
     stop("'adapter' must be in the set ", 
-      paste0(webmockr_adapters, collapse = ", "))
+      paste0(c('crul', 'httr', 'curl'), collapse = ", "))
   }
   webmockr_lightswitch[[adapter]]
 }
@@ -62,7 +62,7 @@ disable <- function(adapter = NULL, options = list()) {
     sub("_adapter", "", w$name)
   }, "")
   if (!is.null(adapter)) {
-    if (!adapter %in% webmockr_adapters) {
+    if (!adapter %in% c('crul', 'httr', 'curl')) {
       stop("adapter must be one of 'crul', 'httr', or 'curl'")
     }
     if (!requireNamespace(adapter, quietly = TRUE)) {
