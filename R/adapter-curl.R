@@ -106,7 +106,6 @@ CurlAdapter <- R6::R6Class(
         request = request_signature$to_s()
       )
 
-      # cat(paste0("is request in cache: ", request_is_in_cache(request_signature)), "\n")
       if (request_is_in_cache(request_signature)) {
         # if real requests NOT allowed
         # even if net connects allowed, we check if stubbed found first
@@ -137,7 +136,6 @@ CurlAdapter <- R6::R6Class(
           }
         }
 
-        # cat("build_curl_response call", "\n")
         curl_resp <- build_curl_response(req, resp)
 
         # add to_return() elements if given
@@ -162,10 +160,10 @@ CurlAdapter <- R6::R6Class(
       } else if (webmockr_net_connect_allowed(uri = req$url)) {
         # if real requests || localhost || certain exceptions ARE
         #   allowed && nothing found above
-        curl_mock(FALSE) # disable
+        disable("curl")
         resp <- eval(parse(text = paste0("curl::", strsplit(req$called, '\\\"')[[1]][1])))(req$url, req$handle)
         curl_resp <- build_curl_response(req, resp)
-        curl_mock(TRUE) # enable
+        enable("curl")
       } else {
         # no stubs found and net connect not allowed - STOP
         x <- "Real HTTP connections are disabled.\nUnregistered request:\n "

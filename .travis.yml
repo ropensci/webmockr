@@ -25,7 +25,6 @@ addons:
 r_binary_packages:
   - covr
   - httr
-  - httpuv
 
 after_success:
   - if [[ "${R_CODECOV}" ]]; then R -e 'covr::codecov()'; fi
