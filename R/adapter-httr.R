@@ -151,7 +151,7 @@ HttrAdapter <- R6::R6Class(
               }
               if (names(toadd)[i] == "headers") {
                 httr_resp$headers <-
-                  names_to_lower(as_character(toadd[[i]]))
+                  httr::insensitive(names_to_lower(as_character(toadd[[i]])))
               }
             }
           }
