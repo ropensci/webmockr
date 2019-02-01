@@ -307,9 +307,6 @@ build_httr_response <- function(req, resp) {
     cookies = httr_cookies_df(),
     content = resp$content,
     date = {
-      # if (!is.null(resp$response_headers$date)) {
-      #   resp$response_headers$date
-      # }
       if (!is.null(resp$response_headers$date)) {
         httr::parse_http_date(resp$response_headers$date)
       } else {
