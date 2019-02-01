@@ -46,7 +46,7 @@ test_that("build_httr_request/response fail well", {
 context("HttrAdapter: date slot")
 test_that("HttrAdapter date slot works", {
   skip_on_cran()
-  skip_if_not_installed('vcr')
+  skip_if_not_installed("vcr")
   library("vcr")
 
   path <- file.path(tempdir(), "foobar")
@@ -56,7 +56,7 @@ test_that("HttrAdapter date slot works", {
   # readLines(file.path(path, "test-date.yml"))
   vcr::insert_cassette("test-date")
 
-  x <- GET("https://httpbin.org/get")
+  x <- httr::GET("https://httpbin.org/get")
 
   # $date is of correct format
   expect_output(print(x), "Date")
@@ -73,10 +73,33 @@ test_that("HttrAdapter date slot works", {
   unlink(path, recursive = TRUE)
 })
 
-context("HttrAdapter: insensitive headers")
-test_that("HttrAdapter insensitive headers work", {
+
+
+context("HttrAdapter: insensitive headers, webmockr flow")
+test_that("HttrAdapter insensitive headers work, webmockr flow", {
   skip_on_cran()
-  skip_if_not_installed('vcr')
+  unloadNamespace("vcr")
+  httr_mock()
+  stub_registry_clear()
+  invisible(stub_request("get", uri = "https://httpbin.org/get") %>%
+      to_return(
+        body = list(foo = "bar"),
+        headers = list("Content-Type" = "application/json")
+      ))
+  x <- httr::GET("https://httpbin.org/get")
+
+  expect_equal(x$headers[["content-type"]], "application/json")
+  expect_is(httr::content(x), "list")
+  expect_is(httr::content(x, "text", encoding = "UTF-8"), "character")
+
+  stub_registry_clear()
+  httr_mock(FALSE)
+})
+
+context("HttrAdapter: insensitive headers, vcr flow")
+test_that("HttrAdapter insensitive headers work, vcr flow", {
+  skip_on_cran()
+  skip_if_not_installed("vcr")
   library("vcr")
 
   path <- file.path(tempdir(), "helloworld")
@@ -84,7 +107,7 @@ test_that("HttrAdapter insensitive headers work", {
   vcr::use_cassette("test-date", GET("https://httpbin.org/get"))
   vcr::insert_cassette("test-date")
 
-  x <- GET("https://httpbin.org/get")
+  x <- httr::GET("https://httpbin.org/get")
 
   expect_equal(x$headers[["content-type"]], "application/json")
   expect_is(httr::content(x), "list")
@@ -96,10 +119,12 @@ test_that("HttrAdapter insensitive headers work", {
   unlink(path, recursive = TRUE)
 })
 
+
+
 context("HttrAdapter: works with real data")
 test_that("HttrAdapter works", {
   skip_on_cran()
-  skip_if_not_installed('vcr')
+  skip_if_not_installed("vcr")
 
   load("httr_obj.rda")
   # load("tests/testthat//httr_obj.rda")
