@@ -73,6 +73,29 @@ test_that("HttrAdapter date slot works", {
   unlink(path, recursive = TRUE)
 })
 
+context("HttrAdapter: insensitive headers")
+test_that("HttrAdapter insensitive headers work", {
+  skip_on_cran()
+  skip_if_not_installed('vcr')
+  library("vcr")
+
+  path <- file.path(tempdir(), "helloworld")
+  vcr::vcr_configure(dir = path)
+  vcr::use_cassette("test-date", GET("https://httpbin.org/get"))
+  vcr::insert_cassette("test-date")
+
+  x <- GET("https://httpbin.org/get")
+
+  expect_equal(x$headers[["content-type"]], "application/json")
+  expect_is(httr::content(x), "list")
+  expect_is(httr::content(x, "text", encoding = "UTF-8"), "character")
+
+  vcr::eject_cassette("test-date")
+
+  # cleanup
+  unlink(path, recursive = TRUE)
+})
+
 context("HttrAdapter: works with real data")
 test_that("HttrAdapter works", {
   skip_on_cran()

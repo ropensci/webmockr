@@ -296,10 +296,10 @@ build_httr_response <- function(req, resp) {
           } else {
             stopifnot(is.list(hds))
             stopifnot(is.character(hds[[1]]))
-            hds
+            httr::insensitive(hds)
           }
         } else {
-          hds
+          httr::insensitive(hds)
         }
       }
     },
@@ -317,10 +317,10 @@ build_httr_response <- function(req, resp) {
     request = req,
     handle = NA
   )
-  if ("content-type" %in% names(lst$headers)) {
-    lst$headers$`Content-Type` <- lst$headers$`content-type`
-    lst$headers$`content-type` <- NULL
-  }
+  # if ("content-type" %in% names(lst$headers)) {
+  #   lst$headers$`Content-Type` <- lst$headers$`content-type`
+  #   lst$headers$`content-type` <- NULL
+  # }
   lst$all_headers <- list(list(
     status = lst$status_code,
     version = "",
