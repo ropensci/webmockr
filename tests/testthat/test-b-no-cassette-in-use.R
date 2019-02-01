@@ -1,8 +1,8 @@
 context("no_cassette_in_use")
 
 test_that("no cassette in use behaves as expected", {
-  skip_if_not_installed('vcr')
-  library(vcr)
+  skip_if_not_installed("vcr")
+  library("vcr")
   dir <- tempdir()
   invisible(vcr_configure(dir = dir))
 
