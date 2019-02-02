@@ -62,7 +62,7 @@ There's a few scenarios to think about when using `webmockr`:
 After doing
 
 ```r
-libraray(webmockr)
+library(webmockr)
 ```
 
 `webmockr` is loaded but not turned on. At this point `webmockr` doesn't 

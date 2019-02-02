@@ -16,7 +16,7 @@ Stubbing and setting expectations on HTTP requests
 \item Matching requests based on method, URI, headers and body
 \item Supports multiple HTTP libraries, including \pkg{crul} and
 \pkg{httr}
-\item Integration with HTTP test caching libraty \pkg{vcr}
+\item Integration with HTTP test caching library \pkg{vcr}
 }
 }
 
