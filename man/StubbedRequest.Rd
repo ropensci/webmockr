@@ -29,7 +29,7 @@ Set expectations for what's given in HTTP request
 }
 }
 \item{\code{to_return(status, body, headers)}}{
-Set expectations for what's returned in HTTP resonse
+Set expectations for what's returned in HTTP response
 \itemize{
 \item status (numeric) an HTTP status code
 \item body (list) response body, as a list. optional
