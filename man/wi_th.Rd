@@ -2,27 +2,21 @@
 % Please edit documentation in R/wi_th.R
 \name{wi_th}
 \alias{wi_th}
-\alias{wi_th_}
 \title{Set additional parts of a stubbed request}
 \usage{
 wi_th(.data, ..., .list = list())
-
-wi_th_(.data, ..., .dots, .list)
 }
 \arguments{
 \item{.data}{input. Anything that can be coerced to a \code{StubbedRequest} class
 object}
 
-\item{...}{Comma separated list of variable names, passed on
-to \code{\link[lazyeval:lazy_dots]{lazyeval::lazy_dots()}}. accepts the following: query, body,
-headers}
+\item{...}{Comma separated list of named variables. accepts the following:
+\code{query}, \code{body}, \code{headers}.}
 
-\item{.list}{named list of things, has to be one of 'query', 'body',
-and/or 'headers'. This is an escape hatch to avoid NSE (non-standard
-evaluation), so don't pass the same thing to both, e.g. don't pass
-'query' via NSE, and also 'query' to this parameter}
-
-\item{.dots}{Used to work around non-standard evaluation}
+\item{.list}{named list, has to be one of 'query', 'body',
+and/or 'headers'. An alternative to passing in via \code{...}. Don't pass the
+same thing to both, e.g. don't pass 'query' to \code{...}, and also 'query' to
+this parameter}
 }
 \value{
 an object of class \code{StubbedRequest}, with print method describing
@@ -35,7 +29,7 @@ Set query params, request body, and/or request headers
 \code{with} is a function in the \code{base} package, so we went with
 \code{wi_th}
 
-Values for status, body, and headers:
+Values for query, body, and headers:
 \itemize{
 \item query: (list) a named list
 \item body: various, including character string, list, raw, numeric, etc
@@ -43,7 +37,7 @@ Values for status, body, and headers:
 }
 }
 \note{
-see examples in \code{\link[=stub_request]{stub_request()}}
+see more examples in \code{\link[=stub_request]{stub_request()}}
 }
 \examples{
 # first, make a stub object
@@ -67,6 +61,6 @@ wi_th(req, headers = list(foo = "bar"))
 wi_th(req, headers = list(`User-Agent` = "webmockr/v1", hello="world"))
 
 
-# .list NSE escape hatch
+# .list - pass in a named list instead
 wi_th(req, .list = list(body = list(foo = "bar")))
 }

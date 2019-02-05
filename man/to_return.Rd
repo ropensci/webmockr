@@ -2,22 +2,21 @@
 % Please edit documentation in R/to_return.R
 \name{to_return}
 \alias{to_return}
-\alias{to_return_}
 \title{Expectation for what's returned from a stubbed request}
 \usage{
-to_return(.data, ...)
-
-to_return_(.data, ..., .dots)
+to_return(.data, ..., .list = list())
 }
 \arguments{
 \item{.data}{input. Anything that can be coerced to a \code{StubbedRequest} class
 object}
 
-\item{...}{Comma separated list of variable names, passed on
-to \code{\link[lazyeval:lazy_dots]{lazyeval::lazy_dots()}}. accepts the following: status, body,
-headers. See Details for more.}
+\item{...}{Comma separated list of named variables. accepts the following:
+\code{status}, \code{body}, \code{headers}. See Details for more.}
 
-\item{.dots}{Used to work around non-standard evaluation}
+\item{.list}{named list, has to be one of 'status', 'body',
+and/or 'headers'. An alternative to passing in via \code{...}. Don't pass the
+same thing to both, e.g. don't pass 'status' to \code{...}, and also 'status' to
+this parameter}
 }
 \value{
 an object of class \code{StubbedRequest}, with print method describing
@@ -40,5 +39,18 @@ are all of type character. if numeric/integer values are given
 numeric/integer values to character.
 }
 \note{
-see examples in \code{\link[=stub_request]{stub_request()}}
+see more examples in \code{\link[=stub_request]{stub_request()}}
+}
+\examples{
+# first, make a stub object
+req <- stub_request("post", "https://httpbin.org/post")
+
+# add status, body and/or headers
+to_return(req, status = 200)
+to_return(req, body = "stuff")
+to_return(req, headers = list(a = 5))
+to_return(req, status = 200, body = "stuff", headers = list(a = 5))
+
+# .list - pass in a named list instead
+to_return(req, .list = list(body = list(foo = "bar")))
 }
