@@ -49,6 +49,8 @@ test_that("stub_request fails well", {
   # headers
   expect_error(to_return(zzz, headers = list(5, 6)), "'headers' must be a named list")
   expect_error(to_return(zzz, headers = list(a = 5, 6)), "'headers' must be a named list")
+
+  expect_error(to_return(zzz, .list = 4), ".list must be of class list")
 })
 
 

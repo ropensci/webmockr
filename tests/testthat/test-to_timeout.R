@@ -36,3 +36,6 @@ test_that("stub_request fails well", {
   expect_error(to_timeout(), "argument \".data\" is missing")
   expect_error(to_timeout(5), ".data must be of class StubbedRequest")
 })
+
+# cleanup
+stub_registry_clear()

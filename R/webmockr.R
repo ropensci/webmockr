@@ -1,6 +1,5 @@
 #' Stubbing and setting expectations on HTTP requests
 #'
-#' @importFrom lazyeval lazy_dots all_dots
 #' @importFrom R6 R6Class
 #' @importFrom fauxpas HTTPRequestTimeout
 #' @name webmockr-package
