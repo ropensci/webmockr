@@ -17,9 +17,10 @@
 #' But for now, only the first exception is used until we get that fixed
 #' @note see examples in [stub_request()]
 to_raise <- function(.data, ...) {
-  assert(.data, 'StubbedRequest')
+  assert(.data, "StubbedRequest")
   tmp <- list(...)
-  if (!all(vapply(tmp, function(x) inherits(x, "R6ClassGenerator"), logical(1)))) {
+  if (!all(vapply(tmp, function(x) inherits(x, "R6ClassGenerator"),
+    logical(1)))) {
     stop("all objects must be error classes from fauxpas")
   }
   if (!all(vapply(tmp, function(x) grepl("HTTP", x$classname), logical(1)))) {

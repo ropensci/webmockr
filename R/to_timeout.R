@@ -7,7 +7,7 @@
 #' the stub
 #' @note see examples in [stub_request()]
 to_timeout <- function(.data) {
-  assert(.data, 'StubbedRequest')
+  assert(.data, "StubbedRequest")
   .data$to_timeout()
   return(.data)
 }

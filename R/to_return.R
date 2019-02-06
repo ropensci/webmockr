@@ -26,11 +26,12 @@
 #' numeric/integer values to character.
 #' @examples
 #' # first, make a stub object
-#' req <- stub_request("post", "https://httpbin.org/post")
+#' (req <- stub_request("post", "https://httpbin.org/post"))
 #'
 #' # add status, body and/or headers
 #' to_return(req, status = 200)
 #' to_return(req, body = "stuff")
+#' to_return(req, body = list(a = list(b = "world")))
 #' to_return(req, headers = list(a = 5))
 #' to_return(req, status = 200, body = "stuff", headers = list(a = 5))
 #' 

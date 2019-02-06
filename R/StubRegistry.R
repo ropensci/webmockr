@@ -54,7 +54,7 @@
 #' reg$request_stubs
 #' }
 StubRegistry <- R6::R6Class(
-  'StubRegistry',
+  "StubRegistry",
   public = list(
     stub = NULL,
     request_stubs = list(),

@@ -155,8 +155,8 @@ test_that("hdl_lst works", {
   expect_error(hdl_lst(), "argument \"x\" is missing")
 
   expect_equal(hdl_lst(list(foo = "bar")), "foo=bar")
-  expect_equal(hdl_lst(list(foo = 5)), "foo=5")
-  expect_equal(hdl_lst(list(foo = 5, bar = "a")), "foo=5, bar=a")
+  expect_equal(hdl_lst(list(foo = "5")), "foo=5")
+  expect_equal(hdl_lst(list(foo = "5", bar = "a")), "foo=5, bar=a")
 
   expect_equal(hdl_lst(1.5), 1.5)
 })

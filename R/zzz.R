@@ -1,12 +1,42 @@
-http_verbs <- c("any", "get","post","put","patch","head","delete")
+http_verbs <- c("any", "get", "post", "put", "patch", "head", "delete")
 
 cc <- function(x) Filter(Negate(is.null), x)
+
+is_nested <- function(x) {
+  stopifnot(is.list(x))
+  for (i in x) {
+    if (is.list(i)) return(TRUE)
+  }
+  return(FALSE)
+}
+
+col_l <- function(w) paste(names(w), unname(unlist(w)), sep = "=")
+
+hdl_nested <- function(x) {
+  if (!is_nested(x)) col_l(x)
+}
+
+subs <- function(x, n) {
+  unname(vapply(x, function(w) {
+    w <- as.character(w)
+    if (nchar(w) > n) paste0(substring(w, 1, n), "...") else w
+  }, ""))
+}
+
+l2c <- function(w) paste(names(w), as.character(w), sep = " = ", collapse = "")
 
 hdl_lst <- function(x) {
   if (is.null(x) || length(x) == 0) return("")
   if (is.raw(x)) return(paste0("raw bytes, length: ", length(x)))
   if (inherits(x, "list")) {
-    return(paste(names(x), unname(x), sep = "=", collapse = ", "))
+    if (is_nested(x)) {
+      # substring(l2c(x), 1, 80)
+      subs(l2c(x), 80)
+    } else {
+      txt <- paste(names(x), subs(unname(unlist(x)), 20), sep = "=",
+        collapse = ", ")
+      substring(txt, 1, 80)
+    }
   } else {
     x
   }

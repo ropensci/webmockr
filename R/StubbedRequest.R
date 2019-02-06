@@ -54,7 +54,7 @@
 #' x$to_s()
 #' }
 StubbedRequest <- R6::R6Class(
-  'StubbedRequest',
+  "StubbedRequest",
   public = list(
     method = NULL,
     uri = NULL,
@@ -65,7 +65,6 @@ StubbedRequest <- R6::R6Class(
     body = NULL,
     request_headers = NULL,
     response_headers = NULL,
-    response = NULL,
     responses_sequences = NULL,
     status_code = NULL,
     timeout = FALSE,
@@ -98,11 +97,15 @@ StubbedRequest <- R6::R6Class(
           sep = "\n")
       cat(paste0("    body: ", hdl_lst(self$responses_sequences$body)),
           sep = "\n")
-      cat(paste0("    response_headers: ", hdl_lst(self$responses_sequences$headers)),
+      cat(paste0("    response_headers: ",
+        hdl_lst(self$responses_sequences$headers)),
           sep = "\n")
       cat(paste0("  should_timeout: ", self$timeout), sep = "\n")
       cat(paste0("  should_raise: ",
-        if (self$raise) paste0(vapply(self$exceptions, "[[", "", "classname"), collapse = ", ") else "FALSE"
+        if (self$raise)
+          paste0(vapply(self$exceptions, "[[", "", "classname"),
+            collapse = ", ")
+        else "FALSE"
       ), sep = "\n")
     },
 
@@ -121,8 +124,13 @@ StubbedRequest <- R6::R6Class(
       )
       self$responses_sequences$body_raw = {
         if (inherits(body, "logical")) {
-          if (!body) raw() else stop("Unknown type of `body`: must be NULL, FALSE, character, raw or list",
-                                     call. = FALSE)
+          if (!body) {
+            raw()
+          } else {
+            stop(paste0("Unknown type of `body`: ",
+              "must be NULL, FALSE, character, raw or list"),
+            call. = FALSE)
+          }
         } else if (inherits(body, "raw")) {
           body
         } else if (is.null(body)) {
@@ -130,7 +138,8 @@ StubbedRequest <- R6::R6Class(
         } else if (is.character(body)) {
           charToRaw(body)
         } else if (!is.list(body)) {
-          stop("Unknown type of `body`: must be NULL, FALSE, character, raw or list",
+          stop(paste0("Unknown type of `body`: ",
+            "must be NULL, FALSE, character, raw or list"),
             call. = FALSE)
         } else {
           charToRaw(jsonlite::toJSON(body, auto_unbox = TRUE))
