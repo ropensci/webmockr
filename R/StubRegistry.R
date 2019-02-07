@@ -119,19 +119,19 @@ StubRegistry <- R6::R6Class(
 webmockr_stub_registry <- new.env()
 webmockr_stub_registry <- StubRegistry$new()
 
-# madke body info for print method
+# make body info for print method
 make_body <- function(x) {
   if (is.null(x)) return("")
   paste0(" with body ", jsonlite::toJSON(x, auto_unbox = TRUE))
 }
 
-# madke headers info for print method
+# make headers info for print method
 make_headers <- function(x) {
   if (is.null(x)) return("")
   paste0(" with headers ", jsonlite::toJSON(x, auto_unbox = TRUE))
 }
 
-# madke body info for print method
+# make body info for print method
 make_status <- function(x) {
   if (is.null(x)) return("")
   paste0(" with status ", as.character(x))
