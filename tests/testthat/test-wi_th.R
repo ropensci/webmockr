@@ -75,3 +75,8 @@ test_that("wi_th .list works", {
 
 # cleanup
 stub_registry_clear()
+
+context("wi_th_: defunct")
+test_that("wi_th_: defunct", {
+  expect_error(wi_th_(), "wi_th")
+})

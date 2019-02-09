@@ -137,10 +137,10 @@ test_that("webmockr_configure_reset", {
 
 context("util fxns: defunct")
 test_that("webmockr_disable", {
-  expect_error(webmockr_disable(), "see \\?disable")
+  expect_error(webmockr_disable(), "disable")
 })
 test_that("webmockr_enable", {
-  expect_error(webmockr_enable(), "see \\?enable")
+  expect_error(webmockr_enable(), "enable")
 })
 
 
