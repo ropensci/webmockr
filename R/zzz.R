@@ -28,6 +28,7 @@ l2c <- function(w) paste(names(w), as.character(w), sep = " = ", collapse = "")
 hdl_lst <- function(x) {
   if (is.null(x) || length(x) == 0) return("")
   if (is.raw(x)) return(paste0("raw bytes, length: ", length(x)))
+  if (inherits(x, "mock_file")) return(paste0("mock file, path: ", x$path))
   if (inherits(x, "list")) {
     if (is_nested(x)) {
       # substring(l2c(x), 1, 80)

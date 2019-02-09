@@ -112,7 +112,13 @@ CrulAdapter <- R6::R6Class(
                 crul_resp$status_code <- toadd[[i]]
               }
               if (names(toadd)[i] == "body") {
-                # crul_resp$content <- toadd[[i]]
+                if (inherits(ss$responses_sequences$body_raw, "mock_file")) {
+                  cat(ss$responses_sequences$body_raw$payload,
+                    file = ss$responses_sequences$body_raw$path,
+                    sep = "\n")
+                  ss$responses_sequences$body_raw <-
+                    ss$responses_sequences$body_raw$path
+                }
                 crul_resp$content <- ss$responses_sequences$body_raw
               }
               if (names(toadd)[i] == "headers") {

@@ -65,6 +65,16 @@
 #' x
 #' x$to_s()
 #' unlink(f)
+#' 
+#' # to_file(): file path and payload to go into the file
+#' #   payload written to file during mocked response creation
+#' x <- StubbedRequest$new(method = "get", uri = "api.crossref.org")
+#' f <- tempfile()
+#' x$to_return(status = 200, body = mock_file(f, "{\"foo\": \"bar\"}"),
+#'   headers = list(a = 5))
+#' x
+#' x$to_s()
+#' unlink(f)
 #'
 #' # uri_regex
 #' (x <- StubbedRequest$new(method = "get", uri_regex = ".+ossref.org"))
@@ -148,13 +158,14 @@ StubbedRequest <- R6::R6Class(
     },
 
     to_return = function(status, body, headers) {
-      body <- if (!inherits(body, "connection")) {
-        body
-      } else {
+      body <- if (inherits(body, "connection")) {
         bod_sum <- summary(body)
+        close.connection(body)
         if (bod_sum$class != "file")
-          stop("'to_return' only supports file connections")
+          stop("'to_return' only supports connections of type 'file'")
         structure(bod_sum$description, type = "file")
+      } else {
+        body
       }
       self$response_headers <- headers
       self$responses_sequences <- list(
@@ -163,7 +174,9 @@ StubbedRequest <- R6::R6Class(
         headers = headers
       )
       self$responses_sequences$body_raw <- {
-        if (inherits(body, "logical")) {
+        if (inherits(body, "mock_file")) {
+          body
+        } else if (inherits(body, "logical")) {
           if (!body) {
             raw()
           } else {

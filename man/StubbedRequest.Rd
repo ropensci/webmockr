@@ -75,6 +75,16 @@ x
 x$to_s()
 unlink(f)
 
+# to_file(): file path and payload to go into the file
+#   payload written to file during mocked response creation
+x <- StubbedRequest$new(method = "get", uri = "api.crossref.org")
+f <- tempfile()
+x$to_return(status = 200, body = mock_file(f, "{\\"foo\\": \\"bar\\"}"),
+  headers = list(a = 5))
+x
+x$to_s()
+unlink(f)
+
 # uri_regex
 (x <- StubbedRequest$new(method = "get", uri_regex = ".+ossref.org"))
 x$method

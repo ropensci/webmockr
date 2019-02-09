@@ -17,7 +17,10 @@
 #' If multiple stubs match the same request, we use the first stub. So if you
 #' want to use a stub that was created after an earlier one that matches,
 #' remove the earlier one(s).
-#' @seealso [wi_th()], [to_return()], [to_timeout()], [to_raise()]
+#' @section Mocking writing to disk:
+#' See [mocking-disk-writing]
+#' @seealso [wi_th()], [to_return()], [to_timeout()], [to_raise()],
+#' [mock_file()]
 #' @examples \dontrun{
 #' # basic stubbing
 #' stub_request("get", "https://httpbin.org/get")
@@ -70,52 +73,9 @@
 #' crul::mock()
 #' x$get('get')
 #'
-#' # pass options to .list to avoid NSE
+#' # pass a list to .list
 #' z <- stub_request("get", "https://httpbin.org/get")
 #' wi_th(z, .list = list(query = list(foo = "bar")))
-#' 
-#' # mock writing to disk
-#' ## crul
-#' ## make a temp file
-#' enable()
-#' f <- tempfile(fileext = ".json")
-#' ## write something to the file
-#' cat("{\"hello\":\"world\"}\n", file = f)
-#' readLines(f)
-#' ## make the stub
-#' stub_request("get", "https://httpbin.org/get") %>% 
-#'   to_return(body = file(f))
-#' ## make a request
-#' out <- crul::HttpClient$new("https://httpbin.org/get")$get(disk = f)
-#' out
-#' ## view stubbed file content
-#' out$content
-#' readLines(out$content)
-#' disable()
-#' 
-#' # httr
-#' ## make a temp file
-#' enable()
-#' httr_mock()
-#' f <- tempfile(fileext = ".json")
-#' ## write something to the file
-#' cat("{\"hello\":\"world\"}\n", file = f)
-#' readLines(f)
-#' ## make the stub
-#' ### THIS DOESN"T WORK CAUSE HTTR WANTS THE FILE TO NOT BE USED YET
-#' stub_request("get", "https://httpbin.org/get") %>% 
-#'   to_return(body = file(f))
-#' ### MAYBE SOMETHING LIKE THIS
-#' stub_request("get", "https://httpbin.org/get") %>% 
-#'   to_return(body = to_file(path = f, payload = "{\"foo\": \"bar\"}"))
-#' ## make a request
-#' library(httr)
-#' out <- GET("https://httpbin.org/get", write_disk(f, TRUE))
-#' out
-#' ## view stubbed file content
-#' out$content
-#' readLines(out$content)
-#' disable()
 #'
 #' # clear all stubs
 #' stub_registry()

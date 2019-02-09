@@ -18,8 +18,8 @@
 #'
 #' - status: (numeric/integer) three digit status code
 #' - body: various: `character`, `json`, `list`, `raw`, `numeric`,
-#'  `NULL`, `FALSE`, or a file connection (other connetion types
-#'  not supported)
+#'  `NULL`, `FALSE`, a file connection (other connetion types
+#'  not supported), or a `mock_file` function call (see [mock_file()])
 #' - headers: (list) a named list, must be named
 #'
 #' response headers are returned with all lowercase names and the values

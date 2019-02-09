@@ -119,10 +119,21 @@ StubRegistry <- R6::R6Class(
 webmockr_stub_registry <- new.env()
 webmockr_stub_registry <- StubRegistry$new()
 
+json_validate <- function(x) {
+  res <- tryCatch(jsonlite::validate(x), error = function(e) e)
+  if (inherits(res, "error")) return(FALSE)
+  res
+}
+
 # make body info for print method
 make_body <- function(x) {
   if (is.null(x)) return("")
-  paste0(" with body ", jsonlite::toJSON(x, auto_unbox = TRUE))
+  if (inherits(x, "mock_file")) x <- x$payload
+  if (json_validate(x))
+    body <- x
+  else
+    body <- jsonlite::toJSON(x, auto_unbox = TRUE)
+  paste0(" with body ", body)
 }
 
 # make headers info for print method
