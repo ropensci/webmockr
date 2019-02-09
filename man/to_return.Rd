@@ -29,8 +29,10 @@ Set response status code, response body, and/or response headers
 Values for status, body, and headers:
 \itemize{
 \item status: (numeric/integer) three digit status code
-\item body: various, including character string, list, raw, numeric, etc
-\item headers: (list) a named list
+\item body: various: \code{character}, \code{json}, \code{list}, \code{raw}, \code{numeric},
+\code{NULL}, \code{FALSE}, or a file connection (other connetion types
+not supported)
+\item headers: (list) a named list, must be named
 }
 
 response headers are returned with all lowercase names and the values

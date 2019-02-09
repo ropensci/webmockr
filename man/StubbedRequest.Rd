@@ -32,12 +32,23 @@ Set expectations for what's given in HTTP request
 Set expectations for what's returned in HTTP response
 \itemize{
 \item status (numeric) an HTTP status code
-\item body (list) response body, as a list. optional
+\item body (list) response body, one of: \code{character}, \code{json},
+\code{list}, \code{raw}, \code{numeric}, \code{NULL}, \code{FALSE}, or a file connection
+(other connetion types not supported)
 \item headers (list) named list, response headers. optional.
 }
 }
+\item{\code{to_timeout()}}{
+Response should time out
+}
+\item{\code{to_raise(x)}}{
+Response should raise an exception \code{x}
+\itemize{
+\item x (numeric) an HTTP status code
+}
+}
 \item{\code{to_s()}}{
-Response as a string
+Response as a character string
 }
 }
 }
@@ -51,15 +62,36 @@ x$to_return(status = 200, body = "foobar", headers = list(a = 5))
 x
 x$to_s()
 
+# raw body
+x <- StubbedRequest$new(method = "get", uri = "api.crossref.org")
+x$to_return(status = 200, body = raw(0), headers = list(a = 5))
+x$to_s()
+
+# file path
+x <- StubbedRequest$new(method = "get", uri = "api.crossref.org")
+f <- tempfile()
+x$to_return(status = 200, body = file(f), headers = list(a = 5))
+x
+x$to_s()
+unlink(f)
+
 # uri_regex
 (x <- StubbedRequest$new(method = "get", uri_regex = ".+ossref.org"))
 x$method
 x$uri
 x$to_s()
 
+# to timeout
 (x <- StubbedRequest$new(method = "get", uri_regex = ".+ossref.org"))
 x$to_s()
-x$timeout <- TRUE
+x$to_timeout()
+x$to_s()
+
+# to raise
+library(fauxpas)
+(x <- StubbedRequest$new(method = "get", uri_regex = ".+ossref.org"))
+x$to_s()
+x$to_raise(HTTPBadGateway)
 x$to_s()
 }
 }

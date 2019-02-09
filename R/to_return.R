@@ -17,8 +17,10 @@
 #' @details Values for status, body, and headers:
 #'
 #' - status: (numeric/integer) three digit status code
-#' - body: various, including character string, list, raw, numeric, etc
-#' - headers: (list) a named list
+#' - body: various: `character`, `json`, `list`, `raw`, `numeric`,
+#'  `NULL`, `FALSE`, or a file connection (other connetion types
+#'  not supported)
+#' - headers: (list) a named list, must be named
 #'
 #' response headers are returned with all lowercase names and the values
 #' are all of type character. if numeric/integer values are given
