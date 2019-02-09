@@ -212,7 +212,7 @@ x$get('get')
 #> <crul response> 
 #>   url: https://httpbin.org/get
 #>   request_headers: 
-#>     User-Agent: libcurl/7.54.0 r-curl/3.2 crul/0.7.0.9100
+#>     User-Agent: libcurl/7.54.0 r-curl/3.3 crul/0.7.0.9100
 #>     Accept-Encoding: gzip, deflate
 #>     Accept: application/json, text/xml, application/xml, */*
 #>   response_headers: 
@@ -248,7 +248,7 @@ x$get('get', query = list(hello = "world"))
 #> <crul response> 
 #>   url: https://httpbin.org/get?hello=world
 #>   request_headers: 
-#>     User-Agent: libcurl/7.54.0 r-curl/3.2 crul/0.7.0.9100
+#>     User-Agent: libcurl/7.54.0 r-curl/3.3 crul/0.7.0.9100
 #>     Accept-Encoding: gzip, deflate
 #>     Accept: application/json, text/xml, application/xml, */*
 #>   response_headers: 
@@ -271,7 +271,7 @@ stub_request("get", "https://httpbin.org/get") %>%
 #>   with: 
 #>     query: hello=world
 #>     body: 
-#>     request_headers: User-Agent=libcurl/7.51.0 r-curl/2.6 crul/0.3.6, Accept-Encoding=gzip, deflate
+#>     request_headers: User-Agent=libcurl/7.51.0 r-cur..., Accept-Encoding=gzip, deflate
 #>   to_return: 
 #>     status: 
 #>     body: 
@@ -297,7 +297,7 @@ x$get('get', query = list(hello = "world"))
 #> <crul response> 
 #>   url: https://httpbin.org/get?hello=world
 #>   request_headers: 
-#>     User-Agent: libcurl/7.54.0 r-curl/3.2 crul/0.7.0.9100
+#>     User-Agent: libcurl/7.54.0 r-curl/3.3 crul/0.7.0.9100
 #>     Accept-Encoding: gzip, deflate
 #>     Accept: application/json, text/xml, application/xml, */*
 #>   response_headers: 
@@ -403,7 +403,7 @@ stub_request('get', uri = 'https://httpbin.org/get') %>%
 #>   with: 
 #>     query: 
 #>     body: 
-#>     request_headers: Accept=application/json, text/xml, application/xml, */*
+#>     request_headers: Accept=application/json, te...
 #>   to_return: 
 #>     status: 418
 #>     body: I'm a teapot!!!
