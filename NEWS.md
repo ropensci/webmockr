@@ -1,3 +1,26 @@
+webmockr 0.3.4
+==============
+
+### DEFUNCT
+
+* underscore methods `to_return_()` and `wi_th_()` are defunct (#60) (#64)
+
+### NEW FEATURES
+
+* `to_return()` gains parameter `.list` (#60) (#64)
+
+### MINOR IMPROVEMENTS
+
+* typo fixes (#62) thanks @Bisaloo !
+* improved the print method for stubs, found in `StubbedRequest`, to have better behavior for very long strings such as in headers and bodies (#63)
+
+### BUG FIXES
+
+* fix date in mocked `httr` response object to match the date format that `httr` uses in real HTTP requests (#58) (#61) via <https://github.com/ropensci/vcr/issues/91>
+* fix response headers in mocked `httr` response objects. `httr` makes the list of headers insensitive to case, so we now use that function from the package (#59) (#61)
+* `to_return()` and `wi_th()` drop use of the `lazyeval` package and fall back to using the simple `list(...)` - fixes problem where creating stubs was failing within `test_that()` blocks due to some weird lazy eval conflicts (i think) (#60) (#64) thanks @karawoo !
+
+
 webmockr 0.3.0
 ==============
 

@@ -2,10 +2,12 @@
 % Please edit documentation in R/defunct.R
 \name{webmockr-defunct}
 \alias{webmockr-defunct}
-\title{Defunct functions in webmockr}
+\title{Defunct functions in \pkg{webmockr}}
 \description{
 \itemize{
 \item \code{\link[=webmockr_enable]{webmockr_enable()}}: Function removed, see \code{\link[=enable]{enable()}}
 \item \code{\link[=webmockr_disable]{webmockr_disable()}}: Function removed, see \code{\link[=disable]{disable()}}
+\item \link{to_return_}: Only \code{\link[=to_return]{to_return()}} is available now
+\item \link{wi_th_}: Only \code{\link[=wi_th]{wi_th()}} is available now
 }
 }
