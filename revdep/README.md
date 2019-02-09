@@ -10,13 +10,13 @@
 |collate  |en_US.UTF-8                                 |
 |ctype    |en_US.UTF-8                                 |
 |tz       |US/Pacific                                  |
-|date     |2019-01-08                                  |
+|date     |2019-02-08                                  |
 
 # Dependencies
 
 |package  |old   |new |Δ  |
 |:--------|:-----|:---|:--|
-|webmockr |0.2.9 |NA  |*  |
+|webmockr |0.3.0 |NA  |*  |
 
 # Revdeps
 
@@ -31,5 +31,5 @@
 |rplos                            |0.8.4   |      |        |     |
 |rredlist                         |0.5.0   |      |        |     |
 |[RTD](problems.md#rtd)           |0.1.1   |      |        |1    |
-|[vcr](problems.md#vcr)           |0.2.0   |      |        |1    |
+|vcr                              |0.2.2   |      |        |     |
 
