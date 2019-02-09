@@ -10,7 +10,7 @@
   "codeRepository": "https://github.com/ropensci/webmockr",
   "issueTracker": "https://github.com/ropensci/webmockr/issues",
   "license": "https://spdx.org/licenses/MIT",
-  "version": "0.3.1.9111",
+  "version": "0.3.4",
   "programmingLanguage": {
     "@type": "ComputerLanguage",
     "name": "R",
@@ -202,7 +202,7 @@
   "developmentStatus": "active",
   "releaseNotes": "https://github.com/ropensci/webmockr/blob/master/NEWS.md",
   "readme": "https://github.com/ropensci/webmockr/blob/master/README.md",
-  "fileSize": "46.64KB",
+  "fileSize": "48.001KB",
   "relatedLink": "https://ropensci.github.io/http-testing-book/",
   "funder": [
     {
