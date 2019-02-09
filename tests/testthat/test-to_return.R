@@ -144,3 +144,9 @@ test_that("to_return response header values are all character, httr", {
   expect_equal(z$headers$e, "blue")
 })
 disable()
+
+
+context("to_return_: defunct")
+test_that("to_return_: defunct", {
+  expect_error(to_return_(), "to_return")
+})

@@ -16,12 +16,12 @@
 
 ## Reverse dependencies
 
-I have checked the 8 reverse dependencies, and there were no problems. 
+I have checked the 7 reverse dependencies, and there were no problems. 
 See (<https://github.com/ropensci/webmockr/tree/master/revdep>).
 
 ---
 
-This version contains fixes for returned mocked response headers, matches mocked responses to new crul version responses, and skips tests that require vcr if vcr is not available on the system.
+This version contains makes a few functions defunct, adds a parameter to a function, and fixes bugs.
 
 Thanks!
 Scott Chamberlain
