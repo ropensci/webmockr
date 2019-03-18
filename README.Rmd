@@ -271,7 +271,7 @@ now returns mocked response
 (res <- GET("https://httpbin.org/get"))
 res$status_code
 #> [1] 418
-res$response_headers
+res$headers
 #> $im_a
 #> [1] "teapot"
 ```

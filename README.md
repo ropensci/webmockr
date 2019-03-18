@@ -212,7 +212,7 @@ x$get('get')
 #> <crul response> 
 #>   url: https://httpbin.org/get
 #>   request_headers: 
-#>     User-Agent: libcurl/7.54.0 r-curl/3.3 crul/0.7.0.9100
+#>     User-Agent: libcurl/7.54.0 r-curl/3.3 crul/0.7.0.9310
 #>     Accept-Encoding: gzip, deflate
 #>     Accept: application/json, text/xml, application/xml, */*
 #>   response_headers: 
@@ -248,7 +248,7 @@ x$get('get', query = list(hello = "world"))
 #> <crul response> 
 #>   url: https://httpbin.org/get?hello=world
 #>   request_headers: 
-#>     User-Agent: libcurl/7.54.0 r-curl/3.3 crul/0.7.0.9100
+#>     User-Agent: libcurl/7.54.0 r-curl/3.3 crul/0.7.0.9310
 #>     Accept-Encoding: gzip, deflate
 #>     Accept: application/json, text/xml, application/xml, */*
 #>   response_headers: 
@@ -297,7 +297,7 @@ x$get('get', query = list(hello = "world"))
 #> <crul response> 
 #>   url: https://httpbin.org/get?hello=world
 #>   request_headers: 
-#>     User-Agent: libcurl/7.54.0 r-curl/3.3 crul/0.7.0.9100
+#>     User-Agent: libcurl/7.54.0 r-curl/3.3 crul/0.7.0.9310
 #>     Accept-Encoding: gzip, deflate
 #>     Accept: application/json, text/xml, application/xml, */*
 #>   response_headers: 
@@ -420,7 +420,7 @@ now returns mocked response
 (res <- GET("https://httpbin.org/get"))
 res$status_code
 #> [1] 418
-res$response_headers
+res$headers
 #> $im_a
 #> [1] "teapot"
 ```
