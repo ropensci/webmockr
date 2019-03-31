@@ -181,7 +181,12 @@ CurlAdapter <- R6::R6Class(
         # if real requests || localhost || certain exceptions ARE
         #   allowed && nothing found above
         disable("curl")
-        resp <- eval(parse(text = paste0("curl::", strsplit(req$called, '\\\"')[[1]][1])))(req$url, req$handle)
+        if (!grepl("^curl::", req$called)) {
+          curl_fun <- paste0("curl::", req$called)
+        } else {
+          curl_fun <- req$called
+        }
+        resp <- eval(parse(text = curl_fun))(req$url, req$handle)
         curl_resp <- build_curl_response(req, resp)
         enable("curl")
       } else {
