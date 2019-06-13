@@ -10,14 +10,14 @@
   "codeRepository": "https://github.com/ropensci/webmockr",
   "issueTracker": "https://github.com/ropensci/webmockr/issues",
   "license": "https://spdx.org/licenses/MIT",
-  "version": "0.3.4",
+  "version": "0.3.4.9100",
   "programmingLanguage": {
     "@type": "ComputerLanguage",
     "name": "R",
-    "version": "3.5.2",
+    "version": "3.6.0",
     "url": "https://r-project.org"
   },
-  "runtimePlatform": "R version 3.5.2 Patched (2018-12-31 r75943)",
+  "runtimePlatform": "R version 3.6.0 Patched (2019-04-30 r76446)",
   "provider": {
     "@id": "https://cran.r-project.org",
     "@type": "Organization",
@@ -202,12 +202,14 @@
   "developmentStatus": "active",
   "releaseNotes": "https://github.com/ropensci/webmockr/blob/master/NEWS.md",
   "readme": "https://github.com/ropensci/webmockr/blob/master/README.md",
-  "fileSize": "48.001KB",
-  "relatedLink": "https://ropensci.github.io/http-testing-book/",
+  "fileSize": "47.892KB",
+  "relatedLink": "https://ropenscilabs.github.io/http-testing-book/",
   "funder": [
     {
       "@type": "Organization",
       "name": "rOpenSci"
     }
-  ]
+  ],
+  "contributor": {},
+  "copyrightHolder": {}
 }
