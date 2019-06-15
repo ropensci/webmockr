@@ -26,5 +26,12 @@ Matches regardless of case. e.g., POST will match to post
 x$pattern
 x$matches(method = "post")
 x$matches(method = "POST")
+
+# all matches() calls should be TRUE
+(x <- MethodPattern$new(pattern = "any"))
+x$pattern
+x$matches(method = "post")
+x$matches(method = "GET")
+x$matches(method = "HEAD")
 }
 \keyword{internal}

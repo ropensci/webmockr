@@ -247,7 +247,7 @@ CrulAdapter <- R6::R6Class(
 #' @return a crul response
 build_crul_response <- function(req, resp) {
   # prep headers
-  if (grepl("^ftp://", resp$url)) {
+  if (grepl("^ftp://", resp$url %||% "")) { # in case uri_regex only
     headers <- list()
   } else {
     hds <- resp$headers
