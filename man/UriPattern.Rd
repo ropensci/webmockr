@@ -60,5 +60,14 @@ z$pattern
 z$pattern
 z$add_query_params(list(pizza = "deep dish", cheese = "cheddar"))
 z$pattern
+
+# any pattern
+(z <- UriPattern$new(regex_pattern = ".+"))
+z$regex
+z$pattern
+z$matches("http://stuff.com")
+z$matches("https://stuff.com")
+z$matches("https://stuff.com/stff")
+z$matches("https://stuff.com/apple?bears=3")
 }
 \keyword{internal}

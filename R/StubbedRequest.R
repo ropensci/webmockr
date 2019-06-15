@@ -79,14 +79,16 @@ StubbedRequest <- R6::R6Class(
       if (is.null(uri) && is.null(uri_regex)) {
         stop("one of uri or uri_regex is required", call. = FALSE)
       }
-      self$uri <- if (!is.null(uri)) uri else uri_regex
-      self$uri_parts <- parseurl(self$uri)
+      # self$uri <- if (!is.null(uri)) uri else uri_regex
+      self$uri <- uri
+      self$uri_regex <- uri_regex
+      if (!is.null(uri)) self$uri_parts <- parseurl(self$uri)
     },
 
     print = function(x, ...) {
       cat("<webmockr stub> ", sep = "\n")
       cat(paste0("  method: ", self$method), sep = "\n")
-      cat(paste0("  uri: ", self$uri), sep = "\n")
+      cat(paste0("  uri: ", self$uri %||% self$uri_regex), sep = "\n")
       cat("  with: ", sep = "\n")
       cat(paste0("    query: ", hdl_lst(self$query)), sep = "\n")
       cat(paste0("    body: ", hdl_lst(self$body)), sep = "\n")
@@ -165,7 +167,7 @@ StubbedRequest <- R6::R6Class(
       gsub("^\\s+|\\s+$", "", sprintf(
         "  %s: %s %s %s %s %s",
         toupper(self$method),
-        url_builder(self$uri, self$query),
+        url_builder(self$uri %||% self$uri_regex, self$query),
         make_body(self$body),
         make_headers(self$request_headers),
         # response data

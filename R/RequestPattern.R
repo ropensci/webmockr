@@ -1,3 +1,5 @@
+# scotts_env <- new.env()
+
 #' RequestPattern class
 #'
 #' @export
@@ -72,6 +74,7 @@ RequestPattern <- R6::R6Class(
         UriPattern$new(regex_pattern = uri_regex)
       }
       self$uri_pattern$add_query_params(query)
+      # scotts_env$uri_pattern <- self$uri_pattern
       self$body_pattern <- if (!is.null(body)) BodyPattern$new(pattern = body)
       self$headers_pattern <- if (!is.null(headers))
         HeadersPattern$new(pattern = headers)
@@ -83,6 +86,16 @@ RequestPattern <- R6::R6Class(
       assert(request_signature, "RequestSignature")
       c_type <- if (!is.null(request_signature$headers)) request_signature$headers$`Content-Type` else NULL
       if (!is.null(c_type)) c_type <- strsplit(c_type, ';')[[1]][1]
+
+      # cat(paste0("method value: ", request_signature$method), sep = "\n")
+      # cat(paste0("method: ", self$method_pattern$matches(request_signature$method)), sep = "\n")
+      # cat(paste0("uri value: ", request_signature$uri), sep = "\n")
+      # cat(paste0("uri: ", self$uri_pattern$matches(request_signature$uri)), sep = "\n")
+      # cat(paste0("uri pattern: ", self$uri_pattern$pattern), sep = "\n")
+      # cat(paste0("body value: ", request_signature$body), sep = "\n")
+      # cat(paste0("body: ", self$body_pattern$matches(request_signature$body, c_type %||% "")), sep = "\n")
+      # cat("headers: ", self$headers_pattern$matches(request_signature$headers), sep = "\n")
+
       self$method_pattern$matches(request_signature$method) &&
         self$uri_pattern$matches(request_signature$uri) &&
         (is.null(self$body_pattern) || self$body_pattern$matches(request_signature$body, c_type %||% "")) &&
@@ -169,6 +182,13 @@ RequestPattern <- R6::R6Class(
 #' x$pattern
 #' x$matches(method = "post")
 #' x$matches(method = "POST")
+#' 
+#' # all matches() calls should be TRUE
+#' (x <- MethodPattern$new(pattern = "any"))
+#' x$pattern
+#' x$matches(method = "post")
+#' x$matches(method = "GET")
+#' x$matches(method = "HEAD")
 MethodPattern <- R6::R6Class(
   'MethodPattern',
   public = list(
@@ -433,6 +453,15 @@ BODY_FORMATS <- list(
 #' z$pattern
 #' z$add_query_params(list(pizza = "deep dish", cheese = "cheddar"))
 #' z$pattern
+#' 
+#' # any pattern
+#' (z <- UriPattern$new(regex_pattern = ".+"))
+#' z$regex
+#' z$pattern
+#' z$matches("http://stuff.com")
+#' z$matches("https://stuff.com")
+#' z$matches("https://stuff.com/stff")
+#' z$matches("https://stuff.com/apple?bears=3")
 
 UriPattern <- R6::R6Class(
   'UriPattern',
@@ -475,7 +504,7 @@ UriPattern <- R6::R6Class(
 
 add_scheme <- function(x) {
   if (is.na(urltools::url_parse(x)$scheme)) {
-    paste0('http://', x)
+    paste0('https?://', x)
   } else {
     x
   }

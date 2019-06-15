@@ -73,6 +73,15 @@
 #' # pass options to .list to avoid NSE
 #' z <- stub_request("get", "https://httpbin.org/get")
 #' wi_th(z, .list = list(query = list(foo = "bar")))
+#' 
+#' # just body
+#' stub_request("any", uri_regex = ".+") %>%
+#'    wi_th(body = list(foo = 'bar'))
+#' library(crul)
+#' x <- crul::HttpClient$new(url = "https://httpbin.org")
+#' crul::mock()
+#' x$post('post', body = list(foo = 'bar'))
+#' x$put('put', body = list(foo = 'bar'))
 #'
 #' # clear all stubs
 #' stub_registry()
