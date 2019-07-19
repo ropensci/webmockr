@@ -38,8 +38,8 @@ test_that("RequestPattern: behaves as expected", {
 test_that("RequestPattern: uri_regex", {
   x <- RequestPattern$new(method = "get", uri_regex = ".+ossref.org")
   expect_is(x$uri_pattern, "UriPattern")
-  expect_equal(x$uri_pattern$to_s(), "http://.+ossref.org")
-  expect_equal(x$to_s(), "GET http://.+ossref.org")
+  expect_equal(x$uri_pattern$to_s(), "https?://.+ossref.org")
+  expect_equal(x$to_s(), "GET https?://.+ossref.org")
 })
 
 test_that("RequestPattern fails well", {
@@ -92,7 +92,7 @@ test_that("HeadersPattern: structure is correct", {
     "argument \"headers\" is missing"
   )
 
-  expect_equal(aa$to_s(), list(a = 5))
+  expect_equal(aa$to_s(), "a=5")
 })
 
 

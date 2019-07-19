@@ -60,6 +60,21 @@ x$to_s()
     query = list(foo = "bar")
 ))
 x$to_s()
+
+# just headers (via setting method=any & uri_regex=.+)
+headers <- list(
+  'User-Agent' = 'Apple',
+  'Accept-Encoding' = 'gzip, deflate', 
+  'Accept' = 'application/json, text/xml, application/xml, */*')
+x <- RequestPattern$new(
+   method = "any",
+   uri_regex = ".+",
+   headers = headers)
+x$to_s()
+rs <- RequestSignature$new(method = "any", uri = "http://foo.bar", 
+  options = list(headers = headers))
+rs
+x$matches(rs)
 }
 }
 \seealso{

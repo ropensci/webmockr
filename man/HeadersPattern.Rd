@@ -42,5 +42,14 @@ x$matches(list(header1 = "value2"))
 x$pattern
 x$matches(list(`hello-world` = "yep"))
 x$matches(list(`hello-worlds` = "yep"))
+
+headers <- list(
+  'User-Agent' = 'Apple',
+  'Accept-Encoding' = 'gzip, deflate', 
+  'Accept' = 'application/json, text/xml, application/xml, */*')
+(x <- HeadersPattern$new(pattern = headers))
+x$to_s()
+x$pattern
+x$matches(headers)
 }
 \keyword{internal}

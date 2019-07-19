@@ -99,6 +99,18 @@ crul::mock()
 x$post('post', body = list(foo = 'bar'))
 x$put('put', body = list(foo = 'bar'))
 
+# just headers
+headers <- list(
+  'Accept-Encoding' = 'gzip, deflate', 
+  'Accept' = 'application/json, text/xml, application/xml, */*')
+stub_request("any", uri_regex = ".+") \%>\% wi_th(headers = headers)
+library(crul)
+x <- crul::HttpClient$new(url = "https://httpbin.org", headers = headers)
+crul::mock()
+x$post('post')
+x$put('put', body = list(foo = 'bar'))
+x$get('put', query = list(stuff = 3423234L))
+
 # clear all stubs
 stub_registry()
 stub_registry_clear()

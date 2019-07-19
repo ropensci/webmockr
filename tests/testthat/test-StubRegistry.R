@@ -27,7 +27,7 @@ test_that("StubRegistry: bits are correct prior to having data", {
 
 
 test_that("StubRegistry: bits are correct after having data", {
-  stub1 <- StubbedRequest$new(method = "get", uri = "api.crossref.org")
+  stub1 <- StubbedRequest$new(method = "get", uri = "http://api.crossref.org")
   stub1$with(headers = list('User-Agent' = 'R'))
   stub1$to_return(status = 200, body = "foobar", headers = list())
 
@@ -61,7 +61,7 @@ test_that("StubRegistry: bits are correct after having data", {
   res <- aa$find_stubbed_request(req = req1)
   expect_is(res, "list")
   expect_is(res[[1]], "StubbedRequest")
-  expect_equal(res[[1]]$uri, "api.crossref.org")
+  expect_equal(res[[1]]$uri, "http://api.crossref.org")
 
 
   # is_registered
