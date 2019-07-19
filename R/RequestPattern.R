@@ -51,6 +51,21 @@
 #'     query = list(foo = "bar")
 #' ))
 #' x$to_s()
+#' 
+#' # just headers (via setting method=any & uri_regex=.+)
+#' headers <- list(
+#'   'User-Agent' = 'Apple',
+#'   'Accept-Encoding' = 'gzip, deflate', 
+#'   'Accept' = 'application/json, text/xml, application/xml, */*')
+#' x <- RequestPattern$new(
+#'    method = "any",
+#'    uri_regex = ".+",
+#'    headers = headers)
+#' x$to_s()
+#' rs <- RequestSignature$new(method = "any", uri = "http://foo.bar", 
+#'   options = list(headers = headers))
+#' rs
+#' x$matches(rs)
 #' }
 RequestPattern <- R6::R6Class(
   'RequestPattern',
@@ -92,9 +107,9 @@ RequestPattern <- R6::R6Class(
       # cat(paste0("uri value: ", request_signature$uri), sep = "\n")
       # cat(paste0("uri: ", self$uri_pattern$matches(request_signature$uri)), sep = "\n")
       # cat(paste0("uri pattern: ", self$uri_pattern$pattern), sep = "\n")
-      # cat(paste0("body value: ", request_signature$body), sep = "\n")
-      # cat(paste0("body: ", self$body_pattern$matches(request_signature$body, c_type %||% "")), sep = "\n")
-      # cat("headers: ", self$headers_pattern$matches(request_signature$headers), sep = "\n")
+      # # cat(paste0("body value: ", request_signature$body), sep = "\n")
+      # # cat(paste0("body: ", self$body_pattern$matches(request_signature$body, c_type %||% "")), sep = "\n")
+      # cat(paste0("headers: ", self$headers_pattern$matches(request_signature$headers)), sep = "\n")
 
       self$method_pattern$matches(request_signature$method) &&
         self$uri_pattern$matches(request_signature$uri) &&
@@ -244,6 +259,15 @@ MethodPattern <- R6::R6Class(
 #' x$pattern
 #' x$matches(list(`hello-world` = "yep"))
 #' x$matches(list(`hello-worlds` = "yep"))
+#' 
+#' headers <- list(
+#'   'User-Agent' = 'Apple',
+#'   'Accept-Encoding' = 'gzip, deflate', 
+#'   'Accept' = 'application/json, text/xml, application/xml, */*')
+#' (x <- HeadersPattern$new(pattern = headers))
+#' x$to_s()
+#' x$pattern
+#' x$matches(headers)
 HeadersPattern <- R6::R6Class(
   'HeadersPattern',
   public = list(
@@ -256,11 +280,11 @@ HeadersPattern <- R6::R6Class(
     },
 
     matches = function(headers) {
-      headers <- private$normalize_headers(headers)
       if (self$empty_headers(self$pattern)) {
         self$empty_headers(headers)
       } else {
         if (self$empty_headers(headers)) return(FALSE)
+        headers <- private$normalize_headers(headers)
         out <- c()
         for (i in seq_along(self$pattern)) {
           out[i] <- names(self$pattern)[i] %in% names(headers) &&
@@ -274,7 +298,7 @@ HeadersPattern <- R6::R6Class(
       is.null(headers) || length(headers) == 0
     },
 
-    to_s = function() self$pattern
+    to_s = function() hdl_lst2(self$pattern)
   ),
 
   private = list(

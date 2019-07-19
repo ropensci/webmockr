@@ -37,7 +37,7 @@
 #' x <- StubbedRequest$new(method = "get", uri = "api.crossref.org")
 #' x$method
 #' x$uri
-#' x$with(headers = list('User-Agent' = 'R'))
+#' x$with(headers = list('User-Agent' = 'R', apple = "good"))
 #' x$to_return(status = 200, body = "foobar", headers = list(a = 5))
 #' x
 #' x$to_s()
