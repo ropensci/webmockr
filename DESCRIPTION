@@ -6,7 +6,7 @@ Description: Stubbing and setting expectations on 'HTTP' requests.
     'HTTP' method, query parameters, request body, headers and
     more. Can be used for unit tests or outside of a testing 
     context.
-Version: 0.3.4.9100
+Version: 0.3.4.9313
 Authors@R: c(
     person("Scott", "Chamberlain", role = c("aut", "cre"), email =
     "myrmecocystus+r@gmail.com", comment = c(ORCID="0000-0003-1444-9135")),
@@ -14,7 +14,7 @@ Authors@R: c(
     )
 License: MIT + file LICENSE
 URL: https://github.com/ropensci/webmockr (devel)
-    https://ropensci.github.io/http-testing-book/ (user manual)
+    https://ropenscilabs.github.io/http-testing-book/ (user manual)
 BugReports: https://github.com/ropensci/webmockr/issues
 LazyData: true
 Encoding: UTF-8

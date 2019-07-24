@@ -148,5 +148,5 @@ disable()
 
 context("to_return_: defunct")
 test_that("to_return_: defunct", {
-  expect_error(to_return_(), "to_return")
+  expect_error(to_return_(), "to_return", class = "error")
 })

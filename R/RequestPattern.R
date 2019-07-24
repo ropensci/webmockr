@@ -1,3 +1,5 @@
+# scotts_env <- new.env()
+
 #' RequestPattern class
 #'
 #' @export
@@ -49,6 +51,21 @@
 #'     query = list(foo = "bar")
 #' ))
 #' x$to_s()
+#' 
+#' # just headers (via setting method=any & uri_regex=.+)
+#' headers <- list(
+#'   'User-Agent' = 'Apple',
+#'   'Accept-Encoding' = 'gzip, deflate', 
+#'   'Accept' = 'application/json, text/xml, application/xml, */*')
+#' x <- RequestPattern$new(
+#'    method = "any",
+#'    uri_regex = ".+",
+#'    headers = headers)
+#' x$to_s()
+#' rs <- RequestSignature$new(method = "any", uri = "http://foo.bar", 
+#'   options = list(headers = headers))
+#' rs
+#' x$matches(rs)
 #' }
 RequestPattern <- R6::R6Class(
   'RequestPattern',
@@ -72,6 +89,7 @@ RequestPattern <- R6::R6Class(
         UriPattern$new(regex_pattern = uri_regex)
       }
       self$uri_pattern$add_query_params(query)
+      # scotts_env$uri_pattern <- self$uri_pattern
       self$body_pattern <- if (!is.null(body)) BodyPattern$new(pattern = body)
       self$headers_pattern <- if (!is.null(headers))
         HeadersPattern$new(pattern = headers)
@@ -169,6 +187,13 @@ RequestPattern <- R6::R6Class(
 #' x$pattern
 #' x$matches(method = "post")
 #' x$matches(method = "POST")
+#' 
+#' # all matches() calls should be TRUE
+#' (x <- MethodPattern$new(pattern = "any"))
+#' x$pattern
+#' x$matches(method = "post")
+#' x$matches(method = "GET")
+#' x$matches(method = "HEAD")
 MethodPattern <- R6::R6Class(
   'MethodPattern',
   public = list(
@@ -224,6 +249,15 @@ MethodPattern <- R6::R6Class(
 #' x$pattern
 #' x$matches(list(`hello-world` = "yep"))
 #' x$matches(list(`hello-worlds` = "yep"))
+#' 
+#' headers <- list(
+#'   'User-Agent' = 'Apple',
+#'   'Accept-Encoding' = 'gzip, deflate', 
+#'   'Accept' = 'application/json, text/xml, application/xml, */*')
+#' (x <- HeadersPattern$new(pattern = headers))
+#' x$to_s()
+#' x$pattern
+#' x$matches(headers)
 HeadersPattern <- R6::R6Class(
   'HeadersPattern',
   public = list(
@@ -236,11 +270,11 @@ HeadersPattern <- R6::R6Class(
     },
 
     matches = function(headers) {
-      headers <- private$normalize_headers(headers)
       if (self$empty_headers(self$pattern)) {
         self$empty_headers(headers)
       } else {
         if (self$empty_headers(headers)) return(FALSE)
+        headers <- private$normalize_headers(headers)
         out <- c()
         for (i in seq_along(self$pattern)) {
           out[i] <- names(self$pattern)[i] %in% names(headers) &&
@@ -254,7 +288,7 @@ HeadersPattern <- R6::R6Class(
       is.null(headers) || length(headers) == 0
     },
 
-    to_s = function() self$pattern
+    to_s = function() hdl_lst2(self$pattern)
   ),
 
   private = list(
@@ -433,6 +467,15 @@ BODY_FORMATS <- list(
 #' z$pattern
 #' z$add_query_params(list(pizza = "deep dish", cheese = "cheddar"))
 #' z$pattern
+#' 
+#' # any pattern
+#' (z <- UriPattern$new(regex_pattern = ".+"))
+#' z$regex
+#' z$pattern
+#' z$matches("http://stuff.com")
+#' z$matches("https://stuff.com")
+#' z$matches("https://stuff.com/stff")
+#' z$matches("https://stuff.com/apple?bears=3")
 
 UriPattern <- R6::R6Class(
   'UriPattern',
@@ -475,7 +518,7 @@ UriPattern <- R6::R6Class(
 
 add_scheme <- function(x) {
   if (is.na(urltools::url_parse(x)$scheme)) {
-    paste0('http://', x)
+    paste0('https?://', x)
   } else {
     x
   }
