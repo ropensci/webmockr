@@ -101,16 +101,6 @@ RequestPattern <- R6::R6Class(
       assert(request_signature, "RequestSignature")
       c_type <- if (!is.null(request_signature$headers)) request_signature$headers$`Content-Type` else NULL
       if (!is.null(c_type)) c_type <- strsplit(c_type, ';')[[1]][1]
-
-      # cat(paste0("method value: ", request_signature$method), sep = "\n")
-      # cat(paste0("method: ", self$method_pattern$matches(request_signature$method)), sep = "\n")
-      # cat(paste0("uri value: ", request_signature$uri), sep = "\n")
-      # cat(paste0("uri: ", self$uri_pattern$matches(request_signature$uri)), sep = "\n")
-      # cat(paste0("uri pattern: ", self$uri_pattern$pattern), sep = "\n")
-      # # cat(paste0("body value: ", request_signature$body), sep = "\n")
-      # # cat(paste0("body: ", self$body_pattern$matches(request_signature$body, c_type %||% "")), sep = "\n")
-      # cat(paste0("headers: ", self$headers_pattern$matches(request_signature$headers)), sep = "\n")
-
       self$method_pattern$matches(request_signature$method) &&
         self$uri_pattern$matches(request_signature$uri) &&
         (is.null(self$body_pattern) || self$body_pattern$matches(request_signature$body, c_type %||% "")) &&
