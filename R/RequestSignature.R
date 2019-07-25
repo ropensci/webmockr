@@ -20,6 +20,7 @@
 #'  \item headers - headers as a named list
 #'  \item proxies - proxies as a named list
 #'  \item auth - authentication details, as a named list
+#'  \item disk - if writing to disk, the path (character)
 #' }
 #'
 #' @format NULL
@@ -57,6 +58,17 @@
 #' bb$headers
 #' bb$body
 #' bb$to_s()
+#' 
+#' # with disk path
+#' f <- tempfile()
+#' bb <- RequestSignature$new(
+#'   method = "get",
+#'   uri = "https:/httpbin.org/get",
+#'   options = list(disk = f)
+#' )
+#' bb
+#' bb$disk
+#' bb$to_s()
 
 RequestSignature <- R6::R6Class(
   'RequestSignature',
@@ -68,6 +80,7 @@ RequestSignature <- R6::R6Class(
     proxies = NULL,
     auth = NULL,
     url = NULL,
+    disk = NULL,
 
     initialize = function(method, uri, options = list()) {
       verb <- match.arg(tolower(method), http_verbs)
@@ -96,6 +109,9 @@ RequestSignature <- R6::R6Class(
       if (!is.null(self$auth)) {
         cat("  auth: ", sep = "\n")
         cat_foo(self$auth)
+      }
+      if (!is.null(self$disk)) {
+        cat(paste0("  disk: ", self$disk), sep = "\n")
       }
     },
 
@@ -139,6 +155,11 @@ RequestSignature <- R6::R6Class(
       if ('auth' %in% names(options)) {
         if (!is.null(options$auth) && length(options)) {
           self$auth <- options$auth
+        }
+      }
+      if ('disk' %in% names(options)) {
+        if (!is.null(options$disk) && length(options)) {
+          self$disk <- options$disk
         }
       }
     }

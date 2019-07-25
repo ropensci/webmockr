@@ -31,6 +31,7 @@ return: a character string representation of the request signature
 \item headers - headers as a named list
 \item proxies - proxies as a named list
 \item auth - authentication details, as a named list
+\item disk - if writing to disk, the path (character)
 }
 }
 
@@ -66,6 +67,17 @@ bb <- RequestSignature$new(
 bb
 bb$headers
 bb$body
+bb$to_s()
+
+# with disk path
+f <- tempfile()
+bb <- RequestSignature$new(
+  method = "get",
+  uri = "https:/httpbin.org/get",
+  options = list(disk = f)
+)
+bb
+bb$disk
 bb$to_s()
 }
 \keyword{datasets}

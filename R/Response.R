@@ -123,10 +123,10 @@ Response <- R6::R6Class(
     },
     get_respone_headers = function() self$response_headers,
 
-    set_body = function(body) {
+    set_body = function(body, disk = FALSE) {
       self$body <- body
       self$content <- if (!is.null(body) && is.character(body)) {
-        charToRaw(body)
+        if (disk) body else charToRaw(body)
       } else {
         raw(0)
       }
