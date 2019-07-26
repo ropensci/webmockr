@@ -149,6 +149,14 @@ CrulAdapter <- R6::R6Class(
         # if vcr loaded: record http interaction into vcr namespace
         # VCR: recordable
         if ("package:vcr" %in% search()) {
+          # if written to disk, see if we should modify file path
+          if (is.character(crul_resp$content)) {
+            if (file.exists(crul_resp$content)) {
+              wdpth <- vcr_configuration()$write_disk_path
+              crul_resp$content <- file.path(wdpth, basename(crul_resp$content))
+            }
+          }
+
           # stub request so next time we match it
           urip <- crul::url_parse(req$url$url)
           m <- vcr::vcr_configuration()$match_requests_on
@@ -306,7 +314,8 @@ build_crul_request = function(x) {
       body = x$fields %||% NULL,
       headers = x$headers %||% NULL,
       proxies = x$proxies %||% NULL,
-      auth = x$auth %||% NULL
+      auth = x$auth %||% NULL,
+      disk = x$disk %||% NULL
     )
   )
 }
