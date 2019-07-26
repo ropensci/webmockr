@@ -361,7 +361,8 @@ build_httr_request = function(x) {
       body = x$fields %||% NULL,
       headers = as.list(x$headers) %||% NULL,
       proxies = x$proxies %||% NULL,
-      auth = x$auth %||% NULL
+      auth = x$auth %||% NULL,
+      disk = x$disk %||% NULL
     )
   )
 }
