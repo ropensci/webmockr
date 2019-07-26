@@ -139,6 +139,15 @@ CrulAdapter <- R6::R6Class(
           crul_resp <- vcr::RequestHandlerCrul$new(req)$handle()
         } # vcr is not loaded, skip
 
+        # if written to disk, see if we should modify file path
+        if ("package:vcr" %in% search()) {
+          if (is.character(crul_resp$content)) {
+            write_disk_path <- vcr::vcr_configuration()$write_disk_path
+            write_disk_path <- normalizePath(write_disk_path, mustWork=TRUE)
+            crul_resp$content <- file.path(write_disk_path, basename(crul_resp$content))
+          }
+        }
+
       } else if (webmockr_net_connect_allowed(uri = req$url$url)) {
         # if real requests || localhost || certain exceptions ARE
         #   allowed && nothing found above
@@ -152,8 +161,9 @@ CrulAdapter <- R6::R6Class(
           # if written to disk, see if we should modify file path
           if (is.character(crul_resp$content)) {
             if (file.exists(crul_resp$content)) {
-              wdpth <- vcr_configuration()$write_disk_path
-              crul_resp$content <- file.path(wdpth, basename(crul_resp$content))
+              write_disk_path <- vcr::vcr_configuration()$write_disk_path
+              write_disk_path <- normalizePath(write_disk_path, mustWork=TRUE)
+              crul_resp$content <- file.path(write_disk_path, basename(crul_resp$content))
             }
           }
 
