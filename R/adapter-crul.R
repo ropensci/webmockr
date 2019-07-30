@@ -178,7 +178,7 @@ CrulAdapter <- R6::R6Class(
             wi_th(tmp, .list = list(query = urip$parameter))
           } else if (all(m %in% c("method", "uri", "headers")) && length(m) == 3) {
             tmp <- stub_request(req$method, req$url$url)
-            wi_th(tmp, .list = list(query = req$headers))
+            wi_th(tmp, .list = list(headers = req$headers))
           } else if (all(m %in% c("method", "uri", "headers", "query")) && length(m) == 4) {
             tmp <- stub_request(req$method, req$url$url)
             wi_th(tmp, .list = list(query = urip$parameter, headers = req$headers))
