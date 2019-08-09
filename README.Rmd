@@ -213,7 +213,7 @@ x$get('get', query = list(hello = "world"))
 
 ### Stubbing requests and set expectation of a timeout
 
-```{r}
+```{r error=TRUE}
 stub_request("post", "https://httpbin.org/post") %>% to_timeout()
 x <- HttpClient$new(url = "https://httpbin.org")
 x$post('post')
@@ -221,7 +221,7 @@ x$post('post')
 
 ### Stubbing requests and set HTTP error expectation
 
-```{r}
+```{r error=TRUE}
 library(fauxpas)
 stub_request("get", "https://httpbin.org/get?a=b") %>% to_raise(HTTPBadRequest)
 x <- HttpClient$new(url = "https://httpbin.org")

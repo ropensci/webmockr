@@ -11,3 +11,4 @@ cran-comments.md
 ^codemeta\.json$
 revdep/
 appveyor.yml
+^docs$
