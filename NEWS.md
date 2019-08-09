@@ -1,3 +1,17 @@
+webmockr 0.4.0
+==============
+
+### MINOR IMPROVEMENTS
+
+* fix link to http testing book, change ropensci to ropenscilabs (#67)
+* fixes to request matching: single match types working now (e.g., just match on query, or just on headers); in addition, header matching now works; added examples of single match types (#68) (#69)
+
+### BUG FIXES
+
+* fix to curl adapter (#66) (#40 - https://github.com/ropensci/webmockr/issues/40#issuecomment-478339360) thanks @nbenn
+* fix stub specification within crul and httr adapters; typo in setting headers (#70)
+
+
 webmockr 0.3.4
 ==============
 
