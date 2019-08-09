@@ -133,6 +133,9 @@ library(webmockr)
 ```r
 webmockr::enable()
 #> CrulAdapter enabled!
+#> Registered S3 method overwritten by 'httr':
+#>   method                 from
+#>   as.character.form_file crul
 #> HttrAdapter enabled!
 ```
 
@@ -212,7 +215,7 @@ x$get('get')
 #> <crul response> 
 #>   url: https://httpbin.org/get
 #>   request_headers: 
-#>     User-Agent: libcurl/7.54.0 r-curl/3.3 crul/0.7.0.9310
+#>     User-Agent: libcurl/7.54.0 r-curl/4.0 crul/0.8.4
 #>     Accept-Encoding: gzip, deflate
 #>     Accept: application/json, text/xml, application/xml, */*
 #>   response_headers: 
@@ -248,7 +251,7 @@ x$get('get', query = list(hello = "world"))
 #> <crul response> 
 #>   url: https://httpbin.org/get?hello=world
 #>   request_headers: 
-#>     User-Agent: libcurl/7.54.0 r-curl/3.3 crul/0.7.0.9310
+#>     User-Agent: libcurl/7.54.0 r-curl/4.0 crul/0.8.4
 #>     Accept-Encoding: gzip, deflate
 #>     Accept: application/json, text/xml, application/xml, */*
 #>   response_headers: 
@@ -297,7 +300,7 @@ x$get('get', query = list(hello = "world"))
 #> <crul response> 
 #>   url: https://httpbin.org/get?hello=world
 #>   request_headers: 
-#>     User-Agent: libcurl/7.54.0 r-curl/3.3 crul/0.7.0.9310
+#>     User-Agent: libcurl/7.54.0 r-curl/4.0 crul/0.8.4
 #>     Accept-Encoding: gzip, deflate
 #>     Accept: application/json, text/xml, application/xml, */*
 #>   response_headers: 
@@ -430,10 +433,11 @@ res$headers
 * Please [report any issues or bugs](https://github.com/ropensci/webmockr/issues).
 * License: MIT
 * Get citation information for `webmockr` in R doing `citation(package = 'webmockr')`
-* Please note that this project is released with a [Contributor Code of Conduct](CODE_OF_CONDUCT.md).
+* Please note that this project is released with a [Contributor Code of Conduct][coc].
 By participating in this project you agree to abide by its terms.
 
 [![ropensci_footer](https://ropensci.org/public_images/github_footer.png)](https://ropensci.org)
 
 
 [vcr]: https://github.com/ropensci/vcr
+[coc]: https://github.com/ropensci/webmockr/blob/master/CODE_OF_CONDUCT.md
