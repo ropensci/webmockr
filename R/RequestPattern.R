@@ -1,5 +1,3 @@
-# scotts_env <- new.env()
-
 #' RequestPattern class
 #'
 #' @export
@@ -89,7 +87,6 @@ RequestPattern <- R6::R6Class(
         UriPattern$new(regex_pattern = uri_regex)
       }
       self$uri_pattern$add_query_params(query)
-      # scotts_env$uri_pattern <- self$uri_pattern
       self$body_pattern <- if (!is.null(body)) BodyPattern$new(pattern = body)
       self$headers_pattern <- if (!is.null(headers))
         HeadersPattern$new(pattern = headers)

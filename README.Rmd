@@ -213,7 +213,7 @@ x$get('get', query = list(hello = "world"))
 
 ### Stubbing requests and set expectation of a timeout
 
-```{r}
+```{r error=TRUE}
 stub_request("post", "https://httpbin.org/post") %>% to_timeout()
 x <- HttpClient$new(url = "https://httpbin.org")
 x$post('post')
@@ -221,7 +221,7 @@ x$post('post')
 
 ### Stubbing requests and set HTTP error expectation
 
-```{r}
+```{r error=TRUE}
 library(fauxpas)
 stub_request("get", "https://httpbin.org/get?a=b") %>% to_raise(HTTPBadRequest)
 x <- HttpClient$new(url = "https://httpbin.org")
@@ -281,10 +281,11 @@ res$headers
 * Please [report any issues or bugs](https://github.com/ropensci/webmockr/issues).
 * License: MIT
 * Get citation information for `webmockr` in R doing `citation(package = 'webmockr')`
-* Please note that this project is released with a [Contributor Code of Conduct](CODE_OF_CONDUCT.md).
+* Please note that this project is released with a [Contributor Code of Conduct][coc].
 By participating in this project you agree to abide by its terms.
 
 [![ropensci_footer](https://ropensci.org/public_images/github_footer.png)](https://ropensci.org)
 
 
 [vcr]: https://github.com/ropensci/vcr
+[coc]: https://github.com/ropensci/webmockr/blob/master/CODE_OF_CONDUCT.md
