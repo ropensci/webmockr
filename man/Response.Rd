@@ -69,6 +69,10 @@ x$get_status()
 x$set_body("hello world")
 x
 x$get_body()
+# raw body
+x$set_body(charToRaw("hello world"))
+x
+x$get_body()
 
 x$set_exception("exception")
 x

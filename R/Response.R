@@ -61,6 +61,10 @@
 #' x$set_body("hello world")
 #' x
 #' x$get_body()
+#' # raw body
+#' x$set_body(charToRaw("hello world"))
+#' x
+#' x$get_body()
 #'
 #' x$set_exception("exception")
 #' x
@@ -127,6 +131,8 @@ Response <- R6::R6Class(
       self$body <- body
       self$content <- if (!is.null(body) && is.character(body)) {
         charToRaw(body)
+      } else if (is.raw(body) && length(body) > 0) {
+        body
       } else {
         raw(0)
       }
