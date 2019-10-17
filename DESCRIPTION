@@ -31,9 +31,10 @@ Suggests:
     roxygen2 (>= 6.1.1),
     testthat,
     xml2,
-    vcr,
+    vcr (>= 0.3.0.9131),
     httr
 RoxygenNote: 6.1.1
+Remotes: Remotes: ropensci/vcr@fix-raw-response-handling
 X-schema.org-applicationCategory: Web
 X-schema.org-keywords: http, https, API, web-services, curl, mock, mocking, fakeweb, http-mocking, testing, testing-tools, tdd
 X-schema.org-isPartOf: https://ropensci.org
