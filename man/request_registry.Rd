@@ -41,6 +41,9 @@ z <- crul::HttpClient$new(url = "https://httpbin.org")$get("get")
 
 # check the request registry - now it's been made 2 times, yay!
 request_registry()
+
+# clear the request registry
+request_registry_clear()
 }
 \seealso{
 Other request-registry: \code{\link{HashCounter}},
