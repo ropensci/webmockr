@@ -127,7 +127,7 @@ test_that("HttrAdapter works", {
   skip_if_not_installed("vcr")
 
   load("httr_obj.rda")
-  # load("tests/testthat//httr_obj.rda")
+  # load("tests/testthat/httr_obj.rda")
   res <- HttrAdapter$new()
 
   # with vcr message
@@ -214,3 +214,83 @@ test_that("HttrAdapter works", {
   expect_equal(sort(names(aa$all_headers[[1]])),
     c("headers", "status", "version"))
 })
+
+test_that("HttrAdapter works with httr::authenticate", {
+  skip_on_cran()
+
+  unloadNamespace("vcr")
+  httr_mock()
+  # httr_mock(FALSE)
+  # webmockr_allow_net_connect()
+  stub_registry_clear()
+  # stub_registry()
+  # request_registry()
+  z <- stub_request("get", uri = "https://httpbin.org/basic-auth/foo/bar") %>%
+      to_return(
+        body = list(foo = "bar"),
+        headers = list("Content-Type" = "application/json")
+      )
+  # x <- httr::GET("https://httpbin.org/basic-auth/foo/bar", httr::authenticate("foo", "bar"))
+  # httr_obj_auth <- x$request
+  # save(httr_obj_auth, file = "tests/testthat/httr_obj_auth.rda", version = 2)
+  # load("tests/testthat/httr_obj_auth.rda")
+  # httr::content(x)
+
+  # mocked httr requests with auth work
+  # before the fixes in HttrAdapter: a real request through webmockr would
+  #   not work with authenticate
+  x <- httr::GET("https://httpbin.org/basic-auth/foo/bar", httr::authenticate("foo", "bar"))
+  expect_is(x, "response")
+  expect_equal(httr::content(x), list(foo = "bar"))
+  expect_equal(x$headers, structure(list(`content-type` = "application/json"),
+    class = c("insensitive", "list")))
+  expect_equal(x$status_code, 200)
+
+  # HttrAdapter works on requests with auth
+  load("httr_obj_auth.rda")
+  zz <- HttrAdapter$new()
+  z <- zz$handle_request(httr_obj_auth)
+  expect_is(z, "response")
+  expect_equal(httr::content(z), list(foo = "bar"))
+  expect_equal(z$headers, structure(list(`content-type` = "application/json"),
+    class = c("insensitive", "list")))
+  expect_equal(z$status_code, 200)
+})
+
+test_that("httr works with webmockr_allow_net_connect", {
+  skip_on_cran()
+
+  httr_mock()
+  stub_registry_clear()
+  z <- stub_request("get", uri = "https://httpbin.org/get?stuff=things") %>%
+    to_return(body = "yum=cheese")
+  x <- httr::GET("https://httpbin.org/get?stuff=things")
+  expect_true(httr::content(x, "text", encoding="UTF-8") == "yum=cheese")
+  
+  # allow net connect - stub still exists though - so not a real request
+  webmockr_allow_net_connect()
+  z <- httr::GET("https://httpbin.org/get?stuff=things")
+  expect_true(httr::content(z, "text", encoding="UTF-8") == "yum=cheese")
+
+  # allow net connect - stub now gone - so real request should happen
+  stub_registry_clear()
+  w <- httr::GET("https://httpbin.org/get?stuff=things")
+  expect_false(httr::content(w, "text", encoding="UTF-8") == "yum=cheese")
+
+  # disable net connect - now real requests can't be made
+  webmockr_disable_net_connect()
+  expect_error(httr::GET("https://httpbin.org/get?stuff=things"),
+    "Real HTTP connections are disabled")
+})
+
+test_that("httr requests with bodies work", {
+  skip_on_cran()
+
+  httr_mock()
+  stub_registry_clear()
+  z <- stub_request("post", uri = "https://httpbin.org/post") %>%
+    to_return(body = "asdffsdsdf")
+  x <- httr::POST("https://httpbin.org/post", body = list(stuff = "things"))
+  expect_true(httr::content(x, "text", encoding="UTF-8") == "asdffsdsdf")
+})
+

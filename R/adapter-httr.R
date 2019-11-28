@@ -186,7 +186,11 @@ HttrAdapter <- R6::R6Class(
         # if real requests || localhost || certain exceptions ARE
         #   allowed && nothing found above
         httr_mock(FALSE)
-        httr_resp <- eval(parse(text = paste0("httr::", req$method)))(req$url)
+        httr_resp <- eval(parse(text = paste0("httr::", req$method)))(
+          req$url,
+          do.call(httr::config, req$options),
+          httr::add_headers(req$headers)
+        )
         httr_mock(TRUE)
 
         # if vcr loaded: record http interaction into vcr namespace

@@ -104,8 +104,6 @@ in the `webmockr_configure()` function.
 * [crul](https://github.com/ropensci/crul)
 * [httr](https://github.com/r-lib/httr)
 
-> in development: curl
-
 ## Install
 
 from cran

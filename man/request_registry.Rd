@@ -2,9 +2,12 @@
 % Please edit documentation in R/request_registry.R
 \name{request_registry}
 \alias{request_registry}
+\alias{request_registry_clear}
 \title{List requests in the request registry}
 \usage{
 request_registry()
+
+request_registry_clear()
 }
 \value{
 an object of class \code{RequestRegistry}, print method gives the
@@ -13,6 +16,11 @@ performed
 }
 \description{
 List requests in the request registry
+}
+\details{
+\code{request_registry()} lists the requests that have been made
+that webmockr knows about; \code{request_registry_clear()} resets the
+request registry (removes all recorded requests)
 }
 \examples{
 webmockr::enable()

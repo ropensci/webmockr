@@ -8,7 +8,6 @@ webmockr 0.4.0
 
 ### BUG FIXES
 
-* fix to curl adapter (#66) (#40 - https://github.com/ropensci/webmockr/issues/40#issuecomment-478339360) thanks @nbenn
 * fix stub specification within crul and httr adapters; typo in setting headers (#70)
 
 
