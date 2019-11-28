@@ -1,5 +1,4 @@
 context("remove_request_stub")
-
 # clear stubs before starting
 stub_registry_clear()
 
@@ -21,3 +20,18 @@ test_that("remove_request_stub", {
   # no there's no stubs
   expect_equal(length(stub_registry()$request_stubs), 0)
 })
+
+test_that("remove_request_stub: removes the stub upon an error", {
+  # no stubs at beginning
+  stub_registry_clear()
+  expect_equal(length(stub_registry()$request_stubs), 0)
+
+  expect_error(
+    stub_request("post", uri = "https://httpbin.org/post") %>%
+      to_return(body = 5)
+  )
+  expect_equal(length(stub_registry()$request_stubs), 0)  
+  stub_registry_clear()
+})
+
+request_registry_clear()

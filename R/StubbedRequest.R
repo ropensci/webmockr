@@ -129,8 +129,9 @@ StubbedRequest <- R6::R6Class(
           if (!body) {
             raw()
           } else {
+            webmockr_stub_registry$remove_request_stub(self)
             stop(paste0("Unknown type of `body`: ",
-              "must be NULL, FALSE, character, raw or list"),
+              "must be NULL, FALSE, character, raw or list; stub removed"),
             call. = FALSE)
           }
         } else if (inherits(body, "raw")) {
@@ -140,8 +141,9 @@ StubbedRequest <- R6::R6Class(
         } else if (is.character(body)) {
           charToRaw(body)
         } else if (!is.list(body)) {
+          webmockr_stub_registry$remove_request_stub(self)
           stop(paste0("Unknown type of `body`: ",
-            "must be NULL, FALSE, character, raw or list"),
+            "must be NULL, FALSE, character, raw or list; stub removed"),
             call. = FALSE)
         } else {
           charToRaw(jsonlite::toJSON(body, auto_unbox = TRUE))
