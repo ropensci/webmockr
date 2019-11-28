@@ -1,6 +1,8 @@
 context("request_registry")
 
 test_that("request_registry: structure", {
+  request_registry_clear()
+
   expect_is(request_registry, "function")
   expect_is(request_registry(), "RequestRegistry")
 
