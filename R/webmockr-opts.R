@@ -16,6 +16,12 @@
 #' @param uri (character) a URI/URL as a character string - to determine
 #' whether or not it is allowed
 #'
+#' @section webmockr_allow_net_connect:
+#' If there are stubs found for a request, even if net connections are
+#' allowed (by running `webmockr_allow_net_connect()`) the stubbed
+#' response will be returned. If no stub is found, and net connections
+#' are allowed, then a real HTTP request can be made.
+#'
 #' @examples \dontrun{
 #' webmockr_configure()
 #' webmockr_configure(
