@@ -131,9 +131,6 @@ library(webmockr)
 ```r
 webmockr::enable()
 #> CrulAdapter enabled!
-#> Registered S3 method overwritten by 'httr':
-#>   method                 from
-#>   as.character.form_file crul
 #> HttrAdapter enabled!
 ```
 
@@ -213,7 +210,7 @@ x$get('get')
 #> <crul response> 
 #>   url: https://httpbin.org/get
 #>   request_headers: 
-#>     User-Agent: libcurl/7.54.0 r-curl/4.0 crul/0.8.4
+#>     User-Agent: libcurl/7.54.0 r-curl/4.3 crul/0.9.1.9991
 #>     Accept-Encoding: gzip, deflate
 #>     Accept: application/json, text/xml, application/xml, */*
 #>   response_headers: 
@@ -249,7 +246,7 @@ x$get('get', query = list(hello = "world"))
 #> <crul response> 
 #>   url: https://httpbin.org/get?hello=world
 #>   request_headers: 
-#>     User-Agent: libcurl/7.54.0 r-curl/4.0 crul/0.8.4
+#>     User-Agent: libcurl/7.54.0 r-curl/4.3 crul/0.9.1.9991
 #>     Accept-Encoding: gzip, deflate
 #>     Accept: application/json, text/xml, application/xml, */*
 #>   response_headers: 
@@ -298,7 +295,7 @@ x$get('get', query = list(hello = "world"))
 #> <crul response> 
 #>   url: https://httpbin.org/get?hello=world
 #>   request_headers: 
-#>     User-Agent: libcurl/7.54.0 r-curl/4.0 crul/0.8.4
+#>     User-Agent: libcurl/7.54.0 r-curl/4.3 crul/0.9.1.9991
 #>     Accept-Encoding: gzip, deflate
 #>     Accept: application/json, text/xml, application/xml, */*
 #>   response_headers: 
