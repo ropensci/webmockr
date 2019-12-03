@@ -44,7 +44,7 @@ stub_request("get", "https://httpbin.org/get") \%>\%
 out <- GET("https://httpbin.org/get", write_disk(f, overwrite=TRUE))
 out
 out$content
-content(out)
+content(out, "text", encoding = "UTF-8")
 
 
 # Use mock_file to have webmockr handle file and contents
@@ -76,7 +76,7 @@ out
 ## view stubbed file content
 out$content
 readLines(out$content)
-content(out)
+content(out, "text", encoding = "UTF-8")
 
 # disable mocking
 disable()
