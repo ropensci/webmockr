@@ -44,6 +44,7 @@ request_registry()
 
 # clear the request registry
 request_registry_clear()
+webmockr::disable()
 }
 \seealso{
 Other request-registry: \code{\link{HashCounter}},
