@@ -1,45 +1,6 @@
-#' Response class
-#'
+#' @title Response
+#' @description custom webmockr http response class
 #' @export
-#' @param options (list) a list of options
-#' @details
-#' **Methods**
-#'   \describe{
-#'     \item{`set_request_headers(headers)`}{
-#'       set request headers
-#'       - headers: a list of key-value pair headers
-#'     }
-#'     \item{`get_request_headers()`}{
-#'       get request headers
-#'     }
-#'     \item{`set_response_headers(headers)`}{
-#'       set response headers
-#'       - headers: a list of key-value pair headers
-#'     }
-#'     \item{`get_response_headers()`}{
-#'       get response headers
-#'     }
-#'     \item{`set_body(body)`}{
-#'       - body: must be a string
-#'     }
-#'     \item{`get_body()`}{
-#'       get body
-#'     }
-#'     \item{`set_status()`}{
-#'       - body: must be an integer status code
-#'     }
-#'     \item{`get_status()`}{
-#'       get status code
-#'     }
-#'     \item{`set_exception()`}{
-#'       set exception
-#'     }
-#'     \item{`get_exception()`}{
-#'       get exception
-#'     }
-#'   }
-#' @format NULL
-#' @usage NULL
 #' @examples \dontrun{
 #' (x <- Response$new())
 #'
@@ -73,16 +34,28 @@
 Response <- R6::R6Class(
   'Response',
   public = list(
+    #' @field url (character) a url
     url = NULL,
+    #' @field body (various) list, character, etc
     body = NULL,
+    #' @field content (various) response content/body
     content = NULL,
+    #' @field request_headers (list) a named list
     request_headers = NULL,
+    #' @field response_headers (list) a named list
     response_headers = NULL,
+    #' @field options (character) list
     options = NULL,
+    #' @field status_code (integer) an http status code 
     status_code = 200,
+    #' @field exception (character) an exception message
     exception = NULL,
+    #' @field should_timeout (logical) should the response timeout? 
     should_timeout = NULL,
 
+    #' @description Create a new `Response` object
+    #' @param options (list) a list of options
+    #' @return A new `Response` object
     initialize = function(options = list()) {
       if (inherits(options, "file") || inherits(options, "character")) {
         self$options <- read_raw_response(options)
@@ -91,6 +64,9 @@ Response <- R6::R6Class(
       }
     },
 
+    #' @description print method for the `Response` class
+    #' @param x self
+    #' @param ... ignored
     print = function(x, ...) {
       cat("<webmockr response> ", sep = "\n")
       cat(paste0("  url: ", self$url), sep = "\n")
@@ -112,21 +88,44 @@ Response <- R6::R6Class(
       cat(paste0("  body length: ", length(self$body)), sep = "\n")
     },
 
+    #' @description set the url for the response
+    #' @param url (character) a url
+    #' @return nothing returned; sets url
     set_url = function(url) {
       self$url <- url
     },
+    #' @description get the url for the response
+    #' @return (character) a url
     get_url = function() self$url,
 
+    #' @description set the request headers for the response
+    #' @param headers (list) named list
+    #' @param capitalize (logical) whether to capitalize first letters of
+    #' each header; default: `TRUE`
+    #' @return nothing returned; sets request headers on the response
     set_request_headers = function(headers, capitalize = TRUE) {
       self$request_headers <- private$normalize_headers(headers, capitalize)
     },
+    #' @description get the request headers for the response
+    #' @return (list) request headers, a named list
     get_request_headers = function() self$request_headers,
 
+    #' @description set the response headers for the response
+    #' @param headers (list) named list
+    #' @param capitalize (logical) whether to capitalize first letters of
+    #' each header; default: `TRUE`
+    #' @return nothing returned; sets response headers on the response
     set_response_headers = function(headers, capitalize = TRUE) {
       self$response_headers <- private$normalize_headers(headers, capitalize)
     },
+    #' @description get the response headers for the response
+    #' @return (list) response headers, a named list
     get_respone_headers = function() self$response_headers,
 
+    #' @description set the body of the response
+    #' @param body (various types)
+    #' @param disk (logical) whether its on disk; default: `FALSE`
+    #' @return nothing returned; sets body on the response
     set_body = function(body, disk = FALSE) {
       self$body <- body
       self$content <- if (!is.null(body) && is.character(body)) {
@@ -135,16 +134,28 @@ Response <- R6::R6Class(
         raw(0)
       }
     },
+    #' @description get the body of the response
+    #' @return various
     get_body = function() self$body %||% '',
 
+    #' @description set the http status of the response
+    #' @param status (integer) the http status
+    #' @return nothing returned; sets the http status of the response
     set_status = function(status) {
       self$status_code <- status
     },
+    #' @description get the http status of the response
+    #' @return (integer) the http status
     get_status = function() self$status_code %||% 200,
 
+    #' @description set an exception
+    #' @param exception (character) an exception string
+    #' @return nothing returned; sets an exception
     set_exception = function(exception) {
       self$exception <- exception
     },
+    #' @description get the exception, if set
+    #' @return (character) an exception
     get_exception = function() self$exception
   ),
 

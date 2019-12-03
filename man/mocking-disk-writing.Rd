@@ -18,7 +18,7 @@ library(crul)
 ## make a temp file
 f <- tempfile(fileext = ".json")
 ## write something to the file
-cat("{\\"hello\\":\\"world\\"}\\n", file = f)
+cat("{\"hello\":\"world\"}\n", file = f)
 readLines(f)
 ## make the stub
 stub_request("get", "https://httpbin.org/get") \%>\% 
@@ -33,7 +33,7 @@ library(httr)
 ## make a temp file
 f <- tempfile(fileext = ".json")
 ## write something to the file
-cat("{\\"hello\\":\\"world\\"}\\n", file = f)
+cat("{\"hello\":\"world\"}\n", file = f)
 readLines(f)
 ## make the stub
 stub_request("get", "https://httpbin.org/get") \%>\% 
@@ -54,7 +54,7 @@ library(crul)
 f <- tempfile(fileext = ".json")
 ## make the stub
 stub_request("get", "https://httpbin.org/get") \%>\% 
-  to_return(body = mock_file(f, "{\\"hello\\":\\"mars\\"}\\n"))
+  to_return(body = mock_file(f, "{\"hello\":\"mars\"}\n"))
 ## make a request
 (out <- crul::HttpClient$new("https://httpbin.org/get")$get(disk = f))
 out$content
@@ -67,7 +67,7 @@ f <- tempfile(fileext = ".json")
 ## make the stub
 stub_request("get", "https://httpbin.org/get") \%>\% 
   to_return(
-    body = mock_file(path = f, payload = "{\\"foo\\": \\"bar\\"}"),
+    body = mock_file(path = f, payload = "{\"foo\": \"bar\"}"),
     headers = list('content-type' = "application/json")
   )
 ## make a request

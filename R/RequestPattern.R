@@ -1,26 +1,6 @@
-#' RequestPattern class
-#'
+#' @title RequestPattern class
+#' @description class handling all request matchers
 #' @export
-#' @param method the HTTP method (any, head, options, get, post, put,
-#' patch, trace, or delete). "any" matches any HTTP method. required.
-#' @param uri (character) request URI. required or uri_regex
-#' @param uri_regex (character) request URI as regex. required or uri
-#' @param query (list) query parameters, optional
-#' @param body (list) body request, optional
-#' @param headers (list) headers, optional
-#' @details
-#' **Methods**
-#'   \describe{
-#'     \item{`matches(request_signature)`}{
-#'       Test if request_signature matches a pattern
-#'       - request_signature: a request signature
-#'     }
-#'     \item{`to_s()`}{
-#'       Print pattern for easy human consumption
-#'     }
-#'   }
-#' @format NULL
-#' @usage NULL
 #' @seealso pattern classes for HTTP method [MethodPattern], headers
 #' [HeadersPattern], body [BodyPattern], and URI/URL [UriPattern]
 #' @examples \dontrun{
@@ -68,11 +48,24 @@
 RequestPattern <- R6::R6Class(
   'RequestPattern',
   public = list(
+    #' @field method_pattern xxx
     method_pattern = NULL,
+    #' @field uri_pattern xxx
     uri_pattern = NULL,
+    #' @field body_pattern xxx
     body_pattern = NULL,
+    #' @field headers_pattern xxx
     headers_pattern = NULL,
 
+    #' @description Create a new `RequestPattern` object
+    #' @param method the HTTP method (any, head, options, get, post, put,
+    #' patch, trace, or delete). "any" matches any HTTP method. required.
+    #' @param uri (character) request URI. required or uri_regex
+    #' @param uri_regex (character) request URI as regex. required or uri
+    #' @param query (list) query parameters, optional
+    #' @param body (list) body request, optional
+    #' @param headers (list) headers, optional
+    #' @return A new `RequestPattern` object
     initialize = function(method, uri = NULL, uri_regex = NULL,
                           query = NULL, body = NULL, headers = NULL) {
 
@@ -94,6 +87,9 @@ RequestPattern <- R6::R6Class(
       # if (length(options)) private$assign_options(options)
     },
 
+    #' @description does a request signature match the selected matchers?
+    #' @param request_signature a [RequestSignature] object
+    #' @return a boolean
     matches = function(request_signature) {
       assert(request_signature, "RequestSignature")
       c_type <- if (!is.null(request_signature$headers)) request_signature$headers$`Content-Type` else NULL
@@ -104,6 +100,8 @@ RequestPattern <- R6::R6Class(
         (is.null(self$headers_pattern) || self$headers_pattern$matches(request_signature$headers))
     },
 
+    #' @description Print pattern for easy human consumption
+    #' @return a string
     to_s = function() {
       gsub("^\\s+|\\s+$", "", paste(
         toupper(self$method_pattern$to_s()),
@@ -162,23 +160,11 @@ RequestPattern <- R6::R6Class(
   )
 )
 
-#' MethodPattern
-#'
+#' @title MethodPattern
+#' @description method matcher
 #' @export
 #' @keywords internal
-#' @param pattern (character) a HTTP method, lowercase
-#' @details
-#' **Methods**
-#'   \describe{
-#'     \item{`matches(method)`}{
-#'       An HTTP method
-#'       - method (character)
-#'     }
-#'   }
-#'
 #' @details Matches regardless of case. e.g., POST will match to post
-#' @format NULL
-#' @usage NULL
 #' @examples
 #' (x <- MethodPattern$new(pattern = "post"))
 #' x$pattern
@@ -194,42 +180,39 @@ RequestPattern <- R6::R6Class(
 MethodPattern <- R6::R6Class(
   'MethodPattern',
   public = list(
+    #' @field pattern (character) an http method
     pattern = NULL,
 
+    #' @description Create a new `MethodPattern` object
+    #' @param pattern (character) a HTTP method, lowercase
+    #' @return A new `MethodPattern` object
     initialize = function(pattern) {
       self$pattern <- tolower(pattern)
     },
 
+    #' @description test if the pattern matches a given http method
+    #' @param method (character) a HTTP method, lowercase
+    #' @return a boolean
     matches = function(method) {
       self$pattern == tolower(method) || self$pattern == "any"
     },
 
+    #' @description Print pattern for easy human consumption
+    #' @return a string
     to_s = function() self$pattern
   )
 )
 
-#' HeadersPattern
-#'
+#' @title HeadersPattern
+#' @description headers matcher
 #' @export
 #' @keywords internal
-#' @param pattern (list) a pattern, as a named list, must be named,
-#' e.g,. `list(a = 5, b = 6)`
-#' @details
-#' **Methods**
-#'   \describe{
-#'     \item{`matches(headers)`}{
-#'       Match a list of headers against that stored
-#'       - headers (list) named list of headers, e.g,. `list(a = 5, b = 6)`
-#'     }
-#'   }
 #' @details
 #' `webmockr` normalises headers and treats all forms of same headers as equal:
 #' i.e the following two sets of headers are equal:
 #' `list(Header1 = "value1", content_length = 123, X_CuStOm_hEAder = "foo")`
 #' and
 #' `list(header1 = "value1", "Content-Length" = 123, "x-cuSTOM-HeAder" = "foo")`
-#' @format NULL
-#' @usage NULL
 #' @examples
 #' (x <- HeadersPattern$new(pattern = list(a = 5)))
 #' x$pattern
@@ -258,14 +241,22 @@ MethodPattern <- R6::R6Class(
 HeadersPattern <- R6::R6Class(
   'HeadersPattern',
   public = list(
+    #' @field pattern a list
     pattern = NULL,
 
+    #' @description Create a new `HeadersPattern` object
+    #' @param pattern (list) a pattern, as a named list, must be named,
+    #' e.g,. `list(a = 5, b = 6)`
+    #' @return A new `HeadersPattern` object
     initialize = function(pattern) {
       stopifnot(is.list(pattern))
       pattern <- private$normalize_headers(pattern)
       self$pattern <- pattern
     },
 
+    #' @description Match a list of headers against that stored
+    #' @param headers (list) named list of headers, e.g,. `list(a = 5, b = 6)`
+    #' @return a boolean
     matches = function(headers) {
       if (self$empty_headers(self$pattern)) {
         self$empty_headers(headers)
@@ -281,10 +272,15 @@ HeadersPattern <- R6::R6Class(
       }
     },
 
+    #' @description Are headers empty? tests if null or length==0
+    #' @param headers named list of headers
+    #' @return a boolean
     empty_headers = function(headers) {
       is.null(headers) || length(headers) == 0
     },
 
+    #' @description Print pattern for easy human consumption
+    #' @return a string
     to_s = function() hdl_lst2(self$pattern)
   ),
 
@@ -300,22 +296,10 @@ HeadersPattern <- R6::R6Class(
   )
 )
 
-#' BodyPattern
-#'
+#' @title BodyPattern
+#' @description body matcher
 #' @export
 #' @keywords internal
-#' @param pattern (list) a body object
-#' @details
-#' **Methods**
-#'   \describe{
-#'     \item{`matches(body, content_type = "")`}{
-#'       Match a body object against that given in `pattern`
-#'       - body (list) the body
-#'       - content_type (character) content type
-#'     }
-#'   }
-#' @format NULL
-#' @usage NULL
 #' @examples
 #' # make a request signature
 #' bb <- RequestSignature$new(
@@ -333,16 +317,20 @@ HeadersPattern <- R6::R6Class(
 BodyPattern <- R6::R6Class(
   'BodyPattern',
   public = list(
+    #' @field pattern a list
     pattern = NULL,
-    body = NULL,
-    content_type = NULL,
-    headers = NULL,
-    string = NULL,
 
+    #' @description Create a new `BodyPattern` object
+    #' @param pattern (list) a body object
+    #' @return A new `BodyPattern` object
     initialize = function(pattern) {
       self$pattern <- pattern
     },
 
+    #' @description Match a list of headers against that stored
+    #' @param body (list) the body
+    #' @param content_type (character) content type
+    #' @return a boolean
     matches = function(body, content_type = "") {
       if (inherits(self$pattern, "list")) {
         if (length(self$pattern) == 0) return(TRUE)
@@ -353,11 +341,12 @@ BodyPattern <- R6::R6Class(
       }
     },
 
+    #' @description Print pattern for easy human consumption
+    #' @return a string
     to_s = function() self$pattern
   ),
 
   private = list(
-
     empty_headers = function(headers) {
       is.null(headers) || length(headers) == 0
     },
@@ -409,29 +398,10 @@ BODY_FORMATS <- list(
   'text/plain'             = 'plain'
 )
 
-#' UriPattern
-#'
+#' @title UriPattern
+#' @description uri matcher
 #' @export
 #' @keywords internal
-#' @param pattern (character) a uri, as a character string. if scheme
-#' is missing, it is added (we assume http)
-#' @param regex_pattern (character) a uri as a regex character string,
-#' see [base::regex]. if scheme is missing, it is added (we assume
-#' http)
-#' @details
-#' **Methods**
-#'   \describe{
-#'     \item{`add_query_params`}{
-#'       Add query parameters to the URI
-#'       - query_params
-#'     }
-#'     \item{`matches(uri)`}{
-#'       Match a uri against that given in `pattern`
-#'       - uri (character) a uri, including scheme (i.e., http or https)
-#'     }
-#'   }
-#' @format NULL
-#' @usage NULL
 #' @examples
 #' # trailing slash
 #' (z <- UriPattern$new(pattern = "http://foobar.com"))
@@ -477,10 +447,18 @@ BODY_FORMATS <- list(
 UriPattern <- R6::R6Class(
   'UriPattern',
   public = list(
+    #' @field pattern (character) pattern holder
     pattern = NULL,
-    query_params = NULL,
+    #' @field regex a logical
     regex = FALSE,
 
+    #' @description Create a new `UriPattern` object
+    #' @param pattern (character) a uri, as a character string. if scheme
+    #' is missing, it is added (we assume http)
+    #' @param regex_pattern (character) a uri as a regex character string,
+    #' see [base::regex]. if scheme is missing, it is added (we assume
+    #' http)
+    #' @return A new `UriPattern` object
     initialize = function(pattern = NULL, regex_pattern = NULL) {
       stopifnot(xor(is.null(pattern), is.null(regex_pattern)))
       if (!is.null(regex_pattern)) self$regex <- TRUE
@@ -488,6 +466,9 @@ UriPattern <- R6::R6Class(
       self$pattern <- normalize_uri(add_scheme(pattern))
     },
 
+    #' @description Match a list of headers against that stored
+    #' @param uri (character) a uri
+    #' @return a boolean
     matches = function(uri) {
       # normalize uri
       uri <- normalize_uri(uri)
@@ -498,6 +479,9 @@ UriPattern <- R6::R6Class(
       if (self$regex) return(grepl(self$pattern, uri))
     },
 
+    #' @description Add query parameters to the URI
+    #' @param query_params (list|character) list or character
+    #' @return nothing returned, updates uri pattern
     add_query_params = function(query_params) {
       if (
         inherits(query_params, "list") ||
@@ -509,6 +493,8 @@ UriPattern <- R6::R6Class(
       }
     },
 
+    #' @description Print pattern for easy human consumption
+    #' @return a string
     to_s = function() self$pattern
   )
 )

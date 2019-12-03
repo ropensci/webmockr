@@ -1,39 +1,6 @@
-#' Stub registry
-#'
+#' @title StubRegistry
+#' @description stub registry to keep track of [StubbedRequest] stubs
 #' @export
-#' @details
-#' **Methods**
-#'   \describe{
-#'     \item{`register_stub(stub)`}{
-#'       Register a stub
-#'       - stub: an object of class [StubbedRequest]
-#'     }
-#'     \item{`find_stubbed_request(req)`}{
-#'       Find a stubbed request
-#'       - req: an object of class [RequestSignature]
-#'     }
-#'     \item{`response_for_request(request_signature)`}{
-#'       Find a stubbed request
-#'       - request_signature: an object of class [RequestSignature]
-#'     }
-#'     \item{`request_stub_for(request_signature)`}{
-#'       Find a stubbed request
-#'       - request_signature: an object of class [RequestSignature]
-#'     }
-#'     \item{`remove_request_stub(stub)`}{
-#'       Remove a stubbed request by matching request signature
-#'       - stub: an object of class [StubbedRequest]
-#'     }
-#'     \item{`remove_all_request_stubs()`}{
-#'       Remove all request stubs
-#'     }
-#'     \item{`is_registered(x)`}{
-#'       Find a stubbed request
-#'       - x: an object of class [RequestSignature]
-#'     }
-#'   }
-#' @format NULL
-#' @usage NULL
 #' @family stub-registry
 #' @examples \dontrun{
 #' # Make a stub
@@ -56,10 +23,14 @@
 StubRegistry <- R6::R6Class(
   "StubRegistry",
   public = list(
-    stub = NULL,
+    #' @field request_stubs (list) list of request stubs
     request_stubs = list(),
+    #' @field global_stubs (list) list of global stubs
     global_stubs = list(),
 
+    #' @description print method for the `StubRegistry` class
+    #' @param x self
+    #' @param ... ignored
     print = function(x, ...) {
       cat("<webmockr stub registry> ", sep = "\n")
       cat(" Registered Stubs", sep = "\n")
@@ -69,20 +40,29 @@ StubRegistry <- R6::R6Class(
       invisible(self$request_stubs)
     },
 
+    #' @description Register a stub
+    #' @param stub an object of type [StubbedRequest]
+    #' @return nothing returned; registers the stub
     register_stub = function(stub) {
       self$request_stubs <- Filter(length, c(self$request_stubs, stub))
     },
 
+    #' @description Find a stubbed request
+    #' @param req an object of class [RequestSignature]
+    #' @return an object of type [StubbedRequest], if matched
     find_stubbed_request = function(req) {
       stubs <- c(self$global_stubs, self$request_stubs)
       stubs[self$request_stub_for(req)]
     },
 
-    response_for_request = function(request_signature) {
-      stub <- self$request_stub_for(request_signature)
-      evaluate_response_for_request(stub$response, request_signature) %||% NULL
-    },
+    # response_for_request = function(request_signature) {
+    #   stub <- self$request_stub_for(request_signature)
+    #   evaluate_response_for_request(stub$response, request_signature) %||% NULL
+    # },
 
+    #' @description Find a stubbed request
+    #' @param request_signature an object of class [RequestSignature]
+    #' @return logical, 1 or more
     request_stub_for = function(request_signature) {
       stubs <- c(self$global_stubs, self$request_stubs)
       vapply(stubs, function(z) {
@@ -93,6 +73,9 @@ StubRegistry <- R6::R6Class(
       }, logical(1))
     },
 
+    #' @description Remove a stubbed request by matching request signature
+    #' @param stub an object of type [StubbedRequest]
+    #' @return nothing returned; removes the stub from the registry
     remove_request_stub = function(stub) {
       xx <- vapply(self$request_stubs, function(x) x$to_s(), "")
       if (stub$to_s() %in% xx) {
@@ -107,10 +90,15 @@ StubRegistry <- R6::R6Class(
       }
     },
 
+    #' @description Remove all request stubs
+    #' @return nothing returned; removes all request stubs
     remove_all_request_stubs = function() {
       self$request_stubs <- list()
     },
 
+    #' @description Find a stubbed request
+    #' @param x an object of class [RequestSignature]
+    #' @return nothing returned; registers the stub
     is_registered = function(x) any(self$request_stub_for(x))
   )
 )

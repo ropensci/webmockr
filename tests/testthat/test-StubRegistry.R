@@ -22,7 +22,7 @@ test_that("StubRegistry: bits are correct prior to having data", {
   expect_is(aa$remove_all_request_stubs, "function")
   expect_is(aa$remove_request_stub, "function")
   expect_is(aa$request_stub_for, "function")
-  expect_is(aa$response_for_request, "function")
+  # expect_is(aa$response_for_request, "function")
 })
 
 
@@ -73,9 +73,9 @@ test_that("StubRegistry: bits are correct after having data", {
   expect_equal(matches, c(TRUE, FALSE))
 
   # response_for_request
-  ## FIXME!!!! - internal function not made yet
-  expect_error(aa$response_for_request(request_signature = req1),
-               "could not find function")
+  ## FIXME - internal function not made yet
+  # expect_error(aa$response_for_request(request_signature = req1),
+  #              "could not find function")
 
   # remove_request_stub
   res <- aa$remove_request_stub(stub = stub1)
@@ -101,5 +101,5 @@ test_that("StubRegistry fails well", {
   expect_error(aa$register_stub(), "argument \"stub\" is missing")
   expect_error(aa$remove_request_stub(), "argument \"stub\" is missing")
   expect_error(aa$request_stub_for(), "argument \"request_signature\" is missing")
-  expect_error(aa$response_for_request(), "argument \"request_signature\" is missing")
+  # expect_error(aa$response_for_request(), "argument \"request_signature\" is missing")
 })

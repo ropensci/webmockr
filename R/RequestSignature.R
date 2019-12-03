@@ -1,30 +1,6 @@
-#' General purpose request signature builder
-#'
+#' @title RequestSignature
+#' @description General purpose request signature builder
 #' @export
-#' @param method the HTTP method (any, head, options, get, post, put,
-#' patch, trace, or delete). "any" matches any HTTP method. required.
-#' @param uri (character) request URI. required.
-#' @param options (list) options. optional. See Details.
-#' @details
-#' **Methods**
-#'   \describe{
-#'     \item{`to_s()`}{
-#'       Request signature to a string
-#'       return: a character string representation of the request signature
-#'     }
-#'   }
-#'
-#' @section options:
-#' \itemize{
-#'  \item body - body as a named list
-#'  \item headers - headers as a named list
-#'  \item proxies - proxies as a named list
-#'  \item auth - authentication details, as a named list
-#'  \item disk - if writing to disk, the path (character)
-#' }
-#'
-#' @format NULL
-#' @usage NULL
 #' @examples
 #' # make request signature
 #' x <- RequestSignature$new(method = "get", uri = "https:/httpbin.org/get")
@@ -69,19 +45,32 @@
 #' bb
 #' bb$disk
 #' bb$to_s()
-
 RequestSignature <- R6::R6Class(
   'RequestSignature',
   public = list(
+    #' @field method (character) an http method
     method = NULL,
+    #' @field uri (character) a uri
     uri = NULL,
+    #' @field body (various) request body
     body = NULL,
+    #' @field headers (list) named list of headers
     headers = NULL,
+    #' @field proxies (list) proxies as a named list
     proxies = NULL,
+    #' @field auth (list) authentication details, as a named list
     auth = NULL,
+    #' @field url internal use
     url = NULL,
+    #' @field disk (character) if writing to disk, the path
     disk = NULL,
 
+    #' @description Create a new `RequestSignature` object
+    #' @param method the HTTP method (any, head, options, get, post, put,
+    #' patch, trace, or delete). "any" matches any HTTP method. required.
+    #' @param uri (character) request URI. required.
+    #' @param options (list) options. optional. See Details.
+    #' @return A new `RequestSignature` object
     initialize = function(method, uri, options = list()) {
       verb <- match.arg(tolower(method), http_verbs)
       self$method <- verb
@@ -90,6 +79,9 @@ RequestSignature <- R6::R6Class(
       if (length(options)) private$assign_options(options)
     },
 
+    #' @description print method for the `RequestSignature` class
+    #' @param x self
+    #' @param ... ignored
     print = function() {
       cat("<RequestSignature> ", sep = "\n")
       cat(paste0("  method: ", toupper(self$method)), sep = "\n")
@@ -115,6 +107,8 @@ RequestSignature <- R6::R6Class(
       }
     },
 
+    #' @description Request signature to a string
+    #' @return a character string representation of the request signature
     to_s = function() {
       gsub("^\\s+|\\s+$", "", paste(
         paste0(toupper(self$method), ": "),

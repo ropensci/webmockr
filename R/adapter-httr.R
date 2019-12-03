@@ -1,38 +1,8 @@
-#' httr library adapter
-#'
+#' @title HttrAdapter
+#' @description `httr` library adapter
 #' @export
 #' @family http_lib_adapters
-#' @details
-#' **Methods**
-#'   \describe{
-#'     \item{`enable()`}{
-#'       Enable the adapter
-#'     }
-#'     \item{`disable()`}{
-#'       Disable the adapter
-#'     }
-#'     \item{`build_httr_request(x)`}{
-#'       Build a httr [RequestSignature]
-#'       x: httr request parts (list)
-#'     }
-#'     \item{`build_httr_response(req, resp)`}{
-#'       Build a httr response
-#'       req: a httr request (list)
-#'       resp: a httr response ()
-#'     }
-#'     \item{`handle_request()`}{
-#'       All logic for handling a request
-#'       req: a httr request (list)
-#'     }
-#'     \item{`remove_httr_stubs()`}{
-#'       Remove all httr stubs
-#'     }
-#'   }
-#'
-#' This adapter modifies \pkg{httr} to allow mocking HTTP requests
-#'
-#' @format NULL
-#' @usage NULL
+#' @details This adapter modifies \pkg{httr} to allow mocking HTTP requests
 #' @examples \dontrun{
 #' if (requireNamespace("httr", quietly = TRUE)) {
 #' # library(httr)
@@ -72,8 +42,11 @@
 HttrAdapter <- R6::R6Class(
   'HttrAdapter',
   public = list(
+    #' @field name adapter name
     name = "httr_adapter",
 
+    #' @description Enable the adapter
+    #' @return `TRUE`, invisibly
     enable = function() {
       message("HttrAdapter enabled!")
       webmockr_lightswitch$httr <- TRUE
@@ -81,6 +54,8 @@ HttrAdapter <- R6::R6Class(
       invisible(TRUE)
     },
 
+    #' @description Disable the adapter
+    #' @return `FALSE`, invisibly
     disable = function() {
       message("HttrAdapter disabled!")
       webmockr_lightswitch$httr <- FALSE
@@ -89,6 +64,9 @@ HttrAdapter <- R6::R6Class(
       invisible(FALSE)
     },
 
+    #' @description All logic for handling a request
+    #' @param req a httr request
+    #' @return various outcomes
     handle_request = function(req) {
       # put request in request registry
       request_signature <- build_httr_request(req)
@@ -245,6 +223,8 @@ HttrAdapter <- R6::R6Class(
       return(httr_resp)
     },
 
+    #' @description Remove all crul stubs
+    #' @return nothing returned; removes all httr request stubs
     remove_httr_stubs = function() {
       webmockr_stub_registry$remove_all_request_stubs()
     }

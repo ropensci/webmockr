@@ -1,48 +1,6 @@
-#' StubbedRequest class
-#'
+#' @title StubbedRequest
+#' @description stubbed request class underlying [stub_request()]
 #' @export
-#' @param method the HTTP method (any, head, get, post, put,
-#' patch, or delete). "any" matches any HTTP method. required.
-#' @param uri (character) request URI. either this or `uri_regex`
-#' required
-#' @param uri_regex (character) request URI as regex. either this or `uri`
-#' required
-#' @details
-#' **Methods**
-#'   \describe{
-#'     \item{`with(query, body, headers)`}{
-#'       Set expectations for what's given in HTTP request
-#'       \itemize{
-#'        \item query (list) request query params, as a named list. optional
-#'        \item body (list) request body, as a named list. optional
-#'        \item headers (list) request headers as a named list. optional.
-#'       }
-#'     }
-#'     \item{`to_return(status, body, headers)`}{
-#'       Set expectations for what's returned in HTTP response
-#'       \itemize{
-#'        \item status (numeric) an HTTP status code
-#'        \item body (list) response body, one of: `character`, `json`,
-#'        `list`, `raw`, `numeric`, `NULL`, `FALSE`, or a file connection
-#'        (other connetion types not supported)
-#'        \item headers (list) named list, response headers. optional.
-#'       }
-#'     }
-#'     \item{`to_timeout()`}{
-#'       Response should time out
-#'     }
-#'     \item{`to_raise(x)`}{
-#'       Response should raise an exception `x`
-#'       \itemize{
-#'        \item x (numeric) an HTTP status code
-#'       }
-#'     }
-#'     \item{`to_s()`}{
-#'       Response as a character string
-#'     }
-#'   }
-#' @format NULL
-#' @usage NULL
 #' @seealso [stub_request()]
 #' @examples \dontrun{
 #' x <- StubbedRequest$new(method = "get", uri = "api.crossref.org")
@@ -98,21 +56,43 @@
 StubbedRequest <- R6::R6Class(
   "StubbedRequest",
   public = list(
+    #' @field method (xx) xx
     method = NULL,
+    #' @field uri (xx) xx
     uri = NULL,
+    #' @field uri_regex (xx) xx
     uri_regex = NULL,
+    #' @field uri_parts (xx) xx
     uri_parts = NULL,
+    #' @field host (xx) xx
     host = NULL,
+    #' @field query (xx) xx
     query = NULL,
+    #' @field body (xx) xx
     body = NULL,
+    #' @field request_headers (xx) xx
     request_headers = NULL,
+    #' @field response_headers (xx) xx
     response_headers = NULL,
+    #' @field responses_sequences (xx) xx
     responses_sequences = NULL,
+    #' @field status_code (xx) xx
     status_code = NULL,
+    #' @field timeout (xx) xx
     timeout = FALSE,
+    #' @field exceptions (xx) xx
     exceptions = list(),
+    #' @field raise (xx) xx
     raise = FALSE,
 
+    #' @description Create a new `StubbedRequest` object
+    #' @param method the HTTP method (any, head, get, post, put,
+    #' patch, or delete). "any" matches any HTTP method. required.
+    #' @param uri (character) request URI. either this or `uri_regex`
+    #' required
+    #' @param uri_regex (character) request URI as regex. either this or `uri`
+    #' required
+    #' @return A new `StubbedRequest` object
     initialize = function(method, uri = NULL, uri_regex = NULL) {
       if (!missing(method)) {
         verb <- match.arg(tolower(method), http_verbs)
@@ -127,6 +107,9 @@ StubbedRequest <- R6::R6Class(
       if (!is.null(uri)) self$uri_parts <- parseurl(self$uri)
     },
 
+    #' @description print method for the `StubbedRequest` class
+    #' @param x self
+    #' @param ... ignored
     print = function(x, ...) {
       cat("<webmockr stub> ", sep = "\n")
       cat(paste0("  method: ", self$method), sep = "\n")
@@ -153,12 +136,24 @@ StubbedRequest <- R6::R6Class(
       ), sep = "\n")
     },
 
+    #' @description Set expectations for what's given in HTTP request
+    #' @param query (list) request query params, as a named list. optional
+    #' @param body (list) request body, as a named list. optional
+    #' @param headers (list) request headers as a named list. optional.
+    #' @return nothing returned; sets only
     with = function(query = NULL, body = NULL, headers = NULL) {
       self$query <- query
       self$body <- body
       self$request_headers <- headers
     },
 
+    #' @description Set expectations for what's returned in HTTP response
+    #' @param status (numeric) an HTTP status code
+    #' @param body (list) response body, one of: `character`, `json`,
+    #' `list`, `raw`, `numeric`, `NULL`, `FALSE`, or a file connection
+    #' (other connetion types not supported)
+    #' @param headers (list) named list, response headers. optional.
+    #' @return nothing returned; sets whats to be returned
     to_return = function(status, body, headers) {
       body <- if (inherits(body, "connection")) {
         bod_sum <- summary(body)
@@ -210,15 +205,22 @@ StubbedRequest <- R6::R6Class(
       }
     },
 
+    #' @description Response should time out
+    #' @return nothing returned
     to_timeout = function() {
       self$timeout <- TRUE
     },
 
+    #' @description Response should raise an exception `x`
+    #' @param x (character) an exception message
+    #' @return nothing returned
     to_raise = function(x) {
       self$exceptions <- if (inherits(x, "list")) x else list(x)
       self$raise <- TRUE
     },
 
+    #' @description Response as a character string
+    #' @return (character) the response as a string
     to_s = function() {
       toret <- c(
         make_body(self$responses_sequences$body),

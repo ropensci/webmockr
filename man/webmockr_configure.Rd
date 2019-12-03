@@ -9,10 +9,15 @@
 \alias{webmockr_net_connect_allowed}
 \title{webmockr configuration}
 \usage{
-webmockr_configure(allow_net_connect = FALSE, allow_localhost = FALSE,
-  allow = NULL, net_http_connect_on_start = FALSE,
-  show_stubbing_instructions = FALSE, query_values_notation = FALSE,
-  show_body_diff = FALSE)
+webmockr_configure(
+  allow_net_connect = FALSE,
+  allow_localhost = FALSE,
+  allow = NULL,
+  net_http_connect_on_start = FALSE,
+  show_stubbing_instructions = FALSE,
+  query_values_notation = FALSE,
+  show_body_diff = FALSE
+)
 
 webmockr_configure_reset()
 

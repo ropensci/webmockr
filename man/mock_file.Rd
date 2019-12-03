@@ -19,5 +19,5 @@ a list with S3 class \code{mock_file}
 Mock file
 }
 \examples{
-mock_file(path = tempfile(), payload = "{\\"foo\\": \\"bar\\"}")
+mock_file(path = tempfile(), payload = "{\"foo\": \"bar\"}")
 }

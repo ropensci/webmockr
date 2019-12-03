@@ -46,7 +46,8 @@ request_registry()
 request_registry_clear()
 }
 \seealso{
-Other request-registry: \code{\link{HashCounter}},
-  \code{\link{RequestRegistry}}
+Other request-registry: 
+\code{\link{HashCounter}},
+\code{\link{RequestRegistry}}
 }
 \concept{request-registry}
