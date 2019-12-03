@@ -35,36 +35,38 @@
 #' @usage NULL
 #' @examples \dontrun{
 #' if (requireNamespace("httr", quietly = TRUE)) {
-#' library(httr)
+#' # library(httr)
 #'
 #' # normal httr request, works fine
-#' real <- GET("https://httpbin.org/get")
-#' real
+#' # real <- GET("https://httpbin.org/get")
+#' # real
 #'
 #' # with webmockr
-#' library(webmockr)
+#' # library(webmockr)
 #' ## turn on httr mocking
-#' httr_mock()
+#' # httr_mock()
 #' ## now this request isn't allowed
 #' # GET("https://httpbin.org/get")
 #' ## stub the request
-#' stub_request('get', uri = 'https://httpbin.org/get') %>%
-#'   wi_th(
-#'     headers = list('Accept' = 'application/json, text/xml, application/xml, */*')
-#'   ) %>%
-#'   to_return(status = 418, body = "I'm a teapot!", headers = list(a = 5))
+#' # stub_request('get', uri = 'https://httpbin.org/get') %>%
+#' #   wi_th(
+#' #     headers = list('Accept' = 'application/json, text/xml, application/xml, */*')
+#' #   ) %>%
+#' #   to_return(status = 418, body = "I'm a teapot!", headers = list(a = 5))
 #' ## now the request succeeds and returns a mocked response
-#' (res <- GET("https://httpbin.org/get"))
-#' res$status_code
-#' rawToChar(res$content)
+#' # (res <- GET("https://httpbin.org/get"))
+#' # res$status_code
+#' # rawToChar(res$content)
 #'
 #' # allow real requests while webmockr is loaded
-#' webmockr_allow_net_connect()
-#' webmockr_net_connect_allowed()
-#' GET("https://httpbin.org/get?animal=chicken")
-#' webmockr_disable_net_connect()
-#' webmockr_net_connect_allowed()
+#' # webmockr_allow_net_connect()
+#' # webmockr_net_connect_allowed()
 #' # GET("https://httpbin.org/get?animal=chicken")
+#' # webmockr_disable_net_connect()
+#' # webmockr_net_connect_allowed()
+#' # GET("https://httpbin.org/get?animal=chicken")
+#' 
+#' # httr_mock(FALSE)
 #' }
 #' }
 HttrAdapter <- R6::R6Class(
@@ -146,7 +148,22 @@ HttrAdapter <- R6::R6Class(
                 httr_resp$status_code <- as.integer(toadd[[i]])
               }
               if (names(toadd)[i] == "body") {
-                # httr_resp$content <- toadd[[i]]
+                if (inherits(ss$responses_sequences$body_raw, "mock_file")) {
+                  cat(ss$responses_sequences$body_raw$payload,
+                    file = ss$responses_sequences$body_raw$path,
+                    sep = "\n")
+                  ss$responses_sequences$body_raw <-
+                    structure(ss$responses_sequences$body_raw$path,
+                      class = "path")
+                }
+                if (
+                  (attr(ss$responses_sequences$body_raw, "type") %||% "")
+                  == "file"
+                ) {
+                  attr(ss$responses_sequences$body_raw, "type") <- NULL
+                  ss$responses_sequences$body_raw <-
+                    structure(ss$responses_sequences$body_raw, class = "path")
+                }
                 httr_resp$content <- ss$responses_sequences$body_raw
               }
               if (names(toadd)[i] == "headers") {
@@ -348,7 +365,8 @@ build_httr_request = function(x) {
       body = x$fields %||% NULL,
       headers = as.list(x$headers) %||% NULL,
       proxies = x$proxies %||% NULL,
-      auth = x$auth %||% NULL
+      auth = x$auth %||% NULL,
+      disk = x$disk %||% NULL
     )
   )
 }

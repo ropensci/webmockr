@@ -48,6 +48,28 @@ test_that("StubbedRequest: works", {
   expect_named(aa$responses_sequences$body, "hello")
 })
 
+
+test_that("StubbedRequest: to_timeout", {
+  x <- StubbedRequest$new(method = "get", uri = "https:/httpbin.org/get")
+  expect_false(grepl("should_timeout: TRUE", x$to_s()))
+  x$to_timeout()
+  expect_true(grepl("should_timeout: TRUE", x$to_s()))
+})
+
+library("fauxpas")
+test_that("StubbedRequest: to_raise", {
+  x <- StubbedRequest$new(method = "get", uri = "https:/httpbin.org/get")
+  expect_false(grepl("to_raise: HTTPBadGateway", x$to_s()))
+  x$to_raise(HTTPBadGateway)
+  expect_true(grepl("to_raise: HTTPBadGateway", x$to_s()))
+
+  ## many exceptions
+  x$to_raise(list(HTTPBadGateway, HTTPForbidden, HTTPInsufficientStorage))
+  expect_true(
+    grepl("to_raise: HTTPBadGateway, HTTPForbidden, HTTPInsufficientStorage",
+      x$to_s()))
+})
+
 test_that("StubbedRequest: different methods work", {
   expect_equal(
     StubbedRequest$new(method = "any",

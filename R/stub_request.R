@@ -17,7 +17,10 @@
 #' If multiple stubs match the same request, we use the first stub. So if you
 #' want to use a stub that was created after an earlier one that matches,
 #' remove the earlier one(s).
-#' @seealso [wi_th()], [to_return()], [to_timeout()], [to_raise()]
+#' @section Mocking writing to disk:
+#' See [mocking-disk-writing]
+#' @seealso [wi_th()], [to_return()], [to_timeout()], [to_raise()],
+#' [mock_file()]
 #' @examples \dontrun{
 #' # basic stubbing
 #' stub_request("get", "https://httpbin.org/get")
@@ -70,7 +73,7 @@
 #' crul::mock()
 #' x$get('get')
 #'
-#' # pass options to .list to avoid NSE
+#' # pass a list to .list
 #' z <- stub_request("get", "https://httpbin.org/get")
 #' wi_th(z, .list = list(query = list(foo = "bar")))
 #' 

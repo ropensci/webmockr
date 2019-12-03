@@ -131,9 +131,6 @@ library(webmockr)
 ```r
 webmockr::enable()
 #> CrulAdapter enabled!
-#> Registered S3 method overwritten by 'httr':
-#>   method                 from
-#>   as.character.form_file crul
 #> HttrAdapter enabled!
 ```
 
@@ -213,7 +210,7 @@ x$get('get')
 #> <crul response> 
 #>   url: https://httpbin.org/get
 #>   request_headers: 
-#>     User-Agent: libcurl/7.54.0 r-curl/4.0 crul/0.8.4
+#>     User-Agent: libcurl/7.54.0 r-curl/4.3 crul/0.9.1.9991
 #>     Accept-Encoding: gzip, deflate
 #>     Accept: application/json, text/xml, application/xml, */*
 #>   response_headers: 
@@ -249,7 +246,7 @@ x$get('get', query = list(hello = "world"))
 #> <crul response> 
 #>   url: https://httpbin.org/get?hello=world
 #>   request_headers: 
-#>     User-Agent: libcurl/7.54.0 r-curl/4.0 crul/0.8.4
+#>     User-Agent: libcurl/7.54.0 r-curl/4.3 crul/0.9.1.9991
 #>     Accept-Encoding: gzip, deflate
 #>     Accept: application/json, text/xml, application/xml, */*
 #>   response_headers: 
@@ -298,7 +295,7 @@ x$get('get', query = list(hello = "world"))
 #> <crul response> 
 #>   url: https://httpbin.org/get?hello=world
 #>   request_headers: 
-#>     User-Agent: libcurl/7.54.0 r-curl/4.0 crul/0.8.4
+#>     User-Agent: libcurl/7.54.0 r-curl/4.3 crul/0.9.1.9991
 #>     Accept-Encoding: gzip, deflate
 #>     Accept: application/json, text/xml, application/xml, */*
 #>   response_headers: 
@@ -425,6 +422,45 @@ res$headers
 #> $im_a
 #> [1] "teapot"
 ```
+
+## Writing to disk
+
+Write to a file before mocked request
+
+
+
+
+```r
+## make a temp file
+f <- tempfile(fileext = ".json")
+## write something to the file
+cat("{\"hello\":\"world\"}\n", file = f)
+readLines(f)
+#> [1] "{\"hello\":\"world\"}"
+## make the stub
+invisible(stub_request("get", "https://httpbin.org/get") %>% 
+  to_return(body = file(f)))
+## make a request
+out <- HttpClient$new("https://httpbin.org/get")$get(disk = f)
+readLines(file(f))
+#> [1] "{\"hello\":\"world\"}"
+```
+
+OR - you can use `mock_file()` to have `webmockr` handle file and contents
+
+
+```r
+g <- tempfile(fileext = ".json")
+## make the stub
+invisible(stub_request("get", "https://httpbin.org/get") %>% 
+  to_return(body = mock_file(g, "{\"hello\":\"mars\"}\n")))
+## make a request
+out <- crul::HttpClient$new("https://httpbin.org/get")$get(disk = g)
+readLines(out$content)
+#> [1] "{\"hello\":\"world\"}"
+```
+
+Writing to disk is supported in both `crul` and `httr`
 
 ## Meta
 

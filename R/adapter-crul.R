@@ -112,7 +112,13 @@ CrulAdapter <- R6::R6Class(
                 crul_resp$status_code <- toadd[[i]]
               }
               if (names(toadd)[i] == "body") {
-                # crul_resp$content <- toadd[[i]]
+                if (inherits(ss$responses_sequences$body_raw, "mock_file")) {
+                  cat(ss$responses_sequences$body_raw$payload,
+                    file = ss$responses_sequences$body_raw$path,
+                    sep = "\n")
+                  ss$responses_sequences$body_raw <-
+                    ss$responses_sequences$body_raw$path
+                }
                 crul_resp$content <- ss$responses_sequences$body_raw
               }
               if (names(toadd)[i] == "headers") {
@@ -133,6 +139,15 @@ CrulAdapter <- R6::R6Class(
           crul_resp <- vcr::RequestHandlerCrul$new(req)$handle()
         } # vcr is not loaded, skip
 
+        # if written to disk, see if we should modify file path
+        if ("package:vcr" %in% search()) {
+          if (is.character(crul_resp$content)) {
+            write_disk_path <- vcr::vcr_configuration()$write_disk_path
+            write_disk_path <- normalizePath(write_disk_path, mustWork=TRUE)
+            crul_resp$content <- file.path(write_disk_path, basename(crul_resp$content))
+          }
+        }
+
       } else if (webmockr_net_connect_allowed(uri = req$url$url)) {
         # if real requests || localhost || certain exceptions ARE
         #   allowed && nothing found above
@@ -143,6 +158,15 @@ CrulAdapter <- R6::R6Class(
         # if vcr loaded: record http interaction into vcr namespace
         # VCR: recordable
         if ("package:vcr" %in% search()) {
+          # if written to disk, see if we should modify file path
+          if (is.character(crul_resp$content)) {
+            if (file.exists(crul_resp$content)) {
+              write_disk_path <- vcr::vcr_configuration()$write_disk_path
+              write_disk_path <- normalizePath(write_disk_path, mustWork=TRUE)
+              crul_resp$content <- file.path(write_disk_path, basename(crul_resp$content))
+            }
+          }
+
           # stub request so next time we match it
           urip <- crul::url_parse(req$url$url)
           m <- vcr::vcr_configuration()$match_requests_on
@@ -300,7 +324,8 @@ build_crul_request = function(x) {
       body = x$fields %||% NULL,
       headers = x$headers %||% NULL,
       proxies = x$proxies %||% NULL,
-      auth = x$auth %||% NULL
+      auth = x$auth %||% NULL,
+      disk = x$disk %||% NULL
     )
   )
 }
