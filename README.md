@@ -423,6 +423,45 @@ res$headers
 #> [1] "teapot"
 ```
 
+## Writing to disk
+
+Write to a file before mocked request
+
+
+
+
+```r
+## make a temp file
+f <- tempfile(fileext = ".json")
+## write something to the file
+cat("{\"hello\":\"world\"}\n", file = f)
+readLines(f)
+#> [1] "{\"hello\":\"world\"}"
+## make the stub
+invisible(stub_request("get", "https://httpbin.org/get") %>% 
+  to_return(body = file(f)))
+## make a request
+out <- HttpClient$new("https://httpbin.org/get")$get(disk = f)
+readLines(file(f))
+#> [1] "{\"hello\":\"world\"}"
+```
+
+OR - you can use `mock_file()` to have `webmockr` handle file and contents
+
+
+```r
+g <- tempfile(fileext = ".json")
+## make the stub
+invisible(stub_request("get", "https://httpbin.org/get") %>% 
+  to_return(body = mock_file(g, "{\"hello\":\"mars\"}\n")))
+## make a request
+out <- crul::HttpClient$new("https://httpbin.org/get")$get(disk = g)
+readLines(out$content)
+#> [1] "{\"hello\":\"world\"}"
+```
+
+Writing to disk is supported in both `crul` and `httr`
+
 ## Meta
 
 * Please [report any issues or bugs](https://github.com/ropensci/webmockr/issues).
