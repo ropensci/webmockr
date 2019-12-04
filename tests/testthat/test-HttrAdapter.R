@@ -292,5 +292,13 @@ test_that("httr requests with bodies work", {
     to_return(body = "asdffsdsdf")
   x <- httr::POST("https://httpbin.org/post", body = list(stuff = "things"))
   expect_true(httr::content(x, "text", encoding="UTF-8") == "asdffsdsdf")
+
+  # now with allow net connect
+  stub_registry_clear()
+  webmockr_allow_net_connect()
+  x <- httr::POST("https://httpbin.org/post", body = list(stuff = "things"))
+  expect_identical(httr::content(x)$form, list(stuff = "things"))
+
+  webmockr_disable_net_connect()
 })
 
