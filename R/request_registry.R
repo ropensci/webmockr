@@ -30,6 +30,7 @@
 #' 
 #' # clear the request registry
 #' request_registry_clear()
+#' webmockr::disable()
 request_registry <- function() webmockr_request_registry
 
 #' @export
