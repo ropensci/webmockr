@@ -10,11 +10,11 @@
 
 ## Reverse dependencies
 
-I have checked the 9 reverse dependencies, and the only problems was in a package archived on CRAN (HIBPwned). See (<https://github.com/ropensci/webmockr/tree/master/revdep>).
+I have checked the 8 reverse dependencies, and no problems were found. See (<https://github.com/ropensci/webmockr/tree/master/revdep>).
 
 ---
 
-This version contains fixes for a few problems, and fixes link to documentation.
+This version adds a new function, gains ability to mock writing to disk, and some bug fixes.
 
 Thanks!
 Scott Chamberlain

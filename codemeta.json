@@ -10,14 +10,14 @@
   "codeRepository": "https://github.com/ropensci/webmockr",
   "issueTracker": "https://github.com/ropensci/webmockr/issues",
   "license": "https://spdx.org/licenses/MIT",
-  "version": "0.4.0",
+  "version": "0.5.0",
   "programmingLanguage": {
     "@type": "ComputerLanguage",
     "name": "R",
     "version": "3.6.1",
     "url": "https://r-project.org"
   },
-  "runtimePlatform": "R version 3.6.1 Patched (2019-07-17 r76848)",
+  "runtimePlatform": "R version 3.6.1 Patched (2019-09-23 r77210)",
   "provider": {
     "@id": "https://cran.r-project.org",
     "@type": "Organization",
@@ -47,7 +47,7 @@
       "@type": "SoftwareApplication",
       "identifier": "roxygen2",
       "name": "roxygen2",
-      "version": ">= 6.1.1",
+      "version": ">= 7.0.2",
       "provider": {
         "@id": "https://cran.r-project.org",
         "@type": "Organization",
@@ -198,12 +198,12 @@
   "applicationCategory": "Web",
   "isPartOf": "https://ropensci.org",
   "keywords": ["http", "https", "API", "web-services", "curl", "mock", "mocking", "fakeweb", "http-mocking", "testing", "testing-tools", "tdd", "rstats", "http-mock", "r", "r-package"],
-  "contIntegration": "https://travis-ci.org/ropensci/webmockr",
-  "developmentStatus": "active",
+  "contIntegration": ["https://travis-ci.org/ropensci/webmockr", "https://ci.appveyor.com/project/sckott/webmockr", "https://codecov.io/gh/ropensci/webmockr"],
+  "developmentStatus": "http://www.repostatus.org/#active",
   "releaseNotes": "https://github.com/ropensci/webmockr/blob/master/NEWS.md",
   "readme": "https://github.com/ropensci/webmockr/blob/master/README.md",
-  "fileSize": "48.801KB",
-  "relatedLink": "https://ropenscilabs.github.io/http-testing-book/",
+  "fileSize": "58.28KB",
+  "relatedLink": ["https://ropenscilabs.github.io/http-testing-book/", "https://books.ropensci.org/http-testing"],
   "funder": [
     {
       "@type": "Organization",

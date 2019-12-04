@@ -1,3 +1,21 @@
+webmockr 0.5.0
+==============
+
+### NEW FEATURES
+
+* `webmockr` now supports mocking writing to disk. TLDR: see `?mocking-disk-writing` to get started - That is, both of the major high level http clients in R, crul and httr, support writing directly to disk (rather than the user manually getting the http response and writing it to disk). supporting this required quite a bit of work, both in code and in thinking about how to support the various scenarios in which users can find themselves when dealing with writing to disk - Please get in touch if you have problems with this (#57) (#76)
+* gains `request_registry_clear()` method to easily clear all requests in the request registry (#75)
+
+### MINOR IMPROVEMENTS
+
+* better docs for R6 classes with R6 support in new roxygen2 version on cran (#77)
+* httr simple auth was being ignored - its now supported (simple auth with crul already worked) (#74)
+
+### BUG FIXES
+
+* fix to handle raw responses that can not be converted to character, such as images; needed due to issue https://github.com/ropensci/vcr/issues/112 (#72) (#73)
+
+
 webmockr 0.4.0
 ==============
 
