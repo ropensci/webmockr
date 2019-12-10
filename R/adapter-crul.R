@@ -121,9 +121,6 @@ CrulAdapter <- R6::R6Class(
         if ("package:vcr" %in% search()) {
           if (is.character(crul_resp$content)) {
             write_disk_path <- vcr::vcr_configuration()$write_disk_path
-            if (is.null(write_disk_path))
-              stop("if writing to disk, write_disk_path must be given; ",
-                "see ?vcr::vcr_configure")
             write_disk_path <- normalizePath(write_disk_path, mustWork=TRUE)
             crul_resp$content <- file.path(write_disk_path, basename(crul_resp$content))
           }
@@ -143,9 +140,6 @@ CrulAdapter <- R6::R6Class(
           if (is.character(crul_resp$content)) {
             if (file.exists(crul_resp$content)) {
               write_disk_path <- vcr::vcr_configuration()$write_disk_path
-              if (is.null(write_disk_path))
-              stop("if writing to disk, write_disk_path must be given; ",
-                "see ?vcr::vcr_configure")
               write_disk_path <- normalizePath(write_disk_path, mustWork=TRUE)
               crul_resp$content <- file.path(write_disk_path, basename(crul_resp$content))
             }
