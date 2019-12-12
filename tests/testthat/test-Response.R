@@ -71,8 +71,23 @@ test_that("Response: bits are correct after having data", {
   expect_output(aa$print(), "headers")
   expect_output(aa$print(), "request headers")
 
+  # set_body: char gets converted to raw in $content
   aa$set_body(body = "stuff")
-  expect_equal(aa$body, "stuff")
+  expect_is(aa$body, "character")
+  expect_is(aa$content, "raw")
+  expect_length(aa$content, 5)
+
+  # set_body: raw remains as raw in $content
+  aa$set_body(body = charToRaw("stuff"))
+  expect_is(aa$body, "raw")
+  expect_is(aa$content, "raw")
+  expect_length(aa$content, 5)
+
+  # set_body: other types return raw(0) in $content
+  aa$set_body(body = NULL)
+  expect_null(aa$body)
+  expect_is(aa$content, "raw")
+  expect_length(aa$content, 0)
 
   aa$set_exception(exception = "stop, wait, listen")
   expect_equal(aa$exception, "stop, wait, listen")
@@ -92,6 +107,8 @@ test_that("Response: bits are correct after having data", {
 
 test_that("Response fails well", {
   expect_error(aa$set_body(), "argument \"body\" is missing")
+  # body must be length 1
+  expect_error(aa$set_body(letters), "is not TRUE")
   expect_error(aa$set_exception(), "argument \"exception\" is missing")
   expect_error(aa$set_request_headers(), "argument \"headers\" is missing")
   expect_error(aa$set_response_headers(), "argument \"headers\" is missing")

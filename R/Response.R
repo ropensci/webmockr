@@ -128,8 +128,11 @@ Response <- R6::R6Class(
     #' @return nothing returned; sets body on the response
     set_body = function(body, disk = FALSE) {
       self$body <- body
-      self$content <- if (!is.null(body) && is.character(body)) {
+      self$content <- if (is.character(body)) {
+        stopifnot(length(body) <= 1)
         if (disk) body else charToRaw(body)
+      } else if (is.raw(body)) {
+        body
       } else {
         raw(0)
       }
