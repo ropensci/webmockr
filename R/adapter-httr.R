@@ -166,7 +166,7 @@ HttrAdapter <- R6::R6Class(
         httr_mock(FALSE)
         httr_resp <- eval(parse(text = paste0("httr::", req$method)))(
           req$url,
-          body = get_httr_body(req),
+          body = pluck_body(req),
           do.call(httr::config, req$options),
           httr::add_headers(req$headers),
           if (!is.null(req$output$path)) httr::write_disk(req$output$path, TRUE)
@@ -344,7 +344,7 @@ build_httr_request = function(x) {
     method = x$method,
     uri = x$url,
     options = list(
-      body = get_httr_body(x),
+      body = pluck_body(x),
       headers = as.list(x$headers) %||% NULL,
       proxies = x$proxies %||% NULL,
       auth = x$auth %||% NULL,
@@ -368,29 +368,5 @@ httr_mock <- function(on = TRUE) {
     httr::set_callback("request", webmockr_handle)
   } else {
     httr::set_callback("request", NULL)
-  }
-}
-
-# copied over from vcr
-get_httr_body <- function(x) {
-  if (
-    is.null(x$fields) && {
-      if (is.null(x$options$postfieldsize)) return(FALSE)
-      x$options$postfieldsize == 0
-    }
-  ) {
-    return(NULL)
-  }
-  if (!is.null(x$fields)) {
-    form_file_comp <- vapply(x$fields, inherits, logical(1), "form_file")
-    if (any(form_file_comp)) {
-      ff <- x$fields[form_file_comp][[1]]
-      return(ff)
-    } else {
-      return(x$fields)
-    }
-  }
-  if (!is.null(x$options$postfields)) {
-    if (is.raw(x$options$postfields)) return(rawToChar(x$options$postfields))
   }
 }
