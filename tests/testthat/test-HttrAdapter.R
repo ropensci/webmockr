@@ -266,7 +266,7 @@ test_that("httr works with webmockr_allow_net_connect", {
     to_return(body = "yum=cheese")
   x <- httr::GET("https://httpbin.org/get?stuff=things")
   expect_true(httr::content(x, "text", encoding="UTF-8") == "yum=cheese")
-  
+
   # allow net connect - stub still exists though - so not a real request
   webmockr_allow_net_connect()
   z <- httr::GET("https://httpbin.org/get?stuff=things")
@@ -300,5 +300,33 @@ test_that("httr requests with bodies work", {
   expect_identical(httr::content(x)$form, list(stuff = "things"))
 
   webmockr_disable_net_connect()
+})
+
+test_that("httr requests with JSON-encoded bodies work", {
+  skip_on_cran()
+
+  on.exit(disable(adapter = "httr"))
+  enable(adapter = "httr")
+
+  stub_registry_clear()
+  body <- list(foo = "bar")
+  z <- stub_request("post", uri = "https://httpbin.org/post") %>%
+    wi_th(body = jsonlite::toJSON(body, auto_unbox = TRUE))
+
+  # encoded body works
+  res <- httr::POST("https://httpbin.org/post", body = body, encode = "json")
+  expect_is(res, "response")
+
+  # encoded but modified body fails
+  expect_error(
+    httr::POST("https://httpbin.org/post", body = list(foo = "bar1"), encode = "json"),
+    "Unregistered request"
+  )
+
+  # unencoded body fails
+  expect_error(
+    httr::POST("https://httpbin.org/post", body = body),
+    "Unregistered request"
+  )
 })
 
