@@ -313,7 +313,12 @@ build_crul_request = function(x) {
 
 # adapted from vcr
 pluck_body <- function(x) {
-  if (is.null(x$fields) && is.null(x$options$postfieldsize)) {
+  if (
+    is.null(x$fields) && {
+      if (is.null(x$options$postfieldsize)) return(NULL)
+      x$options$postfieldsize == 0
+    }
+  ) {
     return(NULL)
   }
   if (!is.null(x$fields)) {
