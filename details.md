@@ -73,3 +73,5 @@ in the `webmockr_configure()` function.
 **Storing actual HTTP responses**
 
 `webmockr` doesn't do that. Check out [vcr][]
+
+[vcr]: https://github.com/ropensci/vcr

@@ -64,7 +64,7 @@ Port of the Ruby gem [webmock](https://github.com/bblimke/webmock)
 <p>You can optionally allow real requests via <code>webmockr_allow_net_connect()</code>, and disallow real requests via <code>webmockr_disable_net_connect()</code>. You can check whether you are allowing real requests with <code>webmockr_net_connect_allowed()</code>.</p>
 <p>Certain kinds of real HTTP requests allowed: We don’t suppoprt this yet, but you can allow localhost HTTP requests with the <code>allow_localhost</code> parameter in the <code>webmockr_configure()</code> function.</p>
 <p><strong>Storing actual HTTP responses</strong></p>
-<p><code>webmockr</code> doesn’t do that. Check out [vcr][]</p>
+<p><code>webmockr</code> doesn’t do that. Check out <a href="https://github.com/ropensci/vcr">vcr</a></p>
 
 </p></details>
 
