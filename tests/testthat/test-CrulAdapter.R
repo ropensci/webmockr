@@ -149,3 +149,34 @@ test_that("CrulAdapter works", {
   #   )
   # ))
 })
+
+test_that("crul requests with JSON-encoded bodies work", {
+  skip_on_cran()
+
+  on.exit(disable(adapter = "crul"))
+  enable(adapter = "crul")
+  
+  body <- list(foo = "bar")
+  url <- "https://httpbin.org"
+
+  cli <- crul::HttpClient$new(url)
+
+  z <- stub_request("post", uri = file.path(url, "post")) %>%
+    wi_th(body = jsonlite::toJSON(body, auto_unbox = TRUE))
+
+  # encoded body works
+  res <- cli$post("post", body = body, encode = "json")
+  expect_is(res, "HttpResponse")
+
+  # encoded but modified body fails
+  expect_error(
+    cli$post("post", body = list(foo = "bar1"), encode = "json"),
+    "Unregistered request"
+  )
+
+  # unencoded body fails
+  expect_error(
+    cli$post("post", body = body),
+    "Unregistered request"
+  )
+})
