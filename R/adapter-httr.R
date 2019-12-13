@@ -35,7 +35,7 @@
 #' # webmockr_disable_net_connect()
 #' # webmockr_net_connect_allowed()
 #' # GET("https://httpbin.org/get?animal=chicken")
-#' 
+#'
 #' # httr_mock(FALSE)
 #' }
 #' }
@@ -344,7 +344,7 @@ build_httr_request = function(x) {
     method = x$method,
     uri = x$url,
     options = list(
-      body = x$fields %||% NULL,
+      body = get_httr_body(x),
       headers = as.list(x$headers) %||% NULL,
       proxies = x$proxies %||% NULL,
       auth = x$auth %||% NULL,
