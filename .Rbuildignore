@@ -13,3 +13,4 @@ revdep/
 appveyor.yml
 ^docs$
 write_disk_path-changes.R
+details.*

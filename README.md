@@ -3,6 +3,8 @@ webmockr
 
 
 
+<!-- NOTE: run `make readme` to generate the README.md -->
+
 [![cran checks](https://cranchecks.info/badges/worst/webmockr)](https://cranchecks.info/pkgs/webmockr)
 [![Project Status: Active - The project has reached a stable, usable state and is being actively developed.](http://www.repostatus.org/badges/latest/active.svg)](http://www.repostatus.org/#active)
 [![Build Status](https://travis-ci.org/ropensci/webmockr.svg?branch=master)](https://travis-ci.org/ropensci/webmockr)
@@ -18,76 +20,51 @@ Port of the Ruby gem [webmock](https://github.com/bblimke/webmock)
 
 <details> <summary><strong>How it works in detail</strong></summary> <p>
 
-The very very short version is: `webmockr` helps you stub HTTP requests so you 
-don't have to repeat yourself.
 
-**More details**
 
-You tell `webmockr` what HTTP request you want to match against and if it sees a 
-request matching your criteria it doesn't actually do the HTTP request. Instead,
-it gives back the same object you would have gotten back with a real request, but 
-only with the bits it knows about. For example, we can't give back the actual 
-data you'd get from a real HTTP request as the request wasn't performed.
 
-In addition, if you set an expectation of what `webmockr` should return, we 
-return that. For example, if you expect a request to return a 418 error 
-(I'm a Teapot), then that's what you'll get.
 
-**What you can match against**
-
-* HTTP method (required)
-
-Plus any single or combination of the following:
-
-* URI
-    * Right now, we can match directly against URI's, and with regex URI patterns. 
-  Eventually, we will support RFC 6570 URI templates. 
-    * We normalize URI paths so that URL encoded things match 
-  URL un-encoded things (e.g. `hello world` to `hello%20world`)
-* Query parameters
-    * We normalize query parameter values so that URL encoded things match 
-  URL un-encoded things (e.g. `message = hello world` to 
-  `message = hello%20world`)
-* Request headers
-    * We normalize headers and treat all forms of same headers as equal. For 
-  example, the following two sets of headers are equal:
-        * `list(H1 = "value1", content_length = 123, X_CuStOm_hEAder = "foo")`
-        * `list(h1 = "value1", "Content-Length" = 123, "x-cuSTOM-HeAder" = "foo")`
-* Request body
-
-**Real HTTP requests**
-
-There's a few scenarios to think about when using `webmockr`:
-
-After doing
-
-```r
-library(webmockr)
-```
-
-`webmockr` is loaded but not turned on. At this point `webmockr` doesn't 
-change anythning.
-
-Once you turn on `webmockr` like 
-
-```r
-webmockr::enable()
-```
-
-`webmockr` will now by default not allow real HTTP requests from the http 
-libraries that adapters are loaded for (right now only `crul`).
-
-You can optionally allow real requests via `webmockr_allow_net_connect()`, and
-disallow real requests via `webmockr_disable_net_connect()`. You can check 
-whether you are allowing real requests with `webmockr_net_connect_allowed()`.
-
-Certain kinds of real HTTP requests allowed: We don't suppoprt this yet, 
-but you can allow localhost HTTP requests with the `allow_localhost` parameter
-in the `webmockr_configure()` function. 
-
-**Storing actual HTTP responses**
-
-`webmockr` doesn't do that. Check out [vcr][]
+<p>The very very short version is: <code>webmockr</code> helps you stub HTTP requests so you don’t have to repeat yourself.</p>
+<p><strong>More details</strong></p>
+<p>You tell <code>webmockr</code> what HTTP request you want to match against and if it sees a request matching your criteria it doesn’t actually do the HTTP request. Instead, it gives back the same object you would have gotten back with a real request, but only with the bits it knows about. For example, we can’t give back the actual data you’d get from a real HTTP request as the request wasn’t performed.</p>
+<p>In addition, if you set an expectation of what <code>webmockr</code> should return, we return that. For example, if you expect a request to return a 418 error (I’m a Teapot), then that’s what you’ll get.</p>
+<p><strong>What you can match against</strong></p>
+<ul>
+<li>HTTP method (required)</li>
+</ul>
+<p>Plus any single or combination of the following:</p>
+<ul>
+<li>URI
+<ul>
+<li>Right now, we can match directly against URI’s, and with regex URI patterns. Eventually, we will support RFC 6570 URI templates.</li>
+<li>We normalize URI paths so that URL encoded things match URL un-encoded things (e.g. <code>hello world</code> to <code>hello%20world</code>)</li>
+</ul></li>
+<li>Query parameters
+<ul>
+<li>We normalize query parameter values so that URL encoded things match URL un-encoded things (e.g. <code>message = hello world</code> to <code>message = hello%20world</code>)</li>
+</ul></li>
+<li>Request headers
+<ul>
+<li>We normalize headers and treat all forms of same headers as equal. For example, the following two sets of headers are equal:
+<ul>
+<li><code>list(H1 = &quot;value1&quot;, content_length = 123, X_CuStOm_hEAder = &quot;foo&quot;)</code></li>
+<li><code>list(h1 = &quot;value1&quot;, &quot;Content-Length&quot; = 123, &quot;x-cuSTOM-HeAder&quot; = &quot;foo&quot;)</code></li>
+</ul></li>
+</ul></li>
+<li>Request body</li>
+</ul>
+<p><strong>Real HTTP requests</strong></p>
+<p>There’s a few scenarios to think about when using <code>webmockr</code>:</p>
+<p>After doing</p>
+<pre class="r"><code>library(webmockr)</code></pre>
+<p><code>webmockr</code> is loaded but not turned on. At this point <code>webmockr</code> doesn’t change anythning.</p>
+<p>Once you turn on <code>webmockr</code> like</p>
+<pre class="r"><code>webmockr::enable()</code></pre>
+<p><code>webmockr</code> will now by default not allow real HTTP requests from the http libraries that adapters are loaded for (right now only <code>crul</code>).</p>
+<p>You can optionally allow real requests via <code>webmockr_allow_net_connect()</code>, and disallow real requests via <code>webmockr_disable_net_connect()</code>. You can check whether you are allowing real requests with <code>webmockr_net_connect_allowed()</code>.</p>
+<p>Certain kinds of real HTTP requests allowed: We don’t suppoprt this yet, but you can allow localhost HTTP requests with the <code>allow_localhost</code> parameter in the <code>webmockr_configure()</code> function.</p>
+<p><strong>Storing actual HTTP responses</strong></p>
+<p><code>webmockr</code> doesn’t do that. Check out [vcr][]</p>
 
 </p></details>
 
@@ -210,7 +187,7 @@ x$get('get')
 #> <crul response> 
 #>   url: https://httpbin.org/get
 #>   request_headers: 
-#>     User-Agent: libcurl/7.54.0 r-curl/4.3 crul/0.9.1.9991
+#>     User-Agent: libcurl/7.54.0 r-curl/4.3 crul/0.9.0
 #>     Accept-Encoding: gzip, deflate
 #>     Accept: application/json, text/xml, application/xml, */*
 #>   response_headers: 
@@ -246,7 +223,7 @@ x$get('get', query = list(hello = "world"))
 #> <crul response> 
 #>   url: https://httpbin.org/get?hello=world
 #>   request_headers: 
-#>     User-Agent: libcurl/7.54.0 r-curl/4.3 crul/0.9.1.9991
+#>     User-Agent: libcurl/7.54.0 r-curl/4.3 crul/0.9.0
 #>     Accept-Encoding: gzip, deflate
 #>     Accept: application/json, text/xml, application/xml, */*
 #>   response_headers: 
@@ -295,7 +272,7 @@ x$get('get', query = list(hello = "world"))
 #> <crul response> 
 #>   url: https://httpbin.org/get?hello=world
 #>   request_headers: 
-#>     User-Agent: libcurl/7.54.0 r-curl/4.3 crul/0.9.1.9991
+#>     User-Agent: libcurl/7.54.0 r-curl/4.3 crul/0.9.0
 #>     Accept-Encoding: gzip, deflate
 #>     Accept: application/json, text/xml, application/xml, */*
 #>   response_headers: 
