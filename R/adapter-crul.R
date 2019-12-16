@@ -309,30 +309,3 @@ build_crul_request = function(x) {
     )
   )
 }
-
-
-# adapted from vcr
-pluck_body <- function(x) {
-  if (
-    is.null(x$fields) && {
-      if (is.null(x$options$postfieldsize)) return(NULL)
-      x$options$postfieldsize == 0
-    }
-  ) {
-    return(NULL)
-  }
-  if (!is.null(x$fields)) {
-    form_file_comp <- vapply(x$fields, inherits, logical(1), "form_file")
-    if (any(form_file_comp)) {
-      ff <- x$fields[form_file_comp][[1]]
-      return(sprintf("type=%s; path=%s", ff$type, ff$path))
-    } else {
-      return(x$fields)
-    }
-  }
-  if (!is.null(x$options$postfields)) {
-    if (is.raw(x$options$postfields)) return(rawToChar(x$options$postfields))
-  }
-  stop("couldn't fetch body; file an issue at \n",
-    "  https://github.com/ropensci/webmockr/issues/")
-}
