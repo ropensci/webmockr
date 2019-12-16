@@ -42,5 +42,6 @@ assert_request <- function(x) {
 }
 
 is_body_empty <- function(x) {
-  is.null(x$fields) && x$options$postfieldsize == 0L
+  is.null(x$fields) &&
+    (is.null(x$options$postfieldsize) || x$options$postfieldsize == 0L)
 }
