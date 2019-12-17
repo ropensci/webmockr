@@ -8,7 +8,7 @@
 #' @return one of the following:
 #' - `NULL` if the request is not associated with a body
 #' - list containing the multipart-encoded body
-#' - character vector with the JSON- or raw-encoded body, or upload form
+#' - character vector with the JSON- or raw-encoded body, or upload form file
 
 pluck_body <- function(x) {
   assert_request(x)
@@ -18,8 +18,7 @@ pluck_body <- function(x) {
   if (!is.null(x$fields)) {
     form_file_comp <- vapply(x$fields, inherits, logical(1), "form_file")
     if (any(form_file_comp)) {
-      ff <- x$fields[form_file_comp][[1]]
-      return(sprintf("type=%s; path=%s", ff$type, ff$path))
+      return(x$fields[form_file_comp][[1]])
     } else {
       return(x$fields)
     }
