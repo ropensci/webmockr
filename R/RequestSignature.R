@@ -88,7 +88,13 @@ RequestSignature <- R6::R6Class(
       cat(paste0("  uri: ", self$uri), sep = "\n")
       if (!is.null(self$body)) {
         cat("  body: ", sep = "\n")
-        cat_foo(self$body)
+        if (inherits(self$body, "form_file")) {
+          cat(paste0("     ",
+              sprintf("type=%s; path=%s", self$body$type, self$body$path)),
+              sep = "\n")
+        } else {
+          cat_foo(self$body)
+        }
       }
       if (!is.null(self$headers)) {
         cat("  headers: ", sep = "\n")
@@ -171,6 +177,8 @@ to_string <- function(x) {
     tmp <- paste0(paste(names(x), x, sep = ": "), collapse = ", ")
   } else if (inherits(x, "list") && any(nchar(names(x)) == 0)) {
     tmp <- paste0(paste(names(x), x, sep = ": "), collapse = ", ")
+  } else if (inherits(x, "form_file")) {
+    tmp <- sprintf("type=%s; path=%s", x$type, x$path)
   } else {
     tmp <- paste0(x, collapse = ", ")
   }
