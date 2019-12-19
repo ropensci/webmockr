@@ -14,7 +14,7 @@ one of the following:
 \itemize{
 \item \code{NULL} if the request is not associated with a body
 \item list containing the multipart-encoded body
-\item character vector with the JSON- or raw-encoded body, or upload form
+\item character vector with the JSON- or raw-encoded body, or upload form file
 }
 }
 \description{
