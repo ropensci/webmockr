@@ -116,7 +116,11 @@ StubbedRequest <- R6::R6Class(
       cat(paste0("  uri: ", self$uri %||% self$uri_regex), sep = "\n")
       cat("  with: ", sep = "\n")
       cat(paste0("    query: ", hdl_lst(self$query)), sep = "\n")
-      cat(paste0("    body: ", hdl_lst(self$body)), sep = "\n")
+      if (is.null(self$body))
+        cat("    body: ", sep = "\n")
+      else
+        cat(sprintf("    body (class: %s): %s", class(self$body)[1L],
+          hdl_lst(self$body)), sep = "\n")
       cat(paste0("    request_headers: ", hdl_lst(self$request_headers)),
           sep = "\n")
       cat("  to_return: ", sep = "\n")

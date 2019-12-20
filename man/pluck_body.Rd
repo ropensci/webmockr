@@ -13,6 +13,7 @@ pluck_body(x)
 one of the following:
 \itemize{
 \item \code{NULL} if the request is not associated with a body
+\item \code{NULL} if an upload is used not in a list
 \item list containing the multipart-encoded body
 \item character vector with the JSON- or raw-encoded body, or upload form file
 }

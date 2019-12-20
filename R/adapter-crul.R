@@ -228,7 +228,7 @@ CrulAdapter <- R6::R6Class(
           bd_str <- hdl_lst2(bd)
         }
 
-        if (nzchar(hd_str) && nzchar(bd_str)) {
+        if (all(nzchar(hd_str)) && all(nzchar(bd_str))) {
           with_str <- sprintf(" wi_th(\n       headers = list(%s),\n       body = list(%s)\n     )",
                               hd_str, bd_str)
         } else if (nzchar(hd_str) && !nzchar(bd_str)) {

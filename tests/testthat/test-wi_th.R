@@ -33,6 +33,43 @@ test_that("wi_th: with headers and query", {
   expect_output(print(aa), "User-Agent=R")
 })
 
+test_that("wi_th: bodies", {
+  aa <- stub_request("post", "https://httpbin.org/post") %>%
+    wi_th(body = list(foo = "bar"))
+  expect_is(aa$body, "list")
+  expect_output(print(aa), "body \\(class: list\\): foo=bar")
+
+  bb <- stub_request("post", "https://httpbin.org/post") %>%
+    wi_th(body = '{"foo": "bar"}')
+  expect_is(bb$body, "character")
+  expect_output(print(bb),
+    "body \\(class: character\\): \\{\"foo\": \"bar\"\\}")
+
+  cc <- stub_request("post", "https://httpbin.org/post") %>%
+    wi_th(body = charToRaw('{"foo": "bar"}'))
+  expect_is(cc$body, "raw")
+  expect_output(print(cc),
+    "body \\(class: raw\\): raw bytes, length: 14")
+
+  dd <- stub_request("post", "https://httpbin.org/post") %>%
+    wi_th(body = 5)
+  expect_is(dd$body, "numeric")
+  expect_output(print(dd), "body \\(class: numeric\\): 5")
+
+  ee <- stub_request("post", "https://httpbin.org/post") %>%
+    wi_th(body = crul::upload(system.file("CITATION")))
+  expect_is(ee$body, "form_file")
+  expect_output(print(ee), "body \\(class: form_file\\): crul::upload")
+
+  # FIXME: ideally (maybe?) we have a upload within a list look like 
+  # the above when not in a list?
+  ff <- stub_request("post", "https://httpbin.org/post") %>%
+    wi_th(body = list(y = crul::upload(system.file("CITATION"))))
+  expect_is(ff$body, "list")
+  expect_is(ff$body$y, "form_file")
+  expect_output(print(ff), "body \\(class: list\\): y = list\\(path")
+})
+
 test_that("wi_th fails well", {
   expect_error(wi_th(), "argument \".data\" is missing")
   expect_error(wi_th(5), ".data must be of class StubbedRequest")

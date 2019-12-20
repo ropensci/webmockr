@@ -117,6 +117,9 @@ json_validate <- function(x) {
 make_body <- function(x) {
   if (is.null(x)) return("")
   if (inherits(x, "mock_file")) x <- x$payload
+  if (inherits(x, "form_file")) x <- unclass(x)
+  clzzes <- vapply(x, function(z) inherits(z, "form_file"), logical(1))
+  if (any(clzzes)) for(i in seq_along(x)) x[[i]] <- unclass(x[[i]])
   if (json_validate(x))
     body <- x
   else

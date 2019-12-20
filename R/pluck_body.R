@@ -7,6 +7,7 @@
 #' @param x an unexecuted crul *or* httr request object
 #' @return one of the following:
 #' - `NULL` if the request is not associated with a body
+#' - `NULL` if an upload is used not in a list
 #' - list containing the multipart-encoded body
 #' - character vector with the JSON- or raw-encoded body, or upload form file
 
@@ -18,7 +19,7 @@ pluck_body <- function(x) {
   if (!is.null(x$fields)) {
     form_file_comp <- vapply(x$fields, inherits, logical(1), "form_file")
     if (any(form_file_comp)) {
-      return(x$fields[form_file_comp][[1]])
+      return(x$fields[form_file_comp])
     } else {
       return(x$fields)
     }
@@ -26,6 +27,12 @@ pluck_body <- function(x) {
   # json/raw-encoded body
   } else if (!is.null(x$options$postfields) && is.raw(x$options$postfields)) {
     return(rawToChar(x$options$postfields))
+
+  # upload not in a list
+  } else if (!is.null(x$options$postfieldsize_large)) {
+      return(paste0("upload, file size: ", x$options$postfieldsize_large))
+   
+  # unknown, fail out
   } else {
     stop("couldn't fetch request body; file an issue at \n",
          "  https://github.com/ropensci/webmockr/issues/",

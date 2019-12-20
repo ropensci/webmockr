@@ -28,6 +28,8 @@ l2c <- function(w) paste(names(w), as.character(w), sep = " = ", collapse = "")
 hdl_lst <- function(x) {
   if (is.null(x) || length(x) == 0) return("")
   if (is.raw(x)) return(paste0("raw bytes, length: ", length(x)))
+  if (inherits(x, "form_file"))
+    return(sprintf("crul::upload(\"%s\", type=\"%s\")", x$path, x$type))
   if (inherits(x, "mock_file")) return(paste0("mock file, path: ", x$path))
   if (inherits(x, "list")) {
     if (is_nested(x)) {
@@ -46,13 +48,17 @@ hdl_lst <- function(x) {
 hdl_lst2 <- function(x) {
   if (is.null(x) || length(x) == 0) return("")
   if (is.raw(x)) return(rawToChar(x))
+  if (inherits(x, "form_file"))
+    return(sprintf("crul::upload(\"%s\", \"%s\")", x$path, x$type))
   if (inherits(x, "list")) {
+    if (any(vapply(x, function(z) inherits(z, "form_file"), logical(1))))
+      for (i in seq_along(x)) x[[i]] <- sprintf("crul::upload(\"%s\", \"%s\")", x[[i]]$path, x[[i]]$type)
     out <- vector(mode = "character", length = length(x))
     for (i in seq_along(x)) {
       targ <- x[[i]]
       out[[i]] <- paste(names(x)[i], switch(
         class(targ)[1L],
-        character = sprintf('\"%s\"', targ),
+        character = if (grepl("upload", targ)) targ else sprintf('\"%s\"', targ),
         list = sprintf("list(%s)", hdl_lst2(targ)),
         targ
       ), sep = "=")

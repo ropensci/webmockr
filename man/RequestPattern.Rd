@@ -48,6 +48,16 @@ rs <- RequestSignature$new(method = "any", uri = "http://foo.bar",
   options = list(headers = headers))
 rs
 x$matches(rs)
+
+# body
+x <- RequestPattern$new(method = "post", uri = "https://httpbin.org/post",
+  body = list(y = crul::upload(system.file("CITATION"))))
+x$to_s()
+rs <- RequestSignature$new(method = "post", uri = "https://httpbin.org/post",
+  options = list(
+     body = list(y = crul::upload(system.file("CITATION")))))
+rs
+x$matches(rs)
 }
 }
 \seealso{

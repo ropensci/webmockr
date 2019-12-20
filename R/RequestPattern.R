@@ -44,6 +44,16 @@
 #'   options = list(headers = headers))
 #' rs
 #' x$matches(rs)
+#' 
+#' # body
+#' x <- RequestPattern$new(method = "post", uri = "https://httpbin.org/post",
+#'   body = list(y = crul::upload(system.file("CITATION"))))
+#' x$to_s()
+#' rs <- RequestSignature$new(method = "post", uri = "https://httpbin.org/post",
+#'   options = list(
+#'      body = list(y = crul::upload(system.file("CITATION")))))
+#' rs
+#' x$matches(rs)
 #' }
 RequestPattern <- R6::R6Class(
   'RequestPattern',
@@ -311,7 +321,33 @@ HeadersPattern <- R6::R6Class(
 #' )
 #'
 #' # make body pattern object
+#' ## FALSE
 #' z <- BodyPattern$new(pattern = list(foo = "bar"))
+#' z$pattern
+#' z$matches(bb$body)
+#' ## TRUE
+#' z <- BodyPattern$new(pattern = list(foo = "bar", a = 5))
+#' z$pattern
+#' z$matches(bb$body)
+#' 
+#' # uploads in bodies
+#' ## upload NOT in a list
+#' bb <- RequestSignature$new(
+#'   method = "post", uri = "https:/httpbin.org/post",
+#'   options = list(body = crul::upload(system.file("CITATION"))))
+#' bb$body
+#' z <- BodyPattern$new(pattern = 
+#'   crul::upload(system.file("CITATION")))
+#' z$pattern
+#' z$matches(bb$body)
+#' 
+#' ## upload in a list
+#' bb <- RequestSignature$new(
+#'   method = "post", uri = "https:/httpbin.org/post",
+#'   options = list(body = list(y = crul::upload(system.file("CITATION")))))
+#' bb$body
+#' z <- BodyPattern$new(pattern =
+#'   list(y = crul::upload(system.file("CITATION"))))
 #' z$pattern
 #' z$matches(bb$body)
 BodyPattern <- R6::R6Class(
@@ -324,7 +360,10 @@ BodyPattern <- R6::R6Class(
     #' @param pattern (list) a body object
     #' @return A new `BodyPattern` object
     initialize = function(pattern) {
-      self$pattern <- pattern
+      if (inherits(pattern, "form_file")) 
+        self$pattern <- unclass(pattern)
+      else 
+        self$pattern <- pattern
     },
 
     #' @description Match a list of headers against that stored
@@ -372,6 +411,7 @@ BodyPattern <- R6::R6Class(
     },
 
     body_as_hash = function(body, content_type) {
+      if (inherits(body, "form_file")) body <- unclass(body)
       bctype <- BODY_FORMATS[[content_type]] %||% ""
       if (bctype == 'json') {
         jsonlite::fromJSON(body, FALSE)

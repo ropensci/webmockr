@@ -32,7 +32,9 @@ Set query params, request body, and/or request headers
 Values for query, body, and headers:
 \itemize{
 \item query: (list) a named list
-\item body: various, including character string, list, raw, numeric, etc
+\item body: various, including character string, list, raw, numeric,
+upload (\code{crul::upload} or \code{httr::upload_file}, they both create the
+same object in the end)
 \item headers: (list) a named list
 }
 }
@@ -52,6 +54,9 @@ wi_th(req, body = '{"foo": "bar"}')
 wi_th(req, body = charToRaw('{"foo": "bar"}'))
 # numeric
 wi_th(req, body = 5)
+# an upload
+wi_th(req, body = crul::upload(system.file("CITATION")))
+# wi_th(req, body = httr::upload_file(system.file("CITATION")))
 
 # add query - has to be a named list
 wi_th(req, query = list(foo = "bar"))
@@ -59,7 +64,6 @@ wi_th(req, query = list(foo = "bar"))
 # add headers - has to be a named list
 wi_th(req, headers = list(foo = "bar"))
 wi_th(req, headers = list(`User-Agent` = "webmockr/v1", hello="world"))
-
 
 # .list - pass in a named list instead
 wi_th(req, .list = list(body = list(foo = "bar")))

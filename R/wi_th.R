@@ -19,7 +19,9 @@
 #' @details Values for query, body, and headers:
 #'
 #' - query: (list) a named list
-#' - body: various, including character string, list, raw, numeric, etc
+#' - body: various, including character string, list, raw, numeric,
+#' upload (`crul::upload` or `httr::upload_file`, they both create the
+#' same object in the end)
 #' - headers: (list) a named list
 #'
 #' @examples
@@ -35,6 +37,9 @@
 #' wi_th(req, body = charToRaw('{"foo": "bar"}'))
 #' # numeric
 #' wi_th(req, body = 5)
+#' # an upload
+#' wi_th(req, body = crul::upload(system.file("CITATION")))
+#' # wi_th(req, body = httr::upload_file(system.file("CITATION")))
 #'
 #' # add query - has to be a named list
 #' wi_th(req, query = list(foo = "bar"))
@@ -42,7 +47,6 @@
 #' # add headers - has to be a named list
 #' wi_th(req, headers = list(foo = "bar"))
 #' wi_th(req, headers = list(`User-Agent` = "webmockr/v1", hello="world"))
-#'
 #'
 #' # .list - pass in a named list instead
 #' wi_th(req, .list = list(body = list(foo = "bar")))
