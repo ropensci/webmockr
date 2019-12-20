@@ -34,6 +34,12 @@ test_that("StubbedRequest: works", {
   aa$with(query = list(foo = "bar"))
   expect_is(aa$query, "list")
   expect_named(aa$query, "foo")
+  expect_equal(aa$to_s(), "GET: https:/httpbin.org/get?foo=bar")
+
+  ## >1 query param gets combined with "&" and not ","
+  aa$with(query = list(foo = "bar", stuff = 567))
+  expect_equal(sort(names(aa$query)), c("foo", "stuff"))
+  expect_equal(aa$to_s(), "GET: https:/httpbin.org/get?foo=bar&stuff=567")
 
   # to_return
   expect_is(aa$to_return, "function")

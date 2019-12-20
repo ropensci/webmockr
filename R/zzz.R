@@ -84,7 +84,7 @@ parseurl <- function(x) {
 
 url_builder <- function(uri, args = NULL) {
   if (is.null(args)) return(uri)
-  paste0(uri, "?", paste(names(args), args, sep = "=", collapse = ","))
+  paste0(uri, "?", paste(names(args), args, sep = "=", collapse = "&"))
 }
 
 `%||%` <- function(x, y) {
