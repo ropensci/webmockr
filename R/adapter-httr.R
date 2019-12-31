@@ -79,11 +79,12 @@ build_httr_request = function(x) {
 }
 
 #' Turn on httr mocking
+#' Sets a callback that routes httr request through webmockr
+#' 
 #' @export
 #' @param on (logical) set to `TRUE` to turn on, and `FALSE`
 #' to turn off. default: `TRUE`
-#' @return silently sets a callback that routes httr request
-#' through webmockr
+#' @return Silently returns `TRUE` when enabled and `FALSE` when disabled.
 httr_mock <- function(on = TRUE) {
   check_for_pkg("httr")
   webmockr_handle <- function(req) {
@@ -94,6 +95,7 @@ httr_mock <- function(on = TRUE) {
   } else {
     httr::set_callback("request", NULL)
   }
+  invisible(on)
 }
 
 #' @title HttrAdapter
@@ -146,7 +148,9 @@ HttrAdapter <- R6::R6Class("HttrAdapter",
 
   private = list(
     pluck_url = function(request) request$url,
-    mock = httr_mock,
+
+    mock = function(on) httr_mock(on),
+
     build_request   = build_httr_request,
     build_response  = build_httr_response,
 
