@@ -35,8 +35,9 @@ test_that("httr: with pipe", {
 unloadNamespace("httr")
 
 context("within test_that blocks: crul")
-library("crul")
+
 test_that("crul works", {
+
   enable()
   dat_json <- '{"foo":"bar"}'
   stub <- stub_request("get", uri = "https://httpbin.org/get")
@@ -52,4 +53,4 @@ test_that("crul works", {
   expect_equal(jsonlite::fromJSON(res$parse("UTF-8"))$foo, "bar")
   disable()
 })
-unloadNamespace("crul")
+
