@@ -51,7 +51,7 @@ test_that("HttrAdapter date slot works", {
 
   path <- file.path(tempdir(), "foobar")
   vcr::vcr_configure(dir = path)
-  vcr::use_cassette("test-date", GET("https://httpbin.org/get"))
+  vcr::use_cassette("test-date", httr::GET("https://httpbin.org/get"))
   # list.files(path)
   # readLines(file.path(path, "test-date.yml"))
   vcr::insert_cassette("test-date")
