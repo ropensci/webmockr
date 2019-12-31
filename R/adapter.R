@@ -52,10 +52,10 @@ Adapter <- R6::R6Class("Adapter",
       message(sprintf("%s enabled!", self$name))
       webmockr_lightswitch[[self$client]] <- TRUE
       
-      out <- private$mock(on = TRUE)
-      # FIXME: If httr_mock returned an invisible logical like crul::mock()
-      #        then we could just directly return toggle()
-      invisible(TRUE)
+      switch(self$client,
+        crul = crul::mock(on = TRUE),
+        httr = httr_mock(on = TRUE)
+      )
     },
 
     #' @description Disable the adapter
@@ -63,15 +63,19 @@ Adapter <- R6::R6Class("Adapter",
     disable = function() {
       message(sprintf("%s disabled!", self$name))
       webmockr_lightswitch[[self$client]] <- FALSE
-      out <- private$mock(on = FALSE)
       self$remove_stubs()
-      invisible(FALSE)
+
+      switch(self$client,
+        crul = crul::mock(on = FALSE),
+        httr = httr_mock(on = FALSE)
+      )
     },
 
     #' @description All logic for handling a request
     #' @param req a request
     #' @return various outcomes
     handle_request = function(req) {
+      browser()
       # put request in request registry
       request_signature <- private$build_request(req)
       webmockr_request_registry$register_request(
@@ -181,9 +185,9 @@ Adapter <- R6::R6Class("Adapter",
       } else if (webmockr_net_connect_allowed(uri = private$pluck_url(req))) {
         # if real requests || localhost || certain exceptions ARE
         #   allowed && nothing found above
-        self$mock(on = FALSE)
+        private$mock(on = FALSE)
         resp <- private$fetch_request(req)
-        self$mock(on = TRUE)
+        private$mock(on = TRUE)
 
         # if vcr loaded: record http interaction into vcr namespace
         # VCR: recordable
