@@ -16,7 +16,7 @@ test_that("HttrAdapter bits are correct", {
   expect_is(aa$disable, "function")
   expect_is(aa$enable, "function")
   expect_is(aa$handle_request, "function")
-  expect_is(aa$remove_httr_stubs, "function")
+  expect_is(aa$remove_stubs, "function")
   expect_is(aa$name, "character")
 
   expect_equal(aa$name, "httr_adapter")

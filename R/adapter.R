@@ -75,7 +75,7 @@ Adapter <- R6::R6Class("Adapter",
     #' @param req a request
     #' @return various outcomes
     handle_request = function(req) {
-      browser()
+
       # put request in request registry
       request_signature <- private$build_request(req)
       webmockr_request_registry$register_request(
@@ -85,35 +85,15 @@ Adapter <- R6::R6Class("Adapter",
       if (request_is_in_cache(request_signature)) {
         # if real requests NOT allowed
         # even if net connects allowed, we check if stubbed found first
-
+        ss <- webmockr_stub_registry$find_stubbed_request(request_signature)[[1]]
+        
         # if user wants to return a partial object
         #   get stub with response and return that
-        ss <-
-          webmockr_stub_registry$find_stubbed_request(request_signature)[[1]]
-
-        resp <- Response$new()
-        resp$set_url(ss$uri)
-        resp$set_body(ss$body)
-        resp$set_request_headers(ss$request_headers)
-        resp$set_response_headers(ss$response_headers)
-        resp$set_status(as.integer(ss$status_code %||% 200))
-
-        # if user set to_timeout or to_raise, do that
-        if (ss$timeout || ss$raise) {
-          if (ss$timeout) {
-            x <- fauxpas::HTTPRequestTimeout$new()
-            resp$set_status(x$status_code)
-            x$do_verbose(resp)
-          }
-          if (ss$raise) {
-            x <- ss$exceptions[[1]]$new()
-            resp$set_status(x$status_code)
-            x$do_verbose(resp)
-          }
-        }
+        resp <- private$build_stub_response(ss)
 
         # generate response
         # VCR: recordable/ignored
+
         if ("package:vcr" %in% search()) {
           cas <- vcr::current_cassette()
           if (length(cas$previously_recorded_interactions()) == 0) {
@@ -121,51 +101,12 @@ Adapter <- R6::R6Class("Adapter",
             # use RequestHandler - gets current cassette & record interaction
             resp <- private$request_handler(req)$handle()
           }
+        
+        # no vcr
         } else {
           resp <- private$build_response(req, resp)
-
           # add to_return() elements if given
-          if (length(cc(ss$responses_sequences)) != 0) {
-            # remove NULLs
-            toadd <- cc(ss$responses_sequences)
-            # modify responses
-            for (i in seq_along(toadd)) {
-              if (names(toadd)[i] == "status") {
-                resp$status_code <- as.integer(toadd[[i]])
-              }
-              if (names(toadd)[i] == "body") {
-                
-                if (inherits(ss$responses_sequences$body_raw, "mock_file")) {
-                  cat(ss$responses_sequences$body_raw$payload,
-                    file = ss$responses_sequences$body_raw$path,
-                    sep = "\n")
-                  ss$responses_sequences$body_raw <- ss$responses_sequences$body_raw$path
-                  if (self$client == "httr") {
-                    class(ss$responses_sequences$body_raw) <- "path"
-                  }
-                }
-
-                if (self$client == "httr") {
-                  body_type <- attr(ss$responses_sequences$body_raw, "type") %||% ""
-                  if (body_type == "file") {
-                    attr(ss$responses_sequences$body_raw, "type") <- NULL
-                    class(ss$responses_sequences$body_raw) <- "path"
-                  }
-                }
-
-                resp$content <- ss$responses_sequences$body_raw
-              }
-              if (names(toadd)[i] == "headers") {
-                headers <- names_to_lower(as_character(toadd[[i]]))
-                if (self$client == "crul") {
-                  resp$response_headers <- headers
-                  resp$response_headers_all <- list(headers)
-                } else {
-                  resp$headers <- httr::insensitive(headers)
-                }
-              }
-            }
-          }
+          resp <- private$add_response_sequences(ss, resp)
         }
 
         # if vcr loaded: record http interaction into vcr namespace
@@ -260,7 +201,6 @@ Adapter <- R6::R6Class("Adapter",
   ),
 
   private = list(
-
     make_stub_request_code = function(x) {
       tmp <- sprintf(
         "stub_request('%s', uri = '%s')",
@@ -298,6 +238,81 @@ Adapter <- R6::R6Class("Adapter",
         tmp <- paste0(tmp, " %>%\n    ", with_str)
       }
       return(tmp)
+    }, 
+
+    build_stub_response = function(stub) {
+      stopifnot(inherits(stub, "StubbedRequest"))
+      resp <- Response$new()
+      resp$set_url(stub$uri)
+      resp$set_body(stub$body)
+      resp$set_request_headers(stub$request_headers)
+      resp$set_response_headers(stub$response_headers)
+      resp$set_status(as.integer(stub$status_code %||% 200))
+  
+      # if user set to_timeout or to_raise, do that
+      if (stub$timeout || stub$raise) {
+        if (stub$timeout) {
+          x <- fauxpas::HTTPRequestTimeout$new()
+          resp$set_status(x$status_code)
+          x$do_verbose(resp)
+        }
+        if (stub$raise) {
+          x <- stub$exceptions[[1]]$new()
+          resp$set_status(x$status_code)
+          x$do_verbose(resp)
+        }
+      }
+      return(resp)
+    },
+    
+    add_response_sequences = function(stub, response) {
+      # TODO: assert HttpResponse (is it ever a crul response?)
+      stopifnot(inherits(stub, "StubbedRequest"))
+
+      # remove NULLs
+      toadd <- cc(stub$responses_sequences)
+      if (is.null(toadd)) return(response)
+
+      for (i in seq_along(toadd)) {
+        if (names(toadd)[i] == "status") {
+          response$status_code <- as.integer(toadd[[i]])
+        }
+
+        if (names(toadd)[i] == "body") {
+          if (inherits(stub$responses_sequences$body_raw, "mock_file")) {
+            cat(
+              stub$responses_sequences$body_raw$payload,
+              file = stub$responses_sequences$body_raw$path,
+              sep = "\n"
+            )
+            stub$responses_sequences$body_raw <-
+              stub$responses_sequences$body_raw$path
+            if (self$client == "httr") {
+              class(stub$responses_sequences$body_raw) <- "path"
+            }
+          }
+          
+          body_type <- attr(stub$responses_sequences$body_raw, "type") %||% ""
+          if (self$client == "httr" && body_type == "file") {
+            attr(stub$responses_sequences$body_raw, "type") <- NULL
+            class(stub$responses_sequences$body_raw) <- "path"
+          }
+          response$content <- stub$responses_sequences$body_raw
+        }
+        
+        if (names(toadd)[i] == "headers") {
+          headers <- names_to_lower(as_character(toadd[[i]]))
+          if (self$client == "crul") {
+            response$response_headers <- headers
+            response$response_headers_all <- list(headers)
+          } else {
+            response$headers <- httr::insensitive(headers)
+          }
+        }
+      }
+
+      return(response)
     }
+
   )
 )
