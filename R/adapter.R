@@ -1,8 +1,10 @@
-#' @title Adapter
-#' @description Default methods are based on crul, which are overridden in HttrAdapter where necessary
+#' @title Adapters for Modifying HTTP Requests
+#' @description `Adapter` is the base parent class used to add \pkg{webmockr} support for different HTTP clients and should not be used directly. Instead, use one of the client-specific adapters that webmockr provides:
+#' * `CrulAdapter` for \pkg{crul}
+#' * `HttrAdapter` for \pkg{httr}
+#' @details Note that the documented fields and methods are the same across all
+#'   client-specific adapters.
 #' @export
-#' @family http_lib_adapters
-#' @details This adapter modifies \pkg{httr} to allow mocking HTTP requests
 #' @examples \dontrun{
 #' if (requireNamespace("httr", quietly = TRUE)) {
 #' # library(httr)
@@ -46,7 +48,8 @@ Adapter <- R6::R6Class("Adapter",
     #' @field name adapter name
     name = NULL,
 
-    initialize = function(client) {
+    #' @description Create a new Adapter object
+    initialize = function() {
       if (is.null(self$client)) {
         stop(
           "Adapter parent class should not be called directly.\n",

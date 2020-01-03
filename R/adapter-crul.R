@@ -64,16 +64,14 @@ build_crul_request = function(x) {
   )
 }
 
-
-#' @title CrulAdapter
-#' @description \pkg{crul} library adapter
+#' @rdname Adapter
 #' @export
-#' @family http_lib_adapters
-#' @details This adapter modifies \pkg{crul} to allow mocking HTTP requests
 CrulAdapter <- R6::R6Class("CrulAdapter", 
   inherit = Adapter,
   public = list(
+    #' @field client HTTP client package name
     client = "crul",
+    #' @field name adapter name
     name = "crul_adapter"
   ),
   
