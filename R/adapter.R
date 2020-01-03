@@ -46,6 +46,18 @@ Adapter <- R6::R6Class("Adapter",
     #' @field name adapter name
     name = NULL,
 
+    initialize = function(client) {
+      if (is.null(self$client)) {
+        stop(
+          "Adapter parent class should not be called directly.\n",
+          "Use one of the following package-specific adapters instead:\n",
+          "  - CrulAdapter$new()\n",
+          "  - HttrAdapter$new()",
+          call. = FALSE
+        )
+      }
+    },
+
     #' @description Enable the adapter
     #' @return `TRUE`, invisibly
     enable = function() {
