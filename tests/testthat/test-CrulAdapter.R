@@ -13,7 +13,7 @@ test_that("CrulAdapter bits are correct", {
   expect_is(aa$disable, "function")
   expect_is(aa$enable, "function")
   expect_is(aa$handle_request, "function")
-  expect_is(aa$remove_crul_stubs, "function")
+  expect_is(aa$remove_stubs, "function")
   expect_is(aa$name, "character")
 
   expect_equal(aa$name, "crul_adapter")
@@ -23,8 +23,8 @@ test_that("CrulAdapter bits are correct", {
 test_that("CrulAdapter behaves correctly", {
   skip_on_cran()
 
-  expect_message(aa$enable(), "CrulAdapter enabled!")
-  expect_message(aa$disable(), "CrulAdapter disabled!")
+  expect_message(aa$enable(), "crul_adapter enabled!")
+  expect_message(aa$disable(), "crul_adapter disabled!")
 })
 
 
