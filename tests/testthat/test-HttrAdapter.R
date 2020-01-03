@@ -26,8 +26,8 @@ test_that("HttrAdapter bits are correct", {
 test_that("HttrAdapter behaves correctly", {
   skip_on_cran()
 
-  expect_message(aa$enable(), "HttrAdapter enabled!")
-  expect_message(aa$disable(), "HttrAdapter disabled!")
+  expect_message(aa$enable(), "httr_adapter enabled!")
+  expect_message(aa$disable(), "httr_adapter disabled!")
 })
 
 

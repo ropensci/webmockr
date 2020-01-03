@@ -2,6 +2,7 @@
 #'
 #' @importFrom R6 R6Class
 #' @importFrom fauxpas HTTPRequestTimeout
+#' @importFrom crul mock
 #' @name webmockr-package
 #' @aliases webmockr
 #' @docType package
