@@ -82,7 +82,7 @@ CrulAdapter <- R6::R6Class("CrulAdapter",
     build_response  = build_crul_response,
 
     fetch_request = function(request) {
-      self$build_response(request, webmockr_crul_fetch(request))
+      private$build_response(request, webmockr_crul_fetch(request))
     },
 
     request_handler = function(request) vcr::RequestHandlerCrul$new(request),
