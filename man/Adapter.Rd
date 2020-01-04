@@ -6,7 +6,10 @@
 \alias{Adapter}
 \title{Adapters for Modifying HTTP Requests}
 \description{
-\code{Adapter} is the base parent class used to add \pkg{webmockr} support for different HTTP clients and should not be used directly. Instead, use one of the client-specific adapters that webmockr provides:
+\code{Adapter} is the base parent class used to implement
+\pkg{webmockr} support for different HTTP clients. It should not be used
+directly. Instead, use one of the client-specific adapters that webmockr
+currently provides:
 \itemize{
 \item \code{CrulAdapter} for \pkg{crul}
 \item \code{HttrAdapter} for \pkg{httr}
