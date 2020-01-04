@@ -72,7 +72,7 @@ CrulAdapter <- R6::R6Class("CrulAdapter",
     #' @field client HTTP client package name
     client = "crul",
     #' @field name adapter name
-    name = "crul_adapter"
+    name = "CrulAdapter"
   ),
   
   private = list(
