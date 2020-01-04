@@ -1,5 +1,8 @@
 #' @title Adapters for Modifying HTTP Requests
-#' @description `Adapter` is the base parent class used to add \pkg{webmockr} support for different HTTP clients and should not be used directly. Instead, use one of the client-specific adapters that webmockr provides:
+#' @description `Adapter` is the base parent class used to implement
+#'   \pkg{webmockr} support for different HTTP clients. It should not be used
+#'   directly. Instead, use one of the client-specific adapters that webmockr
+#'   currently provides:
 #' * `CrulAdapter` for \pkg{crul}
 #' * `HttrAdapter` for \pkg{httr}
 #' @details Note that the documented fields and methods are the same across all
