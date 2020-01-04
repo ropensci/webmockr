@@ -19,15 +19,15 @@ test_that("HttrAdapter bits are correct", {
   expect_is(aa$remove_stubs, "function")
   expect_is(aa$name, "character")
 
-  expect_equal(aa$name, "httr_adapter")
+  expect_equal(aa$name, "HttrAdapter")
 })
 
 
 test_that("HttrAdapter behaves correctly", {
   skip_on_cran()
 
-  expect_message(aa$enable(), "httr_adapter enabled!")
-  expect_message(aa$disable(), "httr_adapter disabled!")
+  expect_message(aa$enable(), "HttrAdapter enabled!")
+  expect_message(aa$disable(), "HttrAdapter disabled!")
 })
 
 

@@ -106,7 +106,7 @@ HttrAdapter <- R6::R6Class("HttrAdapter",
     #' @field client HTTP client package name
     client = "httr",
     #' @field name adapter name
-    name = "httr_adapter"
+    name = "HttrAdapter"
   ),
 
   private = list(

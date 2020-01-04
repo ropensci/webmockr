@@ -18,9 +18,7 @@ webmockr_adapters <- c('crul', 'httr')
 #' on each [HttpLibAdapaterRegistry] object. `enabled` returns a 
 #' single boolean
 enable <- function(adapter = NULL, options = list()) {
-  adnms <- vapply(http_lib_adapter_registry$adapters, function(w) {
-    sub("_adapter", "", w$name)
-  }, "")
+  adnms <- vapply(http_lib_adapter_registry$adapters, function(w) w$client, "")
   if (!is.null(adapter)) {
     if (!adapter %in% webmockr_adapters) {
       stop("adapter must be one of 'crul' or 'httr'")
@@ -32,7 +30,7 @@ enable <- function(adapter = NULL, options = list()) {
     http_lib_adapter_registry$adapters[[grep(adapter, adnms)]]$enable()
   } else {
     invisible(vapply(http_lib_adapter_registry$adapters, function(z) {
-      pkgname <- sub("_adapter", "", z$name)
+      pkgname <- z$client
       # check if package installed first
       if (!requireNamespace(pkgname, quietly = TRUE)) {
         message(pkgname, " not installed, skipping enable")
@@ -58,9 +56,7 @@ enabled <- function(adapter = "crul") {
 #' @export
 #' @rdname enable
 disable <- function(adapter = NULL, options = list()) {
-  adnms <- vapply(http_lib_adapter_registry$adapters, function(w) {
-    sub("_adapter", "", w$name)
-  }, "")
+  adnms <- vapply(http_lib_adapter_registry$adapters, function(w) w$client, "")
   if (!is.null(adapter)) {
     if (!adapter %in% webmockr_adapters) {
       stop("adapter must be one of 'crul' or 'httr'")
@@ -72,7 +68,7 @@ disable <- function(adapter = NULL, options = list()) {
     http_lib_adapter_registry$adapters[[grep(adapter, adnms)]]$disable()
   } else {
     invisible(vapply(http_lib_adapter_registry$adapters, function(z) {
-      pkgname <- sub("_adapter", "", z$name)
+      pkgname <- z$client
       # check if package installed first
       if (!requireNamespace(pkgname, quietly = TRUE)) {
         message(pkgname, " not installed, skipping disable")

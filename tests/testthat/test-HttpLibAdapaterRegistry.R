@@ -23,10 +23,10 @@ test_that("HttpLibAdapaterRegistry: behaves as expected", {
 
   expect_length(aa$adapters, 1)
   expect_is(aa$adapters[[1]], "CrulAdapter")
-  expect_equal(aa$adapters[[1]]$name, "crul_adapter")
+  expect_equal(aa$adapters[[1]]$name, "CrulAdapter")
 
   expect_output(print(aa), "HttpLibAdapaterRegistry")
-  expect_output(print(aa), "crul_adapter")
+  expect_output(print(aa), "CrulAdapter")
 })
 
 test_that("HttpLibAdapaterRegistry: behaves as expected", {
@@ -37,10 +37,10 @@ test_that("HttpLibAdapaterRegistry: behaves as expected", {
 
   expect_length(aa$adapters, 1)
   expect_is(aa$adapters[[1]], "HttrAdapter")
-  expect_equal(aa$adapters[[1]]$name, "httr_adapter")
+  expect_equal(aa$adapters[[1]]$name, "HttrAdapter")
 
   expect_output(print(aa), "HttpLibAdapaterRegistry")
-  expect_output(print(aa), "httr_adapter")
+  expect_output(print(aa), "HttrAdapter")
 })
 
 test_that("HttpLibAdapaterRegistry fails well", {
