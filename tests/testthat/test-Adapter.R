@@ -1,0 +1,9 @@
+context("Adapter class")
+
+test_that("Adapter class can't be instantiated", {
+  expect_is(Adapter, "R6ClassGenerator")
+  expect_error(
+    Adapter$new(), 
+    "Adapter parent class should not be called directly"
+  )
+})
