@@ -245,6 +245,11 @@ readLines(out$content)
 
 Writing to disk is supported in both `crul` and `httr`
 
+## Contributors
+
+* [Scott Chamberlain](https://github.com/sckott)
+* [Aaron Wolen](https://github.com/aaronwolen)
+
 ## Meta
 
 * Please [report any issues or bugs](https://github.com/ropensci/webmockr/issues).
