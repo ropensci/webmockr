@@ -38,6 +38,30 @@ test_that("build_httr_request/response fail well", {
   expect_error(build_httr_response(), "argument \"req\" is missing")
 })
 
+test_that("HttrAdapter: works when vcr is loaded but no cassette is inserted", {
+  skip_on_cran()
+  skip_if_not_installed("vcr")
+  
+  webmockr::enable(adapter = "httr")
+  on.exit({
+    webmockr::disable(adapter = "httr")
+    unloadNamespace("vcr")
+  })
+  
+  stub_request("get", "https://httpbin.org/get")
+  library("vcr")
+  
+  # works when no cassette is loaded
+  expect_silent(x <- httr::GET("https://httpbin.org/get"))
+  expect_is(x, "response")
+  
+  # # works when empty cassette is loaded
+  vcr::vcr_configure(dir = tempdir())
+  vcr::insert_cassette("empty")
+  expect_silent(x <- httr::GET("https://httpbin.org/get"))
+  expect_is(x, "response")
+})
+
 # library(httr)
 # z <- GET("https://httpbin.org/get")
 # httr_obj <- z$request
