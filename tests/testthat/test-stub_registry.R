@@ -20,7 +20,7 @@ test_that("stub_registry: works", {
   expect_match(stub_registry()$request_stubs[[2]]$to_s(),
     "POST: https://httpbin.org/post")
   expect_match(stub_registry()$request_stubs[[2]]$to_s(),
-    "/CITATION")
+    "CITATION")
   expect_match(stub_registry()$request_stubs[[2]]$to_s(),
     "text/plain")
 })
