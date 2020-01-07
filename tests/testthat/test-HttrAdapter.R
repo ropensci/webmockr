@@ -59,6 +59,7 @@ test_that("HttrAdapter: works when vcr is loaded but no cassette is inserted", {
   vcr::vcr_configure(dir = tempdir())
   vcr::insert_cassette("empty")
   expect_silent(x <- httr::GET("https://httpbin.org/get"))
+  vcr::eject_cassette("empty")
   expect_is(x, "response")
 })
 
@@ -353,4 +354,3 @@ test_that("httr requests with JSON-encoded bodies work", {
     "Unregistered request"
   )
 })
-
