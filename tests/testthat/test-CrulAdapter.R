@@ -35,6 +35,31 @@ test_that("build_crul_request/response fail well", {
   expect_error(build_crul_response(), "argument \"resp\" is missing")
 })
 
+test_that("CrulAdapter: works when vcr is loaded but no cassette is inserted", {
+  skip_on_cran()
+  skip_if_not_installed("vcr")
+  
+  webmockr::enable(adapter = "crul")
+  on.exit({
+    webmockr::disable(adapter = "crul")
+    unloadNamespace("vcr")
+  })
+  
+  stub_request("get", "https://httpbin.org/get")
+  library("vcr")
+  
+  # works when no cassette is loaded
+  cli <- crul::HttpClient$new("https://httpbin.org")
+  
+  expect_silent(x <- cli$get("get"))
+  expect_is(x, "HttpResponse")
+
+  # works when empty cassette is loaded
+  vcr::vcr_configure(dir = getwd())
+  vcr::insert_cassette("empty")
+  expect_silent(x <- cli$get("get"))
+  expect_is(x, "HttpResponse")
+})
 
 context("CrulAdapter - with real data")
 test_that("CrulAdapter works", {
