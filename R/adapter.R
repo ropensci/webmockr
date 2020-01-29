@@ -133,13 +133,12 @@ Adapter <- R6::R6Class("Adapter",
       } else if (webmockr_net_connect_allowed(uri = private$pluck_url(req))) {
         # if real requests || localhost || certain exceptions ARE
         #   allowed && nothing found above
-        private$mock(on = FALSE)
-        resp <- private$fetch_request(req)
-        private$mock(on = TRUE)
 
         # if vcr loaded: record http interaction into vcr namespace
         # VCR: recordable
         if (vcr_loaded()) {
+          # use RequestHandler instead? - which gets current cassette for us
+          resp <- private$request_handler(req)$handle()
           
           # if written to disk, see if we should modify file path
           if (self$client == "crul" && is.character(resp$content)) {
@@ -166,8 +165,10 @@ Adapter <- R6::R6Class("Adapter",
             wi_th(tmp, .list = list(query = urip$parameter, headers = req$headers))
           }
 
-          # use RequestHandler instead? - which gets current cassette for us
-          private$request_handler(req)$handle()
+        } else {
+          private$mock(on = FALSE)
+          resp <- private$fetch_request(req)
+          private$mock(on = TRUE)
         }
       
       # request is not in cache and connections are not allowed
