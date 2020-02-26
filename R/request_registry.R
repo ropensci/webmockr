@@ -1,4 +1,4 @@
-#' List requests in the request registry
+#' List or clear requests in the request registry
 #'
 #' @export
 #' @return an object of class `RequestRegistry`, print method gives the

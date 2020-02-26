@@ -1,0 +1,54 @@
+reference:
+  - title: "webmockr"
+    desc: >
+      High level overview of package
+    contents:
+      - webmockr
+      - webmockr-package
+      - webmockr-defunct
+  - title: "Configuration"
+    contents:
+      - webmockr_configure
+  - title: "Enable/Disable webmockr"
+    contents:
+      - starts_with("enable")
+      - disable
+      - httr_mock
+  - title: "Stub registry"
+    contents:
+      - stub_registry
+      - stub_registry_clear
+      - StubRegistry
+  - title: "Request registry"
+    contents:
+      - starts_with("request_registry")
+      - RequestRegistry
+  - title: "Stubbing requests"
+    contents:
+      - StubbedRequest
+      - stub_request
+      - remove_request_stub
+      - to_raise
+      - to_return
+      - to_timeout
+      - wi_th
+  - title: "Mocking writing to disk"
+    contents:
+      - mock_file
+      - mocking-disk-writing
+  - title: "HTTP package adapters and utilities"
+    contents:
+      - CrulAdapter
+      - HttrAdapter
+      - HttpLibAdapaterRegistry
+      - build_crul_request
+      - build_crul_response
+      - build_httr_request
+      - build_httr_response
+  - title: "Internal utilities"
+    contents:
+      - RequestPattern
+      - RequestSignature
+      - HashCounter
+      - pluck_body
+      - Response
