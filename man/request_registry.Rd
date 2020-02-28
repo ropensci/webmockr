@@ -3,7 +3,7 @@
 \name{request_registry}
 \alias{request_registry}
 \alias{request_registry_clear}
-\title{List requests in the request registry}
+\title{List or clear requests in the request registry}
 \usage{
 request_registry()
 
@@ -15,7 +15,7 @@ requests in the registry and the number of times each one has been
 performed
 }
 \description{
-List requests in the request registry
+List or clear requests in the request registry
 }
 \details{
 \code{request_registry()} lists the requests that have been made

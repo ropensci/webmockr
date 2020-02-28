@@ -28,5 +28,7 @@ stub_registry()
 }
 \author{
 Scott Chamberlain \email{myrmecocystus+r@gmail.com}
+
+Aaron Wolen
 }
 \keyword{package}
