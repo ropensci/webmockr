@@ -1,3 +1,26 @@
+webmockr 0.6.0
+==============
+
+### NEW FEATURES
+
+* new `Adapter` class to consolidate common code for the `HttrAdapter` and `CrulAdapter` classes, which inherit from `Adapter`; not a user facing change (#87)
+* pkgdown documentation site gains grouping of functions to help the user navigate the package: see https://docs.ropensci.org/webmockr/reference/ (#93)
+
+### MINOR IMPROVEMENTS
+
+* now correctly fails with informative message when `write_disk_path` is `NULL` when the user is trying to write to disk while using webmockr (#78)
+* improve README construction; use html child for the details section (#81)
+* fix matching stub matching for bodies when bodies are JSON encoded (#82) 
+* when vcr was loaded real HTTP requests were being performed twice when they should have only been performed once (#91) (#92)
+
+### BUG FIXES
+
+* fix for `set_body()` method in the `Response` class - handle cases where user writing to disk and not, and handle raw bytes correctly (#80)
+* fix to `to_s()` method in `StubbedRequest` class - was formatting query parameters incorrectly (#83)
+* fix to `BodyPattern` class to handle upload objects in a list; related issue fixed where `wi_th()` parameter `body` was not handling upload objects (#84) (#85)
+* httr requests were failing when vcr loaded, but with no cassette inserted; fixed `handle_request()` to skip vcr-related code unless a cassette is inserted (#86) (#88)
+
+
 webmockr 0.5.0
 ==============
 

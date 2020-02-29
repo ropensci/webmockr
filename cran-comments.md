@@ -1,7 +1,7 @@
 ## Test environments
 
-* local OS X install, R 3.6.1 Patched
-* ubuntu 14.04 (on travis-ci), R 3.6.1
+* local OS X install, R 3.6.3 RC
+* ubuntu 16.04 (on travis-ci), R 3.6.2
 * win-builder (devel and release)
 
 ## R CMD check results
@@ -14,7 +14,7 @@ I have checked the 8 reverse dependencies, and no problems were found. See (<htt
 
 ---
 
-This version adds a new function, gains ability to mock writing to disk, and some bug fixes.
+This version improves the documentation site, fixes many bugs, simplifies code, and improves failure behavior.
 
 Thanks!
 Scott Chamberlain

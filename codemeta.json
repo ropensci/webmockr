@@ -10,14 +10,14 @@
   "codeRepository": "https://github.com/ropensci/webmockr",
   "issueTracker": "https://github.com/ropensci/webmockr/issues",
   "license": "https://spdx.org/licenses/MIT",
-  "version": "0.5.0",
+  "version": "0.6.0",
   "programmingLanguage": {
     "@type": "ComputerLanguage",
     "name": "R",
-    "version": "3.6.1",
+    "version": "3.6.3",
     "url": "https://r-project.org"
   },
-  "runtimePlatform": "R version 3.6.1 Patched (2019-09-23 r77210)",
+  "runtimePlatform": "R version 3.6.3 RC (2020-02-21 r77868)",
   "provider": {
     "@id": "https://cran.r-project.org",
     "@type": "Organization",
@@ -43,19 +43,6 @@
     }
   ],
   "softwareSuggestions": [
-    {
-      "@type": "SoftwareApplication",
-      "identifier": "roxygen2",
-      "name": "roxygen2",
-      "version": ">= 7.0.2",
-      "provider": {
-        "@id": "https://cran.r-project.org",
-        "@type": "Organization",
-        "name": "Comprehensive R Archive Network (CRAN)",
-        "url": "https://cran.r-project.org"
-      },
-      "sameAs": "https://CRAN.R-project.org/package=roxygen2"
-    },
     {
       "@type": "SoftwareApplication",
       "identifier": "testthat",
@@ -199,17 +186,27 @@
   "isPartOf": "https://ropensci.org",
   "keywords": ["http", "https", "API", "web-services", "curl", "mock", "mocking", "fakeweb", "http-mocking", "testing", "testing-tools", "tdd", "rstats", "http-mock", "r", "r-package"],
   "contIntegration": ["https://travis-ci.org/ropensci/webmockr", "https://ci.appveyor.com/project/sckott/webmockr", "https://codecov.io/gh/ropensci/webmockr"],
-  "developmentStatus": "http://www.repostatus.org/#active",
+  "developmentStatus": "https://www.repostatus.org/#active",
   "releaseNotes": "https://github.com/ropensci/webmockr/blob/master/NEWS.md",
   "readme": "https://github.com/ropensci/webmockr/blob/master/README.md",
-  "fileSize": "58.28KB",
-  "relatedLink": ["https://ropenscilabs.github.io/http-testing-book/", "https://books.ropensci.org/http-testing"],
+  "fileSize": "77.379KB",
+  "relatedLink": [
+    "https://ropenscilabs.github.io/http-testing-book/",
+    "https://books.ropensci.org/http-testing"
+  ],
   "funder": [
     {
       "@type": "Organization",
       "name": "rOpenSci"
     }
   ],
-  "contributor": {},
+  "contributor": [
+    {
+      "@type": "Person",
+      "givenName": "Aaron",
+      "familyName": "Wolen",
+      "@id": "https://orcid.org/0000-0003-2542-2202"
+    }
+  ],
   "copyrightHolder": {}
 }
