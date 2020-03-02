@@ -189,7 +189,7 @@
   "developmentStatus": "https://www.repostatus.org/#active",
   "releaseNotes": "https://github.com/ropensci/webmockr/blob/master/NEWS.md",
   "readme": "https://github.com/ropensci/webmockr/blob/master/README.md",
-  "fileSize": "77.379KB",
+  "fileSize": "77.388KB",
   "relatedLink": [
     "https://ropenscilabs.github.io/http-testing-book/",
     "https://books.ropensci.org/http-testing"
