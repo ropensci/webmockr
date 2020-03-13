@@ -97,7 +97,7 @@ CrulAdapter <- R6::R6Class("CrulAdapter",
       }
       
       response$content <- file.path(
-        normalizePath(write_disk_path, mustWork = TRUE),
+        write_disk_path,
         basename(response$content)
       )
       response
