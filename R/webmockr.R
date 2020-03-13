@@ -1,4 +1,5 @@
-#' Stubbing and setting expectations on HTTP requests
+#' @title webmockr
+#' @description Stubbing and setting expectations on HTTP requests
 #'
 #' @importFrom R6 R6Class
 #' @importFrom fauxpas HTTPRequestTimeout
