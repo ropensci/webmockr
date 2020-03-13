@@ -30,6 +30,7 @@ x$adapters[[1]]$name
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-print"></a>}}
+\if{latex}{\out{\hypertarget{method-print}{}}}
 \subsection{Method \code{print()}}{
 print method for the \code{HttpLibAdapaterRegistry} class
 \subsection{Usage}{
@@ -48,6 +49,7 @@ print method for the \code{HttpLibAdapaterRegistry} class
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-register"></a>}}
+\if{latex}{\out{\hypertarget{method-register}{}}}
 \subsection{Method \code{register()}}{
 Register an http library adapter
 \subsection{Usage}{
@@ -67,6 +69,7 @@ nothing, registers the library adapter
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-clone"></a>}}
+\if{latex}{\out{\hypertarget{method-clone}{}}}
 \subsection{Method \code{clone()}}{
 The objects of this class are cloneable with this method.
 \subsection{Usage}{

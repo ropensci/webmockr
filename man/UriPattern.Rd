@@ -70,6 +70,7 @@ z$matches("https://stuff.com/apple?bears=3")
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-new"></a>}}
+\if{latex}{\out{\hypertarget{method-new}{}}}
 \subsection{Method \code{new()}}{
 Create a new \code{UriPattern} object
 \subsection{Usage}{
@@ -94,6 +95,7 @@ A new \code{UriPattern} object
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-matches"></a>}}
+\if{latex}{\out{\hypertarget{method-matches}{}}}
 \subsection{Method \code{matches()}}{
 Match a list of headers against that stored
 \subsection{Usage}{
@@ -113,6 +115,7 @@ a boolean
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-add_query_params"></a>}}
+\if{latex}{\out{\hypertarget{method-add_query_params}{}}}
 \subsection{Method \code{add_query_params()}}{
 Add query parameters to the URI
 \subsection{Usage}{
@@ -132,6 +135,7 @@ nothing returned, updates uri pattern
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-to_s"></a>}}
+\if{latex}{\out{\hypertarget{method-to_s}{}}}
 \subsection{Method \code{to_s()}}{
 Print pattern for easy human consumption
 \subsection{Usage}{
@@ -144,6 +148,7 @@ a string
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-clone"></a>}}
+\if{latex}{\out{\hypertarget{method-clone}{}}}
 \subsection{Method \code{clone()}}{
 The objects of this class are cloneable with this method.
 \subsection{Usage}{

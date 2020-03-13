@@ -39,6 +39,7 @@ Other request-registry:
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-put"></a>}}
+\if{latex}{\out{\hypertarget{method-put}{}}}
 \subsection{Method \code{put()}}{
 Register a request by it's key
 \subsection{Usage}{
@@ -60,6 +61,7 @@ internal counter
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-get"></a>}}
+\if{latex}{\out{\hypertarget{method-get}{}}}
 \subsection{Method \code{get()}}{
 Get a request by key
 \subsection{Usage}{
@@ -80,6 +82,7 @@ Get a request by key
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-clone"></a>}}
+\if{latex}{\out{\hypertarget{method-clone}{}}}
 \subsection{Method \code{clone()}}{
 The objects of this class are cloneable with this method.
 \subsection{Usage}{

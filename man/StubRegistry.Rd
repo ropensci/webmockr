@@ -57,6 +57,7 @@ Other stub-registry:
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-print"></a>}}
+\if{latex}{\out{\hypertarget{method-print}{}}}
 \subsection{Method \code{print()}}{
 print method for the \code{StubRegistry} class
 \subsection{Usage}{
@@ -75,6 +76,7 @@ print method for the \code{StubRegistry} class
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-register_stub"></a>}}
+\if{latex}{\out{\hypertarget{method-register_stub}{}}}
 \subsection{Method \code{register_stub()}}{
 Register a stub
 \subsection{Usage}{
@@ -94,6 +96,7 @@ nothing returned; registers the stub
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-find_stubbed_request"></a>}}
+\if{latex}{\out{\hypertarget{method-find_stubbed_request}{}}}
 \subsection{Method \code{find_stubbed_request()}}{
 Find a stubbed request
 \subsection{Usage}{
@@ -113,6 +116,7 @@ an object of type \link{StubbedRequest}, if matched
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-request_stub_for"></a>}}
+\if{latex}{\out{\hypertarget{method-request_stub_for}{}}}
 \subsection{Method \code{request_stub_for()}}{
 Find a stubbed request
 \subsection{Usage}{
@@ -132,6 +136,7 @@ logical, 1 or more
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-remove_request_stub"></a>}}
+\if{latex}{\out{\hypertarget{method-remove_request_stub}{}}}
 \subsection{Method \code{remove_request_stub()}}{
 Remove a stubbed request by matching request signature
 \subsection{Usage}{
@@ -151,6 +156,7 @@ nothing returned; removes the stub from the registry
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-remove_all_request_stubs"></a>}}
+\if{latex}{\out{\hypertarget{method-remove_all_request_stubs}{}}}
 \subsection{Method \code{remove_all_request_stubs()}}{
 Remove all request stubs
 \subsection{Usage}{
@@ -163,6 +169,7 @@ nothing returned; removes all request stubs
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-is_registered"></a>}}
+\if{latex}{\out{\hypertarget{method-is_registered}{}}}
 \subsection{Method \code{is_registered()}}{
 Find a stubbed request
 \subsection{Usage}{
@@ -182,6 +189,7 @@ nothing returned; registers the stub
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-clone"></a>}}
+\if{latex}{\out{\hypertarget{method-clone}{}}}
 \subsection{Method \code{clone()}}{
 The objects of this class are cloneable with this method.
 \subsection{Usage}{

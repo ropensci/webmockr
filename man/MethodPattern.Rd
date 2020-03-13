@@ -41,6 +41,7 @@ x$matches(method = "HEAD")
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-new"></a>}}
+\if{latex}{\out{\hypertarget{method-new}{}}}
 \subsection{Method \code{new()}}{
 Create a new \code{MethodPattern} object
 \subsection{Usage}{
@@ -60,6 +61,7 @@ A new \code{MethodPattern} object
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-matches"></a>}}
+\if{latex}{\out{\hypertarget{method-matches}{}}}
 \subsection{Method \code{matches()}}{
 test if the pattern matches a given http method
 \subsection{Usage}{
@@ -79,6 +81,7 @@ a boolean
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-to_s"></a>}}
+\if{latex}{\out{\hypertarget{method-to_s}{}}}
 \subsection{Method \code{to_s()}}{
 Print pattern for easy human consumption
 \subsection{Usage}{
@@ -91,6 +94,7 @@ a string
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-clone"></a>}}
+\if{latex}{\out{\hypertarget{method-clone}{}}}
 \subsection{Method \code{clone()}}{
 The objects of this class are cloneable with this method.
 \subsection{Usage}{

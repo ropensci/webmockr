@@ -88,6 +88,7 @@ if (requireNamespace("httr", quietly = TRUE)) {
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-clone"></a>}}
+\if{latex}{\out{\hypertarget{method-clone}{}}}
 \subsection{Method \code{clone()}}{
 The objects of this class are cloneable with this method.
 \subsection{Usage}{
@@ -134,6 +135,7 @@ The objects of this class are cloneable with this method.
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-clone"></a>}}
+\if{latex}{\out{\hypertarget{method-clone}{}}}
 \subsection{Method \code{clone()}}{
 The objects of this class are cloneable with this method.
 \subsection{Usage}{
@@ -171,6 +173,7 @@ The objects of this class are cloneable with this method.
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-new"></a>}}
+\if{latex}{\out{\hypertarget{method-new}{}}}
 \subsection{Method \code{new()}}{
 Create a new Adapter object
 \subsection{Usage}{
@@ -180,6 +183,7 @@ Create a new Adapter object
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-enable"></a>}}
+\if{latex}{\out{\hypertarget{method-enable}{}}}
 \subsection{Method \code{enable()}}{
 Enable the adapter
 \subsection{Usage}{
@@ -192,6 +196,7 @@ Enable the adapter
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-disable"></a>}}
+\if{latex}{\out{\hypertarget{method-disable}{}}}
 \subsection{Method \code{disable()}}{
 Disable the adapter
 \subsection{Usage}{
@@ -204,6 +209,7 @@ Disable the adapter
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-handle_request"></a>}}
+\if{latex}{\out{\hypertarget{method-handle_request}{}}}
 \subsection{Method \code{handle_request()}}{
 All logic for handling a request
 \subsection{Usage}{
@@ -223,6 +229,7 @@ various outcomes
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-remove_stubs"></a>}}
+\if{latex}{\out{\hypertarget{method-remove_stubs}{}}}
 \subsection{Method \code{remove_stubs()}}{
 Remove all stubs
 \subsection{Usage}{
@@ -235,6 +242,7 @@ nothing returned; removes all request stubs
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-clone"></a>}}
+\if{latex}{\out{\hypertarget{method-clone}{}}}
 \subsection{Method \code{clone()}}{
 The objects of this class are cloneable with this method.
 \subsection{Usage}{

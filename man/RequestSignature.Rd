@@ -83,6 +83,7 @@ bb$to_s()
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-new"></a>}}
+\if{latex}{\out{\hypertarget{method-new}{}}}
 \subsection{Method \code{new()}}{
 Create a new \code{RequestSignature} object
 \subsection{Usage}{
@@ -107,6 +108,7 @@ A new \code{RequestSignature} object
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-print"></a>}}
+\if{latex}{\out{\hypertarget{method-print}{}}}
 \subsection{Method \code{print()}}{
 print method for the \code{RequestSignature} class
 \subsection{Usage}{
@@ -125,6 +127,7 @@ print method for the \code{RequestSignature} class
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-to_s"></a>}}
+\if{latex}{\out{\hypertarget{method-to_s}{}}}
 \subsection{Method \code{to_s()}}{
 Request signature to a string
 \subsection{Usage}{
@@ -137,6 +140,7 @@ a character string representation of the request signature
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-clone"></a>}}
+\if{latex}{\out{\hypertarget{method-clone}{}}}
 \subsection{Method \code{clone()}}{
 The objects of this class are cloneable with this method.
 \subsection{Usage}{

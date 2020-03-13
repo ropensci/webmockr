@@ -110,6 +110,7 @@ x$to_s()
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-new"></a>}}
+\if{latex}{\out{\hypertarget{method-new}{}}}
 \subsection{Method \code{new()}}{
 Create a new \code{StubbedRequest} object
 \subsection{Usage}{
@@ -136,6 +137,7 @@ A new \code{StubbedRequest} object
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-print"></a>}}
+\if{latex}{\out{\hypertarget{method-print}{}}}
 \subsection{Method \code{print()}}{
 print method for the \code{StubbedRequest} class
 \subsection{Usage}{
@@ -154,6 +156,7 @@ print method for the \code{StubbedRequest} class
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-with"></a>}}
+\if{latex}{\out{\hypertarget{method-with}{}}}
 \subsection{Method \code{with()}}{
 Set expectations for what's given in HTTP request
 \subsection{Usage}{
@@ -177,6 +180,7 @@ nothing returned; sets only
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-to_return"></a>}}
+\if{latex}{\out{\hypertarget{method-to_return}{}}}
 \subsection{Method \code{to_return()}}{
 Set expectations for what's returned in HTTP response
 \subsection{Usage}{
@@ -202,6 +206,7 @@ nothing returned; sets whats to be returned
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-to_timeout"></a>}}
+\if{latex}{\out{\hypertarget{method-to_timeout}{}}}
 \subsection{Method \code{to_timeout()}}{
 Response should time out
 \subsection{Usage}{
@@ -214,6 +219,7 @@ nothing returned
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-to_raise"></a>}}
+\if{latex}{\out{\hypertarget{method-to_raise}{}}}
 \subsection{Method \code{to_raise()}}{
 Response should raise an exception \code{x}
 \subsection{Usage}{
@@ -233,6 +239,7 @@ nothing returned
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-to_s"></a>}}
+\if{latex}{\out{\hypertarget{method-to_s}{}}}
 \subsection{Method \code{to_s()}}{
 Response as a character string
 \subsection{Usage}{
@@ -245,6 +252,7 @@ Response as a character string
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-clone"></a>}}
+\if{latex}{\out{\hypertarget{method-clone}{}}}
 \subsection{Method \code{clone()}}{
 The objects of this class are cloneable with this method.
 \subsection{Usage}{

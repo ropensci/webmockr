@@ -83,6 +83,7 @@ x$get_exception()
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-new"></a>}}
+\if{latex}{\out{\hypertarget{method-new}{}}}
 \subsection{Method \code{new()}}{
 Create a new \code{Response} object
 \subsection{Usage}{
@@ -102,6 +103,7 @@ A new \code{Response} object
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-print"></a>}}
+\if{latex}{\out{\hypertarget{method-print}{}}}
 \subsection{Method \code{print()}}{
 print method for the \code{Response} class
 \subsection{Usage}{
@@ -120,6 +122,7 @@ print method for the \code{Response} class
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-set_url"></a>}}
+\if{latex}{\out{\hypertarget{method-set_url}{}}}
 \subsection{Method \code{set_url()}}{
 set the url for the response
 \subsection{Usage}{
@@ -139,6 +142,7 @@ nothing returned; sets url
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-get_url"></a>}}
+\if{latex}{\out{\hypertarget{method-get_url}{}}}
 \subsection{Method \code{get_url()}}{
 get the url for the response
 \subsection{Usage}{
@@ -151,6 +155,7 @@ get the url for the response
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-set_request_headers"></a>}}
+\if{latex}{\out{\hypertarget{method-set_request_headers}{}}}
 \subsection{Method \code{set_request_headers()}}{
 set the request headers for the response
 \subsection{Usage}{
@@ -173,6 +178,7 @@ nothing returned; sets request headers on the response
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-get_request_headers"></a>}}
+\if{latex}{\out{\hypertarget{method-get_request_headers}{}}}
 \subsection{Method \code{get_request_headers()}}{
 get the request headers for the response
 \subsection{Usage}{
@@ -185,6 +191,7 @@ get the request headers for the response
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-set_response_headers"></a>}}
+\if{latex}{\out{\hypertarget{method-set_response_headers}{}}}
 \subsection{Method \code{set_response_headers()}}{
 set the response headers for the response
 \subsection{Usage}{
@@ -207,6 +214,7 @@ nothing returned; sets response headers on the response
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-get_respone_headers"></a>}}
+\if{latex}{\out{\hypertarget{method-get_respone_headers}{}}}
 \subsection{Method \code{get_respone_headers()}}{
 get the response headers for the response
 \subsection{Usage}{
@@ -219,6 +227,7 @@ get the response headers for the response
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-set_body"></a>}}
+\if{latex}{\out{\hypertarget{method-set_body}{}}}
 \subsection{Method \code{set_body()}}{
 set the body of the response
 \subsection{Usage}{
@@ -240,6 +249,7 @@ nothing returned; sets body on the response
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-get_body"></a>}}
+\if{latex}{\out{\hypertarget{method-get_body}{}}}
 \subsection{Method \code{get_body()}}{
 get the body of the response
 \subsection{Usage}{
@@ -252,6 +262,7 @@ various
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-set_status"></a>}}
+\if{latex}{\out{\hypertarget{method-set_status}{}}}
 \subsection{Method \code{set_status()}}{
 set the http status of the response
 \subsection{Usage}{
@@ -271,6 +282,7 @@ nothing returned; sets the http status of the response
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-get_status"></a>}}
+\if{latex}{\out{\hypertarget{method-get_status}{}}}
 \subsection{Method \code{get_status()}}{
 get the http status of the response
 \subsection{Usage}{
@@ -283,6 +295,7 @@ get the http status of the response
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-set_exception"></a>}}
+\if{latex}{\out{\hypertarget{method-set_exception}{}}}
 \subsection{Method \code{set_exception()}}{
 set an exception
 \subsection{Usage}{
@@ -302,6 +315,7 @@ nothing returned; sets an exception
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-get_exception"></a>}}
+\if{latex}{\out{\hypertarget{method-get_exception}{}}}
 \subsection{Method \code{get_exception()}}{
 get the exception, if set
 \subsection{Usage}{
@@ -314,6 +328,7 @@ get the exception, if set
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-clone"></a>}}
+\if{latex}{\out{\hypertarget{method-clone}{}}}
 \subsection{Method \code{clone()}}{
 The objects of this class are cloneable with this method.
 \subsection{Usage}{

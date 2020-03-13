@@ -5,9 +5,6 @@
 \alias{webmockr-package}
 \alias{webmockr}
 \title{Stubbing and setting expectations on HTTP requests}
-\description{
-Stubbing and setting expectations on HTTP requests
-}
 \section{Features}{
 
 \itemize{

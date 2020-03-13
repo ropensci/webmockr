@@ -66,6 +66,7 @@ z$matches(bb$body)
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-new"></a>}}
+\if{latex}{\out{\hypertarget{method-new}{}}}
 \subsection{Method \code{new()}}{
 Create a new \code{BodyPattern} object
 \subsection{Usage}{
@@ -85,6 +86,7 @@ A new \code{BodyPattern} object
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-matches"></a>}}
+\if{latex}{\out{\hypertarget{method-matches}{}}}
 \subsection{Method \code{matches()}}{
 Match a list of headers against that stored
 \subsection{Usage}{
@@ -106,6 +108,7 @@ a boolean
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-to_s"></a>}}
+\if{latex}{\out{\hypertarget{method-to_s}{}}}
 \subsection{Method \code{to_s()}}{
 Print pattern for easy human consumption
 \subsection{Usage}{
@@ -118,6 +121,7 @@ a string
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-clone"></a>}}
+\if{latex}{\out{\hypertarget{method-clone}{}}}
 \subsection{Method \code{clone()}}{
 The objects of this class are cloneable with this method.
 \subsection{Usage}{

@@ -46,6 +46,7 @@ Other request-registry:
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-print"></a>}}
+\if{latex}{\out{\hypertarget{method-print}{}}}
 \subsection{Method \code{print()}}{
 print method for the \code{RequestRegistry} class
 \subsection{Usage}{
@@ -64,6 +65,7 @@ print method for the \code{RequestRegistry} class
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-reset"></a>}}
+\if{latex}{\out{\hypertarget{method-reset}{}}}
 \subsection{Method \code{reset()}}{
 Reset the registry to no registered requests
 \subsection{Usage}{
@@ -76,6 +78,7 @@ nothing returned; ressets registry to no requests
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-register_request"></a>}}
+\if{latex}{\out{\hypertarget{method-register_request}{}}}
 \subsection{Method \code{register_request()}}{
 Register a request
 \subsection{Usage}{
@@ -96,6 +99,7 @@ nothing returned; registers the request
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-clone"></a>}}
+\if{latex}{\out{\hypertarget{method-clone}{}}}
 \subsection{Method \code{clone()}}{
 The objects of this class are cloneable with this method.
 \subsection{Usage}{
