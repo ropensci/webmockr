@@ -38,3 +38,32 @@ test_that("with crul", {
   webmockr_disable_net_connect()
   unloadNamespace("vcr")
 })
+
+test_that("if relative path set its not expanded to full path anymore", {
+  skip_on_cran()
+  skip_if_not_installed("vcr")
+  library("vcr")
+  dir <- tempdir()
+  f <- "stuff.json"
+  wdp <- "../files"
+  invisible(vcr_configure(dir = dir, write_disk_path = wdp))
+
+  og <- getwd()
+  setwd(dir)
+  on.exit(setwd(og))
+
+  expect_error(
+    use_cassette("write_disk_path_is_relative", {
+      out <- HttpClient$new("https://httpbin.org/get?foo=foo")$get(disk = f)
+    }),
+    NA
+  )
+  txt <- readLines(file.path(dir, "write_disk_path_is_relative.yml"))
+  expect_true(any(grepl("../files/stuff.json", txt)))
+
+  # cleanup
+  # unlink("files", recursive = TRUE)
+  unlink("stuff.json")
+  webmockr_disable_net_connect()
+  unloadNamespace("vcr")
+})
