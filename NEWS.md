@@ -1,3 +1,9 @@
+webmockr 0.6.2
+==============
+
+* change to `CrulAdapter`: do not use `normalizePath` on the `write_disk_path` path so that relative paths are not changed to full paths - added tests for this (#95) (#96)
+
+
 webmockr 0.6.0
 ==============
 

@@ -1,6 +1,6 @@
 ## Test environments
 
-* local OS X install, R 3.6.3 RC
+* local OS X install, R 3.6.3 Patched
 * ubuntu 16.04 (on travis-ci), R 3.6.2
 * win-builder (devel and release)
 
@@ -14,7 +14,7 @@ I have checked the 7 reverse dependencies, and no problems were found. See (<htt
 
 ---
 
-This version improves the documentation site, fixes many bugs, simplifies code, and improves failure behavior.
+This version makes a small change regarding paths.
 
 Thanks!
 Scott Chamberlain
