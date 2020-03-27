@@ -1,3 +1,5 @@
+scotts_env <- new.env()
+
 #' @title Adapters for Modifying HTTP Requests
 #' @description `Adapter` is the base parent class used to implement
 #'   \pkg{webmockr} support for different HTTP clients. It should not be used
@@ -94,6 +96,8 @@ Adapter <- R6::R6Class("Adapter",
     #' @return various outcomes
     handle_request = function(req) {
 
+      scotts_env$webmockr_self <- self
+
       # put request in request registry
       request_signature <- private$build_request(req)
       webmockr_request_registry$register_request(
@@ -109,10 +113,21 @@ Adapter <- R6::R6Class("Adapter",
         #   get stub with response and return that
         resp <- private$build_stub_response(ss)
 
-        # generate response
-        # VCR: recordable/ignored
+        # webmiddens - prevent vcr from interfering
+        if (middens_loaded()) {
+          # cat("middens loaded: TRUE", sep = "\n")
+          # cat("request in cache", sep = "\n")
+          scotts_env$webmockr_req <- req
+          scotts_env$webmockr_res <- resp
+          mh <- private$midden_handler(req, resp)
+          scotts_env$webmockr_midden_handler_in_cache <- mh
+          resp <- mh$handle(TRUE)
+        }
 
         if (vcr_cassette_inserted()) {
+          # generate response
+          # VCR: recordable/ignored
+
           # use RequestHandler - gets current cassette & record interaction
           resp <- private$request_handler(req)$handle()
 
@@ -134,9 +149,19 @@ Adapter <- R6::R6Class("Adapter",
         # if real requests || localhost || certain exceptions ARE
         #   allowed && nothing found above
 
-        # if vcr loaded: record http interaction into vcr namespace
-        # VCR: recordable
-        if (vcr_loaded()) {
+        # webmiddens - prevent vcr from interfering
+        if (middens_loaded()) {
+          # cat("middens loaded: TRUE", sep = "\n")
+          # cat("request not in cache", sep = "\n")
+          scotts_env$webmockr_req <- req
+          mh <- private$midden_handler(req, NULL)
+          scotts_env$webmockr_midden_handler_not_in_cache <- mh
+          resp <- mh$handle(FALSE)
+        } else if (vcr_loaded()) {
+
+          # if vcr loaded: record http interaction into vcr namespace
+          # VCR: recordable
+
           # use RequestHandler instead? - which gets current cassette for us
           resp <- private$request_handler(req)$handle()
           

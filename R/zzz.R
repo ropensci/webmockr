@@ -182,6 +182,9 @@ last <- function(x) {
 vcr_loaded <- function() {
   "package:vcr" %in% search()
 }
+webmiddens_loaded <- function() {
+  "package:webmiddens" %in% search()
+}
 
 # check whether a cassette is inserted without assuming vcr is installed
 vcr_cassette_inserted <- function() {
@@ -190,3 +193,13 @@ vcr_cassette_inserted <- function() {
   }
   return(FALSE)  
 }
+
+# check if webmiddens is loaded
+middens_loaded <- function() {
+  if (webmiddens_loaded()) {
+    unloadNamespace("vcr")
+    return(TRUE)
+  }
+  return(FALSE)
+}
+

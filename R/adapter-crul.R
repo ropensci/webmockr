@@ -101,6 +101,10 @@ CrulAdapter <- R6::R6Class("CrulAdapter",
         basename(response$content)
       )
       response
+    },
+
+    midden_handler = function(request, response = NULL) {
+      webmiddens::MiddenHandlerCrul$new(request, response)
     }
   )
 )
