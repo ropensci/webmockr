@@ -20,12 +20,14 @@ test_that("RequestRegistry: behaves as expected", {
 
   expect_length(aa$request_signatures$hash, 0)
 
-  aa$register_request(request = "GET https://scottchamberlain.info")
-  aa$register_request(request = "GET https://scottchamberlain.info")
+  z1 = RequestSignature$new(method = "post", uri = "https://www.wikipedia.org/")
+
+  aa$register_request(request = z1)
+  aa$register_request(request = z1)
 
   expect_length(aa$request_signatures$hash, 1)
   expect_equal(
-    aa$request_signatures$hash$`GET https://scottchamberlain.info`,
+    aa$request_signatures$hash[[z1$to_s()]]$count,
     2
   )
 
@@ -33,7 +35,7 @@ test_that("RequestRegistry: behaves as expected", {
     print(aa), "Registered Requests"
   )
   expect_output(
-    print(aa), "GET https://scottchamberlain.info was made"
+    print(aa), "POST:  https://www.wikipedia.org/ was made"
   )
 
   # reset the request registry
@@ -44,5 +46,5 @@ test_that("RequestRegistry: behaves as expected", {
 test_that("RequestRegistry fails well", {
   x <- RequestRegistry$new()
 
-  expect_error(x$register_request(), "'key' required")
+  expect_error(x$register_request(), '\"request\" is missing')
 })

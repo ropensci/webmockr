@@ -25,5 +25,5 @@ test_that("request_registry: structure", {
 
   expect_is(x$request_signatures$hash, "list")
   expect_match(names(x$request_signatures$hash), "GET")
-  expect_is(x$request_signatures$hash[[1]], 'numeric')
+  expect_is(x$request_signatures$hash[[1]]$count, 'numeric')
 })

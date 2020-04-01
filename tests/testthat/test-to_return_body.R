@@ -1,7 +1,7 @@
 context("to_return: response body types behave correctly for crul pkg")
 
 test_that("to_return: setting body behaves correctly", {
-  webmockr::enable()
+  enable()
   stub_registry_clear()
 
   # character

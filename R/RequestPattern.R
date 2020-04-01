@@ -84,7 +84,7 @@ RequestPattern <- R6::R6Class(
       }
 
       self$method_pattern <- MethodPattern$new(pattern = method)
-      self$uri_pattern <- if (!is.null(uri)) {
+      self$uri_pattern <- if (is.null(uri_regex)) {
         UriPattern$new(pattern = uri)
       } else {
         UriPattern$new(regex_pattern = uri_regex)
@@ -503,7 +503,8 @@ UriPattern <- R6::R6Class(
       stopifnot(xor(is.null(pattern), is.null(regex_pattern)))
       if (!is.null(regex_pattern)) self$regex <- TRUE
       pattern <- if (!is.null(pattern)) pattern else regex_pattern
-      self$pattern <- normalize_uri(add_scheme(pattern))
+      if (self$regex) pattern <- add_scheme(pattern)
+      self$pattern <- normalize_uri(pattern)
     },
 
     #' @description Match a list of headers against that stored

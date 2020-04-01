@@ -11,10 +11,24 @@
 #' x
 #' x$to_s()
 #'
+#' # many to_return's
+#' x <- StubbedRequest$new(method = "get", uri = "httpbin.org")
+#' x$to_return(status = 200, body = "foobar", headers = list(a = 5))
+#' x$to_return(status = 200, body = "bears", headers = list(b = 6))
+#' x
+#' x$to_s()
+#'
 #' # raw body
 #' x <- StubbedRequest$new(method = "get", uri = "api.crossref.org")
 #' x$to_return(status = 200, body = raw(0), headers = list(a = 5))
 #' x$to_s()
+#' x
+#'
+#' x <- StubbedRequest$new(method = "get", uri = "api.crossref.org")
+#' x$to_return(status = 200, body = charToRaw("foo bar"),
+#'   headers = list(a = 5))
+#' x$to_s()
+#' x
 #'
 #' # file path
 #' x <- StubbedRequest$new(method = "get", uri = "api.crossref.org")
@@ -23,7 +37,7 @@
 #' x
 #' x$to_s()
 #' unlink(f)
-#' 
+#'
 #' # to_file(): file path and payload to go into the file
 #' #   payload written to file during mocked response creation
 #' x <- StubbedRequest$new(method = "get", uri = "api.crossref.org")
@@ -37,7 +51,7 @@
 #' # uri_regex
 #' (x <- StubbedRequest$new(method = "get", uri_regex = ".+ossref.org"))
 #' x$method
-#' x$uri
+#' x$uri_regex
 #' x$to_s()
 #'
 #' # to timeout
@@ -45,6 +59,7 @@
 #' x$to_s()
 #' x$to_timeout()
 #' x$to_s()
+#' x
 #'
 #' # to raise
 #' library(fauxpas)
@@ -52,6 +67,7 @@
 #' x$to_s()
 #' x$to_raise(HTTPBadGateway)
 #' x$to_s()
+#' x
 #' }
 StubbedRequest <- R6::R6Class(
   "StubbedRequest",
@@ -124,20 +140,23 @@ StubbedRequest <- R6::R6Class(
       cat(paste0("    request_headers: ", hdl_lst(self$request_headers)),
           sep = "\n")
       cat("  to_return: ", sep = "\n")
-      cat(paste0("    status: ", hdl_lst(self$responses_sequences$status)),
-          sep = "\n")
-      cat(paste0("    body: ", hdl_lst(self$responses_sequences$body)),
-          sep = "\n")
-      cat(paste0("    response_headers: ",
-        hdl_lst(self$responses_sequences$headers)),
-          sep = "\n")
-      cat(paste0("  should_timeout: ", self$timeout), sep = "\n")
-      cat(paste0("  should_raise: ",
-        if (self$raise)
-          paste0(vapply(self$exceptions, "[[", "", "classname"),
-            collapse = ", ")
-        else "FALSE"
-      ), sep = "\n")
+      rs <- self$responses_sequences
+      for (i in seq_along(rs)) {
+        cat(paste0("  - status: ", hdl_lst(rs[[i]]$status)),
+            sep = "\n")
+        cat(paste0("    body: ", hdl_lst(rs[[i]]$body)),
+            sep = "\n")
+        cat(paste0("    response_headers: ",
+          hdl_lst(rs[[i]]$headers)),
+            sep = "\n")
+        cat(paste0("    should_timeout: ", rs[[i]]$timeout), sep = "\n")
+        cat(paste0("    should_raise: ",
+          if (rs[[i]]$raise)
+            paste0(vapply(rs[[i]]$exceptions, "[[", "", "classname"),
+              collapse = ", ")
+          else "FALSE"
+        ), sep = "\n")
+      }
     },
 
     #' @description Set expectations for what's given in HTTP request
@@ -168,13 +187,9 @@ StubbedRequest <- R6::R6Class(
       } else {
         body
       }
-      self$response_headers <- headers
-      self$responses_sequences <- list(
-        status = status,
-        body = body,
-        headers = headers
-      )
-      self$responses_sequences$body_raw <- {
+      self$response_headers <- headers # FIXME: for then change, remove eventually
+      # self$responses_sequences$body_raw <- {
+      body_raw <- {
         if (inherits(body, "mock_file")) {
           body
         } else if (inherits(body, "logical")) {
@@ -207,47 +222,86 @@ StubbedRequest <- R6::R6Class(
           charToRaw(jsonlite::toJSON(body, auto_unbox = TRUE))
         }
       }
+      private$append_response(
+        private$response(
+          status = status,
+          body = body,
+          headers = headers,
+          body_raw = body_raw
+        )
+      )
     },
 
     #' @description Response should time out
     #' @return nothing returned
     to_timeout = function() {
-      self$timeout <- TRUE
+      private$append_response(private$response(timeout = TRUE))
     },
 
     #' @description Response should raise an exception `x`
     #' @param x (character) an exception message
     #' @return nothing returned
     to_raise = function(x) {
-      self$exceptions <- if (inherits(x, "list")) x else list(x)
-      self$raise <- TRUE
+      # self$exceptions <- if (inherits(x, "list")) x else list(x)
+      # self$raise <- TRUE
+      private$append_response(
+        private$response(
+          raise = TRUE,
+          exceptions = if (inherits(x, "list")) x else list(x)
+        )
+      )
     },
 
     #' @description Response as a character string
     #' @return (character) the response as a string
     to_s = function() {
-      toret <- c(
-        make_body(self$responses_sequences$body),
-        make_status(self$responses_sequences$status),
-        make_headers(self$responses_sequences$headers)
-      )
+      ret <- self$responses_sequences
       gsub("^\\s+|\\s+$", "", sprintf(
-        "  %s: %s %s %s %s %s %s",
+        "  %s: %s %s %s %s",
         toupper(self$method),
         url_builder(self$uri %||% self$uri_regex, self$query),
         make_body(self$body),
         make_headers(self$request_headers),
-        if (any(nchar(toret) > 0)) {
-          sprintf("| to_return: %s %s %s", toret[1], toret[2], toret[3])
+        if (length(ret) > 0) {
+          strgs <- c()
+          for (i in seq_along(ret)) {
+            bd <- make_body(ret[[i]]$body)
+            stt <- make_status(ret[[i]]$status)
+            hed <- make_headers(ret[[i]]$headers)
+            strgs[i] <- sprintf("%s %s %s",
+              if (nzchar(paste0(bd, stt, hed))) paste("| to_return: ", bd, stt, hed) else "",
+              if (ret[[i]]$timeout) "| should_timeout: TRUE" else "",
+              if (ret[[i]]$raise)
+                paste0("| to_raise: ",
+                  paste0(vapply(ret[[i]]$exceptions, "[[", "", "classname"),
+                  collapse = ", "))
+              else ""
+            )
+          }
+          paste0(strgs, collapse = " ")
         } else {
           ""
-        },
-        if (self$timeout) "| should_timeout: TRUE" else "",
-        if (self$raise)
-          paste0("| to_raise: ",
-            paste0(vapply(self$exceptions, "[[", "", "classname"),
-            collapse = ", ")) else ""
+        }
       ))
+    }
+  ),
+
+  private = list(
+    append_response = function(x) {
+      self$responses_sequences <- cc(c(self$responses_sequences, list(x)))
+    },
+    response = function(status = NULL, body = NULL, headers = NULL,
+      body_raw = NULL, timeout = FALSE, raise = FALSE, exceptions = list()
+    ) {
+      list(
+        status = status,
+        body = body,
+        headers = headers,
+        body_raw = body_raw,
+        timeout = timeout,
+        raise = raise,
+        exceptions = exceptions
+      )
     }
   )
 )

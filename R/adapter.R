@@ -1,3 +1,5 @@
+scotts <- new.env()
+
 #' @title Adapters for Modifying HTTP Requests
 #' @description `Adapter` is the base parent class used to implement
 #'   \pkg{webmockr} support for different HTTP clients. It should not be used
@@ -93,17 +95,19 @@ Adapter <- R6::R6Class("Adapter",
     #' @param req a request
     #' @return various outcomes
     handle_request = function(req) {
-
+      scotts$self <- self
       # put request in request registry
       request_signature <- private$build_request(req)
       webmockr_request_registry$register_request(
-        request = request_signature$to_s()
+        request = request_signature
+        # request = request_signature$to_s()
       )
 
       if (request_is_in_cache(request_signature)) {
         # if real requests NOT allowed
         # even if net connects allowed, we check if stubbed found first
         ss <- webmockr_stub_registry$find_stubbed_request(request_signature)[[1]]
+        scotts$ss <- ss
         
         # if user wants to return a partial object
         #   get stub with response and return that
@@ -123,8 +127,11 @@ Adapter <- R6::R6Class("Adapter",
         
         # no vcr
         } else {
+          # scotts$resp <- resp
           resp <- private$build_response(req, resp)
           # add to_return() elements if given
+          scotts$resp <- resp
+          scotts$request_signature <- request_signature
           resp <- private$add_response_sequences(ss, resp)
         }
 
@@ -256,18 +263,30 @@ Adapter <- R6::R6Class("Adapter",
       resp$set_request_headers(stub$request_headers)
       resp$set_response_headers(stub$response_headers)
       resp$set_status(as.integer(stub$status_code %||% 200))
-  
+
+      req_pat <- RequestPattern$new(method = stub$method,
+        uri = stub$uri, query = stub$query,
+        body = stub$body, headers = stub$request_headers)
+      times_req <- webmockr_request_registry$times_executed(req_pat) - 1
+      stub_num_get <- times_req + 1
+      if (stub_num_get > length(stub$responses_sequences)) {
+        stub_num_get <- length(stub$responses_sequences)
+      }
+      respx <- stub$responses_sequences[[stub_num_get]]
+      
       # if user set to_timeout or to_raise, do that
-      if (stub$timeout || stub$raise) {
-        if (stub$timeout) {
-          x <- fauxpas::HTTPRequestTimeout$new()
-          resp$set_status(x$status_code)
-          x$do_verbose(resp)
-        }
-        if (stub$raise) {
-          x <- stub$exceptions[[1]]$new()
-          resp$set_status(x$status_code)
-          x$do_verbose(resp)
+      if (!is.null(respx)) {
+        if (respx$timeout || respx$raise) {
+          if (respx$timeout) {
+            x <- fauxpas::HTTPRequestTimeout$new()
+            resp$set_status(x$status_code)
+            x$do_verbose(resp)
+          }
+          if (respx$raise) {
+            x <- respx$exceptions[[1]]$new()
+            resp$set_status(x$status_code)
+            x$do_verbose(resp)
+          }
         }
       }
       return(resp)
@@ -277,9 +296,25 @@ Adapter <- R6::R6Class("Adapter",
       # TODO: assert HttpResponse (is it ever a crul response?)
       stopifnot(inherits(stub, "StubbedRequest"))
 
+      # FIXME: temporary fix, change to using request registry counter
+      # to decide which responses_sequence entry to use
+
+      # choose which response to return
+      req_pat <- RequestPattern$new(method = stub$method,
+        uri = stub$uri, query = stub$query,
+        body = stub$body, headers = stub$request_headers)
+      times_req <- webmockr_request_registry$times_executed(req_pat) - 1
+      stub_num_get <- times_req + 1
+      if (stub_num_get > length(stub$responses_sequences)) {
+        stub_num_get <- length(stub$responses_sequences)
+      }
+      respx <- stub$responses_sequences[[stub_num_get]]
       # remove NULLs
-      toadd <- cc(stub$responses_sequences)
+      toadd <- cc(respx)
       if (is.null(toadd)) return(response)
+
+      # remove timeout, raise, exceptions fields
+      toadd <- toadd[!names(toadd) %in% c('timeout', 'raise', 'exceptions')]
 
       for (i in seq_along(toadd)) {
         if (names(toadd)[i] == "status") {
@@ -287,25 +322,25 @@ Adapter <- R6::R6Class("Adapter",
         }
 
         if (names(toadd)[i] == "body") {
-          if (inherits(stub$responses_sequences$body_raw, "mock_file")) {
+          if (inherits(respx$body_raw, "mock_file")) {
             cat(
-              stub$responses_sequences$body_raw$payload,
-              file = stub$responses_sequences$body_raw$path,
+              respx$body_raw$payload,
+              file = respx$body_raw$path,
               sep = "\n"
             )
-            stub$responses_sequences$body_raw <-
-              stub$responses_sequences$body_raw$path
+            respx$body_raw <-
+              respx$body_raw$path
             if (self$client == "httr") {
-              class(stub$responses_sequences$body_raw) <- "path"
+              class(respx$body_raw) <- "path"
             }
           }
           
-          body_type <- attr(stub$responses_sequences$body_raw, "type") %||% ""
+          body_type <- attr(respx$body_raw, "type") %||% ""
           if (self$client == "httr" && body_type == "file") {
-            attr(stub$responses_sequences$body_raw, "type") <- NULL
-            class(stub$responses_sequences$body_raw) <- "path"
+            attr(respx$body_raw, "type") <- NULL
+            class(respx$body_raw) <- "path"
           }
-          response$content <- stub$responses_sequences$body_raw
+          response$content <- respx$body_raw
         }
         
         if (names(toadd)[i] == "headers") {

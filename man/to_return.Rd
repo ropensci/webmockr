@@ -45,15 +45,21 @@ see more examples in \code{\link[=stub_request]{stub_request()}}
 }
 \examples{
 # first, make a stub object
-(req <- stub_request("post", "https://httpbin.org/post"))
+foo <- function() {
+  stub_request("post", "https://httpbin.org/post")
+}
 
 # add status, body and/or headers
-to_return(req, status = 200)
-to_return(req, body = "stuff")
-to_return(req, body = list(a = list(b = "world")))
-to_return(req, headers = list(a = 5))
-to_return(req, status = 200, body = "stuff", headers = list(a = 5))
+foo() \%>\% to_return(status = 200)
+foo() \%>\% to_return(body = "stuff")
+foo() \%>\% to_return(body = list(a = list(b = "world")))
+foo() \%>\% to_return(headers = list(a = 5))
+foo() \%>\% 
+  to_return(status = 200, body = "stuff", headers = list(a = 5))
 
 # .list - pass in a named list instead
-to_return(req, .list = list(body = list(foo = "bar")))
+foo() \%>\% to_return(.list = list(body = list(foo = "bar")))
+
+# then: multiple responses using chained `to_return()`
+foo() \%>\% to_return(body = "stuff") \%>\% to_return(body = "things")
 }
