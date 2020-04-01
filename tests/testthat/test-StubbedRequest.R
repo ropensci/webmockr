@@ -50,8 +50,8 @@ test_that("StubbedRequest: works", {
     headers = list(a = 5)
   )
   expect_is(aa$responses_sequences, "list")
-  expect_is(aa$responses_sequences$body, "list")
-  expect_named(aa$responses_sequences$body, "hello")
+  expect_is(aa$responses_sequences[[1]]$body, "list")
+  expect_named(aa$responses_sequences[[1]]$body, "hello")
 })
 
 
@@ -186,4 +186,17 @@ test_that("StubbedRequest nested lists in body", {
   )
   expect_output(x$print(),
     "apple = list\\(bears = list\\(cheesecake = list\\(foo_do_the_thing = \"bar asdjlfas dfa...")
+})
+
+test_that("StubbedRequest w/ >1 to_return()", {
+  stub_registry_clear()
+
+  x <- StubbedRequest$new(method = "get", uri = "httpbin.org")
+  x$to_return(status = 200, body = "foobar", headers = list(a = 5))
+  x$to_return(status = 200, body = "bears", headers = list(b = 6))
+  x$to_s()
+
+  expect_equal(length(x$responses_sequences), 2)
+  expect_match(x$to_s(), "foobar")
+  expect_match(x$to_s(), "bears")
 })

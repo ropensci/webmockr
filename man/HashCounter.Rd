@@ -9,12 +9,13 @@ it is used
 }
 \examples{
 x <- HashCounter$new()
-x$put("foo bar")
-x$put("foo bar")
-x$put("hello world")
-x$put("hello world")
-x$put("hello world")
 x$hash
+z <- RequestSignature$new(method = "get", uri = "https:/httpbin.org/get")
+x$put(z)
+x$hash
+x$get(z)
+x$put(z)
+x$get(z)
 }
 \seealso{
 Other request-registry: 
@@ -25,7 +26,8 @@ Other request-registry:
 \section{Public fields}{
 \if{html}{\out{<div class="r6-fields">}}
 \describe{
-\item{\code{hash}}{(list) a list for internal use only}
+\item{\code{hash}}{(list) a list for internal use only, with elements
+\code{key}, \code{sig}, and \code{count}}
 }
 \if{html}{\out{</div>}}
 }
@@ -43,14 +45,13 @@ Other request-registry:
 \subsection{Method \code{put()}}{
 Register a request by it's key
 \subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{HashCounter$put(key)}\if{html}{\out{</div>}}
+\if{html}{\out{<div class="r">}}\preformatted{HashCounter$put(req_sig)}\if{html}{\out{</div>}}
 }
 
 \subsection{Arguments}{
 \if{html}{\out{<div class="arguments">}}
 \describe{
-\item{\code{key}}{a character string of the request, serialized from
-\link{CrulAdapter} or another adapter}
+\item{\code{req_sig}}{an object of class \code{RequestSignature}}
 }
 \if{html}{\out{</div>}}
 }
@@ -65,19 +66,18 @@ internal counter
 \subsection{Method \code{get()}}{
 Get a request by key
 \subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{HashCounter$get(key)}\if{html}{\out{</div>}}
+\if{html}{\out{<div class="r">}}\preformatted{HashCounter$get(req_sig)}\if{html}{\out{</div>}}
 }
 
 \subsection{Arguments}{
 \if{html}{\out{<div class="arguments">}}
 \describe{
-\item{\code{key}}{a character string of the request, serialized from
-\link{CrulAdapter} or another adapter}
+\item{\code{req_sig}}{an object of class \code{RequestSignature}}
 }
 \if{html}{\out{</div>}}
 }
 \subsection{Returns}{
-(character) an http request as a string
+(integer) the count of how many times the request has been made
 }
 }
 \if{html}{\out{<hr>}}
