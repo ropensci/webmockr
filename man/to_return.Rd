@@ -20,7 +20,8 @@ this parameter}
 
 \item{times}{(integer) number of times the given response should be
 returned; default: 1. value must be greater than or equal to 1. Very large
-values probably don't make sense, but there's no maximum value}
+values probably don't make sense, but there's no maximum value. See
+Details.}
 }
 \value{
 an object of class \code{StubbedRequest}, with print method describing
@@ -55,6 +56,14 @@ That is, you'll match to an HTTP request based on \code{stub_request()} and
 \code{wi_th()}; the first time the request is made, the first response
 is returned; the second time the reqeust is made, the second response
 is returned; and so on.
+
+Be aware that webmockr has to track number of requests
+(see \code{\link[=request_registry]{request_registry()}}), and so if you use multiple \code{to_return()}
+or the \code{times} parameter, you must clear the request registry
+in order to go back to mocking responses from the start again.
+\code{\link[=webmockr_reset]{webmockr_reset()}} clears the stub registry and  the request registry,
+after which you can use multiple responses again (after creating
+your stub(s) again of course)
 }
 
 \examples{
