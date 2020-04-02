@@ -117,7 +117,6 @@ StubbedRequest <- R6::R6Class(
       if (is.null(uri) && is.null(uri_regex)) {
         stop("one of uri or uri_regex is required", call. = FALSE)
       }
-      # self$uri <- if (!is.null(uri)) uri else uri_regex
       self$uri <- uri
       self$uri_regex <- uri_regex
       if (!is.null(uri)) self$uri_parts <- parseurl(self$uri)
@@ -242,8 +241,6 @@ StubbedRequest <- R6::R6Class(
     #' @param x (character) an exception message
     #' @return nothing returned
     to_raise = function(x) {
-      # self$exceptions <- if (inherits(x, "list")) x else list(x)
-      # self$raise <- TRUE
       private$append_response(
         private$response(
           raise = TRUE,

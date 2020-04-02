@@ -97,6 +97,25 @@
 #' x$post('post')
 #' x$put('put', body = list(foo = 'bar'))
 #' x$get('put', query = list(stuff = 3423234L))
+#' 
+#' # many responses
+#' ## the first response matches the first to_return call, and so on
+#' stub_request("get", "https://httpbin.org/get") %>% 
+#'   to_return(status = 200, body = "foobar", headers = list(a = 5)) %>% 
+#'   to_return(status = 200, body = "bears", headers = list(b = 6))
+#' con <- crul::HttpClient$new(url = "https://httpbin.org")
+#' con$get("get")$parse("UTF-8")
+#' con$get("get")$parse("UTF-8")
+#' 
+#' ## OR, use times with to_return() to repeat the same response many times
+#' library(fauxpas)
+#' stub_request("get", "https://httpbin.org/get") %>% 
+#'   to_return(status = 200, body = "apple-pie", times = 2) %>% 
+#'   to_raise(HTTPUnauthorized)
+#' con <- crul::HttpClient$new(url = "https://httpbin.org")
+#' con$get("get")$parse("UTF-8")
+#' con$get("get")$parse("UTF-8")
+#' con$get("get")$parse("UTF-8")
 #'
 #' # clear all stubs
 #' stub_registry()

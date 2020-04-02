@@ -4,7 +4,7 @@
 \alias{to_return}
 \title{Expectation for what's returned from a stubbed request}
 \usage{
-to_return(.data, ..., .list = list())
+to_return(.data, ..., .list = list(), times = 1)
 }
 \arguments{
 \item{.data}{input. Anything that can be coerced to a \code{StubbedRequest} class
@@ -17,6 +17,10 @@ object}
 and/or 'headers'. An alternative to passing in via \code{...}. Don't pass the
 same thing to both, e.g. don't pass 'status' to \code{...}, and also 'status' to
 this parameter}
+
+\item{times}{(integer) number of times the given response should be
+returned; default: 1. value must be greater than or equal to 1. Very large
+values probably don't make sense, but there's no maximum value}
 }
 \value{
 an object of class \code{StubbedRequest}, with print method describing
@@ -43,6 +47,16 @@ numeric/integer values to character.
 \note{
 see more examples in \code{\link[=stub_request]{stub_request()}}
 }
+\section{multiple \code{to_return()}}{
+
+You can add more than one \code{to_return()} to a webmockr stub (including
+\code{\link[=to_raise]{to_raise()}}, \code{\link[=to_timeout]{to_timeout()}}). Each one is a HTTP response returned.
+That is, you'll match to an HTTP request based on \code{stub_request()} and
+\code{wi_th()}; the first time the request is made, the first response
+is returned; the second time the reqeust is made, the second response
+is returned; and so on.
+}
+
 \examples{
 # first, make a stub object
 foo <- function() {
@@ -60,6 +74,9 @@ foo() \%>\%
 # .list - pass in a named list instead
 foo() \%>\% to_return(.list = list(body = list(foo = "bar")))
 
-# then: multiple responses using chained `to_return()`
+# multiple responses using chained `to_return()`
 foo() \%>\% to_return(body = "stuff") \%>\% to_return(body = "things")
+
+# many of the same response using the times parameter
+foo() \%>\% to_return(body = "stuff", times = 3)
 }
