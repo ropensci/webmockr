@@ -102,12 +102,6 @@ x
 \item{\code{responses_sequences}}{(xx) xx}
 
 \item{\code{status_code}}{(xx) xx}
-
-\item{\code{timeout}}{(xx) xx}
-
-\item{\code{exceptions}}{(xx) xx}
-
-\item{\code{raise}}{(xx) xx}
 }
 \if{html}{\out{</div>}}
 }
