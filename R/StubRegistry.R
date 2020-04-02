@@ -103,10 +103,6 @@ StubRegistry <- R6::R6Class(
   )
 )
 
-# initialize empty stub registry on package load
-webmockr_stub_registry <- new.env()
-webmockr_stub_registry <- StubRegistry$new()
-
 json_validate <- function(x) {
   res <- tryCatch(jsonlite::validate(x), error = function(e) e)
   if (inherits(res, "error")) return(FALSE)

@@ -1,10 +1,7 @@
-#' Clear the stub registry
-#'
-#' Clear all stubs
-#'
+#' @title stub_registry_clear
+#' @description Clear all stubs in the stub registry
 #' @export
-#' @return nothing, well technically an empty list invisibly, but
-#' it's not anything useful
+#' @return an empty list invisibly
 #' @family stub-registry
 #' @examples
 #' (x <- stub_request("get", "https://httpbin.org/get"))
