@@ -13,7 +13,8 @@
 #' this parameter
 #' @param times (integer) number of times the given response should be
 #' returned; default: 1. value must be greater than or equal to 1. Very large
-#' values probably don't make sense, but there's no maximum value
+#' values probably don't make sense, but there's no maximum value. See 
+#' Details.
 #' @return an object of class `StubbedRequest`, with print method describing
 #' the stub
 #' @note see more examples in [stub_request()]
@@ -36,7 +37,15 @@
 #' That is, you'll match to an HTTP request based on `stub_request()` and
 #' `wi_th()`; the first time the request is made, the first response
 #' is returned; the second time the reqeust is made, the second response
-#' is returned; and so on. 
+#' is returned; and so on.
+#' 
+#' Be aware that webmockr has to track number of requests
+#' (see [request_registry()]), and so if you use multiple `to_return()`
+#' or the `times` parameter, you must clear the request registry
+#' in order to go back to mocking responses from the start again.
+#' [webmockr_reset()] clears the stub registry and  the request registry,
+#' after which you can use multiple responses again (after creating
+#' your stub(s) again of course)
 #' 
 #' @examples
 #' # first, make a stub object
@@ -77,13 +86,6 @@ to_return <- function(.data, ..., .list = list(), times = 1) {
   assert(z$status, "numeric")
   assert(z$headers, "list")
   if (!all(hz_namez(z$headers))) stop("'headers' must be a named list")
-  # for (i in seq_len(times)) {
-  #   .data$to_return(
-  #     status = z$status,
-  #     body = z$body,
-  #     headers = z$headers
-  #   )
-  # }
   replicate(times,
     .data$to_return(status = z$status, body = z$body, headers = z$headers))
   return(.data)
