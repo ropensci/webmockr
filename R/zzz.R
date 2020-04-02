@@ -113,6 +113,13 @@ assert <- function(x, y) {
   }
 }
 
+assert_gte <- function(x, y) {
+  if (!x >= y) {
+    stop(sprintf("%s must be greater than or equal to %s",
+      deparse(substitute(x)), y), call. = FALSE)
+  }
+}
+
 crul_head_parse <- function(z) {
   if (grepl("HTTP\\/", z)) {
     list(status = z)
