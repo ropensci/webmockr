@@ -94,12 +94,6 @@ StubbedRequest <- R6::R6Class(
     responses_sequences = NULL,
     #' @field status_code (xx) xx
     status_code = NULL,
-    #' @field timeout (xx) xx
-    timeout = FALSE,
-    #' @field exceptions (xx) xx
-    exceptions = list(),
-    #' @field raise (xx) xx
-    raise = FALSE,
 
     #' @description Create a new `StubbedRequest` object
     #' @param method the HTTP method (any, head, get, post, put,
@@ -187,7 +181,6 @@ StubbedRequest <- R6::R6Class(
         body
       }
       self$response_headers <- headers # FIXME: for then change, remove eventually
-      # self$responses_sequences$body_raw <- {
       body_raw <- {
         if (inherits(body, "mock_file")) {
           body
