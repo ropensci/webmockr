@@ -23,16 +23,6 @@ environment:
     - R_VERSION: release
       R_ARCH: x64
       USE_RTOOLS: true
-    - R_VERSION: devel
-      R_ARCH: x64
-      _R_CHECK_LENGTH_1_LOGIC2_: TRUE
-      USE_RTOOLS: true
-
-notifications:
-  - provider: Slack
-    auth_token:
-      secure: S3AcHEoJHUtahR5N8ConStS8oV/+x34tS1bDGM3OD0QxDKBBxufeiMmXQsId1gZu
-    channel: '#builds'
 
 artifacts:
   - path: '*.Rcheck\**\*.log'
