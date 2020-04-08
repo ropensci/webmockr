@@ -245,6 +245,39 @@ readLines(out$content)
 
 Writing to disk is supported in both `crul` and `httr`
 
+## Many requests in a row
+
+e.g., many redirects, then a final successful request
+
+```{r eval=FALSE}
+webmockr::enable()
+library(crul)
+library(fauxpas)
+
+z <- stub_request("get", "https://httpbin.org/get")
+to_return(z, status = 200, body = "foobar", headers = list(a = 5))
+to_return(z, status = 200, body = "bears", headers = list(b = 6))
+to_raise(z, HTTPBadRequest)
+z
+
+con <- crul::HttpClient$new(url = "https://httpbin.org")
+# the first to_return()
+first <- con$get("get")
+first
+first$parse("UTF-8")
+# the second to_return()
+second <- con$get("get")
+second
+second$parse("UTF-8")
+# the third to_return() - fails as specified
+third <- con$get("get")
+```
+
+Note that subsequent requests past the number of responses given with `to_return()`/etc.
+simply gives the last response you specified. Although if you set a `to_timeout` or 
+`to_raise` this feature won't happen since you fail out.
+
+
 ## Contributors
 
 * [Scott Chamberlain](https://github.com/sckott)

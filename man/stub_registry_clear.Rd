@@ -2,16 +2,15 @@
 % Please edit documentation in R/stub_registry_clear.R
 \name{stub_registry_clear}
 \alias{stub_registry_clear}
-\title{Clear the stub registry}
+\title{stub_registry_clear}
 \usage{
 stub_registry_clear()
 }
 \value{
-nothing, well technically an empty list invisibly, but
-it's not anything useful
+an empty list invisibly
 }
 \description{
-Clear all stubs
+Clear all stubs in the stub registry
 }
 \examples{
 (x <- stub_request("get", "https://httpbin.org/get"))

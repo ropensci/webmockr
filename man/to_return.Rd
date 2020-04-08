@@ -4,7 +4,7 @@
 \alias{to_return}
 \title{Expectation for what's returned from a stubbed request}
 \usage{
-to_return(.data, ..., .list = list())
+to_return(.data, ..., .list = list(), times = 1)
 }
 \arguments{
 \item{.data}{input. Anything that can be coerced to a \code{StubbedRequest} class
@@ -17,6 +17,11 @@ object}
 and/or 'headers'. An alternative to passing in via \code{...}. Don't pass the
 same thing to both, e.g. don't pass 'status' to \code{...}, and also 'status' to
 this parameter}
+
+\item{times}{(integer) number of times the given response should be
+returned; default: 1. value must be greater than or equal to 1. Very large
+values probably don't make sense, but there's no maximum value. See
+Details.}
 }
 \value{
 an object of class \code{StubbedRequest}, with print method describing
@@ -43,17 +48,44 @@ numeric/integer values to character.
 \note{
 see more examples in \code{\link[=stub_request]{stub_request()}}
 }
+\section{multiple \code{to_return()}}{
+
+You can add more than one \code{to_return()} to a webmockr stub (including
+\code{\link[=to_raise]{to_raise()}}, \code{\link[=to_timeout]{to_timeout()}}). Each one is a HTTP response returned.
+That is, you'll match to an HTTP request based on \code{stub_request()} and
+\code{wi_th()}; the first time the request is made, the first response
+is returned; the second time the reqeust is made, the second response
+is returned; and so on.
+
+Be aware that webmockr has to track number of requests
+(see \code{\link[=request_registry]{request_registry()}}), and so if you use multiple \code{to_return()}
+or the \code{times} parameter, you must clear the request registry
+in order to go back to mocking responses from the start again.
+\code{\link[=webmockr_reset]{webmockr_reset()}} clears the stub registry and  the request registry,
+after which you can use multiple responses again (after creating
+your stub(s) again of course)
+}
+
 \examples{
 # first, make a stub object
-(req <- stub_request("post", "https://httpbin.org/post"))
+foo <- function() {
+  stub_request("post", "https://httpbin.org/post")
+}
 
 # add status, body and/or headers
-to_return(req, status = 200)
-to_return(req, body = "stuff")
-to_return(req, body = list(a = list(b = "world")))
-to_return(req, headers = list(a = 5))
-to_return(req, status = 200, body = "stuff", headers = list(a = 5))
+foo() \%>\% to_return(status = 200)
+foo() \%>\% to_return(body = "stuff")
+foo() \%>\% to_return(body = list(a = list(b = "world")))
+foo() \%>\% to_return(headers = list(a = 5))
+foo() \%>\% 
+  to_return(status = 200, body = "stuff", headers = list(a = 5))
 
 # .list - pass in a named list instead
-to_return(req, .list = list(body = list(foo = "bar")))
+foo() \%>\% to_return(.list = list(body = list(foo = "bar")))
+
+# multiple responses using chained `to_return()`
+foo() \%>\% to_return(body = "stuff") \%>\% to_return(body = "things")
+
+# many of the same response using the times parameter
+foo() \%>\% to_return(body = "stuff", times = 3)
 }

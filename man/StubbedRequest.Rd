@@ -16,10 +16,24 @@ x$to_return(status = 200, body = "foobar", headers = list(a = 5))
 x
 x$to_s()
 
+# many to_return's
+x <- StubbedRequest$new(method = "get", uri = "httpbin.org")
+x$to_return(status = 200, body = "foobar", headers = list(a = 5))
+x$to_return(status = 200, body = "bears", headers = list(b = 6))
+x
+x$to_s()
+
 # raw body
 x <- StubbedRequest$new(method = "get", uri = "api.crossref.org")
 x$to_return(status = 200, body = raw(0), headers = list(a = 5))
 x$to_s()
+x
+
+x <- StubbedRequest$new(method = "get", uri = "api.crossref.org")
+x$to_return(status = 200, body = charToRaw("foo bar"),
+  headers = list(a = 5))
+x$to_s()
+x
 
 # file path
 x <- StubbedRequest$new(method = "get", uri = "api.crossref.org")
@@ -42,7 +56,7 @@ unlink(f)
 # uri_regex
 (x <- StubbedRequest$new(method = "get", uri_regex = ".+ossref.org"))
 x$method
-x$uri
+x$uri_regex
 x$to_s()
 
 # to timeout
@@ -50,6 +64,7 @@ x$to_s()
 x$to_s()
 x$to_timeout()
 x$to_s()
+x
 
 # to raise
 library(fauxpas)
@@ -57,6 +72,7 @@ library(fauxpas)
 x$to_s()
 x$to_raise(HTTPBadGateway)
 x$to_s()
+x
 }
 }
 \seealso{
@@ -86,12 +102,6 @@ x$to_s()
 \item{\code{responses_sequences}}{(xx) xx}
 
 \item{\code{status_code}}{(xx) xx}
-
-\item{\code{timeout}}{(xx) xx}
-
-\item{\code{exceptions}}{(xx) xx}
-
-\item{\code{raise}}{(xx) xx}
 }
 \if{html}{\out{</div>}}
 }

@@ -17,7 +17,7 @@ test_that("stub_request bits are correct", {
   expect_null(aa$query)
   expect_null(aa$request_headers)
   expect_null(aa$response_headers)
-  expect_null(aa$responses_sequences)
+  expect_is(aa$responses_sequences, "list")
 
   expect_is(aa$method, "character")
   expect_equal(aa$method, "get")
@@ -25,7 +25,7 @@ test_that("stub_request bits are correct", {
   expect_equal(aa$uri, "https://httpbin.org/get")
 
   # to_timeout expected stuff
-  expect_true(aa$timeout)
+  expect_true(aa$responses_sequences[[1]]$timeout)
 })
 
 test_that("stubs exist after stub_request called", {

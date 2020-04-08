@@ -18,8 +18,7 @@ test_that("stub_request bits are correct", {
   expect_null(aa$query)
   expect_null(aa$request_headers)
   expect_null(aa$response_headers)
-  expect_null(aa$responses_sequences)
-  expect_false(aa$timeout)
+  # expect_false(aa$timeout) # timeout will be removed in StubbedRequest
 
   expect_is(aa$method, "character")
   expect_equal(aa$method, "get")
@@ -27,11 +26,12 @@ test_that("stub_request bits are correct", {
   expect_equal(aa$uri, "https://httpbin.org/get")
 
   # to_raise expected stuff
-  expect_true(aa$raise)
-  expect_is(aa$exceptions, "list")
-  expect_is(aa$exceptions[[1]], "R6ClassGenerator")
-  expect_equal(aa$exceptions[[1]]$classname, "HTTPAccepted")
-  expect_equal(aa$exceptions[[1]]$new()$status_code, 202)
+  rr <- aa$responses_sequences[[1]]
+  expect_true(rr$raise)
+  expect_is(rr$exceptions, "list")
+  expect_is(rr$exceptions[[1]], "R6ClassGenerator")
+  expect_equal(rr$exceptions[[1]]$classname, "HTTPAccepted")
+  expect_equal(rr$exceptions[[1]]$new()$status_code, 202)
 })
 
 test_that("stubs exist after stub_request called", {

@@ -28,9 +28,13 @@ test_that("stub_request bits are correct", {
   expect_equal(aa$response_headers$a, 5)
 
   expect_is(aa$responses_sequences, "list")
-  expect_named(aa$responses_sequences, c("status", "body", "headers", "body_raw"))
-  expect_equal(aa$responses_sequences$status, 200)
-  expect_equal(aa$responses_sequences$body, "stuff")
+  expect_identical(
+    sort(names(aa$responses_sequences[[1]])),
+    sort(c("status", "body", "headers", "body_raw",
+      "timeout", "raise", "exceptions"))
+  )
+  expect_equal(aa$responses_sequences[[1]]$status, 200)
+  expect_equal(aa$responses_sequences[[1]]$body, "stuff")
 })
 
 test_that("stubs exist after stub_request called", {

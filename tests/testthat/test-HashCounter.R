@@ -16,27 +16,30 @@ test_that("HashCounter: structure", {
 test_that("HashCounter: works as expected", {
   x <- HashCounter$new()
 
-  x$put("foo bar")
+  a <- RequestSignature$new(method = "get", uri = "https:/httpbin.org/get")
+  b <- RequestSignature$new(method = "post", uri = "https://www.wikipedia.org/")
+
+  x$put(a)
   expect_length(x$hash, 1)
-  expect_equal(x$hash$`foo bar`, 1)
+  expect_equal(x$hash[[a$to_s()]]$count, 1)
 
-  x$put("foo bar")
+  x$put(a)
   expect_length(x$hash, 1)
-  expect_equal(x$hash$`foo bar`, 2)
+  expect_equal(x$hash[[a$to_s()]]$count, 2)
 
-  x$put("hello world")
+  x$put(b)
   expect_length(x$hash, 2)
-  expect_equal(x$hash$`hello world`, 1)
+  expect_equal(x$hash[[b$to_s()]]$count, 1)
 
-  x$put("hello world")
-  x$put("hello world")
+  x$put(b)
+  x$put(b)
   expect_length(x$hash, 2)
-  expect_equal(x$hash$`hello world`, 3)
+  expect_equal(x$hash[[b$to_s()]]$count, 3)
 })
 
 test_that("HashCounter fails well", {
   x <- HashCounter$new()
 
-  expect_error(x$get(), "'key' required")
-  expect_error(x$put(), "'key' required")
+  expect_error(x$get(), '\"req_sig\" is missing')
+  expect_error(x$put(), '\"req_sig\" is missing')
 })

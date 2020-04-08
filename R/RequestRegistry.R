@@ -5,35 +5,40 @@
 #' @family request-registry
 #' @examples
 #' x <- HashCounter$new()
-#' x$put("foo bar")
-#' x$put("foo bar")
-#' x$put("hello world")
-#' x$put("hello world")
-#' x$put("hello world")
 #' x$hash
+#' z <- RequestSignature$new(method = "get", uri = "https:/httpbin.org/get")
+#' x$put(z)
+#' x$hash
+#' x$get(z)
+#' x$put(z)
+#' x$get(z)
 HashCounter <- R6::R6Class(
   'HashCounter',
   public = list(
-    #' @field hash (list) a list for internal use only
+    #' @field hash (list) a list for internal use only, with elements
+    #' `key`, `sig`, and `count`
     hash = list(),
 
     #' @description Register a request by it's key
-    #' @param key a character string of the request, serialized from
-    #' [CrulAdapter] or another adapter
+    #' @param req_sig an object of class `RequestSignature`
     #' @return nothing returned; registers request and iterates
     #' internal counter
-    put = function(key) {
-      if (missing(key)) stop("'key' required")
-      self$hash[key] <- (self$hash[[key]] %||% 0) + 1
+    put = function(req_sig) {
+      assert(req_sig, "RequestSignature")
+      key <- req_sig$to_s()
+      self$hash[[key]] <- list(
+        key = key,
+        sig = req_sig,
+        count = (self$hash[[key]]$count %||% 0) + 1
+      )
     },
 
     #' @description Get a request by key
-    #' @param key a character string of the request, serialized from
-    #' [CrulAdapter] or another adapter
-    #' @return (character) an http request as a string
-    get = function(key) {
-      if (missing(key)) stop("'key' required")
-      self$hash[[key]] %||% 0
+    #' @param req_sig an object of class `RequestSignature`
+    #' @return (integer) the count of how many times the request has been made
+    get = function(req_sig) {
+      assert(req_sig, "RequestSignature")
+      self$hash[[req_sig$to_s()]]$count %||% 0
     }
   )
 )
@@ -45,14 +50,48 @@ HashCounter <- R6::R6Class(
 #' @seealso [stub_registry()] and [StubRegistry]
 #' @examples
 #' x <- RequestRegistry$new()
-#' x$register_request(request = "GET http://scottchamberlain.info")
-#' x$register_request(request = "GET http://scottchamberlain.info")
-#' x$register_request(request = "POST https://httpbin.org/post")
+#' z1 <- RequestSignature$new("get", "http://scottchamberlain.info")
+#' z2 <- RequestSignature$new("post", "https://httpbin.org/post")
+#' x$register_request(request = z1)
+#' x$register_request(request = z1)
+#' x$register_request(request = z2)
 #' # print method to list requests
 #' x
 #'
+#' # more complex requests
+#' w <- RequestSignature$new(
+#'   method = "get",
+#'   uri = "https:/httpbin.org/get",
+#'   options = list(headers = list(`User-Agent` = "foobar", stuff = "things"))
+#' )
+#' w$to_s()
+#' x$register_request(request = w)
+#' x
+#'
+#'
 #' # hashes, and number of times each requested
 #' x$request_signatures$hash
+#'
+#' # times_executed method
+#' pat <- RequestPattern$new(
+#'   method = "get",
+#'   uri = "https:/httpbin.org/get",
+#'   headers = list(`User-Agent` = "foobar", stuff = "things")
+#' )
+#' pat$to_s()
+#' x$times_executed(pat)
+#' z <- RequestPattern$new(method = "get", uri = "http://scottchamberlain.info")
+#' x$times_executed(z)
+#' w <- RequestPattern$new(method = "post", uri = "https://httpbin.org/post")
+#' x$times_executed(w)
+#' 
+#' ## pattern with no matches - returns 0 (zero)
+#' pat <- RequestPattern$new(
+#'   method = "get",
+#'   uri = "http://recology.info/"
+#' )
+#' pat$to_s()
+#' x$times_executed(pat)
 #'
 #' # reset the request registry
 #' x$reset()
@@ -73,7 +112,7 @@ RequestRegistry <- R6::R6Class(
           sprintf(
             "  %s was made %s times\n",
             names(self$request_signatures$hash)[i],
-            self$request_signatures$hash[[i]]
+            self$request_signatures$hash[[i]]$count
           ),
           sep = "\n"
         )
@@ -89,14 +128,23 @@ RequestRegistry <- R6::R6Class(
 
     #' @description Register a request
     #' @param request a character string of the request, serialized from
-    #' [CrulAdapter] or another adapter
+    #' a `RequestSignature$new(...)$to_s()`
     #' @return nothing returned; registers the request
     register_request = function(request) {
       self$request_signatures$put(request)
+    },
+
+    #' @description How many times has a request been made
+    #' @param request_pattern an object of class `RequestPattern`
+    #' @return integer, the number of times the request has been made
+    #' @details if no match is found for the request pattern, 0 is returned
+    times_executed = function(request_pattern) {
+      bools <- c()
+      for (i in seq_along(self$request_signatures$hash)) {
+        bools[i] <- request_pattern$matches(self$request_signatures$hash[[i]]$sig)
+      }
+      if (all(!bools)) return(0)
+      self$request_signatures$hash[bools][[1]]$count
     }
   )
 )
-
-# initialize empty request registry on package load
-webmockr_request_registry <- new.env()
-webmockr_request_registry <- RequestRegistry$new()

@@ -8,14 +8,48 @@ keeps track of HTTP requests
 }
 \examples{
 x <- RequestRegistry$new()
-x$register_request(request = "GET http://scottchamberlain.info")
-x$register_request(request = "GET http://scottchamberlain.info")
-x$register_request(request = "POST https://httpbin.org/post")
+z1 <- RequestSignature$new("get", "http://scottchamberlain.info")
+z2 <- RequestSignature$new("post", "https://httpbin.org/post")
+x$register_request(request = z1)
+x$register_request(request = z1)
+x$register_request(request = z2)
 # print method to list requests
 x
 
+# more complex requests
+w <- RequestSignature$new(
+  method = "get",
+  uri = "https:/httpbin.org/get",
+  options = list(headers = list(`User-Agent` = "foobar", stuff = "things"))
+)
+w$to_s()
+x$register_request(request = w)
+x
+
+
 # hashes, and number of times each requested
 x$request_signatures$hash
+
+# times_executed method
+pat <- RequestPattern$new(
+  method = "get",
+  uri = "https:/httpbin.org/get",
+  headers = list(`User-Agent` = "foobar", stuff = "things")
+)
+pat$to_s()
+x$times_executed(pat)
+z <- RequestPattern$new(method = "get", uri = "http://scottchamberlain.info")
+x$times_executed(z)
+w <- RequestPattern$new(method = "post", uri = "https://httpbin.org/post")
+x$times_executed(w)
+
+## pattern with no matches - returns 0 (zero)
+pat <- RequestPattern$new(
+  method = "get",
+  uri = "http://recology.info/"
+)
+pat$to_s()
+x$times_executed(pat)
 
 # reset the request registry
 x$reset()
@@ -41,6 +75,7 @@ Other request-registry:
 \item \href{#method-print}{\code{RequestRegistry$print()}}
 \item \href{#method-reset}{\code{RequestRegistry$reset()}}
 \item \href{#method-register_request}{\code{RequestRegistry$register_request()}}
+\item \href{#method-times_executed}{\code{RequestRegistry$times_executed()}}
 \item \href{#method-clone}{\code{RequestRegistry$clone()}}
 }
 }
@@ -89,12 +124,36 @@ Register a request
 \if{html}{\out{<div class="arguments">}}
 \describe{
 \item{\code{request}}{a character string of the request, serialized from
-\link{CrulAdapter} or another adapter}
+a \code{RequestSignature$new(...)$to_s()}}
 }
 \if{html}{\out{</div>}}
 }
 \subsection{Returns}{
 nothing returned; registers the request
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-times_executed"></a>}}
+\if{latex}{\out{\hypertarget{method-times_executed}{}}}
+\subsection{Method \code{times_executed()}}{
+How many times has a request been made
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{RequestRegistry$times_executed(request_pattern)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{request_pattern}}{an object of class \code{RequestPattern}}
+}
+\if{html}{\out{</div>}}
+}
+\subsection{Details}{
+if no match is found for the request pattern, 0 is returned
+}
+
+\subsection{Returns}{
+integer, the number of times the request has been made
 }
 }
 \if{html}{\out{<hr>}}
