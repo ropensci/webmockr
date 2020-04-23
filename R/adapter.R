@@ -107,7 +107,7 @@ Adapter <- R6::R6Class("Adapter",
         # if real requests NOT allowed
         # even if net connects allowed, we check if stubbed found first
         ss <- webmockr_stub_registry$find_stubbed_request(request_signature)[[1]]
-        scotts$ss <- ss
+        scotts_env$ss <- ss
         
         # if user wants to return a partial object
         #   get stub with response and return that
@@ -138,11 +138,11 @@ Adapter <- R6::R6Class("Adapter",
         
         # no vcr
         } else {
-          # scotts$resp <- resp
+          # scotts_env$resp <- resp
           resp <- private$build_response(req, resp)
           # add to_return() elements if given
-          scotts$resp <- resp
-          scotts$request_signature <- request_signature
+          scotts_env$resp <- resp
+          scotts_env$request_signature <- request_signature
           resp <- private$add_response_sequences(ss, resp)
         }
 
