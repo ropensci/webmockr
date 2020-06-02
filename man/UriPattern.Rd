@@ -12,6 +12,17 @@ uri matcher
 z$matches("http://foobar.com")
 z$matches("http://foobar.com/")
 
+# without scheme
+## matches http by default: does not match https by default
+(z <- UriPattern$new(pattern = "foobar.com"))
+z$matches("http://foobar.com")
+z$matches("http://foobar.com/")
+z$matches("https://foobar.com")
+z$matches("https://foobar.com/")
+## to match https, you'll have to give the complete url
+(z <- UriPattern$new(pattern = "https://foobar.com"))
+z$matches("https://foobar.com/")
+
 # default ports
 (z <- UriPattern$new(pattern = "http://foobar.com"))
 z$matches("http://foobar.com:80")

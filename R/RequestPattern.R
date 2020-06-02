@@ -4,7 +4,7 @@
 #' @seealso pattern classes for HTTP method [MethodPattern], headers
 #' [HeadersPattern], body [BodyPattern], and URI/URL [UriPattern]
 #' @examples \dontrun{
-#' (x <- RequestPattern$new(method = "get", uri = "https://httpbin.org/get"))
+#' (x <- RequestPattern$new(method = "get", uri = "httpbin.org/get"))
 #' x$body_pattern
 #' x$headers_pattern
 #' x$method_pattern
@@ -12,7 +12,7 @@
 #' x$to_s()
 #'
 #' # make a request signature
-#' rs <- RequestSignature$new(method = "get", uri = "https://httpbin.org/get")
+#' rs <- RequestSignature$new(method = "get", uri = "http://httpbin.org/get")
 #'
 #' # check if it matches
 #' x$matches(rs)
@@ -46,10 +46,10 @@
 #' x$matches(rs)
 #' 
 #' # body
-#' x <- RequestPattern$new(method = "post", uri = "https://httpbin.org/post",
+#' x <- RequestPattern$new(method = "post", uri = "httpbin.org/post",
 #'   body = list(y = crul::upload(system.file("CITATION"))))
 #' x$to_s()
-#' rs <- RequestSignature$new(method = "post", uri = "https://httpbin.org/post",
+#' rs <- RequestSignature$new(method = "post", uri = "http://httpbin.org/post",
 #'   options = list(
 #'      body = list(y = crul::upload(system.file("CITATION")))))
 #' rs
@@ -447,6 +447,17 @@ BODY_FORMATS <- list(
 #' (z <- UriPattern$new(pattern = "http://foobar.com"))
 #' z$matches("http://foobar.com")
 #' z$matches("http://foobar.com/")
+#' 
+#' # without scheme
+#' ## matches http by default: does not match https by default
+#' (z <- UriPattern$new(pattern = "foobar.com"))
+#' z$matches("http://foobar.com")
+#' z$matches("http://foobar.com/")
+#' z$matches("https://foobar.com")
+#' z$matches("https://foobar.com/")
+#' ## to match https, you'll have to give the complete url
+#' (z <- UriPattern$new(pattern = "https://foobar.com"))
+#' z$matches("https://foobar.com/")
 #'
 #' # default ports
 #' (z <- UriPattern$new(pattern = "http://foobar.com"))
@@ -504,7 +515,7 @@ UriPattern <- R6::R6Class(
       if (!is.null(regex_pattern)) self$regex <- TRUE
       pattern <- if (!is.null(pattern)) pattern else regex_pattern
       if (self$regex) pattern <- add_scheme(pattern)
-      self$pattern <- normalize_uri(pattern)
+      self$pattern <- normalize_uri(pattern, self$regex)
     },
 
     #' @description Match a list of headers against that stored
@@ -512,7 +523,7 @@ UriPattern <- R6::R6Class(
     #' @return a boolean
     matches = function(uri) {
       # normalize uri
-      uri <- normalize_uri(uri)
+      uri <- normalize_uri(uri, self$regex)
 
       # FIXME: may need to match optionally to URI alone or URI + query
       # params, etc.
@@ -548,9 +559,12 @@ add_scheme <- function(x) {
   }
 }
 esc <- function(x) curl::curl_escape(x)
-normalize_uri <- function(x) {
+normalize_uri <- function(x, regex = FALSE) {
   x <- prune_trailing_slash(x)
   x <- prune_port(x)
+  if (!regex) 
+    if (is.na(urltools::url_parse(x)$scheme))
+      x <- paste0('http://', x)
   tmp <- urltools::url_parse(x)
   if (is.na(tmp$path)) return(x)
   tmp$path <- esc(tmp$path)

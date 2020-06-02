@@ -10,10 +10,13 @@ stub_request(method = "get", uri = NULL, uri_regex = NULL)
 \item{method}{(character) HTTP method, one of "get", "post", "put", "patch",
 "head", "delete", "options" - or the special "any" (for any method)}
 
-\item{uri}{(character) The request uri. Can be a full uri, partial, or a
-regular expression to match many incantations of a uri. required.}
+\item{uri}{(character) The request uri. Can be a full or partial uri.
+\pkg{webmockr} can match uri's without the "http" scheme, but does
+not match if the scheme is "https". required, unless \code{uri_regex} given.
+See \link{UriPattern} for more.}
 
-\item{uri_regex}{(character) A URI represented as regex. See examples}
+\item{uri_regex}{(character) A URI represented as regex. required, if \code{uri}
+not given. See examples}
 }
 \value{
 an object of class \code{StubbedRequest}, with print method describing

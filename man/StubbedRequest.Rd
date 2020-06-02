@@ -134,7 +134,9 @@ Create a new \code{StubbedRequest} object
 patch, or delete). "any" matches any HTTP method. required.}
 
 \item{\code{uri}}{(character) request URI. either this or \code{uri_regex}
-required}
+required. \pkg{webmockr} can match uri's without the "http" scheme,
+but does not match if the scheme is "https". required, unless
+\code{uri_regex} given. See \link{UriPattern} for more.}
 
 \item{\code{uri_regex}}{(character) request URI as regex. either this or \code{uri}
 required}

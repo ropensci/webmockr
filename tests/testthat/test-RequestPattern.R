@@ -168,4 +168,12 @@ test_that("UriPattern: structure is correct", {
   expect_equal(z$pattern, "http://foobar.com")
   z$add_query_params(list(pizza = "cheese", cheese = "cheddar"))
   expect_equal(z$pattern, "http://foobar.com?pizza=cheese&cheese=cheddar")
+
+  # matches urls without scheme
+  # - does match with "http"
+  # - does not match with "https"
+  z <- UriPattern$new(pattern = "foobar.com")
+  expect_equal(z$pattern, "http://foobar.com")
+  expect_true(z$matches("http://foobar.com"))
+  expect_false(z$matches("https://foobar.com"))
 })
