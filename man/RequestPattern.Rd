@@ -33,6 +33,12 @@ x$to_s()
     query = list(foo = "bar")
 ))
 x$to_s()
+## query params included in url, not separately
+(x <- RequestPattern$new(
+  method = "get", uri = "https://httpbin.org/get?stuff=things"
+))
+x$to_s()
+x$query_params
 
 # just headers (via setting method=any & uri_regex=.+)
 headers <- list(

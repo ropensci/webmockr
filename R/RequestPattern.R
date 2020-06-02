@@ -29,6 +29,12 @@
 #'     query = list(foo = "bar")
 #' ))
 #' x$to_s()
+#' ## query params included in url, not separately
+#' (x <- RequestPattern$new(
+#'   method = "get", uri = "https://httpbin.org/get?stuff=things"
+#' ))
+#' x$to_s()
+#' x$query_params
 #' 
 #' # just headers (via setting method=any & uri_regex=.+)
 #' headers <- list(
@@ -445,55 +451,59 @@ BODY_FORMATS <- list(
 #' @examples
 #' # trailing slash
 #' (z <- UriPattern$new(pattern = "http://foobar.com"))
-#' z$matches("http://foobar.com")
-#' z$matches("http://foobar.com/")
+#' z$matches("http://foobar.com") # TRUE
+#' z$matches("http://foobar.com/") # TRUE
 #' 
 #' # without scheme
 #' ## matches http by default: does not match https by default
 #' (z <- UriPattern$new(pattern = "foobar.com"))
-#' z$matches("http://foobar.com")
-#' z$matches("http://foobar.com/")
-#' z$matches("https://foobar.com")
-#' z$matches("https://foobar.com/")
+#' z$matches("http://foobar.com") # TRUE
+#' z$matches("http://foobar.com/") # TRUE
+#' z$matches("https://foobar.com") # FALSE
+#' z$matches("https://foobar.com/") # FALSE
 #' ## to match https, you'll have to give the complete url
 #' (z <- UriPattern$new(pattern = "https://foobar.com"))
-#' z$matches("https://foobar.com/")
+#' z$matches("https://foobar.com/") # TRUE
+#' z$matches("http://foobar.com/") # FALSE
 #'
 #' # default ports
 #' (z <- UriPattern$new(pattern = "http://foobar.com"))
-#' z$matches("http://foobar.com:80")
-#' z$matches("http://foobar.com:80/")
-#' z$matches("http://foobar.com:443")
-#' z$matches("http://foobar.com:443/")
+#' z$matches("http://foobar.com:80") # TRUE
+#' z$matches("http://foobar.com:80/") # TRUE
+#' z$matches("http://foobar.com:443") # TRUE
+#' z$matches("http://foobar.com:443/") # TRUE
 #'
-#' # user info
+#' # user info - FIXME, not sure we support this yet
 #' (z <- UriPattern$new(pattern = "http://foobar.com"))
 #' z$matches("http://user:pass@foobar.com")
 #'
 #' # regex
 #' (z <- UriPattern$new(regex_pattern = ".+ample\\.."))
-#' z$matches("http://sample.org")
-#' z$matches("http://example.com")
-#' z$matches("http://tramples.net")
+#' z$matches("http://sample.org") # TRUE
+#' z$matches("http://example.com") # TRUE
+#' z$matches("http://tramples.net") # FALSE
 #'
 #' # add query parameters
 #' (z <- UriPattern$new(pattern = "http://foobar.com"))
 #' z$add_query_params(list(pizza = "cheese", cheese = "cheddar"))
+#' z
 #' z$pattern
-#'
-#' (z <- UriPattern$new(pattern = "http://foobar.com"))
-#' z$pattern
-#' z$add_query_params(list(pizza = "deep dish", cheese = "cheddar"))
-#' z$pattern
+#' z$matches("http://foobar.com?pizza=cheese&cheese=cheddar") # TRUE
+#' z$matches("http://foobar.com?pizza=cheese&cheese=swiss") # FALSE
+#' 
+#' # query parameters in the uri
+#' (z <- UriPattern$new(pattern = "https://httpbin.org/get?stuff=things"))
+#' z$add_query_params() # have to run this method to gather query params
+#' z$matches("https://httpbin.org/get?stuff=things") # TRUE
+#' z$matches("https://httpbin.org/get?stuff2=things") # FALSE
 #' 
 #' # any pattern
-#' (z <- UriPattern$new(regex_pattern = ".+"))
+#' (z <- UriPattern$new(regex_pattern = "stuff\\.com.+"))
 #' z$regex
 #' z$pattern
-#' z$matches("http://stuff.com")
-#' z$matches("https://stuff.com")
-#' z$matches("https://stuff.com/stff")
-#' z$matches("https://stuff.com/apple?bears=3")
+#' z$matches("http://stuff.com") # FALSE
+#' z$matches("https://stuff.com/stff") # TRUE
+#' z$matches("https://stuff.com/apple?bears=brown&bats=grey") # TRUE
 
 UriPattern <- R6::R6Class(
   'UriPattern',
@@ -502,6 +512,8 @@ UriPattern <- R6::R6Class(
     pattern = NULL,
     #' @field regex a logical
     regex = FALSE,
+    #' @field query_params a list, or `NULL` if empty
+    query_params = NULL,
 
     #' @description Create a new `UriPattern` object
     #' @param pattern (character) a uri, as a character string. if scheme
@@ -522,26 +534,54 @@ UriPattern <- R6::R6Class(
     #' @param uri (character) a uri
     #' @return a boolean
     matches = function(uri) {
-      # normalize uri
       uri <- normalize_uri(uri, self$regex)
+      self$pattern_matches(uri) && self$query_params_matches(uri)
+    },
 
-      # FIXME: may need to match optionally to URI alone or URI + query
-      # params, etc.
-      if (!self$regex) return(uri == self$pattern)
-      if (self$regex) return(grepl(self$pattern, uri))
+    #' @description Match a URI
+    #' @param uri (character) a uri
+    #' @return a boolean
+    pattern_matches = function(uri) {
+      if (!self$regex) return(uri == self$pattern) # not regex
+      grepl(self$pattern, uri) # regex
+    },
+
+    #' @description Match query parameters of a URI
+    #' @param uri (character) a uri
+    #' @return a boolean
+    query_params_matches = function(uri) {
+      if (!self$regex) { # not regex
+        return(identical(self$query_params, self$extract_query(uri)))
+      }
+      ## There is no regex for query params separately; so, just compare to uri
+      grepl(self$pattern, uri) # regex
+    },
+
+    #' @description Extract query parameters as a named list
+    #' @param uri (character) a uri
+    #' @return named list, or `NULL` if no query parameters
+    extract_query = function(uri) {
+      params <- parse_a_url(uri)$parameter
+      if (all(is.na(params))) return(NULL)
+      params
     },
 
     #' @description Add query parameters to the URI
     #' @param query_params (list|character) list or character
     #' @return nothing returned, updates uri pattern
     add_query_params = function(query_params) {
-      if (
-        inherits(query_params, "list") ||
-        inherits(query_params, "character")
-      ) {
-        pars <- paste0(unname(Map(function(x, y) paste(x, esc(y), sep = "="),
-            names(query_params), query_params)), collapse = "&")
-        self$pattern <- paste0(self$pattern, "?", pars)
+      if (missing(query_params) || is.null(query_params)) {
+        self$query_params <- self$extract_query(self$pattern)
+      } else {
+        self$query_params <- query_params
+        if (
+          inherits(query_params, "list") ||
+          inherits(query_params, "character")
+        ) {
+          pars <- paste0(unname(Map(function(x, y) paste(x, esc(y), sep = "="),
+              names(query_params), query_params)), collapse = "&")
+          self$pattern <- paste0(self$pattern, "?", pars)
+        }
       }
     },
 
