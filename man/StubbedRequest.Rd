@@ -16,6 +16,24 @@ x$to_return(status = 200, body = "foobar", headers = list(a = 5))
 x
 x$to_s()
 
+# query
+x <- StubbedRequest$new(method = "get", uri = "httpbin.org")
+x$with(query = list(a = 5))
+x
+x$to_s()
+## including
+x <- StubbedRequest$new(method = "get", uri = "httpbin.org")
+x$with(query = including(list(a = 5)))
+x
+x$to_s()
+x$with(query = including(list(a = 5, b = 7)))
+x$to_s()
+## excluding
+x <- StubbedRequest$new(method = "get", uri = "httpbin.org")
+x$with(query = excluding(list(a = 5)))
+x
+x$to_s()
+
 # many to_return's
 x <- StubbedRequest$new(method = "get", uri = "httpbin.org")
 x$to_return(status = 200, body = "foobar", headers = list(a = 5))
@@ -86,6 +104,8 @@ x
 \item{\code{uri}}{(xx) xx}
 
 \item{\code{uri_regex}}{(xx) xx}
+
+\item{\code{regex}}{a logical}
 
 \item{\code{uri_parts}}{(xx) xx}
 

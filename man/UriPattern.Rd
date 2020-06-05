@@ -62,6 +62,19 @@ z$pattern
 z$matches("http://stuff.com") # FALSE
 z$matches("https://stuff.com/stff") # TRUE
 z$matches("https://stuff.com/apple?bears=brown&bats=grey") # TRUE
+
+# partial matching
+## including
+z <- UriPattern$new(pattern = "http://foobar.com")
+z$add_query_params(including(list(hello = "world")))
+z$matches(uri = "http://foobar.com?hello=world&bye=mars") # TRUE
+z$matches("http://foobar.com?bye=mars") # FALSE
+
+## excluding
+z <- UriPattern$new(pattern = "http://foobar.com")
+z$add_query_params(excluding(list(hello = "world")))
+z$matches(uri = "http://foobar.com?hello=world&bye=mars") # FALSE
+z$matches("http://foobar.com?bye=mars") # TRUE
 }
 \keyword{internal}
 \section{Public fields}{
@@ -72,6 +85,10 @@ z$matches("https://stuff.com/apple?bears=brown&bats=grey") # TRUE
 \item{\code{regex}}{a logical}
 
 \item{\code{query_params}}{a list, or \code{NULL} if empty}
+
+\item{\code{partial}}{bool, default: \code{FALSE}}
+
+\item{\code{partial_type}}{a string, default: NULL}
 }
 \if{html}{\out{</div>}}
 }

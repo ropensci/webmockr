@@ -10,6 +10,24 @@
 #' x$to_return(status = 200, body = "foobar", headers = list(a = 5))
 #' x
 #' x$to_s()
+#' 
+#' # query
+#' x <- StubbedRequest$new(method = "get", uri = "httpbin.org")
+#' x$with(query = list(a = 5))
+#' x
+#' x$to_s()
+#' ## including
+#' x <- StubbedRequest$new(method = "get", uri = "httpbin.org")
+#' x$with(query = including(list(a = 5)))
+#' x
+#' x$to_s()
+#' x$with(query = including(list(a = 5, b = 7)))
+#' x$to_s()
+#' ## excluding
+#' x <- StubbedRequest$new(method = "get", uri = "httpbin.org")
+#' x$with(query = excluding(list(a = 5)))
+#' x
+#' x$to_s()
 #'
 #' # many to_return's
 #' x <- StubbedRequest$new(method = "get", uri = "httpbin.org")
@@ -78,6 +96,8 @@ StubbedRequest <- R6::R6Class(
     uri = NULL,
     #' @field uri_regex (xx) xx
     uri_regex = NULL,
+    #' @field regex a logical
+    regex = FALSE,
     #' @field uri_parts (xx) xx
     uri_parts = NULL,
     #' @field host (xx) xx
@@ -115,6 +135,7 @@ StubbedRequest <- R6::R6Class(
       }
       self$uri <- uri
       self$uri_regex <- uri_regex
+      if (!is.null(uri_regex)) self$regex <- TRUE
       if (!is.null(uri)) self$uri_parts <- parseurl(self$uri)
     },
 
@@ -249,9 +270,10 @@ StubbedRequest <- R6::R6Class(
     to_s = function() {
       ret <- self$responses_sequences
       gsub("^\\s+|\\s+$", "", sprintf(
-        "  %s: %s %s %s %s",
+        "  %s: %s %s %s %s %s",
         toupper(self$method),
-        url_builder(self$uri %||% self$uri_regex, self$query),
+        url_builder(self$uri %||% self$uri_regex, self$regex),
+        make_query(self$query),
         make_body(self$body),
         make_headers(self$request_headers),
         if (length(ret) > 0) {

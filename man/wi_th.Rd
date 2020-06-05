@@ -67,4 +67,16 @@ wi_th(req, headers = list(`User-Agent` = "webmockr/v1", hello="world"))
 
 # .list - pass in a named list instead
 wi_th(req, .list = list(body = list(foo = "bar")))
+
+# partial matching, query params
+## including
+wi_th(req, query = including(list(foo = "bar")))
+## excluding
+wi_th(req, query = excluding(list(foo = "bar")))
+
+# partial matching, body
+## including
+# wi_th(req, body = including(list(foo = "bar")))
+## excluding
+# wi_th(req, body = excluding(list(foo = "bar")))
 }

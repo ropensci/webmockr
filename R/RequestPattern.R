@@ -504,6 +504,19 @@ BODY_FORMATS <- list(
 #' z$matches("http://stuff.com") # FALSE
 #' z$matches("https://stuff.com/stff") # TRUE
 #' z$matches("https://stuff.com/apple?bears=brown&bats=grey") # TRUE
+#' 
+#' # partial matching
+#' ## including
+#' z <- UriPattern$new(pattern = "http://foobar.com")
+#' z$add_query_params(including(list(hello = "world")))
+#' z$matches(uri = "http://foobar.com?hello=world&bye=mars") # TRUE
+#' z$matches("http://foobar.com?bye=mars") # FALSE
+#' 
+#' ## excluding
+#' z <- UriPattern$new(pattern = "http://foobar.com")
+#' z$add_query_params(excluding(list(hello = "world")))
+#' z$matches(uri = "http://foobar.com?hello=world&bye=mars") # FALSE
+#' z$matches("http://foobar.com?bye=mars") # TRUE
 
 UriPattern <- R6::R6Class(
   'UriPattern',
@@ -514,6 +527,10 @@ UriPattern <- R6::R6Class(
     regex = FALSE,
     #' @field query_params a list, or `NULL` if empty
     query_params = NULL,
+    #' @field partial bool, default: `FALSE`
+    partial = FALSE,
+    #' @field partial_type a string, default: NULL
+    partial_type = NULL,
 
     #' @description Create a new `UriPattern` object
     #' @param pattern (character) a uri, as a character string. if scheme
@@ -542,8 +559,8 @@ UriPattern <- R6::R6Class(
     #' @param uri (character) a uri
     #' @return a boolean
     pattern_matches = function(uri) {
-      if (!self$regex) return(uri == self$pattern) # not regex
-      grepl(self$pattern, uri) # regex
+      if (!self$regex) return(just_uri(uri) == just_uri(self$pattern)) # not regex
+      grepl(self$pattern, just_uri(uri)) # regex
     },
 
     #' @description Match query parameters of a URI
@@ -551,6 +568,14 @@ UriPattern <- R6::R6Class(
     #' @return a boolean
     query_params_matches = function(uri) {
       if (!self$regex) { # not regex
+        if (self$partial) {
+          uri_qp <- self$extract_query(uri)
+          qp <- private$drop_partial_attrs(self$query_params)
+          bools <- uri_qp %in% qp
+          return(switch(self$partial_type, 
+            include = any(bools), 
+            exclude = !any(bools)))
+        }
         return(identical(self$query_params, self$extract_query(uri)))
       }
       ## There is no regex for query params separately; so, just compare to uri
@@ -574,6 +599,8 @@ UriPattern <- R6::R6Class(
         self$query_params <- self$extract_query(self$pattern)
       } else {
         self$query_params <- query_params
+        self$partial <- attr(query_params, "partial_match") %||% FALSE
+        self$partial_type <-  attr(query_params, "partial_type")
         if (
           inherits(query_params, "list") ||
           inherits(query_params, "character")
@@ -588,6 +615,14 @@ UriPattern <- R6::R6Class(
     #' @description Print pattern for easy human consumption
     #' @return a string
     to_s = function() self$pattern
+  ),
+
+  private = list(
+    drop_partial_attrs = function(x) {
+      attr(x, "partial_match") <- NULL
+      attr(x, "partial_type") <- NULL
+      return(x)
+    }
   )
 )
 
@@ -641,6 +676,12 @@ parse_a_url <- function(url) {
   }
   tmp$default_port <- 443
   return(tmp)
+}
+
+just_uri <- function(x) {
+  z <- urltools::url_parse(x)
+  z$parameter <- NA_character_  
+  urltools::url_compose(z)
 }
 
 uri_fetch <- function(x) {

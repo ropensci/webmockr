@@ -38,7 +38,13 @@ hdl_lst <- function(x) {
     } else {
       txt <- paste(names(x), subs(unname(unlist(x)), 20), sep = "=",
         collapse = ", ")
-      substring(txt, 1, 80)
+      txt <- substring(txt, 1, 80)
+      if (attr(x, "partial_match") %||% FALSE) {
+        txt <- sprintf("%s(%s)",
+          switch(attr(x, "partial_type"),
+            include = "including", exclude = "excluding"), txt)
+      }
+      txt
     }
   } else {
     x
@@ -82,10 +88,13 @@ parseurl <- function(x) {
   tmp
 }
 
-url_builder <- function(uri, args = NULL) {
-  if (is.null(args)) return(uri)
-  paste0(uri, "?", paste(names(args), args, sep = "=", collapse = "&"))
+url_builder <- function(uri, regex) {
+  if (regex) uri else normalize_uri(uri)
 }
+# url_builder <- function(uri, args = NULL) {
+#   if (is.null(args)) return(uri)
+#   paste0(uri, "?", paste(names(args), args, sep = "=", collapse = "&"))
+# }
 
 `%||%` <- function(x, y) {
   if (

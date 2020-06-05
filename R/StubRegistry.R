@@ -123,6 +123,19 @@ make_body <- function(x) {
   paste0(" with body ", body)
 }
 
+# make query info for print
+make_query <- function(x) {
+  if (is.null(x)) return("")
+  txt <- paste(names(x), subs(unname(unlist(x)), 20), sep = "=",
+    collapse = ", ")
+  if (attr(x, "partial_match") %||% FALSE) {
+    txt <- sprintf("%s(%s)",
+      switch(attr(x, "partial_type"),
+        include = "including", exclude = "excluding"), txt)
+  }
+  paste0(" with query params ", txt)
+}
+
 # make headers info for print method
 make_headers <- function(x) {
   if (is.null(x)) return("")
