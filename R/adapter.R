@@ -1,5 +1,3 @@
-scotts <- new.env()
-
 #' @title Adapters for Modifying HTTP Requests
 #' @description `Adapter` is the base parent class used to implement
 #'   \pkg{webmockr} support for different HTTP clients. It should not be used
@@ -95,7 +93,6 @@ Adapter <- R6::R6Class("Adapter",
     #' @param req a request
     #' @return various outcomes
     handle_request = function(req) {
-      scotts$self <- self
       # put request in request registry
       request_signature <- private$build_request(req)
       webmockr_request_registry$register_request(
@@ -107,7 +104,6 @@ Adapter <- R6::R6Class("Adapter",
         # if real requests NOT allowed
         # even if net connects allowed, we check if stubbed found first
         ss <- webmockr_stub_registry$find_stubbed_request(request_signature)[[1]]
-        scotts$ss <- ss
         
         # if user wants to return a partial object
         #   get stub with response and return that
@@ -127,11 +123,8 @@ Adapter <- R6::R6Class("Adapter",
         
         # no vcr
         } else {
-          # scotts$resp <- resp
           resp <- private$build_response(req, resp)
           # add to_return() elements if given
-          scotts$resp <- resp
-          scotts$request_signature <- request_signature
           resp <- private$add_response_sequences(ss, resp)
         }
 
