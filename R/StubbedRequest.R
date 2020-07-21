@@ -99,7 +99,9 @@ StubbedRequest <- R6::R6Class(
     #' @param method the HTTP method (any, head, get, post, put,
     #' patch, or delete). "any" matches any HTTP method. required.
     #' @param uri (character) request URI. either this or `uri_regex`
-    #' required
+    #' required. \pkg{webmockr} can match uri's without the "http" scheme,
+    #' but does not match if the scheme is "https". required, unless
+    #' `uri_regex` given. See [UriPattern] for more.
     #' @param uri_regex (character) request URI as regex. either this or `uri`
     #' required
     #' @return A new `StubbedRequest` object

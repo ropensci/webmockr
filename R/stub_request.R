@@ -3,9 +3,12 @@
 #' @export
 #' @param method (character) HTTP method, one of "get", "post", "put", "patch",
 #' "head", "delete", "options" - or the special "any" (for any method)
-#' @param uri (character) The request uri. Can be a full uri, partial, or a
-#' regular expression to match many incantations of a uri. required.
-#' @param uri_regex (character) A URI represented as regex. See examples
+#' @param uri (character) The request uri. Can be a full or partial uri.
+#' \pkg{webmockr} can match uri's without the "http" scheme, but does
+#' not match if the scheme is "https". required, unless `uri_regex` given.
+#' See [UriPattern] for more.
+#' @param uri_regex (character) A URI represented as regex. required, if `uri`
+#' not given. See examples
 #' @return an object of class `StubbedRequest`, with print method describing
 #' the stub.
 #' @details Internally, this calls [StubbedRequest] which handles the logic

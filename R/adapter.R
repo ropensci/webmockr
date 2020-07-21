@@ -138,11 +138,10 @@ Adapter <- R6::R6Class("Adapter",
         
         # no vcr
         } else {
-          # scotts_env$resp <- resp
           resp <- private$build_response(req, resp)
-          # add to_return() elements if given
           scotts_env$resp <- resp
           scotts_env$request_signature <- request_signature
+          # add to_return() elements if given
           resp <- private$add_response_sequences(ss, resp)
         }
 
@@ -286,7 +285,7 @@ Adapter <- R6::R6Class("Adapter",
       resp$set_status(as.integer(stub$status_code %||% 200))
 
       req_pat <- RequestPattern$new(method = stub$method,
-        uri = stub$uri, query = stub$query,
+        uri = stub$uri, uri_regex = stub$uri_regex, query = stub$query,
         body = stub$body, headers = stub$request_headers)
       times_req <- webmockr_request_registry$times_executed(req_pat) - 1
       stub_num_get <- times_req + 1
@@ -322,7 +321,7 @@ Adapter <- R6::R6Class("Adapter",
 
       # choose which response to return
       req_pat <- RequestPattern$new(method = stub$method,
-        uri = stub$uri, query = stub$query,
+        uri = stub$uri, uri_regex = stub$uri_regex, query = stub$query,
         body = stub$body, headers = stub$request_headers)
       times_req <- webmockr_request_registry$times_executed(req_pat) - 1
       stub_num_get <- times_req + 1

@@ -8,7 +8,7 @@ class handling all request matchers
 }
 \examples{
 \dontrun{
-(x <- RequestPattern$new(method = "get", uri = "https://httpbin.org/get"))
+(x <- RequestPattern$new(method = "get", uri = "httpbin.org/get"))
 x$body_pattern
 x$headers_pattern
 x$method_pattern
@@ -16,7 +16,7 @@ x$uri_pattern
 x$to_s()
 
 # make a request signature
-rs <- RequestSignature$new(method = "get", uri = "https://httpbin.org/get")
+rs <- RequestSignature$new(method = "get", uri = "http://httpbin.org/get")
 
 # check if it matches
 x$matches(rs)
@@ -33,6 +33,12 @@ x$to_s()
     query = list(foo = "bar")
 ))
 x$to_s()
+## query params included in url, not separately
+(x <- RequestPattern$new(
+  method = "get", uri = "https://httpbin.org/get?stuff=things"
+))
+x$to_s()
+x$query_params
 
 # just headers (via setting method=any & uri_regex=.+)
 headers <- list(
@@ -50,10 +56,10 @@ rs
 x$matches(rs)
 
 # body
-x <- RequestPattern$new(method = "post", uri = "https://httpbin.org/post",
+x <- RequestPattern$new(method = "post", uri = "httpbin.org/post",
   body = list(y = crul::upload(system.file("CITATION"))))
 x$to_s()
-rs <- RequestSignature$new(method = "post", uri = "https://httpbin.org/post",
+rs <- RequestSignature$new(method = "post", uri = "http://httpbin.org/post",
   options = list(
      body = list(y = crul::upload(system.file("CITATION")))))
 rs
