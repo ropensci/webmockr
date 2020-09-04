@@ -11,7 +11,7 @@ build_httr_response <- function(req, resp) {
     url = try_url %|s|% req$url,
     status_code = as.integer(resp$status_code),
     headers = {
-      if (grepl("^ftp://", resp$url)) {
+      if (grepl("^ftp://", resp$url %||% "")) { # in case uri_regex only
         list()
       } else {
         hds <- resp$headers
