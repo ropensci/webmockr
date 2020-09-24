@@ -642,7 +642,7 @@ normalize_uri <- function(x, regex = FALSE) {
       x <- paste0('http://', x)
   tmp <- urltools::url_parse(x)
   if (is.na(tmp$path)) return(x)
-  tmp$path <- esc(tmp$path)
+  if (!regex) tmp$path <- esc(tmp$path)
   urltools::url_compose(tmp)
 }
 
