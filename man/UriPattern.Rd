@@ -55,6 +55,20 @@ z$add_query_params() # have to run this method to gather query params
 z$matches("https://httpbin.org/get?stuff=things") # TRUE
 z$matches("https://httpbin.org/get?stuff2=things") # FALSE
 
+# regex add query parameters
+(z <- UriPattern$new(regex_pattern = "https://foobar.com/.+/order"))
+z$add_query_params(list(pizza = "cheese"))
+z
+z$pattern
+z$matches("https://foobar.com/pizzas/order?pizza=cheese") # TRUE
+z$matches("https://foobar.com/pizzas?pizza=cheese") # FALSE
+
+# query parameters in the regex uri
+(z <- UriPattern$new(regex_pattern = "https://x.com/.+/order?fruit=apple"))
+z$add_query_params() # have to run this method to gather query params
+z$matches("https://x.com/a/order?fruit=apple") # TRUE
+z$matches("https://x.com/a?fruit=apple") # FALSE
+
 # any pattern
 (z <- UriPattern$new(regex_pattern = "stuff\\\\.com.+"))
 z$regex

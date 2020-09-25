@@ -28,6 +28,12 @@
 #' See [wi_th()] for details on request body/query/headers and
 #' [to_return()] for details on how response status/body/headers
 #' are handled
+#' 
+#' @section Matching URI's:
+#' - Trailing slashes are dropped from stub URIs before matching
+#' - Query parameters are dropped from stub URIs before matching;
+#' URIs are compared without query parameters
+#' 
 #' @section Mocking writing to disk:
 #' See [mocking-disk-writing]
 #' @seealso [wi_th()], [to_return()], [to_timeout()], [to_raise()],
