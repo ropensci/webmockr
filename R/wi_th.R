@@ -6,7 +6,7 @@
 #' @param .data input. Anything that can be coerced to a `StubbedRequest` class
 #' object
 #' @param ... Comma separated list of named variables. accepts the following: 
-#' `query`, `body`, `headers`.
+#' `query`, `body`, `headers`. See Details.
 #' @param .list named list, has to be one of 'query', 'body',
 #' and/or 'headers'. An alternative to passing in via `...`. Don't pass the 
 #' same thing to both, e.g. don't pass 'query' to `...`, and also 'query' to 
@@ -16,13 +16,25 @@
 #' @return an object of class `StubbedRequest`, with print method describing
 #' the stub
 #' @note see more examples in [stub_request()]
-#' @details Values for query, body, and headers:
+#' @details 
+#' Values for query, body, and headers:
 #'
-#' - query: (list) a named list
+#' - query: (list) a named list. values are coerced to character
+#' class in the recorded stub. You can pass numeric, integer, etc., but
+#' all will be coerced to character.
 #' - body: various, including character string, list, raw, numeric,
 #' upload (`crul::upload` or `httr::upload_file`, they both create the
 #' same object in the end)
 #' - headers: (list) a named list
+#' 
+#' Note that there is no regex matching on query, body, or headers. They
+#' are tested for matches in the following ways:
+#' 
+#' - query: compare stubs and requests with `identical()`. this compares
+#' named lists, so both list names and values are compared
+#' - body: varies depending on the body format (list vs. character, etc.)
+#' - headers: compare stub and request values with `==`. list names are
+#' compared with `%in%`
 #'
 #' @examples
 #' # first, make a stub object

@@ -282,7 +282,7 @@ HeadersPattern <- R6::R6Class(
         out <- c()
         for (i in seq_along(self$pattern)) {
           out[i] <- names(self$pattern)[i] %in% names(headers) &&
-            self$pattern[[i]] == headers[names(self$pattern)[i]]
+            self$pattern[[i]] == headers[[names(self$pattern)[i]]]
         }
         all(out)
       }
@@ -497,6 +497,20 @@ BODY_FORMATS <- list(
 #' z$matches("https://httpbin.org/get?stuff=things") # TRUE
 #' z$matches("https://httpbin.org/get?stuff2=things") # FALSE
 #' 
+#' # regex add query parameters
+#' (z <- UriPattern$new(regex_pattern = "https://foobar.com/.+/order"))
+#' z$add_query_params(list(pizza = "cheese"))
+#' z
+#' z$pattern
+#' z$matches("https://foobar.com/pizzas/order?pizza=cheese") # TRUE
+#' z$matches("https://foobar.com/pizzas?pizza=cheese") # FALSE
+#' 
+#' # query parameters in the regex uri
+#' (z <- UriPattern$new(regex_pattern = "https://x.com/.+/order?fruit=apple"))
+#' z$add_query_params() # have to run this method to gather query params
+#' z$matches("https://x.com/a/order?fruit=apple") # TRUE
+#' z$matches("https://x.com/a?fruit=apple") # FALSE
+#' 
 #' # any pattern
 #' (z <- UriPattern$new(regex_pattern = "stuff\\.com.+"))
 #' z$regex
@@ -560,26 +574,22 @@ UriPattern <- R6::R6Class(
     #' @return a boolean
     pattern_matches = function(uri) {
       if (!self$regex) return(just_uri(uri) == just_uri(self$pattern)) # not regex
-      grepl(self$pattern, just_uri(uri)) # regex
+      grepl(drop_query_params(self$pattern), just_uri(uri)) # regex
     },
 
     #' @description Match query parameters of a URI
     #' @param uri (character) a uri
     #' @return a boolean
     query_params_matches = function(uri) {
-      if (!self$regex) { # not regex
-        if (self$partial) {
-          uri_qp <- self$extract_query(uri)
-          qp <- private$drop_partial_attrs(self$query_params)
-          bools <- uri_qp %in% qp
-          return(switch(self$partial_type, 
-            include = any(bools), 
-            exclude = !any(bools)))
-        }
-        return(identical(self$query_params, self$extract_query(uri)))
+      if (self$partial) {
+        uri_qp <- self$extract_query(uri)
+        qp <- private$drop_partial_attrs(self$query_params)
+        bools <- uri_qp %in% qp
+        return(switch(self$partial_type, 
+          include = any(bools), 
+          exclude = !any(bools)))
       }
-      ## There is no regex for query params separately; so, just compare to uri
-      grepl(self$pattern, uri) # regex
+      identical(self$query_params, self$extract_query(uri))
     },
 
     #' @description Extract query parameters as a named list
@@ -692,6 +702,14 @@ uri_fetch <- function(x) {
 uri_host <- function(x) parse_a_url(x)$domain
 uri_path <- function(x) parse_a_url(x)$path
 uri_port <- function(x) parse_a_url(x)$port
+
+drop_query_params <- function(x) {
+  x <- urltools::url_parse(x)
+  x$parameter <- NA_character_
+  x <- urltools::url_compose(x)
+  # prune trailing slash
+  sub("\\/$", "", x)
+}
 
 ## http method
 get_method <- function(x) {
