@@ -39,6 +39,16 @@ upload (\code{crul::upload} or \code{httr::upload_file}, they both create the
 same object in the end)
 \item headers: (list) a named list
 }
+
+Note that there is no regex matching on query, body, or headers. They
+are tested for matches in the following ways:
+\itemize{
+\item query: compare stubs and requests with \code{identical()}. this compares
+named lists, so both list names and values are compared
+\item body: varies depending on the body format (list vs. character, etc.)
+\item headers: compare stub and request values with \code{==}. list names are
+compared with \code{\%in\%}
+}
 }
 \note{
 see more examples in \code{\link[=stub_request]{stub_request()}}

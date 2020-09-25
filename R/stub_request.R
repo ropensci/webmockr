@@ -24,6 +24,10 @@
 #' Note on `wi_th()`: If you pass `query` values are coerced to character
 #' class in the recorded stub. You can pass numeric, integer, etc., but
 #' all will be coerced to character.
+#' 
+#' See [wi_th()] for details on request body/query/headers and
+#' [to_return()] for details on how response status/body/headers
+#' are handled
 #' @section Mocking writing to disk:
 #' See [mocking-disk-writing]
 #' @seealso [wi_th()], [to_return()], [to_timeout()], [to_raise()],

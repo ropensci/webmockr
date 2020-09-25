@@ -39,6 +39,10 @@ remove the earlier one(s).
 Note on \code{wi_th()}: If you pass \code{query} values are coerced to character
 class in the recorded stub. You can pass numeric, integer, etc., but
 all will be coerced to character.
+
+See \code{\link[=wi_th]{wi_th()}} for details on request body/query/headers and
+\code{\link[=to_return]{to_return()}} for details on how response status/body/headers
+are handled
 }
 \section{Mocking writing to disk}{
 
