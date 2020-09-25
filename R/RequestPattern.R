@@ -282,7 +282,7 @@ HeadersPattern <- R6::R6Class(
         out <- c()
         for (i in seq_along(self$pattern)) {
           out[i] <- names(self$pattern)[i] %in% names(headers) &&
-            self$pattern[[i]] == headers[names(self$pattern)[i]]
+            self$pattern[[i]] == headers[[names(self$pattern)[i]]]
         }
         all(out)
       }
