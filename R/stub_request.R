@@ -20,6 +20,10 @@
 #' If multiple stubs match the same request, we use the first stub. So if you
 #' want to use a stub that was created after an earlier one that matches,
 #' remove the earlier one(s).
+#' 
+#' Note on `wi_th()`: If you pass `query` values are coerced to character
+#' class in the recorded stub. You can pass numeric, integer, etc., but
+#' all will be coerced to character.
 #' @section Mocking writing to disk:
 #' See [mocking-disk-writing]
 #' @seealso [wi_th()], [to_return()], [to_timeout()], [to_raise()],

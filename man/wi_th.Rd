@@ -11,7 +11,7 @@ wi_th(.data, ..., .list = list())
 object}
 
 \item{...}{Comma separated list of named variables. accepts the following:
-\code{query}, \code{body}, \code{headers}.}
+\code{query}, \code{body}, \code{headers}. See Details.}
 
 \item{.list}{named list, has to be one of 'query', 'body',
 and/or 'headers'. An alternative to passing in via \code{...}. Don't pass the
@@ -31,7 +31,9 @@ Set query params, request body, and/or request headers
 
 Values for query, body, and headers:
 \itemize{
-\item query: (list) a named list
+\item query: (list) a named list. values are coerced to character
+class in the recorded stub. You can pass numeric, integer, etc., but
+all will be coerced to character.
 \item body: various, including character string, list, raw, numeric,
 upload (\code{crul::upload} or \code{httr::upload_file}, they both create the
 same object in the end)

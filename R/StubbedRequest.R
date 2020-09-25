@@ -160,6 +160,9 @@ StubbedRequest <- R6::R6Class(
     #' @param headers (list) request headers as a named list. optional.
     #' @return nothing returned; sets only
     with = function(query = NULL, body = NULL, headers = NULL) {
+      if (!is.null(query)) {
+        query <- lapply(query, as.character)
+      }
       self$query <- query
       self$body <- body
       self$request_headers <- headers

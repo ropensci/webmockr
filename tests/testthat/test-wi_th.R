@@ -110,8 +110,93 @@ test_that("wi_th .list works", {
     "'wi_th' only accepts query, body, headers")
 })
 
+# addresses issue: https://github.com/ropensci/webmockr/issues/107
+test_that("wi_th handles QUERIES with varied input classes", {
+  stub_registry_clear()
+  library(httr)
+  enable("httr")
+
+  # works w/ numeric
+  stub_request("get", "https://google.com") %>%
+    wi_th(query = list(per_page = 30))
+  expect_is(GET("https://google.com?per_page=30"), "response")
+
+  # works w/ integer
+  stub_registry_clear()
+  stub_request("get", "https://google.com") %>%
+    wi_th(query = list(per_page = 30L))
+  expect_is(GET("https://google.com?per_page=30"), "response")
+
+  # works w/ character
+  stub_registry_clear()
+  stub_request("get", "https://google.com") %>%
+    wi_th(query = list(per_page = "30"))
+  expect_is(GET("https://google.com?per_page=30"), "response")
+
+  # works w/ number as factor
+  stub_registry_clear()
+  stub_request("get", "https://google.com") %>%
+    wi_th(query = list(per_page = as.factor(30)))
+  expect_is(GET("https://google.com?per_page=30"), "response")
+
+  # works w/ character as factor
+  stub_registry_clear()
+  stub_request("get", "https://google.com") %>%
+    wi_th(query = list(cursor = as.factor("ads97as9dfas8dfasfd")))
+  expect_is(GET("https://google.com?cursor=ads97as9dfas8dfasfd"), "response")
+
+  # works w/ AsIs
+  stub_registry_clear()
+  stub_request("get", "https://google.com") %>%
+    wi_th(query = list(per_page = I(30)))
+  expect_is(GET("https://google.com?per_page=30"), "response")
+})
+
+test_that("wi_th handles HEADERS with varied input classes", {
+  stub_registry_clear()
+  library(httr)
+  enable("httr")
+
+  # works w/ numeric
+  stub_request("get", "https://x.com") %>%
+    wi_th(headers = list(foo = 30))
+  expect_is(GET("https://x.com", add_headers(foo=30)), "response")
+
+  # works w/ integer
+  stub_registry_clear()
+  stub_request("get", "https://x.com") %>%
+    wi_th(headers = list(foo = 30L))
+  expect_is(GET("https://x.com", add_headers(foo=30)), "response")
+
+  # works w/ character
+  stub_registry_clear()
+  stub_request("get", "https://x.com") %>%
+    wi_th(headers = list(foo = "30"))
+  expect_is(GET("https://x.com", add_headers(foo=30)), "response")
+
+  # works w/ number as factor
+  stub_registry_clear()
+  stub_request("get", "https://x.com") %>%
+    wi_th(headers = list(foo = as.factor(30)))
+  expect_is(GET("https://x.com", add_headers(foo=30)), "response")
+
+  # works w/ character as factor
+  stub_registry_clear()
+  stub_request("get", "https://x.com") %>%
+    wi_th(headers = list(foo = as.factor("bar")))
+  expect_is(GET("https://x.com", add_headers(foo="bar")), "response")
+
+  # works w/ AsIs
+  stub_registry_clear()
+  stub_request("get", "https://x.com") %>%
+    wi_th(headers = list(foo = 30))
+  expect_is(GET("https://x.com", add_headers(foo=30)), "response")
+})
+
+
 # cleanup
 stub_registry_clear()
+disable("httr")
 
 context("wi_th_: defunct")
 test_that("wi_th_: defunct", {
