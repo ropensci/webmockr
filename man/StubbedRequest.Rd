@@ -35,6 +35,12 @@ x$to_return(status = 200, body = charToRaw("foo bar"),
 x$to_s()
 x
 
+# basic auth
+x <- StubbedRequest$new(method = "get", uri = "api.crossref.org")
+x$with(basic_auth = c("foo", "bar"))
+x$to_s()
+x
+
 # file path
 x <- StubbedRequest$new(method = "get", uri = "api.crossref.org")
 f <- tempfile()
@@ -94,6 +100,8 @@ x
 \item{\code{query}}{(xx) xx}
 
 \item{\code{body}}{(xx) xx}
+
+\item{\code{basic_auth}}{(xx) xx}
 
 \item{\code{request_headers}}{(xx) xx}
 
@@ -172,7 +180,12 @@ print method for the \code{StubbedRequest} class
 \subsection{Method \code{with()}}{
 Set expectations for what's given in HTTP request
 \subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{StubbedRequest$with(query = NULL, body = NULL, headers = NULL)}\if{html}{\out{</div>}}
+\if{html}{\out{<div class="r">}}\preformatted{StubbedRequest$with(
+  query = NULL,
+  body = NULL,
+  headers = NULL,
+  basic_auth = NULL
+)}\if{html}{\out{</div>}}
 }
 
 \subsection{Arguments}{
@@ -183,6 +196,8 @@ Set expectations for what's given in HTTP request
 \item{\code{body}}{(list) request body, as a named list. optional}
 
 \item{\code{headers}}{(list) request headers as a named list. optional.}
+
+\item{\code{basic_auth}}{(character) basic authentication. optional.}
 }
 \if{html}{\out{</div>}}
 }

@@ -51,14 +51,20 @@ build_crul_response <- function(req, resp) {
 #' @param x an unexecuted crul request object
 #' @return a crul request
 build_crul_request = function(x) {
+  headers <- x$headers %||% NULL
+  auth <- x$options$userpwd %||% NULL
+  if (!is.null(auth)) {
+    auth_header <- prep_auth(strsplit(auth, ":")[[1]])
+    headers <- c(headers, auth_header)
+  }
   RequestSignature$new(
     method = x$method,
     uri = x$url$url,
     options = list(
       body = pluck_body(x),
-      headers = x$headers %||% NULL,
+      headers = headers,
       proxies = x$proxies %||% NULL,
-      auth = x$auth %||% NULL,
+      auth = auth,
       disk = x$disk %||% NULL
     )
   )

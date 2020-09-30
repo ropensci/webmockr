@@ -112,11 +112,18 @@ assert <- function(x, y) {
     }
   }
 }
-
 assert_gte <- function(x, y) {
   if (!x >= y) {
     stop(sprintf("%s must be greater than or equal to %s",
       deparse(substitute(x)), y), call. = FALSE)
+  }
+}
+assert_eq <- function(x, y) {
+  if (!is.null(x)) {
+    if (!length(x) == y) {
+      stop(sprintf("length of %s must be equal to %s",
+        deparse(substitute(x)), y), call. = FALSE)
+    }
   }
 }
 

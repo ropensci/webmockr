@@ -11,25 +11,25 @@ wi_th(.data, ..., .list = list())
 object}
 
 \item{...}{Comma separated list of named variables. accepts the following:
-\code{query}, \code{body}, \code{headers}. See Details.}
+\code{query}, \code{body}, \code{headers}, \code{basic_auth}. See Details.}
 
-\item{.list}{named list, has to be one of 'query', 'body',
-and/or 'headers'. An alternative to passing in via \code{...}. Don't pass the
-same thing to both, e.g. don't pass 'query' to \code{...}, and also 'query' to
-this parameter}
+\item{.list}{named list, has to be one of \code{query}, \code{body},
+\code{headers} and/or \code{basic_auth}. An alternative to passing in via \code{...}.
+Don't pass the same thing to both, e.g. don't pass 'query' to \code{...}, and
+also 'query' to this parameter}
 }
 \value{
 an object of class \code{StubbedRequest}, with print method describing
 the stub
 }
 \description{
-Set query params, request body, and/or request headers
+Set query params, request body, request headers and/or basic_auth
 }
 \details{
 \code{with} is a function in the \code{base} package, so we went with
 \code{wi_th}
 
-Values for query, body, and headers:
+Values for query, body, headers, and basic_auth:
 \itemize{
 \item query: (list) a named list. values are coerced to character
 class in the recorded stub. You can pass numeric, integer, etc., but
@@ -38,6 +38,10 @@ all will be coerced to character.
 upload (\code{crul::upload} or \code{httr::upload_file}, they both create the
 same object in the end)
 \item headers: (list) a named list
+\item basic_auth: (character) a length two vector, username and password.
+authentication type (basic/digest/ntlm/etc.) is ignored. that is,
+mocking authenciation right now does not take into account the
+authentication type
 }
 
 Note that there is no regex matching on query, body, or headers. They
@@ -47,7 +51,8 @@ are tested for matches in the following ways:
 named lists, so both list names and values are compared
 \item body: varies depending on the body format (list vs. character, etc.)
 \item headers: compare stub and request values with \code{==}. list names are
-compared with \code{\%in\%}
+compared with \code{\%in\%}. \code{basic_auth} is included in headers (with the name
+Authorization)
 }
 }
 \note{
@@ -79,4 +84,8 @@ wi_th(req, headers = list(`User-Agent` = "webmockr/v1", hello="world"))
 
 # .list - pass in a named list instead
 wi_th(req, .list = list(body = list(foo = "bar")))
+
+# basic authentication
+wi_th(req, basic_auth = c("user", "pass"))
+wi_th(req, basic_auth = c("user", "pass"), headers = list(foo = "bar"))
 }

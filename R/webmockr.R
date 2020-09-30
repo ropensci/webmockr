@@ -4,6 +4,7 @@
 #' @importFrom R6 R6Class
 #' @importFrom fauxpas HTTPRequestTimeout
 #' @importFrom crul mock
+#' @importFrom base64enc base64encode
 #' @name webmockr-package
 #' @aliases webmockr
 #' @docType package

@@ -193,10 +193,55 @@ test_that("wi_th handles HEADERS with varied input classes", {
   expect_is(GET("https://x.com", add_headers(foo=30)), "response")
 })
 
+disable("httr")
+
+test_that("wi_th basic_auth", {
+  # crul
+  library(crul)
+  enable("crul")
+  con <- HttpClient$new("https://x.com", auth = auth("user", "passwd"))
+  # pass
+  stub_registry_clear()
+  stub_request("get", "https://x.com") %>%
+    wi_th(basic_auth=c("user", "passwd"))
+  expect_is(con$get(), "HttpResponse")
+  # ignores auth type
+  con$auth <- crul::auth("user", "passwd", "digest")
+  expect_is(con$get(), "HttpResponse")
+  # fail
+  stub_registry_clear()
+  stub_request("get", "https://x.com") %>%
+    wi_th(basic_auth=c("user", "passwd"))
+  con$auth <- crul::auth("user", "password")
+  expect_error(con$get(), "Unregistered")
+  disable("crul")
+
+  # httr
+  library(httr)
+  enable("httr")
+  # pass
+  stub_registry_clear()
+  stub_request("get", "https://x.com") %>%
+    wi_th(basic_auth=c("user", "passwd"))
+  expect_is(GET("https://x.com", authenticate("user", "passwd")), "response")
+  # ignores auth type
+  expect_is(
+    GET("https://x.com", authenticate("user", "passwd", type = "digest")),
+    "response")
+  expect_is(
+    GET("https://x.com", authenticate("user", "passwd", type = "ntlm")),
+    "response")
+  # fail
+  stub_registry_clear()
+  stub_request("get", "https://x.com") %>%
+    wi_th(basic_auth=c("user", "passwd"))
+  expect_error(GET("https://x.com", authenticate("user", "password")),
+    "Unregistered")
+  disable("httr")
+})
 
 # cleanup
 stub_registry_clear()
-disable("httr")
 
 context("wi_th_: defunct")
 test_that("wi_th_: defunct", {
