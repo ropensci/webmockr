@@ -10,14 +10,13 @@
   "codeRepository": "https://github.com/ropensci/webmockr",
   "issueTracker": "https://github.com/ropensci/webmockr/issues",
   "license": "https://spdx.org/licenses/MIT",
-  "version": "0.6.2",
+  "version": "0.7.0",
   "programmingLanguage": {
     "@type": "ComputerLanguage",
     "name": "R",
-    "version": "3.6.3",
     "url": "https://r-project.org"
   },
-  "runtimePlatform": "R version 3.6.3 Patched (2020-02-29 r77909)",
+  "runtimePlatform": "R version 4.0.2 Patched (2020-09-01 r79114)",
   "provider": {
     "@id": "https://cran.r-project.org",
     "@type": "Organization",
@@ -180,19 +179,32 @@
         "url": "https://cran.r-project.org"
       },
       "sameAs": "https://CRAN.R-project.org/package=crul"
+    },
+    {
+      "@type": "SoftwareApplication",
+      "identifier": "base64enc",
+      "name": "base64enc",
+      "provider": {
+        "@id": "https://cran.r-project.org",
+        "@type": "Organization",
+        "name": "Comprehensive R Archive Network (CRAN)",
+        "url": "https://cran.r-project.org"
+      },
+      "sameAs": "https://CRAN.R-project.org/package=base64enc"
     }
   ],
   "applicationCategory": "Web",
   "isPartOf": "https://ropensci.org",
   "keywords": ["http", "https", "API", "web-services", "curl", "mock", "mocking", "fakeweb", "http-mocking", "testing", "testing-tools", "tdd", "rstats", "http-mock", "r", "r-package"],
-  "contIntegration": ["https://travis-ci.org/ropensci/webmockr", "https://ci.appveyor.com/project/sckott/webmockr", "https://codecov.io/gh/ropensci/webmockr"],
+  "contIntegration": "https://codecov.io/gh/ropensci/webmockr",
   "developmentStatus": "https://www.repostatus.org/#active",
   "releaseNotes": "https://github.com/ropensci/webmockr/blob/master/NEWS.md",
   "readme": "https://github.com/ropensci/webmockr/blob/master/README.md",
-  "fileSize": "77.822KB",
+  "fileSize": "0KB",
   "relatedLink": [
     "https://ropenscilabs.github.io/http-testing-book/",
-    "https://books.ropensci.org/http-testing"
+    "https://books.ropensci.org/http-testing",
+    "https://docs.ropensci.org/webmockr"
   ],
   "funder": [
     {
