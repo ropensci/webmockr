@@ -1,3 +1,25 @@
+webmockr 0.7.0
+==============
+
+### NEW FEATURES
+
+* Gains ability to define more than 1 returned HTTP response, and the order in which the HTTP responses are returned. The idea is from the Ruby webmock library, but the implementation is different because the Ruby and R languages are very different. You can give more than one `to_return()` one creating a stub, or if you want to return the same response each time, you can use the new `times` parameter within `to_return()`. As a related use case (#31) you can mock http retry's using this new feature (#10) (#32) (#101)
+* Gains new function `webmockr_reset()` to be able to reset stub registry and request registry in one function call (#97) (#101)
+* Gains support for mocking simple authentication. `wi_th()` now accepts `basic_auth` in addition to query, body, and headers. Note that authentication type is ignored (#103)
+
+### MINOR IMPROVEMENTS
+
+* change to how URI's are matched in `stub_request()`: we weren't allowing matching URI's without schemes; you can now do that. In addition, webmockr can match URI's without the "http" scheme, but does not match if the scheme is "https". See `UriPattern` for more (#102)
+* another change to how URI's are matched: now query params compared separately to the URI; note that regex not allowed in query params (#104) - And now query parameters are compared with the same code both when regex uri is used and when it is not (#107)
+* URI matching for stubs is now done only on the URI's themselves; that is, query parameters are removed before comparison, so only the base url with http scheme, plus paths, are compared (#107)
+* wasn't sure `write_disk_path` behavior was correct when using httr, seems to be working, added tests for it (#79)
+* values for query parameters given to `wi_th()` are now all coerced to character class to make sure that all comparisons of stubs and requests are done with the same class (character) (#107)
+
+### BUG FIXES
+
+* fix for `uri_regex` usage in `stub_request()`: no longer curl escape the `uri_regex` given, only escape a non-regex uri (#106)
+
+
 webmockr 0.6.2
 ==============
 
