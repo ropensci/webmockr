@@ -52,9 +52,9 @@ build_crul_response <- function(req, resp) {
 #' @return a crul request
 build_crul_request = function(x) {
   headers <- x$headers %||% NULL
-  auth <- x$options$userpwd %||% NULL
+  auth <- check_user_pwd(x$options$userpwd) %||% NULL
   if (!is.null(auth)) {
-    auth_header <- prep_auth(strsplit(auth, ":")[[1]])
+    auth_header <- prep_auth(auth)
     headers <- c(headers, auth_header)
   }
   RequestSignature$new(

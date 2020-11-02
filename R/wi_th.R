@@ -29,7 +29,10 @@
 #' - basic_auth: (character) a length two vector, username and password.
 #' authentication type (basic/digest/ntlm/etc.) is ignored. that is,
 #' mocking authenciation right now does not take into account the
-#' authentication type
+#' authentication type. We don't do any checking of the username/password
+#' except to detect edge cases where for example, the username/password
+#' were probably not set by the user on purpose (e.g., a URL is 
+#' picked up by an environment variable)
 #' 
 #' Note that there is no regex matching on query, body, or headers. They
 #' are tested for matches in the following ways:

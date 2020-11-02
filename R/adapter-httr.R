@@ -60,15 +60,25 @@ httr_cookies_df <- function() {
   df
 }
 
+# x = "https://foobar.com"
+# check_user_pwd(x)
+check_user_pwd <- function(x) {
+  if (is.null(x)) return(x)
+  if (grepl("^https?://", x)) {
+    stop(sprintf("expecting string of pattern 'user:pwd', got '%s'", x))
+  }
+  return(x)
+}
+
 #' Build a httr request
 #' @export
 #' @param x an unexecuted httr request object
 #' @return a httr request
 build_httr_request = function(x) {
   headers <- as.list(x$headers) %||% NULL
-  auth <- x$options$userpwd %||% NULL
+  auth <- check_user_pwd(x$options$userpwd) %||% NULL
   if (!is.null(auth)) {
-    auth_header <- prep_auth(strsplit(auth, ":")[[1]])
+    auth_header <- prep_auth(auth)
     headers <- c(headers, auth_header)
   }
   RequestSignature$new(

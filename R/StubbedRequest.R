@@ -141,7 +141,6 @@ StubbedRequest <- R6::R6Class(
         cat(sprintf("    body (class: %s): %s", class(self$body)[1L],
           hdl_lst(self$body)), sep = "\n")
       cat(paste0("    request_headers: ", 
-        # hdl_lst(c(self$request_headers, prep_auth(self$basic_auth)))),
         hdl_lst(self$request_headers)),
           sep = "\n")
       cat("  to_return: ", sep = "\n")
@@ -178,7 +177,7 @@ StubbedRequest <- R6::R6Class(
       self$body <- body
       self$basic_auth <- basic_auth
       if (!is.null(basic_auth)) {
-        headers <- c(prep_auth(basic_auth), headers)
+        headers <- c(prep_auth(paste0(basic_auth, collapse = ':')), headers)
       }
       self$request_headers <- headers
     },
@@ -318,8 +317,8 @@ StubbedRequest <- R6::R6Class(
 
 basic_auth_header <- function(x) {
   assert(x, "character")
-  stopifnot(length(x) == 2)
-  encoded <- base64enc::base64encode(charToRaw(paste0(x, collapse = ':')))
+  stopifnot(length(x) == 1)
+  encoded <- base64enc::base64encode(charToRaw(x))
   return(paste0("Basic ", encoded))
 }
 prep_auth <- function(x) {
