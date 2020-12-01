@@ -69,6 +69,10 @@ bb$to_s()
 \item{\code{url}}{internal use}
 
 \item{\code{disk}}{(character) if writing to disk, the path}
+
+\item{\code{fields}}{(various) request body details}
+
+\item{\code{output}}{(various) request output details, disk, memory, etc}
 }
 \if{html}{\out{</div>}}
 }

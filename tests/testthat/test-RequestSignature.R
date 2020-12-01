@@ -11,6 +11,8 @@ test_that("RequestSignature: works", {
   expect_null(aa$body)
   expect_null(aa$headers)
   expect_null(aa$proxies)
+  expect_null(aa$fields)
+  expect_null(aa$output)
 
   expect_is(aa$method, "character")
   expect_equal(aa$method, "get")
@@ -23,7 +25,8 @@ test_that("RequestSignature: works", {
 })
 
 test_that("RequestSignature: different methods work", {
-  aa <- RequestSignature$new(method = "get", uri = "https:/httpbin.org/get")
+  aa <- RequestSignature$new(method = "post", uri = "https:/httpbin.org/post",
+    options = list(fields = list(foo = "bar")))
   aa$headers <- list(Accept = "application/json")
   aa$body <- list(foo = "bar")
 
@@ -31,6 +34,8 @@ test_that("RequestSignature: different methods work", {
   expect_is(aa$uri, "character")
   expect_is(aa$headers, "list")
   expect_is(aa$body, "list")
+  expect_is(aa$fields, "list")
+  expect_named(aa$fields, "foo")
 })
 
 test_that("RequestSignature fails well", {

@@ -89,7 +89,9 @@ build_httr_request = function(x) {
       headers = headers,
       proxies = x$proxies %||% NULL,
       auth = auth,
-      disk = x$disk %||% NULL
+      disk = x$disk %||% NULL,
+      fields = x$fields %||% NULL,
+      output = x$output %||% NULL
     )
   )
 }

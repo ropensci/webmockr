@@ -64,6 +64,10 @@ RequestSignature <- R6::R6Class(
     url = NULL,
     #' @field disk (character) if writing to disk, the path
     disk = NULL,
+    #' @field fields (various) request body details
+    fields = NULL,
+    #' @field output (various) request output details, disk, memory, etc
+    output = NULL,
 
     #' @description Create a new `RequestSignature` object
     #' @param method the HTTP method (any, head, options, get, post, put,
@@ -111,6 +115,10 @@ RequestSignature <- R6::R6Class(
       if (!is.null(self$disk)) {
         cat(paste0("  disk: ", self$disk), sep = "\n")
       }
+      if (!is.null(self$fields)) {
+        cat("  fields: ", sep = "\n")
+        cat_foo(self$fields)
+      }
     },
 
     #' @description Request signature to a string
@@ -137,29 +145,13 @@ RequestSignature <- R6::R6Class(
 
   private = list(
     assign_options = function(options) {
-      if ('body' %in% names(options)) {
-        if (!is.null(options$body) && length(options)) {
-          self$body <- options$body
-        }
-      }
-      if ('headers' %in% names(options)) {
-        if (!is.null(options$headers) && length(options)) {
-          self$headers <- options$headers
-        }
-      }
-      if ('proxies' %in% names(options)) {
-        if (!is.null(options$proxies) && length(options)) {
-          self$proxies <- options$proxies
-        }
-      }
-      if ('auth' %in% names(options)) {
-        if (!is.null(options$auth) && length(options)) {
-          self$auth <- options$auth
-        }
-      }
-      if ('disk' %in% names(options)) {
-        if (!is.null(options$disk) && length(options)) {
-          self$disk <- options$disk
+      op_vars <- c("body", "headers", "proxies", "auth",
+        "disk", "fields", "output")
+      for (i in seq_along(op_vars)) {
+        if (op_vars[i] %in% names(options)) {
+          if (!is.null(options[[ op_vars[i] ]]) && length(options)) {
+            self[[ op_vars[i] ]] <- options[[ op_vars[i] ]]
+          }
         }
       }
     }
