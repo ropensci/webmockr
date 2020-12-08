@@ -1,7 +1,7 @@
 ## Test environments
 
-* local OS X install, R 4.0.2 Patched
-* ubuntu 16.04 (on travis-ci), R 4.0.2
+* local OS X install, R 4.0.3 Patched
+* ubuntu 16.04 (on GitHub Actions), R 4.0.3
 * win-builder (devel and release)
 
 ## R CMD check results
@@ -14,7 +14,7 @@ I have checked the 12 reverse dependencies, and no problems were found. See (<ht
 
 ---
 
-This version makes many improvements to stub matching.
+This version fixes a bug.
 
 Thanks!
 Scott Chamberlain

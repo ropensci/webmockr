@@ -10,13 +10,13 @@
   "codeRepository": "https://github.com/ropensci/webmockr",
   "issueTracker": "https://github.com/ropensci/webmockr/issues",
   "license": "https://spdx.org/licenses/MIT",
-  "version": "0.7.0",
+  "version": "0.7.4",
   "programmingLanguage": {
     "@type": "ComputerLanguage",
     "name": "R",
     "url": "https://r-project.org"
   },
-  "runtimePlatform": "R version 4.0.2 Patched (2020-09-01 r79114)",
+  "runtimePlatform": "R version 4.0.3 Patched (2020-12-04 r79565)",
   "provider": {
     "@id": "https://cran.r-project.org",
     "@type": "Organization",
@@ -204,7 +204,9 @@
   "relatedLink": [
     "https://ropenscilabs.github.io/http-testing-book/",
     "https://books.ropensci.org/http-testing",
-    "https://docs.ropensci.org/webmockr"
+    "https://docs.ropensci.org/webmockr",
+    "https://books.ropensci.org/http-testing/",
+    "https://docs.ropensci.org/webmockr/"
   ],
   "funder": [
     {

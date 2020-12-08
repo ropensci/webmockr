@@ -1,3 +1,15 @@
+webmockr 0.7.4
+==============
+
+### MINOR IMPROVEMENTS
+
+* to support vcr being able to recreate httr objects fully (see github issue ropensci/vcr#132) we needed to handle additional parts of httr request objects: fields and output - with this change vcr should return objects much closer to what real httr requests return (#109)
+
+### BUG FIXES
+
+* bug fix + improvement: fixes for simple authentication - `wi_th()` now supports `basic_auth` to mock basic authentication either with `crul::auth()` or `httr::authenticate()` (#108)
+
+
 webmockr 0.7.0
 ==============
 
