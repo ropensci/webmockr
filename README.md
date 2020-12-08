@@ -128,17 +128,17 @@ stub_request("get", "https://httpbin.org/get") %>%
 #>     body: 
 #>     request_headers: 
 #>   to_return: 
-#>     status: 200
+#>   - status: 200
 #>     body: success!
 #>     response_headers: 
-#>   should_timeout: FALSE
-#>   should_raise: FALSE
+#>     should_timeout: FALSE
+#>     should_raise: FALSE
 
 # check that it's in the stub registry
 stub_registry()
 #> <webmockr stub registry> 
 #>  Registered Stubs
-#>    GET: https://httpbin.org/get   | to_return:  with body "success!"  with status 200
+#>    GET: https://httpbin.org/get   | to_return:   with body "success!"  with status 200
 
 # make the request
 z <- crul::HttpClient$new(url = "https://httpbin.org")$get("get")
@@ -171,12 +171,7 @@ stub_request("get", "https://httpbin.org/get")
 #>     query: 
 #>     body: 
 #>     request_headers: 
-#>   to_return: 
-#>     status: 
-#>     body: 
-#>     response_headers: 
-#>   should_timeout: FALSE
-#>   should_raise: FALSE
+#>   to_return:
 ```
 
 
@@ -186,7 +181,7 @@ x$get('get')
 #> <crul response> 
 #>   url: https://httpbin.org/get
 #>   request_headers: 
-#>     User-Agent: libcurl/7.54.0 r-curl/4.2 crul/0.9.0
+#>     User-Agent: libcurl/7.73.0 r-curl/4.3 crul/1.0.0
 #>     Accept-Encoding: gzip, deflate
 #>     Accept: application/json, text/xml, application/xml, */*
 #>   response_headers: 
@@ -209,11 +204,11 @@ stub_request("get", "https://httpbin.org/get") %>%
 #>     body: 
 #>     request_headers: 
 #>   to_return: 
-#>     status: 418
+#>   - status: 418
 #>     body: 
 #>     response_headers: 
-#>   should_timeout: FALSE
-#>   should_raise: FALSE
+#>     should_timeout: FALSE
+#>     should_raise: FALSE
 ```
 
 
@@ -222,7 +217,7 @@ x$get('get', query = list(hello = "world"))
 #> <crul response> 
 #>   url: https://httpbin.org/get?hello=world
 #>   request_headers: 
-#>     User-Agent: libcurl/7.54.0 r-curl/4.2 crul/0.9.0
+#>     User-Agent: libcurl/7.73.0 r-curl/4.3 crul/1.0.0
 #>     Accept-Encoding: gzip, deflate
 #>     Accept: application/json, text/xml, application/xml, */*
 #>   response_headers: 
@@ -246,12 +241,7 @@ stub_request("get", "https://httpbin.org/get") %>%
 #>     query: hello=world
 #>     body: 
 #>     request_headers: User-Agent=libcurl/7.51.0 r-cur..., Accept-Encoding=gzip, deflate
-#>   to_return: 
-#>     status: 
-#>     body: 
-#>     response_headers: 
-#>   should_timeout: FALSE
-#>   should_raise: FALSE
+#>   to_return:
 ```
 
 
@@ -260,7 +250,7 @@ stub_registry()
 #> <webmockr stub registry> 
 #>  Registered Stubs
 #>    GET: https://httpbin.org/get 
-#>    GET: https://httpbin.org/get?hello=world   | to_return:   with status 418 
+#>    GET: https://httpbin.org/get?hello=world   | to_return:    with status 418 
 #>    GET: https://httpbin.org/get?hello=world   with headers {"User-Agent":"libcurl/7.51.0 r-curl/2.6 crul/0.3.6","Accept-Encoding":"gzip, deflate"}
 ```
 
@@ -271,7 +261,7 @@ x$get('get', query = list(hello = "world"))
 #> <crul response> 
 #>   url: https://httpbin.org/get?hello=world
 #>   request_headers: 
-#>     User-Agent: libcurl/7.54.0 r-curl/4.2 crul/0.9.0
+#>     User-Agent: libcurl/7.73.0 r-curl/4.3 crul/1.0.0
 #>     Accept-Encoding: gzip, deflate
 #>     Accept: application/json, text/xml, application/xml, */*
 #>   response_headers: 
@@ -293,11 +283,11 @@ stub_request("post", "https://httpbin.org/post") %>% to_timeout()
 #>     body: 
 #>     request_headers: 
 #>   to_return: 
-#>     status: 
+#>   - status: 
 #>     body: 
 #>     response_headers: 
-#>   should_timeout: TRUE
-#>   should_raise: FALSE
+#>     should_timeout: TRUE
+#>     should_raise: FALSE
 x <- HttpClient$new(url = "https://httpbin.org")
 x$post('post')
 #> Error: Request Timeout (HTTP 408).
@@ -318,11 +308,11 @@ stub_request("get", "https://httpbin.org/get?a=b") %>% to_raise(HTTPBadRequest)
 #>     body: 
 #>     request_headers: 
 #>   to_return: 
-#>     status: 
+#>   - status: 
 #>     body: 
 #>     response_headers: 
-#>   should_timeout: FALSE
-#>   should_raise: HTTPBadRequest
+#>     should_timeout: FALSE
+#>     should_raise: HTTPBadRequest
 x <- HttpClient$new(url = "https://httpbin.org")
 x$get('get', query = list(a = "b"))
 #> Error: Bad Request (HTTP 400).
@@ -379,11 +369,11 @@ stub_request('get', uri = 'https://httpbin.org/get') %>%
 #>     body: 
 #>     request_headers: Accept=application/json, te...
 #>   to_return: 
-#>     status: 418
+#>   - status: 418
 #>     body: I'm a teapot!!!
 #>     response_headers: im_a=teapot
-#>   should_timeout: FALSE
-#>   should_raise: FALSE
+#>     should_timeout: FALSE
+#>     should_raise: FALSE
 ```
 
 now returns mocked response
@@ -438,6 +428,40 @@ readLines(out$content)
 
 Writing to disk is supported in both `crul` and `httr`
 
+## Many requests in a row
+
+e.g., many redirects, then a final successful request
+
+
+```r
+webmockr::enable()
+library(crul)
+library(fauxpas)
+
+z <- stub_request("get", "https://httpbin.org/get")
+to_return(z, status = 200, body = "foobar", headers = list(a = 5))
+to_return(z, status = 200, body = "bears", headers = list(b = 6))
+to_raise(z, HTTPBadRequest)
+z
+
+con <- crul::HttpClient$new(url = "https://httpbin.org")
+# the first to_return()
+first <- con$get("get")
+first
+first$parse("UTF-8")
+# the second to_return()
+second <- con$get("get")
+second
+second$parse("UTF-8")
+# the third to_return() - fails as specified
+third <- con$get("get")
+```
+
+Note that subsequent requests past the number of responses given with `to_return()`/etc.
+simply gives the last response you specified. Although if you set a `to_timeout` or 
+`to_raise` this feature won't happen since you fail out.
+
+
 ## Contributors
 
 * [Scott Chamberlain](https://github.com/sckott)
@@ -449,8 +473,5 @@ Writing to disk is supported in both `crul` and `httr`
 * License: MIT
 * Get citation information for `webmockr` in R doing `citation(package = 'webmockr')`
 * Please note that this package is released with a [Contributor Code of Conduct](https://ropensci.org/code-of-conduct/). By contributing to this project, you agree to abide by its terms.
-
-[![ropensci_footer](https://ropensci.org/public_images/github_footer.png)](https://ropensci.org)
-
 
 [vcr]: https://github.com/ropensci/vcr
