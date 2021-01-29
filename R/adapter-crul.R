@@ -31,7 +31,7 @@ build_crul_response <- function(req, resp) {
 
   crul::HttpResponse$new(
     method = req$method,
-    url = req$url$url,
+    url = resp$url,
     status_code = resp$status_code,
     request_headers = c('User-Agent' = req$options$useragent, req$headers),
     response_headers = {
