@@ -5,7 +5,7 @@
 #' @return a httr response
 
 build_httr_response <- function(req, resp) {
-  try_url <- tryCatch(req$url$url, error = function(e) e)
+  try_url <- tryCatch(resp$url, error = function(e) e)
 
   lst <- list(
     url = try_url %|s|% req$url,
