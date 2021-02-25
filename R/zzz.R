@@ -197,10 +197,21 @@ vcr_loaded <- function() {
   "package:vcr" %in% search()
 }
 
+handle_separate_redirects <- function(req) {
+  cs <- vcr::current_cassette()
+  stopifnot("record_separate_redirects must be logical" =
+    is.logical(cs$record_separate_redirects))
+  if (cs$record_separate_redirects) {
+    req$options$followlocation <- 0L
+    curl::handle_setopt(req$url$handle, followlocation = 0L)
+  }
+  return(req)
+}
+
 # check whether a cassette is inserted without assuming vcr is installed
 vcr_cassette_inserted <- function() {
   if (vcr_loaded()) {
     return(length(vcr::current_cassette()) > 0)
   }
-  return(FALSE)  
+  return(FALSE)
 }
