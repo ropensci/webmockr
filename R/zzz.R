@@ -203,7 +203,8 @@ handle_separate_redirects <- function(req) {
     is.logical(cs$record_separate_redirects))
   if (cs$record_separate_redirects) {
     req$options$followlocation <- 0L
-    curl::handle_setopt(req$url$handle, followlocation = 0L)
+    if (is.list(req$url))
+      curl::handle_setopt(req$url$handle, followlocation = 0L)
   }
   return(req)
 }
