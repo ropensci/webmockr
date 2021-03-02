@@ -197,10 +197,23 @@ vcr_loaded <- function() {
   "package:vcr" %in% search()
 }
 
-handle_separate_redirects <- function(req) {
+# check whether a cassette is inserted without assuming vcr is installed
+vcr_cassette_inserted <- function() {
+  if (vcr_loaded()) {
+    return(length(vcr::current_cassette()) > 0)
+  }
+  return(FALSE)
+}
+
+check_redirect_setting <- function() {
   cs <- vcr::current_cassette()
   stopifnot("record_separate_redirects must be logical" =
     is.logical(cs$record_separate_redirects))
+  return(cs)
+}
+
+handle_separate_redirects <- function(req) {
+  cs <- check_redirect_setting()
   if (cs$record_separate_redirects) {
     req$options$followlocation <- 0L
     if (is.list(req$url))
@@ -209,10 +222,14 @@ handle_separate_redirects <- function(req) {
   return(req)
 }
 
-# check whether a cassette is inserted without assuming vcr is installed
-vcr_cassette_inserted <- function() {
-  if (vcr_loaded()) {
-    return(length(vcr::current_cassette()) > 0)
-  }
-  return(FALSE)
+redirects_request <- function(x) {
+  cs <- check_redirect_setting()
+  if (cs$record_separate_redirects) return(cs$request_handler$request_original)
+  x
+}
+
+redirects_response <- function(x) {
+  cs <- check_redirect_setting()
+  if (cs$record_separate_redirects) return(last(cs$redirect_pool)[[1]])
+  x
 }
