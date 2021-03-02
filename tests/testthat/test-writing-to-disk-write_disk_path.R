@@ -15,9 +15,9 @@ test_that("with crul", {
 
   # path not set
   expect_error(
-    use_cassette("write_disk_path_not_set_crul_error", {
+    suppressWarnings(use_cassette("write_disk_path_not_set_crul_error", {
       out <- HttpClient$new("https://httpbin.org/get")$get(disk = f)
-    }),
+    })),
     "write_disk_path must be given"
   )
 
@@ -85,9 +85,9 @@ test_that("with httr", {
 
   # path not set
   expect_error(
-    use_cassette("write_disk_path_not_set_crul_error", {
+    suppressWarnings(use_cassette("write_disk_path_not_set_crul_error", {
       out <- GET("https://httpbin.org/get", write_disk(f))
-    }),
+    })),
     "write_disk_path must be given"
   )
 
