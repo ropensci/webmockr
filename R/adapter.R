@@ -168,8 +168,8 @@ Adapter <- R6::R6Class("Adapter",
           }
 
           # check if new request/response from redirects in vcr
-          req <- redirects_request(req)
-          resp <- redirects_response(resp)
+          # req <- redirects_request(req)
+          # resp <- redirects_response(resp)
 
         } else {
           private$mock(on = FALSE)
