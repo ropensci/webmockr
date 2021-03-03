@@ -187,9 +187,16 @@ Create a new Adapter object
 \subsection{Method \code{enable()}}{
 Enable the adapter
 \subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{Adapter$enable()}\if{html}{\out{</div>}}
+\if{html}{\out{<div class="r">}}\preformatted{Adapter$enable(quiet = FALSE)}\if{html}{\out{</div>}}
 }
 
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{quiet}}{(logical) suppress messages? default: \code{FALSE}}
+}
+\if{html}{\out{</div>}}
+}
 \subsection{Returns}{
 \code{TRUE}, invisibly
 }
@@ -200,9 +207,16 @@ Enable the adapter
 \subsection{Method \code{disable()}}{
 Disable the adapter
 \subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{Adapter$disable()}\if{html}{\out{</div>}}
+\if{html}{\out{<div class="r">}}\preformatted{Adapter$disable(quiet = FALSE)}\if{html}{\out{</div>}}
 }
 
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{quiet}}{(logical) suppress messages? default: \code{FALSE}}
+}
+\if{html}{\out{</div>}}
+}
 \subsection{Returns}{
 \code{FALSE}, invisibly
 }

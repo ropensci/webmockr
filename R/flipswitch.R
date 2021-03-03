@@ -10,6 +10,7 @@ webmockr_adapters <- c('crul', 'httr')
 #' one or the other. if none given, we attempt to enable both 
 #' adapters
 #' @param options list of options - ignored for now.
+#' @param quiet (logical) suppress messages? default: `FALSE`
 #' @details `enable()` enables \pkg{webmockr} for all adapters. 
 #' `disable()` disables \pkg{webmockr} for all adapters.  `enabled()` 
 #' answers whether \pkg{webmockr} is enabled for a given adapter
@@ -17,7 +18,7 @@ webmockr_adapters <- c('crul', 'httr')
 #' each adapter, as a result of running enable or disable, respectively,
 #' on each [HttpLibAdapaterRegistry] object. `enabled` returns a 
 #' single boolean
-enable <- function(adapter = NULL, options = list()) {
+enable <- function(adapter = NULL, options = list(), quiet = FALSE) {
   adnms <- vapply(http_lib_adapter_registry$adapters, function(w) w$client, "")
   if (!is.null(adapter)) {
     if (!adapter %in% webmockr_adapters) {
@@ -27,7 +28,7 @@ enable <- function(adapter = NULL, options = list()) {
       message(adapter, " not installed, skipping enable")
       return(invisible(FALSE))
     }
-    http_lib_adapter_registry$adapters[[grep(adapter, adnms)]]$enable()
+    http_lib_adapter_registry$adapters[[grep(adapter, adnms)]]$enable(quiet)
   } else {
     invisible(vapply(http_lib_adapter_registry$adapters, function(z) {
       pkgname <- z$client
@@ -37,7 +38,7 @@ enable <- function(adapter = NULL, options = list()) {
         FALSE
       } else {
         # if instaled, enable
-        z$enable()
+        z$enable(quiet)
       }
     }, logical(1)))
   }
@@ -55,7 +56,7 @@ enabled <- function(adapter = "crul") {
 
 #' @export
 #' @rdname enable
-disable <- function(adapter = NULL, options = list()) {
+disable <- function(adapter = NULL, options = list(), quiet = FALSE) {
   adnms <- vapply(http_lib_adapter_registry$adapters, function(w) w$client, "")
   if (!is.null(adapter)) {
     if (!adapter %in% webmockr_adapters) {
@@ -65,7 +66,7 @@ disable <- function(adapter = NULL, options = list()) {
       message(adapter, " not installed, skipping disable")
       return(invisible(FALSE))
     }
-    http_lib_adapter_registry$adapters[[grep(adapter, adnms)]]$disable()
+    http_lib_adapter_registry$adapters[[grep(adapter, adnms)]]$disable(quiet)
   } else {
     invisible(vapply(http_lib_adapter_registry$adapters, function(z) {
       pkgname <- z$client
@@ -75,7 +76,7 @@ disable <- function(adapter = NULL, options = list()) {
         FALSE
       } else {
         # if instaled, disable
-        z$disable()
+        z$disable(quiet)
       }
     }, logical(1)))
   }
