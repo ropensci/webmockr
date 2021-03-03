@@ -6,11 +6,11 @@
 \alias{disable}
 \title{Enable or disable webmockr}
 \usage{
-enable(adapter = NULL, options = list())
+enable(adapter = NULL, options = list(), quiet = FALSE)
 
 enabled(adapter = "crul")
 
-disable(adapter = NULL, options = list())
+disable(adapter = NULL, options = list(), quiet = FALSE)
 }
 \arguments{
 \item{adapter}{(character) the adapter name, 'crul' or 'httr'.
@@ -18,6 +18,8 @@ one or the other. if none given, we attempt to enable both
 adapters}
 
 \item{options}{list of options - ignored for now.}
+
+\item{quiet}{(logical) suppress messages? default: \code{FALSE}}
 }
 \value{
 \code{enable()} and \code{disable()} invisibly returns booleans for
