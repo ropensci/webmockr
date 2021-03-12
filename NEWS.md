@@ -1,3 +1,16 @@
+webmockr 0.8.0
+==============
+
+### NEW FEATURES
+
+* `enable()` and the `enable()` method on the `Adapter` R6 class gain new parameter `quiet` to toggle whether messages are printed or not  (#112)
+
+### MINOR IMPROVEMENTS
+
+* to re-create http response objects for both httr and crul we were using the url from the request object; now we use the url from the response object, BUT if there is no url in the response object we fall back to using the url from the request object (#110) (#113)
+* improve docs: add further explanation to manual files for both `to_raise()` and `to_return()` to explain the differenc between them and when you may want to use them (#100)
+
+
 webmockr 0.7.4
 ==============
 
