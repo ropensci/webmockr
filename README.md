@@ -181,7 +181,7 @@ x$get('get')
 #> <crul response> 
 #>   url: https://httpbin.org/get
 #>   request_headers: 
-#>     User-Agent: libcurl/7.73.0 r-curl/4.3 crul/1.0.0
+#>     User-Agent: libcurl/7.64.1 r-curl/4.3 crul/1.1.0
 #>     Accept-Encoding: gzip, deflate
 #>     Accept: application/json, text/xml, application/xml, */*
 #>   response_headers: 
@@ -215,14 +215,12 @@ stub_request("get", "https://httpbin.org/get") %>%
 ```r
 x$get('get', query = list(hello = "world"))
 #> <crul response> 
-#>   url: https://httpbin.org/get?hello=world
+#>   url: https://httpbin.org/get
 #>   request_headers: 
-#>     User-Agent: libcurl/7.73.0 r-curl/4.3 crul/1.0.0
+#>     User-Agent: libcurl/7.64.1 r-curl/4.3 crul/1.1.0
 #>     Accept-Encoding: gzip, deflate
 #>     Accept: application/json, text/xml, application/xml, */*
 #>   response_headers: 
-#>   params: 
-#>     hello: world
 #>   status: 418
 ```
 
@@ -259,14 +257,12 @@ stub_registry()
 x <- HttpClient$new(url = "https://httpbin.org")
 x$get('get', query = list(hello = "world"))
 #> <crul response> 
-#>   url: https://httpbin.org/get?hello=world
+#>   url: https://httpbin.org/get
 #>   request_headers: 
-#>     User-Agent: libcurl/7.73.0 r-curl/4.3 crul/1.0.0
+#>     User-Agent: libcurl/7.64.1 r-curl/4.3 crul/1.1.0
 #>     Accept-Encoding: gzip, deflate
 #>     Accept: application/json, text/xml, application/xml, */*
 #>   response_headers: 
-#>   params: 
-#>     hello: world
 #>   status: 418
 ```
 

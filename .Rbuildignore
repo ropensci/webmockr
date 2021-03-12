@@ -2,6 +2,7 @@
 ^\.Rproj\.user$
 man-roxygen/
 ^README.Rmd$
+^README.md$
 ^\.travis.yml$
 ^CODE_OF_CONDUCT\.md$
 Makefile
