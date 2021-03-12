@@ -191,6 +191,11 @@ last <- function(x) {
   if (length(x) == 0) return(list())
   x[[length(x)]]
 }
+last1 <- function(x) {
+  z <- last(x)
+  if (!is.list(z)) return(z)
+  if (length(z) > 0) z[[1]] else z
+}
 
 
 vcr_loaded <- function() {
@@ -230,6 +235,6 @@ redirects_request <- function(x) {
 
 redirects_response <- function(x) {
   cs <- check_redirect_setting()
-  if (cs$record_separate_redirects) return(last(cs$redirect_pool)[[1]])
+  if (cs$record_separate_redirects) return(last1(cs$redirect_pool))
   x
 }

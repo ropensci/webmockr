@@ -145,7 +145,7 @@ Adapter <- R6::R6Class("Adapter",
           req <- handle_separate_redirects(req)
           # use RequestHandler instead? - which gets current cassette for us
           resp <- private$request_handler(req)$handle()
-          
+
           # if written to disk, see if we should modify file path
           if (self$client == "crul" && is.character(resp$content)) {
             if (file.exists(resp$content)) {
@@ -172,8 +172,8 @@ Adapter <- R6::R6Class("Adapter",
           }
 
           # check if new request/response from redirects in vcr
-          req <- redirects_request(req)
-          resp <- redirects_response(resp)
+          # req <- redirects_request(req)
+          # resp <- redirects_response(resp)
 
         } else {
           private$mock(on = FALSE)
