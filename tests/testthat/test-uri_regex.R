@@ -6,6 +6,7 @@ test_that("uri_regex with crul", {
 
   library(crul)
   enable(adapter = "crul")
+  
   invisible(
     lapply(c('elephants', 'bears', 'leaves', 'foo', 'bar'), function(z) {
       expect_true(HttpClient$new("https://httpbin.org")$get(z)$success())
@@ -21,7 +22,23 @@ test_that("uri_regex with crul", {
         "Real HTTP connections are disabled")
     })
   )
+
+  # regex to match any URL
+  ## https://github.com/ropensci/webmockr/issues/113 
+  ## when matching any url with `.+`, it would lead to an empty url in response
+  ##  object, at least with crul
+  stub_request("get", uri_regex = ".+")
+  invisible(
+    lapply(c('Anounce', 'apple', 'Afar', 'after'), function(z) {
+      url <- sprintf("https://%s.io", z)
+      res <- HttpClient$new(url)$get(z)
+      expect_is(res, "HttpResponse")
+      expect_true(grepl(res$url, file.path(url, z), ignore.case = TRUE))
+    })
+  )
 })
+
+stub_registry_clear()
 
 test_that("uri_regex with httr", {
   stub_request("get", uri_regex = "httpbin.org/.+") %>%
@@ -44,4 +61,20 @@ test_that("uri_regex with httr", {
         "Real HTTP connections are disabled")
     })
   )
+
+  # regex to match any URL
+  ## https://github.com/ropensci/webmockr/issues/113 
+  ## when matching any url with `.+`, it would lead to an empty url in response
+  ##  object, at least with crul
+  stub_request("get", uri_regex = ".+")
+  invisible(
+    lapply(c('Anounce', 'apple', 'Afar', 'after'), function(z) {
+      url <- sprintf("https://%s.io", z)
+      res <- GET(url, path = z)
+      expect_is(res, "response")
+      expect_true(grepl(res$url, file.path(url, z), ignore.case = TRUE))
+    })
+  )
 })
+
+stub_registry_clear()

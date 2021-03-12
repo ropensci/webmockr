@@ -97,11 +97,18 @@
 #' # just body
 #' stub_request("any", uri_regex = ".+") %>%
 #'    wi_th(body = list(foo = 'bar'))
+#' ## with crul
 #' library(crul)
 #' x <- crul::HttpClient$new(url = "https://httpbin.org")
 #' crul::mock()
 #' x$post('post', body = list(foo = 'bar'))
 #' x$put('put', body = list(foo = 'bar'))
+#' ## with httr
+#' library(httr)
+#' httr_mock()
+#' POST('https://example.com', body = list(foo = 'bar'))
+#' PUT('https://google.com', body = list(foo = 'bar'))
+#' 
 #' 
 #' # just headers
 #' headers <- list(
