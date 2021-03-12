@@ -47,6 +47,8 @@
 #' after which you can use multiple responses again (after creating
 #' your stub(s) again of course)
 #' 
+#' @inheritSection to_raise Raise vs. Return
+#' 
 #' @examples
 #' # first, make a stub object
 #' foo <- function() {
