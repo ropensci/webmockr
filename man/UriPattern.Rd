@@ -64,7 +64,7 @@ z$matches("https://foobar.com/pizzas/order?pizza=cheese") # TRUE
 z$matches("https://foobar.com/pizzas?pizza=cheese") # FALSE
 
 # query parameters in the regex uri
-(z <- UriPattern$new(regex_pattern = "https://x.com/.+/order?fruit=apple"))
+(z <- UriPattern$new(regex_pattern = "https://x.com/.+/order\\\\?fruit=apple"))
 z$add_query_params() # have to run this method to gather query params
 z$matches("https://x.com/a/order?fruit=apple") # TRUE
 z$matches("https://x.com/a?fruit=apple") # FALSE
@@ -131,7 +131,7 @@ A new \code{UriPattern} object
 \if{html}{\out{<a id="method-matches"></a>}}
 \if{latex}{\out{\hypertarget{method-matches}{}}}
 \subsection{Method \code{matches()}}{
-Match a list of headers against that stored
+Match a uri against a pattern
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{UriPattern$matches(uri)}\if{html}{\out{</div>}}
 }

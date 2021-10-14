@@ -506,7 +506,7 @@ BODY_FORMATS <- list(
 #' z$matches("https://foobar.com/pizzas?pizza=cheese") # FALSE
 #' 
 #' # query parameters in the regex uri
-#' (z <- UriPattern$new(regex_pattern = "https://x.com/.+/order?fruit=apple"))
+#' (z <- UriPattern$new(regex_pattern = "https://x.com/.+/order\\?fruit=apple"))
 #' z$add_query_params() # have to run this method to gather query params
 #' z$matches("https://x.com/a/order?fruit=apple") # TRUE
 #' z$matches("https://x.com/a?fruit=apple") # FALSE
@@ -544,12 +544,15 @@ UriPattern <- R6::R6Class(
       self$pattern <- normalize_uri(pattern, self$regex)
     },
 
-    #' @description Match a list of headers against that stored
+    #' @description Match a uri against a pattern
     #' @param uri (character) a uri
     #' @return a boolean
     matches = function(uri) {
       uri <- normalize_uri(uri, self$regex)
-      self$pattern_matches(uri) && self$query_params_matches(uri)
+      if (self$regex)
+        grepl(self$pattern, uri)
+      else
+        self$pattern_matches(uri) && self$query_params_matches(uri)
     },
 
     #' @description Match a URI
@@ -580,6 +583,7 @@ UriPattern <- R6::R6Class(
     #' @param query_params (list|character) list or character
     #' @return nothing returned, updates uri pattern
     add_query_params = function(query_params) {
+      if (self$regex) return(NULL)
       if (missing(query_params) || is.null(query_params)) {
         self$query_params <- self$extract_query(self$pattern)
       } else {
