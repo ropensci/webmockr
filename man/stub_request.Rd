@@ -13,10 +13,10 @@ stub_request(method = "get", uri = NULL, uri_regex = NULL)
 \item{uri}{(character) The request uri. Can be a full or partial uri.
 \pkg{webmockr} can match uri's without the "http" scheme, but does
 not match if the scheme is "https". required, unless \code{uri_regex} given.
-See \link{UriPattern} for more.}
+See \link{UriPattern} for more. See the "uri vs. uri_regex" section}
 
 \item{uri_regex}{(character) A URI represented as regex. required, if \code{uri}
-not given. See examples}
+not given. See examples and the "uri vs. uri_regex" section}
 }
 \value{
 an object of class \code{StubbedRequest}, with print method describing
@@ -44,13 +44,17 @@ See \code{\link[=wi_th]{wi_th()}} for details on request body/query/headers and
 \code{\link[=to_return]{to_return()}} for details on how response status/body/headers
 are handled
 }
-\section{Matching URI's}{
-
-\itemize{
-\item Trailing slashes are dropped from stub URIs before matching
-\item Query parameters are dropped from stub URIs before matching;
-URIs are compared without query parameters
+\note{
+Trailing slashes are dropped from stub URIs before matching
 }
+\section{uri vs. uri_regex}{
+
+When you use \code{uri}, we compare the URIs without query params AND
+also the query params themselves without the URIs.
+
+When you use \code{uri_regex} we don't compare URIs and query params;
+we just use your regex string defined in \code{uri_regex} as the pattern
+for a call to \link{grepl}
 }
 
 \section{Mocking writing to disk}{

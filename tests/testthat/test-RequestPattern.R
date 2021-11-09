@@ -186,8 +186,7 @@ test_that("UriPattern: structure is correct", {
   expect_false(z$matches("https://foobar.com"))
 
   # regex with query parameters
-  z <- UriPattern$new(regex_pattern = "https://x.com/.+/order?fruit=apple")
-  z$add_query_params() # this is done automatically in the pkg
+  z <- UriPattern$new(regex_pattern = "https://x.com/.+/order\\?fruit=apple")
 
   expect_is(z, "UriPattern")
   expect_is(z$pattern, "character")
