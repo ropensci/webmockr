@@ -1,63 +1,28 @@
-#' Build a httr response
+#' Build a httr2 response (`httr2_response`)
 #' @export
 #' @param req a request
 #' @param resp a response
-#' @return a httr response
+#' @return an httr2 response (`httr2_response`)
 
 build_httr2_response <- function(req, resp) {
-  try_url <- tryCatch(resp$url, error = function(e) e)
-
   lst <- list(
-    url = try_url %|s|% req$url,
+    method = req$method,
+    url = tryCatch(resp$url, error = function(e) e) %|s|% req$url,
     status_code = as.integer(resp$status_code),
     headers = {
       if (grepl("^ftp://", resp$url %||% "")) { # in case uri_regex only
         list()
       } else {
-        hds <- resp$headers
-
-        if (is.null(hds)) {
-          hds <- resp$response_headers
-
-          if (is.null(hds)) {
-            list()
-          } else {
-            stopifnot(is.list(hds))
-            stopifnot(is.character(hds[[1]]))
-            httr::insensitive(hds)
-          }
-        } else {
-          httr::insensitive(hds)
-        }
+        unclass(resp$headers)
       }
     },
-    all_headers = list(),
-    cookies = httr2_cookies_df(),
-    content = resp$content,
-    date = {
-      if (!is.null(resp$response_headers$date)) {
-        httr::parse_http_date(resp$response_headers$date)
-      } else {
-        Sys.time()
-      }
-    },
-    times = numeric(0),
-    request = req,
-    handle = NA
+    body = resp$body
   )
-  lst$all_headers <- list(list(
-    status = lst$status_code,
-    version = "",
-    headers = lst$headers
-  ))
-  structure(lst, class = "response")
+  structure(lst, class = "httr2_response")
 }
 
-httr2_cookies_df <- function() {
-  df <- data.frame(matrix(ncol = 7, nrow = 0))
-  x <- c("domain", "flag", "path", "secure", "expiration", "name", "value")
-  colnames(df) <- x
-  df
+pluck_httr2_body <- function(x) {
+
 }
 
 #' Build a httr2 request
@@ -75,7 +40,7 @@ build_httr2_request = function(x) {
     method = x$method,
     uri = x$url,
     options = list(
-      body = pluck_body(x),
+      body = x$body$data,
       headers = headers,
       proxies = x$proxies %||% NULL,
       auth = auth,
@@ -86,26 +51,38 @@ build_httr2_request = function(x) {
   )
 }
 
-# NOTE: dont think this method is needed anymore for httr2
+# library(httr2)
+# req <- request("https://r-project.org")
+# req = req %>% req_body_json(list(x = 1, y = 2))
+# req$method <- 'POST'
+# enable()
+# stub_registry_clear()
+# stub_request("post", "https://r-project.org") %>% 
+#   to_return(status = 200, body = "{a: 5}")
+# getOption("httr2_mock", NULL)
+# options(httr2_mock = webmockr_handle)
+# getOption("httr2_mock", NULL)
+# httr2::req_perform(req)
+
 #' Turn on httr2 mocking
-#' Sets a callback that routes httr request through webmockr
-#' 
 #' @export
-#' @param on (logical) set to `TRUE` to turn on, and `FALSE`
-#' to turn off. default: `TRUE`
+#' @param on (logical) `TRUE` to turn on, `FALSE` to turn off. default: `TRUE`
 #' @return Silently returns `TRUE` when enabled and `FALSE` when disabled.
-# httr_mock <- function(on = TRUE) {
-#   check_for_pkg("httr")
-#   webmockr_handle <- function(req) {
-#     webmockr::HttrAdapter$new()$handle_request(req)
-#   }
-#   if (on) {
-#     httr2::set_callback("request", webmockr_handle)
-#   } else {
-#     httr2::set_callback("request", NULL)
-#   }
-#   invisible(on)
-# }
+httr2_mock <- function(on = TRUE) {
+  check_for_pkg("httr2")
+  webmockr_handle <- function(req) {
+    webmockr::Httr2Adapter$new()$handle_request(req)
+  }
+  if (on) {
+    httr2::local_mock(~ webmockr_handle())
+    httr2::local_mock(~ webmockr::Httr2Adapter$new()$handle_request(req))
+    httr2::with_mock(webmockr_handle, httr2::req_perform(req))
+    # rlang::as_function(webmockr_handle)
+  } else {
+    httr::with_mock("request", NULL)
+  }
+  invisible(on)
+}
 
 #' @rdname Adapter
 #' @export
@@ -113,7 +90,7 @@ Httr2Adapter <- R6::R6Class("Httr2Adapter",
   inherit = Adapter,
   public = list(
     #' @field client HTTP client package name
-    client = "httr",
+    client = "httr2",
     #' @field name adapter name
     name = "Httr2Adapter"
   ),
@@ -128,17 +105,6 @@ Httr2Adapter <- R6::R6Class("Httr2Adapter",
 
     request_handler = function(request) vcr::RequestHandlerHttr$new(request),
 
-    fetch_request = function(request) {
-      METHOD <- eval(parse(text = paste0("httr2::", request$method)))
-      METHOD(
-        private$pluck_url(request),
-        body = pluck_body(request),
-        do.call(httr::config, request$options),
-        httr::add_headers(request$headers),
-        if (!is.null(request$output$path)) {
-          httr::write_disk(request$output$path, TRUE)
-        } 
-      )
-    }
+    fetch_request = function(request) httr2::req_perform(request)
   )
 )

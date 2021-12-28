@@ -132,6 +132,7 @@ print.webmockr_config <- function(x, ...) {
   cat("<webmockr configuration>", sep = "\n")
   cat(paste0("  crul enabled?: ", webmockr_lightswitch$crul), sep = "\n")
   cat(paste0("  httr enabled?: ", webmockr_lightswitch$httr), sep = "\n")
+  cat(paste0("  httr2 enabled?: ", webmockr_lightswitch$httr2), sep = "\n")
   cat(paste0("  allow_net_connect?: ", x$allow_net_connect), sep = "\n")
   cat(paste0("  allow_localhost?: ", x$allow_localhost), sep = "\n")
   cat(paste0("  allow: ", x$allow %||% ""), sep = "\n")

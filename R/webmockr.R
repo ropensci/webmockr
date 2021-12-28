@@ -17,8 +17,8 @@
 #' - Stubbing HTTP requests at low http client lib level
 #' - Setting and verifying expectations on HTTP requests
 #' - Matching requests based on method, URI, headers and body
-#' - Supports multiple HTTP libraries, including \pkg{crul} and
-#' \pkg{httr}
+#' - Supports multiple HTTP libraries, including \pkg{crul},
+#' \pkg{httr}, and \pkg{httr2}
 #' - Integration with HTTP test caching library \pkg{vcr}
 #'
 #' @examples

@@ -1,3 +1,5 @@
+sac <- new.env()
+
 #' @title Adapters for Modifying HTTP Requests
 #' @description `Adapter` is the base parent class used to implement
 #'   \pkg{webmockr} support for different HTTP clients. It should not be used
@@ -5,6 +7,7 @@
 #'   currently provides:
 #' * `CrulAdapter` for \pkg{crul}
 #' * `HttrAdapter` for \pkg{httr}
+#' * `Httr2Adapter` for \pkg{httr2}
 #' @details Note that the documented fields and methods are the same across all
 #'   client-specific adapters.
 #' @export
@@ -58,7 +61,8 @@ Adapter <- R6::R6Class("Adapter",
           "Adapter parent class should not be called directly.\n",
           "Use one of the following package-specific adapters instead:\n",
           "  - CrulAdapter$new()\n",
-          "  - HttrAdapter$new()",
+          "  - HttrAdapter$new()\n",
+          "  - Httr2Adapter$new()\n",
           call. = FALSE
         )
       }
@@ -74,7 +78,8 @@ Adapter <- R6::R6Class("Adapter",
       
       switch(self$client,
         crul = crul::mock(on = TRUE),
-        httr = httr_mock(on = TRUE)
+        httr = httr_mock(on = TRUE),
+        httr2 = httr2_mock(on = TRUE)
       )
     },
 
@@ -89,7 +94,8 @@ Adapter <- R6::R6Class("Adapter",
 
       switch(self$client,
         crul = crul::mock(on = FALSE),
-        httr = httr_mock(on = FALSE)
+        httr = httr_mock(on = FALSE),
+        httr2 = httr2_mock(on = FALSE)
       )
     },
 
@@ -244,6 +250,7 @@ Adapter <- R6::R6Class("Adapter",
           bd_str <- hdl_lst2(bd)
         }
 
+        with_str <- ""
         if (all(nzchar(hd_str) && nzchar(bd_str))) {
           with_str <- sprintf(" wi_th(\n       headers = list(%s),\n       body = list(%s)\n     )",
                               hd_str, bd_str)
@@ -253,6 +260,9 @@ Adapter <- R6::R6Class("Adapter",
           with_str <- sprintf(" wi_th(\n       body = list(%s)\n     )", bd_str)
         }
 
+        sac$hd_str <- hd_str
+        sac$tmp <- tmp
+        sac$bd_str <- bd_str
         tmp <- paste0(tmp, " %>%\n    ", with_str)
       }
       return(tmp)

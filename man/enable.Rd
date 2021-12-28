@@ -13,7 +13,7 @@ enabled(adapter = "crul")
 disable(adapter = NULL, options = list(), quiet = FALSE)
 }
 \arguments{
-\item{adapter}{(character) the adapter name, 'crul' or 'httr'.
+\item{adapter}{(character) the adapter name, 'crul', 'httr', or 'httr2'.
 one or the other. if none given, we attempt to enable both
 adapters}
 
