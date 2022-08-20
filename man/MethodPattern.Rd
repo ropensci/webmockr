@@ -33,15 +33,15 @@ x$matches(method = "HEAD")
 \section{Methods}{
 \subsection{Public methods}{
 \itemize{
-\item \href{#method-new}{\code{MethodPattern$new()}}
-\item \href{#method-matches}{\code{MethodPattern$matches()}}
-\item \href{#method-to_s}{\code{MethodPattern$to_s()}}
-\item \href{#method-clone}{\code{MethodPattern$clone()}}
+\item \href{#method-MethodPattern-new}{\code{MethodPattern$new()}}
+\item \href{#method-MethodPattern-matches}{\code{MethodPattern$matches()}}
+\item \href{#method-MethodPattern-to_s}{\code{MethodPattern$to_s()}}
+\item \href{#method-MethodPattern-clone}{\code{MethodPattern$clone()}}
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-new"></a>}}
-\if{latex}{\out{\hypertarget{method-new}{}}}
+\if{html}{\out{<a id="method-MethodPattern-new"></a>}}
+\if{latex}{\out{\hypertarget{method-MethodPattern-new}{}}}
 \subsection{Method \code{new()}}{
 Create a new \code{MethodPattern} object
 \subsection{Usage}{
@@ -60,8 +60,8 @@ A new \code{MethodPattern} object
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-matches"></a>}}
-\if{latex}{\out{\hypertarget{method-matches}{}}}
+\if{html}{\out{<a id="method-MethodPattern-matches"></a>}}
+\if{latex}{\out{\hypertarget{method-MethodPattern-matches}{}}}
 \subsection{Method \code{matches()}}{
 test if the pattern matches a given http method
 \subsection{Usage}{
@@ -80,8 +80,8 @@ a boolean
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-to_s"></a>}}
-\if{latex}{\out{\hypertarget{method-to_s}{}}}
+\if{html}{\out{<a id="method-MethodPattern-to_s"></a>}}
+\if{latex}{\out{\hypertarget{method-MethodPattern-to_s}{}}}
 \subsection{Method \code{to_s()}}{
 Print pattern for easy human consumption
 \subsection{Usage}{
@@ -93,8 +93,8 @@ a string
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-clone"></a>}}
-\if{latex}{\out{\hypertarget{method-clone}{}}}
+\if{html}{\out{<a id="method-MethodPattern-clone"></a>}}
+\if{latex}{\out{\hypertarget{method-MethodPattern-clone}{}}}
 \subsection{Method \code{clone()}}{
 The objects of this class are cloneable with this method.
 \subsection{Usage}{

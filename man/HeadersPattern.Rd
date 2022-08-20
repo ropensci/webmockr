@@ -50,16 +50,16 @@ x$matches(headers)
 \section{Methods}{
 \subsection{Public methods}{
 \itemize{
-\item \href{#method-new}{\code{HeadersPattern$new()}}
-\item \href{#method-matches}{\code{HeadersPattern$matches()}}
-\item \href{#method-empty_headers}{\code{HeadersPattern$empty_headers()}}
-\item \href{#method-to_s}{\code{HeadersPattern$to_s()}}
-\item \href{#method-clone}{\code{HeadersPattern$clone()}}
+\item \href{#method-HeadersPattern-new}{\code{HeadersPattern$new()}}
+\item \href{#method-HeadersPattern-matches}{\code{HeadersPattern$matches()}}
+\item \href{#method-HeadersPattern-empty_headers}{\code{HeadersPattern$empty_headers()}}
+\item \href{#method-HeadersPattern-to_s}{\code{HeadersPattern$to_s()}}
+\item \href{#method-HeadersPattern-clone}{\code{HeadersPattern$clone()}}
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-new"></a>}}
-\if{latex}{\out{\hypertarget{method-new}{}}}
+\if{html}{\out{<a id="method-HeadersPattern-new"></a>}}
+\if{latex}{\out{\hypertarget{method-HeadersPattern-new}{}}}
 \subsection{Method \code{new()}}{
 Create a new \code{HeadersPattern} object
 \subsection{Usage}{
@@ -79,8 +79,8 @@ A new \code{HeadersPattern} object
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-matches"></a>}}
-\if{latex}{\out{\hypertarget{method-matches}{}}}
+\if{html}{\out{<a id="method-HeadersPattern-matches"></a>}}
+\if{latex}{\out{\hypertarget{method-HeadersPattern-matches}{}}}
 \subsection{Method \code{matches()}}{
 Match a list of headers against that stored
 \subsection{Usage}{
@@ -99,8 +99,8 @@ a boolean
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-empty_headers"></a>}}
-\if{latex}{\out{\hypertarget{method-empty_headers}{}}}
+\if{html}{\out{<a id="method-HeadersPattern-empty_headers"></a>}}
+\if{latex}{\out{\hypertarget{method-HeadersPattern-empty_headers}{}}}
 \subsection{Method \code{empty_headers()}}{
 Are headers empty? tests if null or length==0
 \subsection{Usage}{
@@ -119,8 +119,8 @@ a boolean
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-to_s"></a>}}
-\if{latex}{\out{\hypertarget{method-to_s}{}}}
+\if{html}{\out{<a id="method-HeadersPattern-to_s"></a>}}
+\if{latex}{\out{\hypertarget{method-HeadersPattern-to_s}{}}}
 \subsection{Method \code{to_s()}}{
 Print pattern for easy human consumption
 \subsection{Usage}{
@@ -132,8 +132,8 @@ a string
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-clone"></a>}}
-\if{latex}{\out{\hypertarget{method-clone}{}}}
+\if{html}{\out{<a id="method-HeadersPattern-clone"></a>}}
+\if{latex}{\out{\hypertarget{method-HeadersPattern-clone}{}}}
 \subsection{Method \code{clone()}}{
 The objects of this class are cloneable with this method.
 \subsection{Usage}{

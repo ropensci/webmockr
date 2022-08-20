@@ -86,15 +86,15 @@ pattern classes for HTTP method \link{MethodPattern}, headers
 \section{Methods}{
 \subsection{Public methods}{
 \itemize{
-\item \href{#method-new}{\code{RequestPattern$new()}}
-\item \href{#method-matches}{\code{RequestPattern$matches()}}
-\item \href{#method-to_s}{\code{RequestPattern$to_s()}}
-\item \href{#method-clone}{\code{RequestPattern$clone()}}
+\item \href{#method-RequestPattern-new}{\code{RequestPattern$new()}}
+\item \href{#method-RequestPattern-matches}{\code{RequestPattern$matches()}}
+\item \href{#method-RequestPattern-to_s}{\code{RequestPattern$to_s()}}
+\item \href{#method-RequestPattern-clone}{\code{RequestPattern$clone()}}
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-new"></a>}}
-\if{latex}{\out{\hypertarget{method-new}{}}}
+\if{html}{\out{<a id="method-RequestPattern-new"></a>}}
+\if{latex}{\out{\hypertarget{method-RequestPattern-new}{}}}
 \subsection{Method \code{new()}}{
 Create a new \code{RequestPattern} object
 \subsection{Usage}{
@@ -131,8 +131,8 @@ A new \code{RequestPattern} object
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-matches"></a>}}
-\if{latex}{\out{\hypertarget{method-matches}{}}}
+\if{html}{\out{<a id="method-RequestPattern-matches"></a>}}
+\if{latex}{\out{\hypertarget{method-RequestPattern-matches}{}}}
 \subsection{Method \code{matches()}}{
 does a request signature match the selected matchers?
 \subsection{Usage}{
@@ -151,8 +151,8 @@ a boolean
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-to_s"></a>}}
-\if{latex}{\out{\hypertarget{method-to_s}{}}}
+\if{html}{\out{<a id="method-RequestPattern-to_s"></a>}}
+\if{latex}{\out{\hypertarget{method-RequestPattern-to_s}{}}}
 \subsection{Method \code{to_s()}}{
 Print pattern for easy human consumption
 \subsection{Usage}{
@@ -164,8 +164,8 @@ a string
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-clone"></a>}}
-\if{latex}{\out{\hypertarget{method-clone}{}}}
+\if{html}{\out{<a id="method-RequestPattern-clone"></a>}}
+\if{latex}{\out{\hypertarget{method-RequestPattern-clone}{}}}
 \subsection{Method \code{clone()}}{
 The objects of this class are cloneable with this method.
 \subsection{Usage}{

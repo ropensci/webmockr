@@ -58,15 +58,15 @@ z$matches(bb$body)
 \section{Methods}{
 \subsection{Public methods}{
 \itemize{
-\item \href{#method-new}{\code{BodyPattern$new()}}
-\item \href{#method-matches}{\code{BodyPattern$matches()}}
-\item \href{#method-to_s}{\code{BodyPattern$to_s()}}
-\item \href{#method-clone}{\code{BodyPattern$clone()}}
+\item \href{#method-BodyPattern-new}{\code{BodyPattern$new()}}
+\item \href{#method-BodyPattern-matches}{\code{BodyPattern$matches()}}
+\item \href{#method-BodyPattern-to_s}{\code{BodyPattern$to_s()}}
+\item \href{#method-BodyPattern-clone}{\code{BodyPattern$clone()}}
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-new"></a>}}
-\if{latex}{\out{\hypertarget{method-new}{}}}
+\if{html}{\out{<a id="method-BodyPattern-new"></a>}}
+\if{latex}{\out{\hypertarget{method-BodyPattern-new}{}}}
 \subsection{Method \code{new()}}{
 Create a new \code{BodyPattern} object
 \subsection{Usage}{
@@ -85,8 +85,8 @@ A new \code{BodyPattern} object
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-matches"></a>}}
-\if{latex}{\out{\hypertarget{method-matches}{}}}
+\if{html}{\out{<a id="method-BodyPattern-matches"></a>}}
+\if{latex}{\out{\hypertarget{method-BodyPattern-matches}{}}}
 \subsection{Method \code{matches()}}{
 Match a list of headers against that stored
 \subsection{Usage}{
@@ -107,8 +107,8 @@ a boolean
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-to_s"></a>}}
-\if{latex}{\out{\hypertarget{method-to_s}{}}}
+\if{html}{\out{<a id="method-BodyPattern-to_s"></a>}}
+\if{latex}{\out{\hypertarget{method-BodyPattern-to_s}{}}}
 \subsection{Method \code{to_s()}}{
 Print pattern for easy human consumption
 \subsection{Usage}{
@@ -120,8 +120,8 @@ a string
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-clone"></a>}}
-\if{latex}{\out{\hypertarget{method-clone}{}}}
+\if{html}{\out{<a id="method-BodyPattern-clone"></a>}}
+\if{latex}{\out{\hypertarget{method-BodyPattern-clone}{}}}
 \subsection{Method \code{clone()}}{
 The objects of this class are cloneable with this method.
 \subsection{Usage}{
