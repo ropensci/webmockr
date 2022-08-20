@@ -72,23 +72,23 @@ if (requireNamespace("httr", quietly = TRUE)) {
 \section{Methods}{
 \subsection{Public methods}{
 \itemize{
-\item \href{#method-clone}{\code{CrulAdapter$clone()}}
+\item \href{#method-CrulAdapter-clone}{\code{CrulAdapter$clone()}}
 }
 }
-\if{html}{
-\out{<details open ><summary>Inherited methods</summary>}
-\itemize{
-\item \out{<span class="pkg-link" data-pkg="webmockr" data-topic="Adapter" data-id="disable">}\href{../../webmockr/html/Adapter.html#method-disable}{\code{webmockr::Adapter$disable()}}\out{</span>}
-\item \out{<span class="pkg-link" data-pkg="webmockr" data-topic="Adapter" data-id="enable">}\href{../../webmockr/html/Adapter.html#method-enable}{\code{webmockr::Adapter$enable()}}\out{</span>}
-\item \out{<span class="pkg-link" data-pkg="webmockr" data-topic="Adapter" data-id="handle_request">}\href{../../webmockr/html/Adapter.html#method-handle_request}{\code{webmockr::Adapter$handle_request()}}\out{</span>}
-\item \out{<span class="pkg-link" data-pkg="webmockr" data-topic="Adapter" data-id="initialize">}\href{../../webmockr/html/Adapter.html#method-initialize}{\code{webmockr::Adapter$initialize()}}\out{</span>}
-\item \out{<span class="pkg-link" data-pkg="webmockr" data-topic="Adapter" data-id="remove_stubs">}\href{../../webmockr/html/Adapter.html#method-remove_stubs}{\code{webmockr::Adapter$remove_stubs()}}\out{</span>}
-}
-\out{</details>}
-}
+\if{html}{\out{
+<details open><summary>Inherited methods</summary>
+<ul>
+<li><span class="pkg-link" data-pkg="webmockr" data-topic="Adapter" data-id="disable"><a href='../../webmockr/html/Adapter.html#method-Adapter-disable'><code>webmockr::Adapter$disable()</code></a></span></li>
+<li><span class="pkg-link" data-pkg="webmockr" data-topic="Adapter" data-id="enable"><a href='../../webmockr/html/Adapter.html#method-Adapter-enable'><code>webmockr::Adapter$enable()</code></a></span></li>
+<li><span class="pkg-link" data-pkg="webmockr" data-topic="Adapter" data-id="handle_request"><a href='../../webmockr/html/Adapter.html#method-Adapter-handle_request'><code>webmockr::Adapter$handle_request()</code></a></span></li>
+<li><span class="pkg-link" data-pkg="webmockr" data-topic="Adapter" data-id="initialize"><a href='../../webmockr/html/Adapter.html#method-Adapter-initialize'><code>webmockr::Adapter$initialize()</code></a></span></li>
+<li><span class="pkg-link" data-pkg="webmockr" data-topic="Adapter" data-id="remove_stubs"><a href='../../webmockr/html/Adapter.html#method-Adapter-remove_stubs'><code>webmockr::Adapter$remove_stubs()</code></a></span></li>
+</ul>
+</details>
+}}
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-clone"></a>}}
-\if{latex}{\out{\hypertarget{method-clone}{}}}
+\if{html}{\out{<a id="method-CrulAdapter-clone"></a>}}
+\if{latex}{\out{\hypertarget{method-CrulAdapter-clone}{}}}
 \subsection{Method \code{clone()}}{
 The objects of this class are cloneable with this method.
 \subsection{Usage}{
@@ -119,23 +119,23 @@ The objects of this class are cloneable with this method.
 \section{Methods}{
 \subsection{Public methods}{
 \itemize{
-\item \href{#method-clone}{\code{HttrAdapter$clone()}}
+\item \href{#method-HttrAdapter-clone}{\code{HttrAdapter$clone()}}
 }
 }
-\if{html}{
-\out{<details open ><summary>Inherited methods</summary>}
-\itemize{
-\item \out{<span class="pkg-link" data-pkg="webmockr" data-topic="Adapter" data-id="disable">}\href{../../webmockr/html/Adapter.html#method-disable}{\code{webmockr::Adapter$disable()}}\out{</span>}
-\item \out{<span class="pkg-link" data-pkg="webmockr" data-topic="Adapter" data-id="enable">}\href{../../webmockr/html/Adapter.html#method-enable}{\code{webmockr::Adapter$enable()}}\out{</span>}
-\item \out{<span class="pkg-link" data-pkg="webmockr" data-topic="Adapter" data-id="handle_request">}\href{../../webmockr/html/Adapter.html#method-handle_request}{\code{webmockr::Adapter$handle_request()}}\out{</span>}
-\item \out{<span class="pkg-link" data-pkg="webmockr" data-topic="Adapter" data-id="initialize">}\href{../../webmockr/html/Adapter.html#method-initialize}{\code{webmockr::Adapter$initialize()}}\out{</span>}
-\item \out{<span class="pkg-link" data-pkg="webmockr" data-topic="Adapter" data-id="remove_stubs">}\href{../../webmockr/html/Adapter.html#method-remove_stubs}{\code{webmockr::Adapter$remove_stubs()}}\out{</span>}
-}
-\out{</details>}
-}
+\if{html}{\out{
+<details open><summary>Inherited methods</summary>
+<ul>
+<li><span class="pkg-link" data-pkg="webmockr" data-topic="Adapter" data-id="disable"><a href='../../webmockr/html/Adapter.html#method-Adapter-disable'><code>webmockr::Adapter$disable()</code></a></span></li>
+<li><span class="pkg-link" data-pkg="webmockr" data-topic="Adapter" data-id="enable"><a href='../../webmockr/html/Adapter.html#method-Adapter-enable'><code>webmockr::Adapter$enable()</code></a></span></li>
+<li><span class="pkg-link" data-pkg="webmockr" data-topic="Adapter" data-id="handle_request"><a href='../../webmockr/html/Adapter.html#method-Adapter-handle_request'><code>webmockr::Adapter$handle_request()</code></a></span></li>
+<li><span class="pkg-link" data-pkg="webmockr" data-topic="Adapter" data-id="initialize"><a href='../../webmockr/html/Adapter.html#method-Adapter-initialize'><code>webmockr::Adapter$initialize()</code></a></span></li>
+<li><span class="pkg-link" data-pkg="webmockr" data-topic="Adapter" data-id="remove_stubs"><a href='../../webmockr/html/Adapter.html#method-Adapter-remove_stubs'><code>webmockr::Adapter$remove_stubs()</code></a></span></li>
+</ul>
+</details>
+}}
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-clone"></a>}}
-\if{latex}{\out{\hypertarget{method-clone}{}}}
+\if{html}{\out{<a id="method-HttrAdapter-clone"></a>}}
+\if{latex}{\out{\hypertarget{method-HttrAdapter-clone}{}}}
 \subsection{Method \code{clone()}}{
 The objects of this class are cloneable with this method.
 \subsection{Usage}{
@@ -163,17 +163,17 @@ The objects of this class are cloneable with this method.
 \section{Methods}{
 \subsection{Public methods}{
 \itemize{
-\item \href{#method-new}{\code{Adapter$new()}}
-\item \href{#method-enable}{\code{Adapter$enable()}}
-\item \href{#method-disable}{\code{Adapter$disable()}}
-\item \href{#method-handle_request}{\code{Adapter$handle_request()}}
-\item \href{#method-remove_stubs}{\code{Adapter$remove_stubs()}}
-\item \href{#method-clone}{\code{Adapter$clone()}}
+\item \href{#method-Adapter-new}{\code{Adapter$new()}}
+\item \href{#method-Adapter-enable}{\code{Adapter$enable()}}
+\item \href{#method-Adapter-disable}{\code{Adapter$disable()}}
+\item \href{#method-Adapter-handle_request}{\code{Adapter$handle_request()}}
+\item \href{#method-Adapter-remove_stubs}{\code{Adapter$remove_stubs()}}
+\item \href{#method-Adapter-clone}{\code{Adapter$clone()}}
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-new"></a>}}
-\if{latex}{\out{\hypertarget{method-new}{}}}
+\if{html}{\out{<a id="method-Adapter-new"></a>}}
+\if{latex}{\out{\hypertarget{method-Adapter-new}{}}}
 \subsection{Method \code{new()}}{
 Create a new Adapter object
 \subsection{Usage}{
@@ -182,8 +182,8 @@ Create a new Adapter object
 
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-enable"></a>}}
-\if{latex}{\out{\hypertarget{method-enable}{}}}
+\if{html}{\out{<a id="method-Adapter-enable"></a>}}
+\if{latex}{\out{\hypertarget{method-Adapter-enable}{}}}
 \subsection{Method \code{enable()}}{
 Enable the adapter
 \subsection{Usage}{
@@ -202,8 +202,8 @@ Enable the adapter
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-disable"></a>}}
-\if{latex}{\out{\hypertarget{method-disable}{}}}
+\if{html}{\out{<a id="method-Adapter-disable"></a>}}
+\if{latex}{\out{\hypertarget{method-Adapter-disable}{}}}
 \subsection{Method \code{disable()}}{
 Disable the adapter
 \subsection{Usage}{
@@ -222,8 +222,8 @@ Disable the adapter
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-handle_request"></a>}}
-\if{latex}{\out{\hypertarget{method-handle_request}{}}}
+\if{html}{\out{<a id="method-Adapter-handle_request"></a>}}
+\if{latex}{\out{\hypertarget{method-Adapter-handle_request}{}}}
 \subsection{Method \code{handle_request()}}{
 All logic for handling a request
 \subsection{Usage}{
@@ -242,8 +242,8 @@ various outcomes
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-remove_stubs"></a>}}
-\if{latex}{\out{\hypertarget{method-remove_stubs}{}}}
+\if{html}{\out{<a id="method-Adapter-remove_stubs"></a>}}
+\if{latex}{\out{\hypertarget{method-Adapter-remove_stubs}{}}}
 \subsection{Method \code{remove_stubs()}}{
 Remove all stubs
 \subsection{Usage}{
@@ -255,8 +255,8 @@ nothing returned; removes all request stubs
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-clone"></a>}}
-\if{latex}{\out{\hypertarget{method-clone}{}}}
+\if{html}{\out{<a id="method-Adapter-clone"></a>}}
+\if{latex}{\out{\hypertarget{method-Adapter-clone}{}}}
 \subsection{Method \code{clone()}}{
 The objects of this class are cloneable with this method.
 \subsection{Usage}{

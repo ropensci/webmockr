@@ -116,19 +116,19 @@ x
 \section{Methods}{
 \subsection{Public methods}{
 \itemize{
-\item \href{#method-new}{\code{StubbedRequest$new()}}
-\item \href{#method-print}{\code{StubbedRequest$print()}}
-\item \href{#method-with}{\code{StubbedRequest$with()}}
-\item \href{#method-to_return}{\code{StubbedRequest$to_return()}}
-\item \href{#method-to_timeout}{\code{StubbedRequest$to_timeout()}}
-\item \href{#method-to_raise}{\code{StubbedRequest$to_raise()}}
-\item \href{#method-to_s}{\code{StubbedRequest$to_s()}}
-\item \href{#method-clone}{\code{StubbedRequest$clone()}}
+\item \href{#method-StubbedRequest-new}{\code{StubbedRequest$new()}}
+\item \href{#method-StubbedRequest-print}{\code{StubbedRequest$print()}}
+\item \href{#method-StubbedRequest-with}{\code{StubbedRequest$with()}}
+\item \href{#method-StubbedRequest-to_return}{\code{StubbedRequest$to_return()}}
+\item \href{#method-StubbedRequest-to_timeout}{\code{StubbedRequest$to_timeout()}}
+\item \href{#method-StubbedRequest-to_raise}{\code{StubbedRequest$to_raise()}}
+\item \href{#method-StubbedRequest-to_s}{\code{StubbedRequest$to_s()}}
+\item \href{#method-StubbedRequest-clone}{\code{StubbedRequest$clone()}}
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-new"></a>}}
-\if{latex}{\out{\hypertarget{method-new}{}}}
+\if{html}{\out{<a id="method-StubbedRequest-new"></a>}}
+\if{latex}{\out{\hypertarget{method-StubbedRequest-new}{}}}
 \subsection{Method \code{new()}}{
 Create a new \code{StubbedRequest} object
 \subsection{Usage}{
@@ -156,8 +156,8 @@ A new \code{StubbedRequest} object
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-print"></a>}}
-\if{latex}{\out{\hypertarget{method-print}{}}}
+\if{html}{\out{<a id="method-StubbedRequest-print"></a>}}
+\if{latex}{\out{\hypertarget{method-StubbedRequest-print}{}}}
 \subsection{Method \code{print()}}{
 print method for the \code{StubbedRequest} class
 \subsection{Usage}{
@@ -175,8 +175,8 @@ print method for the \code{StubbedRequest} class
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-with"></a>}}
-\if{latex}{\out{\hypertarget{method-with}{}}}
+\if{html}{\out{<a id="method-StubbedRequest-with"></a>}}
+\if{latex}{\out{\hypertarget{method-StubbedRequest-with}{}}}
 \subsection{Method \code{with()}}{
 Set expectations for what's given in HTTP request
 \subsection{Usage}{
@@ -206,8 +206,8 @@ nothing returned; sets only
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-to_return"></a>}}
-\if{latex}{\out{\hypertarget{method-to_return}{}}}
+\if{html}{\out{<a id="method-StubbedRequest-to_return"></a>}}
+\if{latex}{\out{\hypertarget{method-StubbedRequest-to_return}{}}}
 \subsection{Method \code{to_return()}}{
 Set expectations for what's returned in HTTP response
 \subsection{Usage}{
@@ -232,8 +232,8 @@ nothing returned; sets whats to be returned
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-to_timeout"></a>}}
-\if{latex}{\out{\hypertarget{method-to_timeout}{}}}
+\if{html}{\out{<a id="method-StubbedRequest-to_timeout"></a>}}
+\if{latex}{\out{\hypertarget{method-StubbedRequest-to_timeout}{}}}
 \subsection{Method \code{to_timeout()}}{
 Response should time out
 \subsection{Usage}{
@@ -245,8 +245,8 @@ nothing returned
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-to_raise"></a>}}
-\if{latex}{\out{\hypertarget{method-to_raise}{}}}
+\if{html}{\out{<a id="method-StubbedRequest-to_raise"></a>}}
+\if{latex}{\out{\hypertarget{method-StubbedRequest-to_raise}{}}}
 \subsection{Method \code{to_raise()}}{
 Response should raise an exception \code{x}
 \subsection{Usage}{
@@ -265,8 +265,8 @@ nothing returned
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-to_s"></a>}}
-\if{latex}{\out{\hypertarget{method-to_s}{}}}
+\if{html}{\out{<a id="method-StubbedRequest-to_s"></a>}}
+\if{latex}{\out{\hypertarget{method-StubbedRequest-to_s}{}}}
 \subsection{Method \code{to_s()}}{
 Response as a character string
 \subsection{Usage}{
@@ -278,8 +278,8 @@ Response as a character string
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-clone"></a>}}
-\if{latex}{\out{\hypertarget{method-clone}{}}}
+\if{html}{\out{<a id="method-StubbedRequest-clone"></a>}}
+\if{latex}{\out{\hypertarget{method-StubbedRequest-clone}{}}}
 \subsection{Method \code{clone()}}{
 The objects of this class are cloneable with this method.
 \subsection{Usage}{

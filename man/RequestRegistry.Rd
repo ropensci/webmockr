@@ -72,16 +72,16 @@ Other request-registry:
 \section{Methods}{
 \subsection{Public methods}{
 \itemize{
-\item \href{#method-print}{\code{RequestRegistry$print()}}
-\item \href{#method-reset}{\code{RequestRegistry$reset()}}
-\item \href{#method-register_request}{\code{RequestRegistry$register_request()}}
-\item \href{#method-times_executed}{\code{RequestRegistry$times_executed()}}
-\item \href{#method-clone}{\code{RequestRegistry$clone()}}
+\item \href{#method-RequestRegistry-print}{\code{RequestRegistry$print()}}
+\item \href{#method-RequestRegistry-reset}{\code{RequestRegistry$reset()}}
+\item \href{#method-RequestRegistry-register_request}{\code{RequestRegistry$register_request()}}
+\item \href{#method-RequestRegistry-times_executed}{\code{RequestRegistry$times_executed()}}
+\item \href{#method-RequestRegistry-clone}{\code{RequestRegistry$clone()}}
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-print"></a>}}
-\if{latex}{\out{\hypertarget{method-print}{}}}
+\if{html}{\out{<a id="method-RequestRegistry-print"></a>}}
+\if{latex}{\out{\hypertarget{method-RequestRegistry-print}{}}}
 \subsection{Method \code{print()}}{
 print method for the \code{RequestRegistry} class
 \subsection{Usage}{
@@ -99,8 +99,8 @@ print method for the \code{RequestRegistry} class
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-reset"></a>}}
-\if{latex}{\out{\hypertarget{method-reset}{}}}
+\if{html}{\out{<a id="method-RequestRegistry-reset"></a>}}
+\if{latex}{\out{\hypertarget{method-RequestRegistry-reset}{}}}
 \subsection{Method \code{reset()}}{
 Reset the registry to no registered requests
 \subsection{Usage}{
@@ -112,8 +112,8 @@ nothing returned; ressets registry to no requests
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-register_request"></a>}}
-\if{latex}{\out{\hypertarget{method-register_request}{}}}
+\if{html}{\out{<a id="method-RequestRegistry-register_request"></a>}}
+\if{latex}{\out{\hypertarget{method-RequestRegistry-register_request}{}}}
 \subsection{Method \code{register_request()}}{
 Register a request
 \subsection{Usage}{
@@ -133,8 +133,8 @@ nothing returned; registers the request
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-times_executed"></a>}}
-\if{latex}{\out{\hypertarget{method-times_executed}{}}}
+\if{html}{\out{<a id="method-RequestRegistry-times_executed"></a>}}
+\if{latex}{\out{\hypertarget{method-RequestRegistry-times_executed}{}}}
 \subsection{Method \code{times_executed()}}{
 How many times has a request been made
 \subsection{Usage}{
@@ -157,8 +157,8 @@ integer, the number of times the request has been made
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-clone"></a>}}
-\if{latex}{\out{\hypertarget{method-clone}{}}}
+\if{html}{\out{<a id="method-RequestRegistry-clone"></a>}}
+\if{latex}{\out{\hypertarget{method-RequestRegistry-clone}{}}}
 \subsection{Method \code{clone()}}{
 The objects of this class are cloneable with this method.
 \subsection{Usage}{

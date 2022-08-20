@@ -34,14 +34,14 @@ Other request-registry:
 \section{Methods}{
 \subsection{Public methods}{
 \itemize{
-\item \href{#method-put}{\code{HashCounter$put()}}
-\item \href{#method-get}{\code{HashCounter$get()}}
-\item \href{#method-clone}{\code{HashCounter$clone()}}
+\item \href{#method-HashCounter-put}{\code{HashCounter$put()}}
+\item \href{#method-HashCounter-get}{\code{HashCounter$get()}}
+\item \href{#method-HashCounter-clone}{\code{HashCounter$clone()}}
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-put"></a>}}
-\if{latex}{\out{\hypertarget{method-put}{}}}
+\if{html}{\out{<a id="method-HashCounter-put"></a>}}
+\if{latex}{\out{\hypertarget{method-HashCounter-put}{}}}
 \subsection{Method \code{put()}}{
 Register a request by it's key
 \subsection{Usage}{
@@ -61,8 +61,8 @@ internal counter
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-get"></a>}}
-\if{latex}{\out{\hypertarget{method-get}{}}}
+\if{html}{\out{<a id="method-HashCounter-get"></a>}}
+\if{latex}{\out{\hypertarget{method-HashCounter-get}{}}}
 \subsection{Method \code{get()}}{
 Get a request by key
 \subsection{Usage}{
@@ -81,8 +81,8 @@ Get a request by key
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-clone"></a>}}
-\if{latex}{\out{\hypertarget{method-clone}{}}}
+\if{html}{\out{<a id="method-HashCounter-clone"></a>}}
+\if{latex}{\out{\hypertarget{method-HashCounter-clone}{}}}
 \subsection{Method \code{clone()}}{
 The objects of this class are cloneable with this method.
 \subsection{Usage}{
