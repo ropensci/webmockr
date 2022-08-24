@@ -14,15 +14,14 @@ reference:
       - starts_with("enable")
       - disable
       - httr_mock
-  - title: "Stub registry"
+  - title: "Stub and Request registries"
     contents:
       - stub_registry
       - stub_registry_clear
       - StubRegistry
-  - title: "Request registry"
-    contents:
       - starts_with("request_registry")
       - RequestRegistry
+      - webmockr_reset
   - title: "Stubbing requests"
     contents:
       - StubbedRequest
