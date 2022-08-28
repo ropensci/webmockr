@@ -1,3 +1,11 @@
+webmockr 0.8.2
+==============
+
+### BUG FIXES
+
+* change to `UriPattern` to make sure regex matching is working as intended (#114) thanks @kenahoo
+
+
 webmockr 0.8.0
 ==============
 
