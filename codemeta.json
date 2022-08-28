@@ -1,26 +1,24 @@
 {
-  "@context": [
-    "http://purl.org/codemeta/2.0",
-    "http://schema.org"
-  ],
+  "@context": "https://doi.org/10.5063/schema/codemeta-2.0",
   "@type": "SoftwareSourceCode",
   "identifier": "webmockr",
-  "description": "Stubbing and setting expectations on 'HTTP' requests.\n    Includes tools for stubbing 'HTTP' requests, including expected\n    request conditions and response conditions. Match on\n    'HTTP' method, query parameters, request body, headers and\n    more. Can be used for unit tests or outside of a testing \n    context.",
+  "description": "Stubbing and setting expectations on 'HTTP' requests. Includes tools for stubbing 'HTTP' requests, including expected request conditions and response conditions. Match on 'HTTP' method, query parameters, request body, headers and more. Can be used for unit tests or outside of a testing context.",
   "name": "webmockr: Stubbing and Setting Expectations on 'HTTP' Requests",
+  "relatedLink": ["https://books.ropensci.org/http-testing/", "https://docs.ropensci.org/webmockr/"],
   "codeRepository": "https://github.com/ropensci/webmockr",
   "issueTracker": "https://github.com/ropensci/webmockr/issues",
   "license": "https://spdx.org/licenses/MIT",
-  "version": "0.8.0",
+  "version": "0.8.2",
   "programmingLanguage": {
     "@type": "ComputerLanguage",
     "name": "R",
     "url": "https://r-project.org"
   },
-  "runtimePlatform": "R version 4.0.4 Patched (2021-02-17 r80031)",
+  "runtimePlatform": "R version 4.2.1 (2022-06-23)",
   "provider": {
     "@id": "https://cran.r-project.org",
     "@type": "Organization",
-    "name": "Central R Archive Network (CRAN)",
+    "name": "Comprehensive R Archive Network (CRAN)",
     "url": "https://cran.r-project.org"
   },
   "author": [
@@ -30,6 +28,20 @@
       "familyName": "Chamberlain",
       "email": "myrmecocystus+r@gmail.com",
       "@id": "https://orcid.org/0000-0003-1444-9135"
+    }
+  ],
+  "contributor": [
+    {
+      "@type": "Person",
+      "givenName": "Aaron",
+      "familyName": "Wolen",
+      "@id": "https://orcid.org/0000-0003-2542-2202"
+    }
+  ],
+  "funder": [
+    {
+      "@type": "Organization",
+      "name": "rOpenSci"
     }
   ],
   "maintainer": [
@@ -91,8 +103,8 @@
       "sameAs": "https://CRAN.R-project.org/package=httr"
     }
   ],
-  "softwareRequirements": [
-    {
+  "softwareRequirements": {
+    "1": {
       "@type": "SoftwareApplication",
       "identifier": "curl",
       "name": "curl",
@@ -104,7 +116,7 @@
       },
       "sameAs": "https://CRAN.R-project.org/package=curl"
     },
-    {
+    "2": {
       "@type": "SoftwareApplication",
       "identifier": "jsonlite",
       "name": "jsonlite",
@@ -116,7 +128,7 @@
       },
       "sameAs": "https://CRAN.R-project.org/package=jsonlite"
     },
-    {
+    "3": {
       "@type": "SoftwareApplication",
       "identifier": "magrittr",
       "name": "magrittr",
@@ -129,7 +141,7 @@
       },
       "sameAs": "https://CRAN.R-project.org/package=magrittr"
     },
-    {
+    "4": {
       "@type": "SoftwareApplication",
       "identifier": "R6",
       "name": "R6",
@@ -142,7 +154,7 @@
       },
       "sameAs": "https://CRAN.R-project.org/package=R6"
     },
-    {
+    "5": {
       "@type": "SoftwareApplication",
       "identifier": "urltools",
       "name": "urltools",
@@ -155,7 +167,7 @@
       },
       "sameAs": "https://CRAN.R-project.org/package=urltools"
     },
-    {
+    "6": {
       "@type": "SoftwareApplication",
       "identifier": "fauxpas",
       "name": "fauxpas",
@@ -167,7 +179,7 @@
       },
       "sameAs": "https://CRAN.R-project.org/package=fauxpas"
     },
-    {
+    "7": {
       "@type": "SoftwareApplication",
       "identifier": "crul",
       "name": "crul",
@@ -180,7 +192,7 @@
       },
       "sameAs": "https://CRAN.R-project.org/package=crul"
     },
-    {
+    "8": {
       "@type": "SoftwareApplication",
       "identifier": "base64enc",
       "name": "base64enc",
@@ -191,36 +203,11 @@
         "url": "https://cran.r-project.org"
       },
       "sameAs": "https://CRAN.R-project.org/package=base64enc"
-    }
-  ],
+    },
+    "SystemRequirements": null
+  },
   "applicationCategory": "Web",
   "isPartOf": "https://ropensci.org",
-  "keywords": ["http", "https", "API", "web-services", "curl", "mock", "mocking", "fakeweb", "http-mocking", "testing", "testing-tools", "tdd", "rstats", "http-mock", "r", "r-package"],
-  "contIntegration": "https://codecov.io/gh/ropensci/webmockr",
-  "developmentStatus": "https://www.repostatus.org/#active",
-  "releaseNotes": "https://github.com/ropensci/webmockr/blob/master/NEWS.md",
-  "readme": "https://github.com/ropensci/webmockr/blob/master/README.md",
-  "fileSize": "342.582KB",
-  "relatedLink": [
-    "https://ropenscilabs.github.io/http-testing-book/",
-    "https://books.ropensci.org/http-testing",
-    "https://docs.ropensci.org/webmockr",
-    "https://books.ropensci.org/http-testing/",
-    "https://docs.ropensci.org/webmockr/"
-  ],
-  "funder": [
-    {
-      "@type": "Organization",
-      "name": "rOpenSci"
-    }
-  ],
-  "contributor": [
-    {
-      "@type": "Person",
-      "givenName": "Aaron",
-      "familyName": "Wolen",
-      "@id": "https://orcid.org/0000-0003-2542-2202"
-    }
-  ],
-  "copyrightHolder": {}
+  "keywords": ["http", "https", "API", "web-services", "curl", "mock", "mocking", "fakeweb", "http-mocking", "testing", "testing-tools", "tdd"],
+  "fileSize": "346.38KB"
 }
