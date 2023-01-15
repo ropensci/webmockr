@@ -88,7 +88,7 @@ A new \code{BodyPattern} object
 \if{html}{\out{<a id="method-BodyPattern-matches"></a>}}
 \if{latex}{\out{\hypertarget{method-BodyPattern-matches}{}}}
 \subsection{Method \code{matches()}}{
-Match a list of headers against that stored
+Match a request body pattern against a pattern
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{BodyPattern$matches(body, content_type = "")}\if{html}{\out{</div>}}
 }
