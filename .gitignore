@@ -9,3 +9,4 @@ revdep/data.sqlite
 revdep/library.noindex
 write_disk_path-changes.R
 ^docs$
+notes.R
