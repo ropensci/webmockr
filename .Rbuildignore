@@ -7,6 +7,7 @@ man-roxygen/
 ^CODE_OF_CONDUCT\.md$
 Makefile
 notes.md
+notes.R
 .github
 cran-comments.md
 ^codemeta\.json$
