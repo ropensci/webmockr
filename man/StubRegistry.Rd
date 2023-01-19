@@ -120,13 +120,15 @@ an object of type \link{StubbedRequest}, if matched
 \subsection{Method \code{request_stub_for()}}{
 Find a stubbed request
 \subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{StubRegistry$request_stub_for(request_signature)}\if{html}{\out{</div>}}
+\if{html}{\out{<div class="r">}}\preformatted{StubRegistry$request_stub_for(request_signature, count = TRUE)}\if{html}{\out{</div>}}
 }
 
 \subsection{Arguments}{
 \if{html}{\out{<div class="arguments">}}
 \describe{
 \item{\code{request_signature}}{an object of class \link{RequestSignature}}
+
+\item{\code{count}}{(bool) iterate counter or not. default: \code{TRUE}}
 }
 \if{html}{\out{</div>}}
 }
