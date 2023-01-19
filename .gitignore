@@ -3,6 +3,7 @@
 .Rhistory
 .RData
 notes.md
+notes.R
 .DS_Store
 revdep/checks.noindex
 revdep/data.sqlite
