@@ -154,3 +154,21 @@ context("to_return_: defunct")
 test_that("to_return_: defunct", {
   expect_error(to_return_(), "to_return", class = "error")
 })
+
+
+stub_to_return_status_code <- function() {
+  stub_registry()$request_stubs[[1]]$responses_sequences[[1]]$status
+}
+stub_registry_clear()
+enable()
+test_that("stub_request status accepts numeric or integer values", {
+  stub_status_type_a <- stub_request("get", "https://httpbin.org/get")
+  expect_s3_class(to_return(stub_status_type_a, status = 200), "StubbedRequest")
+  expect_type(stub_to_return_status_code(), "double") # numeric = double
+
+  stub_registry_clear()
+  stub_status_type_b <- stub_request("get", "https://httpbin.org/get")
+  expect_s3_class(to_return(stub_status_type_b, status = 200L), "StubbedRequest")
+  expect_type(stub_to_return_status_code(), "integer")
+})
+disable()
