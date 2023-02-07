@@ -49,6 +49,6 @@ reference:
       - RequestPattern
       - RequestSignature
       - HashCounter
+      - StubCounter
       - pluck_body
       - Response
-      - StubCounter
