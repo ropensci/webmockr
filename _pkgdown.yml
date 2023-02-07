@@ -27,7 +27,6 @@ reference:
       - StubbedRequest
       - stub_request
       - remove_request_stub
-      - StubCounter
       - to_raise
       - to_return
       - to_timeout
@@ -52,3 +51,4 @@ reference:
       - HashCounter
       - pluck_body
       - Response
+      - StubCounter
