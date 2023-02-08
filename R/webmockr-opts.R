@@ -5,8 +5,8 @@
 #' @param allow_localhost  (logical) Default: `FALSE`
 #' @param allow (character) one or more URI/URL to allow (and by extension
 #' all others are not allowed)
-#' @param show_stubbing_instructions (logical) Default: `FALSE`. ignored for
-#' now
+#' @param show_stubbing_instructions (logical) Default: `TRUE`. If `FALSE`,
+#' stubbing instructions are not shown
 #' @param uri (character) a URI/URL as a character string - to determine
 #' whether or not it is allowed
 #'
@@ -40,7 +40,7 @@ webmockr_configure <- function(
   allow_net_connect = FALSE,
   allow_localhost = FALSE,
   allow = NULL,
-  show_stubbing_instructions = FALSE) {
+  show_stubbing_instructions = TRUE) {
 
   opts <- list(
     allow_net_connect = allow_net_connect,
