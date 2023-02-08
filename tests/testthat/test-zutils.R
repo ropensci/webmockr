@@ -117,8 +117,7 @@ test_that("webmockr_configuration", {
   expect_is(webmockr_configuration(), "webmockr_config")
   expect_named(
     webmockr_configuration(),
-    c('show_stubbing_instructions', 'show_body_diff', 'query_values_notation',
-      'allow', 'net_http_connect_on_start', 'allow_net_connect',
+    c('show_stubbing_instructions', 'allow', 'allow_net_connect',
       'allow_localhost')
   )
 
