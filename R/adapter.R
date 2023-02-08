@@ -194,7 +194,10 @@ Adapter <- R6::R6Class("Adapter",
         y <- "\n\nYou can stub this request with the following snippet:\n\n  "
         z <- "\n\nregistered request stubs:\n\n"
         msgx <- paste(x, request_signature$to_s())
-        msgy <- paste(y, private$make_stub_request_code(request_signature))
+        msgy <- ""
+        if (webmockr_conf_env$show_stubbing_instructions) {
+          msgy <- paste(y, private$make_stub_request_code(request_signature))
+        }
         if (length(webmockr_stub_registry$request_stubs)) {
           msgz <- paste(
             z,

@@ -112,6 +112,24 @@ test_that("webmockr_allow_net_connect", {
   expect_error(webmockr_allow_net_connect(5), "unused argument")
 })
 
+context("config options: show_stubbing_instructions")
+test_that("show_stubbing_instructions", {
+  x = crul::HttpClient$new("https://httpbin.org/get")
+  
+  # DO show stubbing instructions
+  webmockr_configure(show_stubbing_instructions = TRUE)
+  err_mssg <- as.character(tryCatch(x$get(), error = function(e) e))
+  expect_true(grepl("snippet", err_mssg, perl = TRUE))
+
+  # DO NOT show stubbing instructions
+  webmockr_configure(show_stubbing_instructions = FALSE)
+  err_mssg <- as.character(tryCatch(x$get(), error = function(e) e))
+  expect_false(grepl("^((?!snippet).)*$", err_mssg, perl = TRUE))
+
+  # reset to default
+  webmockr_configure(show_stubbing_instructions = TRUE)
+})
+
 context("util fxns: webmockr_configuration")
 test_that("webmockr_configuration", {
   expect_is(webmockr_configuration(), "webmockr_config")
