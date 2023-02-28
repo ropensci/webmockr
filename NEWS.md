@@ -1,3 +1,20 @@
+webmockr 0.9.0
+==============
+
+### BUG FIXES
+
+* `to_return()` supports returning multiple responses to match many requests to the same matching stub. however, the internals were broken for this, but is now fixed  (#115) thanks @kenahoo for the report
+* matching stubs with specifying a request body to match on (e.g., `stub_request('post', 'https://httpbin.org/post') %>% wi_th(body = list(a=5))`) was not working in some cases; internal matching logic was borked. now fixed. (#118) thanks @konradoberwimmer for the report
+* The `status` parameter in `to_return()` was documented to accept an integer, but it errored when an integer was passed (e.g., `to_return(status=200L)`). This bug is now fixed  (#117) thanks @maelle for the report
+
+### MINOR IMPROVEMENTS
+
+* Config options changes (see `webmockr_configure()`). Three options that were presentg but not implemented are now removed: `show_body_diff`, ` query_values_notation`, ` net_http_connect_on_start`. One option that was present but not implemented yet is now implemented: ` show_stubbing_instructions` (#27) (#120)
+
+### DOCUMENTATION
+
+* `StubCounter` added to pkgdown docs page at <https://docs.ropensci.org/webmockr/reference/StubCounter.html> (#119) @maelle
+
 webmockr 0.8.2
 ==============
 
