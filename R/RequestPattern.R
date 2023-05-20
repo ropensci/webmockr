@@ -372,7 +372,7 @@ BodyPattern <- R6::R6Class(
         self$pattern <- pattern
     },
 
-    #' @description Match a list of headers against that stored
+    #' @description Match a request body pattern against a pattern
     #' @param body (list) the body
     #' @param content_type (character) content type
     #' @return a boolean
@@ -381,8 +381,7 @@ BodyPattern <- R6::R6Class(
         if (length(self$pattern) == 0) return(TRUE)
         private$matching_hashes(private$body_as_hash(body, content_type), self$pattern)
       } else {
-        private$empty_string(self$pattern) && private$empty_string(body) ||
-          self$pattern == body
+        (private$empty_string(self$pattern) && private$empty_string(body)) || all(self$pattern == body)
       }
     },
 
@@ -392,12 +391,8 @@ BodyPattern <- R6::R6Class(
   ),
 
   private = list(
-    empty_headers = function(headers) {
-      is.null(headers) || length(headers) == 0
-    },
-
     empty_string = function(string) {
-      is.null(string) || nchar(string) == 0
+      is.null(string) || !nzchar(string)
     },
 
     matching_hashes = function(z, pattern) {
@@ -408,7 +403,7 @@ BodyPattern <- R6::R6Class(
         expected <- pattern[[names(z)[i]]]
         actual <- z[[i]]
         if (inherits(actual, "list") && inherits(expected, "list")) {
-          if (private$matching_hashes(actual, expected)) return(FALSE)
+          if (!private$matching_hashes(actual, expected)) return(FALSE)
         } else {
           if (!identical(as.character(actual), as.character(expected))) return(FALSE)
         }

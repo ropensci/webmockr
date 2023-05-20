@@ -41,20 +41,20 @@ test_that("build_httr_request/response fail well", {
 test_that("HttrAdapter: works when vcr is loaded but no cassette is inserted", {
   skip_on_cran()
   skip_if_not_installed("vcr")
-  
+
   webmockr::enable(adapter = "httr")
   on.exit({
     webmockr::disable(adapter = "httr")
     unloadNamespace("vcr")
   })
-  
+
   stub_request("get", "https://httpbin.org/get")
   library("vcr")
-  
+
   # works when no cassette is loaded
   expect_silent(x <- httr::GET("https://httpbin.org/get"))
   expect_is(x, "response")
-  
+
   # # works when empty cassette is loaded
   vcr::vcr_configure(dir = tempdir())
   vcr::insert_cassette("empty")
@@ -323,6 +323,30 @@ test_that("httr requests with bodies work", {
   webmockr_allow_net_connect()
   x <- httr::POST("https://httpbin.org/post", body = list(stuff = "things"))
   expect_identical(httr::content(x)$form, list(stuff = "things"))
+
+  webmockr_disable_net_connect()
+})
+
+test_that("httr requests with nested list bodies work", {
+  skip_on_cran()
+
+  httr_mock()
+  stub_registry_clear()
+  body = list(id = ' ', method = 'x', params = list(pwd = 'p', user = 'a'))
+  z <- stub_request("post", uri = "https://httpbin.org/post") %>%
+    wi_th(body = body) %>%
+    to_return(body = "asdffsdsdf")
+  x <- httr::POST("https://httpbin.org/post", body = body)
+  expect_true(httr::content(x, "text", encoding="UTF-8") == "asdffsdsdf")
+
+  # now with allow net connect
+  stub_registry_clear()
+  webmockr_allow_net_connect()
+  x <- httr::POST("https://httpbin.org/post",
+    body = jsonlite::toJSON(body), httr::content_type_json())
+  expect_equal(
+    jsonlite::fromJSON(rawToChar(x$content))$json,
+    body)
 
   webmockr_disable_net_connect()
 })

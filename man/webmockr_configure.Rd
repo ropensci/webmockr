@@ -13,10 +13,7 @@ webmockr_configure(
   allow_net_connect = FALSE,
   allow_localhost = FALSE,
   allow = NULL,
-  net_http_connect_on_start = FALSE,
-  show_stubbing_instructions = FALSE,
-  query_values_notation = FALSE,
-  show_body_diff = FALSE
+  show_stubbing_instructions = TRUE
 )
 
 webmockr_configure_reset()
@@ -37,17 +34,8 @@ webmockr_net_connect_allowed(uri = NULL)
 \item{allow}{(character) one or more URI/URL to allow (and by extension
 all others are not allowed)}
 
-\item{net_http_connect_on_start}{(logical) Default: \code{FALSE}. ignored for
-now}
-
-\item{show_stubbing_instructions}{(logical) Default: \code{FALSE}. ignored for
-now}
-
-\item{query_values_notation}{(logical) Default: \code{FALSE}. ignored for
-now}
-
-\item{show_body_diff}{(logical) Default: \code{FALSE}. ignored for
-now}
+\item{show_stubbing_instructions}{(logical) Default: \code{TRUE}. If \code{FALSE},
+stubbing instructions are not shown}
 
 \item{uri}{(character) a URI/URL as a character string - to determine
 whether or not it is allowed}

@@ -85,7 +85,7 @@ to_return <- function(.data, ..., .list = list(), times = 1) {
   ) {
     stop("'to_return' only accepts status, body, headers")
   }
-  assert(z$status, "numeric")
+  assert(z$status, c("numeric", "integer"))
   assert(z$headers, "list")
   if (!all(hz_namez(z$headers))) stop("'headers' must be a named list")
   replicate(times,

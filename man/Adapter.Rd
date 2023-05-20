@@ -169,23 +169,23 @@ The objects of this class are cloneable with this method.
 \section{Methods}{
 \subsection{Public methods}{
 \itemize{
-\item \href{#method-clone}{\code{Httr2Adapter$clone()}}
+\item \href{#method-Httr2Adapter-clone}{\code{Httr2Adapter$clone()}}
 }
 }
-\if{html}{
-\out{<details open ><summary>Inherited methods</summary>}
-\itemize{
-\item \out{<span class="pkg-link" data-pkg="webmockr" data-topic="Adapter" data-id="disable">}\href{../../webmockr/html/Adapter.html#method-disable}{\code{webmockr::Adapter$disable()}}\out{</span>}
-\item \out{<span class="pkg-link" data-pkg="webmockr" data-topic="Adapter" data-id="enable">}\href{../../webmockr/html/Adapter.html#method-enable}{\code{webmockr::Adapter$enable()}}\out{</span>}
-\item \out{<span class="pkg-link" data-pkg="webmockr" data-topic="Adapter" data-id="handle_request">}\href{../../webmockr/html/Adapter.html#method-handle_request}{\code{webmockr::Adapter$handle_request()}}\out{</span>}
-\item \out{<span class="pkg-link" data-pkg="webmockr" data-topic="Adapter" data-id="initialize">}\href{../../webmockr/html/Adapter.html#method-initialize}{\code{webmockr::Adapter$initialize()}}\out{</span>}
-\item \out{<span class="pkg-link" data-pkg="webmockr" data-topic="Adapter" data-id="remove_stubs">}\href{../../webmockr/html/Adapter.html#method-remove_stubs}{\code{webmockr::Adapter$remove_stubs()}}\out{</span>}
-}
-\out{</details>}
-}
+\if{html}{\out{
+<details open><summary>Inherited methods</summary>
+<ul>
+<li><span class="pkg-link" data-pkg="webmockr" data-topic="Adapter" data-id="disable"><a href='../../webmockr/html/Adapter.html#method-Adapter-disable'><code>webmockr::Adapter$disable()</code></a></span></li>
+<li><span class="pkg-link" data-pkg="webmockr" data-topic="Adapter" data-id="enable"><a href='../../webmockr/html/Adapter.html#method-Adapter-enable'><code>webmockr::Adapter$enable()</code></a></span></li>
+<li><span class="pkg-link" data-pkg="webmockr" data-topic="Adapter" data-id="handle_request"><a href='../../webmockr/html/Adapter.html#method-Adapter-handle_request'><code>webmockr::Adapter$handle_request()</code></a></span></li>
+<li><span class="pkg-link" data-pkg="webmockr" data-topic="Adapter" data-id="initialize"><a href='../../webmockr/html/Adapter.html#method-Adapter-initialize'><code>webmockr::Adapter$initialize()</code></a></span></li>
+<li><span class="pkg-link" data-pkg="webmockr" data-topic="Adapter" data-id="remove_stubs"><a href='../../webmockr/html/Adapter.html#method-Adapter-remove_stubs'><code>webmockr::Adapter$remove_stubs()</code></a></span></li>
+</ul>
+</details>
+}}
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-clone"></a>}}
-\if{latex}{\out{\hypertarget{method-clone}{}}}
+\if{html}{\out{<a id="method-Httr2Adapter-clone"></a>}}
+\if{latex}{\out{\hypertarget{method-Httr2Adapter-clone}{}}}
 \subsection{Method \code{clone()}}{
 The objects of this class are cloneable with this method.
 \subsection{Usage}{

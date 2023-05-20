@@ -200,7 +200,10 @@ Adapter <- R6::R6Class("Adapter",
         y <- "\n\nYou can stub this request with the following snippet:\n\n  "
         z <- "\n\nregistered request stubs:\n\n"
         msgx <- paste(x, request_signature$to_s())
-        msgy <- paste(y, private$make_stub_request_code(request_signature))
+        msgy <- ""
+        if (webmockr_conf_env$show_stubbing_instructions) {
+          msgy <- paste(y, private$make_stub_request_code(request_signature))
+        }
         if (length(webmockr_stub_registry$request_stubs)) {
           msgz <- paste(
             z,
@@ -277,11 +280,7 @@ Adapter <- R6::R6Class("Adapter",
       resp$set_response_headers(stub$response_headers)
       resp$set_status(as.integer(stub$status_code %||% 200))
 
-      req_pat <- RequestPattern$new(method = stub$method,
-        uri = stub$uri, uri_regex = stub$uri_regex, query = stub$query,
-        body = stub$body, headers = stub$request_headers)
-      times_req <- webmockr_request_registry$times_executed(req_pat) - 1
-      stub_num_get <- times_req + 1
+      stub_num_get <- stub$counter$count()
       if (stub_num_get > length(stub$responses_sequences)) {
         stub_num_get <- length(stub$responses_sequences)
       }
@@ -313,11 +312,7 @@ Adapter <- R6::R6Class("Adapter",
       # to decide which responses_sequence entry to use
 
       # choose which response to return
-      req_pat <- RequestPattern$new(method = stub$method,
-        uri = stub$uri, uri_regex = stub$uri_regex, query = stub$query,
-        body = stub$body, headers = stub$request_headers)
-      times_req <- webmockr_request_registry$times_executed(req_pat) - 1
-      stub_num_get <- times_req + 1
+      stub_num_get <- stub$counter$count()
       if (stub_num_get > length(stub$responses_sequences)) {
         stub_num_get <- length(stub$responses_sequences)
       }

@@ -1,3 +1,45 @@
+#' @title StubCounter
+#' @description hash with counter to store requests and count number
+#' of requests made against the stub
+#' @export
+#' @examples
+#' x <- StubCounter$new()
+#' x
+#' x$hash
+#' x$count()
+#' z <- RequestSignature$new(method = "get", uri = "https:/httpbin.org/get")
+#' x$put(z)
+#' x$count()
+#' x$put(z)
+#' x$count()
+StubCounter <- R6::R6Class(
+  'StubCounter',
+  public = list(
+    #' @field hash (list) a list for internal use only, with elements
+    #' `key`, `sig`, and `count`
+    hash = list(),
+
+    #' @description Register a request by it's key
+    #' @param x an object of class `RequestSignature`
+    #' @return nothing returned; registers request & iterates internal counter
+    put = function(x) {
+      assert(x, "RequestSignature")
+      key <- x$to_s()
+      self$hash[[key]] <- list(key = key, sig = x)
+      private$total <- private$total + 1
+    },
+
+    #' @description Get the count of number of times any matching request has
+    #' been made against this stub
+    count = function() {
+      private$total
+    }
+  ),
+  private = list(
+    total = 0
+  )
+)
+
 #' @title StubbedRequest
 #' @description stubbed request class underlying [stub_request()]
 #' @export
@@ -29,7 +71,7 @@
 #'   headers = list(a = 5))
 #' x$to_s()
 #' x
-#' 
+#'
 #' # basic auth
 #' x <- StubbedRequest$new(method = "get", uri = "api.crossref.org")
 #' x$with(basic_auth = c("foo", "bar"))
@@ -102,6 +144,8 @@ StubbedRequest <- R6::R6Class(
     responses_sequences = NULL,
     #' @field status_code (xx) xx
     status_code = NULL,
+    #' @field counter a StubCounter object
+    counter = NULL,
 
     #' @description Create a new `StubbedRequest` object
     #' @param method the HTTP method (any, head, get, post, put,
@@ -124,6 +168,7 @@ StubbedRequest <- R6::R6Class(
       self$uri <- uri
       self$uri_regex <- uri_regex
       if (!is.null(uri)) self$uri_parts <- parseurl(self$uri)
+      self$counter <- StubCounter$new()
     },
 
     #' @description print method for the `StubbedRequest` class
@@ -140,7 +185,7 @@ StubbedRequest <- R6::R6Class(
       else
         cat(sprintf("    body (class: %s): %s", class(self$body)[1L],
           hdl_lst(self$body)), sep = "\n")
-      cat(paste0("    request_headers: ", 
+      cat(paste0("    request_headers: ",
         hdl_lst(self$request_headers)),
           sep = "\n")
       cat("  to_return: ", sep = "\n")
@@ -292,6 +337,12 @@ StubbedRequest <- R6::R6Class(
           ""
         }
       ))
+    },
+
+    #' @description Reset the counter for the stub
+    #' @return nothing returned; resets stub counter to no requests
+    reset = function() {
+      self$counter <- StubCounter$new()
     }
   ),
 

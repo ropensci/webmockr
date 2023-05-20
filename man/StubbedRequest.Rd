@@ -110,6 +110,8 @@ x
 \item{\code{responses_sequences}}{(xx) xx}
 
 \item{\code{status_code}}{(xx) xx}
+
+\item{\code{counter}}{a StubCounter object}
 }
 \if{html}{\out{</div>}}
 }
@@ -123,6 +125,7 @@ x
 \item \href{#method-StubbedRequest-to_timeout}{\code{StubbedRequest$to_timeout()}}
 \item \href{#method-StubbedRequest-to_raise}{\code{StubbedRequest$to_raise()}}
 \item \href{#method-StubbedRequest-to_s}{\code{StubbedRequest$to_s()}}
+\item \href{#method-StubbedRequest-reset}{\code{StubbedRequest$reset()}}
 \item \href{#method-StubbedRequest-clone}{\code{StubbedRequest$clone()}}
 }
 }
@@ -275,6 +278,19 @@ Response as a character string
 
 \subsection{Returns}{
 (character) the response as a string
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-StubbedRequest-reset"></a>}}
+\if{latex}{\out{\hypertarget{method-StubbedRequest-reset}{}}}
+\subsection{Method \code{reset()}}{
+Reset the counter for the stub
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{StubbedRequest$reset()}\if{html}{\out{</div>}}
+}
+
+\subsection{Returns}{
+nothing returned; resets stub counter to no requests
 }
 }
 \if{html}{\out{<hr>}}
