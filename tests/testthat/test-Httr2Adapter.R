@@ -48,23 +48,23 @@ test_that("build_httr_request/response fail well", {
 #     unloadNamespace("vcr")
 #   })
 
-#   stub_request("get", "https://httpbin.org/get")
+#   stub_request("get", "https://hb.opencpu.org/get")
 #   library("vcr")
 
 #   # works when no cassette is loaded
-#   expect_silent(x <- httr::GET("https://httpbin.org/get"))
+#   expect_silent(x <- httr::GET("https://hb.opencpu.org/get"))
 #   expect_is(x, "response")
 
 #   # # works when empty cassette is loaded
 #   vcr::vcr_configure(dir = tempdir())
 #   vcr::insert_cassette("empty")
-#   expect_silent(x <- httr::GET("https://httpbin.org/get"))
+#   expect_silent(x <- httr::GET("https://hb.opencpu.org/get"))
 #   vcr::eject_cassette("empty")
 #   expect_is(x, "response")
 # })
 
 # # library(httr)
-# # z <- GET("https://httpbin.org/get")
+# # z <- GET("https://hb.opencpu.org/get")
 # # httr_obj <- z$request
 # # save(httr_obj, file = "tests/testthat/httr_obj.rda")
 
@@ -76,12 +76,12 @@ test_that("build_httr_request/response fail well", {
 
 #   path <- file.path(tempdir(), "foobar")
 #   vcr::vcr_configure(dir = path)
-#   vcr::use_cassette("test-date", httr::GET("https://httpbin.org/get"))
+#   vcr::use_cassette("test-date", httr::GET("https://hb.opencpu.org/get"))
 #   # list.files(path)
 #   # readLines(file.path(path, "test-date.yml"))
 #   vcr::insert_cassette("test-date")
 
-#   x <- httr::GET("https://httpbin.org/get")
+#   x <- httr::GET("https://hb.opencpu.org/get")
 
 #   # $date is of correct format
 #   expect_output(print(x), "Date")
@@ -121,17 +121,17 @@ test_that("build_httr_request/response fail well", {
 #   unloadNamespace("vcr")
 #   expect_error(
 #     res$handle_request(httr_obj),
-#     "Real HTTP connections are disabled.\nUnregistered request:\n  GET:  https://httpbin.org/get"
+#     "Real HTTP connections are disabled.\nUnregistered request:\n  GET:  https://hb.opencpu.org/get"
 #   )
 
-#   invisible(stub_request("get", "https://httpbin.org/get"))
+#   invisible(stub_request("get", "https://hb.opencpu.org/get"))
 
 #   aa <- res$handle_request(httr_obj)
 
 #   expect_is(res, "Httr2Adapter")
 #   expect_is(aa, "response")
 #   expect_equal(aa$request$method, "GET")
-#   expect_equal(aa$url, "https://httpbin.org/get")
+#   expect_equal(aa$url, "https://hb.opencpu.org/get")
 
 #   # no response headers
 #   expect_equal(length(aa$headers), 0)
@@ -143,7 +143,7 @@ test_that("build_httr_request/response fail well", {
 #   stub_registry_clear()
 
 #   # stub with headers
-#   x <- stub_request("get", "https://httpbin.org/get")
+#   x <- stub_request("get", "https://hb.opencpu.org/get")
 #   x <- to_return(x, headers = list("User-Agent" = "foo-bar"))
 
 #   aa <- res$handle_request(httr_obj)
@@ -151,7 +151,7 @@ test_that("build_httr_request/response fail well", {
 #   expect_is(res, "Httr2Adapter")
 #   expect_is(aa, "response")
 #   expect_equal(aa$request$method, "GET")
-#   expect_equal(aa$url, "https://httpbin.org/get")
+#   expect_equal(aa$url, "https://hb.opencpu.org/get")
 
 #   # has headers and all_headers
 #   expect_equal(length(aa$headers), 1)
@@ -204,12 +204,12 @@ test_that("build_httr_request/response fail well", {
 #   stub_registry_clear()
 #   # stub_registry()
 #   # request_registry()
-#   z <- stub_request("get", uri = "https://httpbin.org/basic-auth/foo/bar") %>%
+#   z <- stub_request("get", uri = "https://hb.opencpu.org/basic-auth/foo/bar") %>%
 #       to_return(
 #         body = list(foo = "bar"),
 #         headers = list("Content-Type" = "application/json")
 #       )
-#   # x <- httr::GET("https://httpbin.org/basic-auth/foo/bar", httr::authenticate("foo", "bar"))
+#   # x <- httr::GET("https://hb.opencpu.org/basic-auth/foo/bar", httr::authenticate("foo", "bar"))
 #   # httr_obj_auth <- x$request
 #   # save(httr_obj_auth, file = "tests/testthat/httr_obj_auth.rda", version = 2)
 #   # load("tests/testthat/httr_obj_auth.rda")
@@ -218,7 +218,7 @@ test_that("build_httr_request/response fail well", {
 #   # mocked httr2 requests with auth work
 #   # before the fixes in Httr2Adapter: a real request through webmockr would
 #   #   not work with authenticate
-#   x <- httr::GET("https://httpbin.org/basic-auth/foo/bar", httr::authenticate("foo", "bar"))
+#   x <- httr::GET("https://hb.opencpu.org/basic-auth/foo/bar", httr::authenticate("foo", "bar"))
 #   expect_is(x, "response")
 #   expect_equal(httr::content(x), list(foo = "bar"))
 #   expect_equal(x$headers, structure(list(`content-type` = "application/json"),
@@ -241,21 +241,21 @@ test_that("httr2 works with webmockr_allow_net_connect", {
 
   httr2_mock()
   stub_registry_clear()
-  z <- stub_request("get", uri = "https://httpbin.org/get?stuff=things") %>%
+  z <- stub_request("get", uri = "https://hb.opencpu.org/get?stuff=things") %>%
     to_return(body = "yum=cheese")
-  req <- request("https://httpbin.org/get?stuff=things")
+  req <- request("https://hb.opencpu.org/get?stuff=things")
   x <- req_perform(req, mock = ~ mock_httr2(req))
   expect_true(resp_body_string(x) == "yum=cheese")
 
   # allow net connect - stub still exists though - so not a real request
   webmockr_allow_net_connect()
-  req <- httr2::request("https://httpbin.org/get?stuff=things")
+  req <- httr2::request("https://hb.opencpu.org/get?stuff=things")
   z <- req_perform(req, mock = ~ mock_httr2(req))
   expect_true(httr2::resp_body_string(z) == "yum=cheese")
 
   # allow net connect - stub now gone - so real request should happen
   stub_registry_clear()
-  req <- httr2::request("https://httpbin.org/get?stuff=things")
+  req <- httr2::request("https://hb.opencpu.org/get?stuff=things")
   w <- req_perform(req, mock = ~ mock_httr2(req))
   expect_false(httr2::resp_body_string(w) == "yum=cheese")
 
@@ -295,16 +295,16 @@ test_that("httr2 requests with bodies work", {
 #   httr_mock()
 #   stub_registry_clear()
 #   body = list(id = ' ', method = 'x', params = list(pwd = 'p', user = 'a'))
-#   z <- stub_request("post", uri = "https://httpbin.org/post") %>%
+#   z <- stub_request("post", uri = "https://hb.opencpu.org/post") %>%
 #     wi_th(body = body) %>%
 #     to_return(body = "asdffsdsdf")
-#   x <- httr::POST("https://httpbin.org/post", body = body)
+#   x <- httr::POST("https://hb.opencpu.org/post", body = body)
 #   expect_true(httr::content(x, "text", encoding="UTF-8") == "asdffsdsdf")
 
 #   # now with allow net connect
 #   stub_registry_clear()
 #   webmockr_allow_net_connect()
-#   x <- httr::POST("https://httpbin.org/post",
+#   x <- httr::POST("https://hb.opencpu.org/post",
 #     body = jsonlite::toJSON(body), httr::content_type_json())
 #   expect_equal(
 #     jsonlite::fromJSON(rawToChar(x$content))$json,
