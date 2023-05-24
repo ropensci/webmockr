@@ -3,7 +3,7 @@
 #' @param req a request
 #' @param resp a response
 #' @return an httr2 response (`httr2_response`)
-#' @examples
+#' @examples \dontrun{
 #' x <- Httr2Adapter$new()
 #' library(httr2)
 #' req <- request("https://r-project.org")
@@ -19,6 +19,7 @@
 #' out
 #' out$body
 #' out$content
+#' }
 build_httr2_response <- function(req, resp) {
   lst <- list(
     method = req_method_get_w(req),

@@ -29,7 +29,7 @@ enable <- function(adapter = NULL, options = list(), quiet = FALSE) {
       message(adapter, " not installed, skipping enable")
       return(invisible(FALSE))
     }
-    http_lib_adapter_registry$adapters[[grep(adapter, adnms)]]$enable(quiet)
+    http_lib_adapter_registry$adapters[[which(adnms == adapter)]]$enable(quiet)
   } else {
     invisible(vapply(http_lib_adapter_registry$adapters, function(z) {
       pkgname <- z$client
@@ -67,7 +67,7 @@ disable <- function(adapter = NULL, options = list(), quiet = FALSE) {
       message(adapter, " not installed, skipping disable")
       return(invisible(FALSE))
     }
-    http_lib_adapter_registry$adapters[[grep(adapter, adnms)]]$disable(quiet)
+    http_lib_adapter_registry$adapters[[which(adnms == adapter)]]$disable(quiet)
   } else {
     invisible(vapply(http_lib_adapter_registry$adapters, function(z) {
       pkgname <- z$client
