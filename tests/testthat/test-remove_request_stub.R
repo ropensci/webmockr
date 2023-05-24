@@ -7,7 +7,7 @@ test_that("remove_request_stub", {
   expect_equal(length(stub_registry()$request_stubs), 0)
 
   # make a stub
-  x <- stub_request("get", "https://httpbin.org/get")
+  x <- stub_request("get", hb("/get"))
 
   # no there's a stub
   expect_equal(length(stub_registry()$request_stubs), 1)
@@ -27,7 +27,7 @@ test_that("remove_request_stub: removes the stub upon an error", {
   expect_equal(length(stub_registry()$request_stubs), 0)
 
   expect_error(
-    stub_request("post", uri = "https://httpbin.org/post") %>%
+    stub_request("post", uri = hb("/post")) %>%
       to_return(body = 5)
   )
   expect_equal(length(stub_registry()$request_stubs), 0)  

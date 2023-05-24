@@ -12,13 +12,13 @@ test_that("stub_registry: works", {
     "GET: https://scottchamberlain.info")
 
   # stub with body
-  stub_request('post', uri = 'https://httpbin.org/post') %>%
+  stub_request('post', uri = hb('/post')) %>%
      wi_th(
        body = list(y=crul::upload(system.file("CITATION")))
      )
   expect_equal(length(stub_registry()$request_stubs), 2)
   expect_match(stub_registry()$request_stubs[[2]]$to_s(),
-    "POST: https://httpbin.org/post")
+    "POST: https://hb.opencpu.org/post")
   expect_match(stub_registry()$request_stubs[[2]]$to_s(),
     "CITATION")
   expect_match(stub_registry()$request_stubs[[2]]$to_s(),
@@ -27,7 +27,7 @@ test_that("stub_registry: works", {
   stub_registry_clear()
 
   # stub with > 1 to_return()
-  s <- stub_request("get", "https://httpbin.org/get")
+  s <- stub_request("get", hb("/get"))
   to_return(s, status = 200, body = "foobar", headers = list(a = 5))
   to_return(s, status = 200, body = "bears", headers = list(b = 6))
   expect_equal(length(stub_registry()$request_stubs), 1)

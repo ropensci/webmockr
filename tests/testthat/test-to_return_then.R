@@ -4,11 +4,11 @@ enable()
 webmockr_reset()
 
 test_that("to_return: then", {
-  stub <- stub_request("get", "https://httpbin.org/get?stuff=things")
+  stub <- stub_request("get", hb("/get?stuff=things"))
   to_return(stub, status = 200, body = "foobar", headers = list(a = 5))
   to_return(stub, status = 200, body = "bears", headers = list(b = 6))
   
-  cli <- crul::HttpClient$new(url = "https://httpbin.org/")
+  cli <- crul::HttpClient$new(url = hb())
   x1 <- cli$get("get", query = list(stuff="things"))
   x2 <- cli$get("get", query = list(stuff="things"))
   x3 <- cli$get("get", query = list(stuff="things"))
@@ -24,11 +24,11 @@ test_that("to_return: then", {
 webmockr_reset()
 
 test_that("to_return: webmockr_reset allows multiple requests to start from beginning", {
-  stub <- stub_request("get", "https://httpbin.org/get?stuff=things")
+  stub <- stub_request("get", hb("/get?stuff=things"))
   to_return(stub, status = 200, body = "foobar", headers = list(a = 5))
   to_return(stub, status = 200, body = "bears", headers = list(b = 6))
   
-  cli <- crul::HttpClient$new(url = "https://httpbin.org/")
+  cli <- crul::HttpClient$new(url = hb())
   x1 <- cli$get("get", query = list(stuff="things"))
   x2 <- cli$get("get", query = list(stuff="things"))
 
@@ -44,7 +44,7 @@ test_that("to_return: webmockr_reset allows multiple requests to start from begi
 
   # RESET - requests give back expected body (have to make stub again)
   webmockr_reset()
-  stub <- stub_request("get", "https://httpbin.org/get?stuff=things")
+  stub <- stub_request("get", hb("/get?stuff=things"))
   to_return(stub, status = 200, body = "foobar", headers = list(a = 5))
   to_return(stub, status = 200, body = "bears", headers = list(b = 6))
 

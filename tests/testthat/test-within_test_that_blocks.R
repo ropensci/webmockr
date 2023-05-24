@@ -5,12 +5,12 @@ test_that("httr: without pipe", {
   enable()
 
   dat_json <- '{"foo":"bar"}'
-  stub <- stub_request("get", uri = "https://httpbin.org/get")
+  stub <- stub_request("get", uri = hb("/get"))
   to_return(stub,
     body = dat_json,
     headers = list("Content-Type" = "application/json; charset=utf-8")
   )
-  res <- GET("https://httpbin.org/get")
+  res <- GET(hb("/get"))
   expect_true(inherits(res, "response"))
   expect_is(content(res), "list")
   expect_named(content(res), "foo")
@@ -22,10 +22,10 @@ test_that("httr: without pipe", {
 test_that("httr: with pipe", {
   enable()
   dat_json <- '{"foo":"bar"}'
-  stub <- stub_request("get", uri = "https://httpbin.org/get") %>%
+  stub <- stub_request("get", uri = hb("/get")) %>%
     to_return(body = dat_json,
       headers = list("Content-Type" = "application/json; charset=utf-8"))
-  res <- GET("https://httpbin.org/get")
+  res <- GET(hb("/get"))
   expect_true(inherits(res, "response"))
   expect_is(content(res), "list")
   expect_named(content(res), "foo")
@@ -40,12 +40,12 @@ test_that("crul works", {
 
   enable()
   dat_json <- '{"foo":"bar"}'
-  stub <- stub_request("get", uri = "https://httpbin.org/get")
+  stub <- stub_request("get", uri = hb("/get"))
   to_return(stub,
     body = dat_json,
     headers = list("Content-Type" = "application/json; howdy")
   )
-  res <- crul::HttpClient$new("https://httpbin.org")$get("get")
+  res <- crul::HttpClient$new(hb())$get("get")
   expect_true(inherits(res, "HttpResponse"))
   expect_is(res$parse("UTF-8"), "character")
   expect_is(jsonlite::fromJSON(res$parse("UTF-8")), "list")

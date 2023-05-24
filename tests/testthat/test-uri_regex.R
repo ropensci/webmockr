@@ -1,7 +1,7 @@
 context("uri_regex")
 
 test_that("uri_regex with crul", {
-  stub_request("get", uri_regex = "httpbin.org/.+") %>%
+  stub_request("get", uri_regex = "hb.opencpu.org/.+") %>%
     to_return(body = list(foo = "bar"))
 
   library(crul)
@@ -9,7 +9,7 @@ test_that("uri_regex with crul", {
   
   invisible(
     lapply(c('elephants', 'bears', 'leaves', 'foo', 'bar'), function(z) {
-      expect_true(HttpClient$new("https://httpbin.org")$get(z)$success())
+      expect_true(HttpClient$new(hb())$get(z)$success())
     })
   )
 
@@ -41,14 +41,14 @@ test_that("uri_regex with crul", {
 stub_registry_clear()
 
 test_that("uri_regex with httr", {
-  stub_request("get", uri_regex = "httpbin.org/.+") %>%
+  stub_request("get", uri_regex = "hb.opencpu.org/.+") %>%
     to_return(body = list(foo = "bar"))
 
   library(httr)
   enable(adapter = "httr")
   invisible(
     lapply(c('elephants', 'bears', 'leaves', 'foo', 'bar'), function(z) {
-      expect_false(http_error(GET(file.path("https://httpbin.org", z))))
+      expect_false(http_error(GET(file.path(hb(), z))))
     })
   )
 

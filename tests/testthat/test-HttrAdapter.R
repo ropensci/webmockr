@@ -48,23 +48,23 @@ test_that("HttrAdapter: works when vcr is loaded but no cassette is inserted", {
     unloadNamespace("vcr")
   })
 
-  stub_request("get", "https://httpbin.org/get")
+  stub_request("get", hb("/get"))
   library("vcr")
 
   # works when no cassette is loaded
-  expect_silent(x <- httr::GET("https://httpbin.org/get"))
+  expect_silent(x <- httr::GET(hb("/get")))
   expect_is(x, "response")
 
   # # works when empty cassette is loaded
   vcr::vcr_configure(dir = tempdir())
   vcr::insert_cassette("empty")
-  expect_silent(x <- httr::GET("https://httpbin.org/get"))
+  expect_silent(x <- httr::GET(hb("/get")))
   vcr::eject_cassette("empty")
   expect_is(x, "response")
 })
 
 # library(httr)
-# z <- GET("https://httpbin.org/get")
+# z <- GET(hb("/get"))
 # httr_obj <- z$request
 # save(httr_obj, file = "tests/testthat/httr_obj.rda")
 
@@ -76,12 +76,12 @@ test_that("HttrAdapter date slot works", {
 
   path <- file.path(tempdir(), "foobar")
   vcr::vcr_configure(dir = path)
-  vcr::use_cassette("test-date", httr::GET("https://httpbin.org/get"))
+  vcr::use_cassette("test-date", httr::GET(hb("/get")))
   # list.files(path)
   # readLines(file.path(path, "test-date.yml"))
   vcr::insert_cassette("test-date")
 
-  x <- httr::GET("https://httpbin.org/get")
+  x <- httr::GET(hb("/get"))
 
   # $date is of correct format
   expect_output(print(x), "Date")
@@ -106,12 +106,12 @@ test_that("HttrAdapter insensitive headers work, webmockr flow", {
   unloadNamespace("vcr")
   httr_mock()
   stub_registry_clear()
-  invisible(stub_request("get", uri = "https://httpbin.org/get") %>%
+  invisible(stub_request("get", uri = hb("/get")) %>%
       to_return(
         body = list(foo = "bar"),
         headers = list("Content-Type" = "application/json")
       ))
-  x <- httr::GET("https://httpbin.org/get")
+  x <- httr::GET(hb("/get"))
 
   expect_equal(x$headers[["content-type"]], "application/json")
   expect_is(httr::content(x), "list")
@@ -129,10 +129,10 @@ test_that("HttrAdapter insensitive headers work, vcr flow", {
 
   path <- file.path(tempdir(), "helloworld")
   vcr::vcr_configure(dir = path)
-  vcr::use_cassette("test-date", GET("https://httpbin.org/get"))
+  vcr::use_cassette("test-date", GET(hb("/get")))
   vcr::insert_cassette("test-date")
 
-  x <- httr::GET("https://httpbin.org/get")
+  x <- httr::GET(hb("/get"))
 
   expect_equal(x$headers[["content-type"]], "application/json")
   expect_is(httr::content(x), "list")
@@ -167,17 +167,17 @@ test_that("HttrAdapter works", {
   unloadNamespace("vcr")
   expect_error(
     res$handle_request(httr_obj),
-    "Real HTTP connections are disabled.\nUnregistered request:\n  GET:  https://httpbin.org/get"
+    "Real HTTP connections are disabled.\nUnregistered request:\n  GET:  https://hb.opencpu.org/get"
   )
 
-  invisible(stub_request("get", "https://httpbin.org/get"))
+  invisible(stub_request("get", hb("/get")))
 
   aa <- res$handle_request(httr_obj)
 
   expect_is(res, "HttrAdapter")
   expect_is(aa, "response")
   expect_equal(aa$request$method, "GET")
-  expect_equal(aa$url, "https://httpbin.org/get")
+  expect_equal(aa$url, hb("/get"))
 
   # no response headers
   expect_equal(length(aa$headers), 0)
@@ -189,7 +189,7 @@ test_that("HttrAdapter works", {
   stub_registry_clear()
 
   # stub with headers
-  x <- stub_request("get", "https://httpbin.org/get")
+  x <- stub_request("get", hb("/get"))
   x <- to_return(x, headers = list("User-Agent" = "foo-bar"))
 
   aa <- res$handle_request(httr_obj)
@@ -197,7 +197,7 @@ test_that("HttrAdapter works", {
   expect_is(res, "HttrAdapter")
   expect_is(aa, "response")
   expect_equal(aa$request$method, "GET")
-  expect_equal(aa$url, "https://httpbin.org/get")
+  expect_equal(aa$url, hb("/get"))
 
   # has headers and all_headers
   expect_equal(length(aa$headers), 1)
@@ -250,7 +250,7 @@ test_that("HttrAdapter works with httr::authenticate", {
   stub_registry_clear()
   # stub_registry()
   # request_registry()
-  z <- stub_request("get", uri = "https://httpbin.org/basic-auth/foo/bar") %>%
+  z <- stub_request("get", uri = hb("/basic-auth/foo/bar")) %>%
       to_return(
         body = list(foo = "bar"),
         headers = list("Content-Type" = "application/json")
@@ -264,7 +264,7 @@ test_that("HttrAdapter works with httr::authenticate", {
   # mocked httr requests with auth work
   # before the fixes in HttrAdapter: a real request through webmockr would
   #   not work with authenticate
-  x <- httr::GET("https://httpbin.org/basic-auth/foo/bar", httr::authenticate("foo", "bar"))
+  x <- httr::GET(hb("/basic-auth/foo/bar"), httr::authenticate("foo", "bar"))
   expect_is(x, "response")
   expect_equal(httr::content(x), list(foo = "bar"))
   expect_equal(x$headers, structure(list(`content-type` = "application/json"),
@@ -287,24 +287,24 @@ test_that("httr works with webmockr_allow_net_connect", {
 
   httr_mock()
   stub_registry_clear()
-  z <- stub_request("get", uri = "https://httpbin.org/get?stuff=things") %>%
+  z <- stub_request("get", uri = hb("/get?stuff=things")) %>%
     to_return(body = "yum=cheese")
-  x <- httr::GET("https://httpbin.org/get?stuff=things")
+  x <- httr::GET(hb("/get?stuff=things"))
   expect_true(httr::content(x, "text", encoding="UTF-8") == "yum=cheese")
 
   # allow net connect - stub still exists though - so not a real request
   webmockr_allow_net_connect()
-  z <- httr::GET("https://httpbin.org/get?stuff=things")
+  z <- httr::GET(hb("/get?stuff=things"))
   expect_true(httr::content(z, "text", encoding="UTF-8") == "yum=cheese")
 
   # allow net connect - stub now gone - so real request should happen
   stub_registry_clear()
-  w <- httr::GET("https://httpbin.org/get?stuff=things")
+  w <- httr::GET(hb("/get?stuff=things"))
   expect_false(httr::content(w, "text", encoding="UTF-8") == "yum=cheese")
 
   # disable net connect - now real requests can't be made
   webmockr_disable_net_connect()
-  expect_error(httr::GET("https://httpbin.org/get?stuff=things"),
+  expect_error(httr::GET(hb("/get?stuff=things")),
     "Real HTTP connections are disabled")
 })
 
@@ -313,15 +313,15 @@ test_that("httr requests with bodies work", {
 
   httr_mock()
   stub_registry_clear()
-  z <- stub_request("post", uri = "https://httpbin.org/post") %>%
+  z <- stub_request("post", uri = hb("/post")) %>%
     to_return(body = "asdffsdsdf")
-  x <- httr::POST("https://httpbin.org/post", body = list(stuff = "things"))
+  x <- httr::POST(hb("/post"), body = list(stuff = "things"))
   expect_true(httr::content(x, "text", encoding="UTF-8") == "asdffsdsdf")
 
   # now with allow net connect
   stub_registry_clear()
   webmockr_allow_net_connect()
-  x <- httr::POST("https://httpbin.org/post", body = list(stuff = "things"))
+  x <- httr::POST(hb("/post"), body = list(stuff = "things"))
   expect_identical(httr::content(x)$form, list(stuff = "things"))
 
   webmockr_disable_net_connect()
@@ -333,16 +333,16 @@ test_that("httr requests with nested list bodies work", {
   httr_mock()
   stub_registry_clear()
   body = list(id = ' ', method = 'x', params = list(pwd = 'p', user = 'a'))
-  z <- stub_request("post", uri = "https://httpbin.org/post") %>%
+  z <- stub_request("post", uri = hb("/post")) %>%
     wi_th(body = body) %>%
     to_return(body = "asdffsdsdf")
-  x <- httr::POST("https://httpbin.org/post", body = body)
+  x <- httr::POST(hb("/post"), body = body)
   expect_true(httr::content(x, "text", encoding="UTF-8") == "asdffsdsdf")
 
   # now with allow net connect
   stub_registry_clear()
   webmockr_allow_net_connect()
-  x <- httr::POST("https://httpbin.org/post",
+  x <- httr::POST(hb("/post"),
     body = jsonlite::toJSON(body), httr::content_type_json())
   expect_equal(
     jsonlite::fromJSON(rawToChar(x$content))$json,
@@ -359,22 +359,22 @@ test_that("httr requests with JSON-encoded bodies work", {
 
   stub_registry_clear()
   body <- list(foo = "bar")
-  z <- stub_request("post", uri = "https://httpbin.org/post") %>%
+  z <- stub_request("post", uri = hb("/post")) %>%
     wi_th(body = jsonlite::toJSON(body, auto_unbox = TRUE))
 
   # encoded body works
-  res <- httr::POST("https://httpbin.org/post", body = body, encode = "json")
+  res <- httr::POST(hb("/post"), body = body, encode = "json")
   expect_is(res, "response")
 
   # encoded but modified body fails
   expect_error(
-    httr::POST("https://httpbin.org/post", body = list(foo = "bar1"), encode = "json"),
+    httr::POST(hb("/post"), body = list(foo = "bar1"), encode = "json"),
     "Unregistered request"
   )
 
   # unencoded body fails
   expect_error(
-    httr::POST("https://httpbin.org/post", body = body),
+    httr::POST(hb("/post"), body = body),
     "Unregistered request"
   )
 })
