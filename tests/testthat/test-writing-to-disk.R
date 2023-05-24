@@ -13,10 +13,10 @@ test_that("Write to a file before mocked request: crul", {
   expect_is(readLines(f), "character")
   expect_match(readLines(f), "world")
   ## make the stub
-  stub_request("get", "https://httpbin.org/get") %>% 
+  stub_request("get", hb("/get")) %>% 
     to_return(body = file(f))
   ## make a request
-  out <- HttpClient$new("https://httpbin.org/get")$get(disk = f)
+  out <- HttpClient$new(hb("/get"))$get(disk = f)
   expect_is(out$content, "character")
   expect_equal(attr(out$content, "type"), "file")
   expect_is(readLines(out$content), "character")
@@ -38,12 +38,12 @@ test_that("Write to a file before mocked request: httr", {
   expect_is(readLines(f), "character")
   expect_match(readLines(f), "world")
   ## make the stub
-  stub_request("get", "https://httpbin.org/get") %>% 
+  stub_request("get", hb("/get")) %>% 
     to_return(body = file(f), 
      headers = list('content-type' = "application/json"))
   ## make a request
   ## with httr, you must set overwrite=TRUE or you'll get an errror
-  out <- GET("https://httpbin.org/get", write_disk(f, overwrite=TRUE))
+  out <- GET(hb("/get"), write_disk(f, overwrite=TRUE))
   content(out)
   expect_is(out$content, "path")
   expect_equal(attr(out$content, "class"), "path")
@@ -62,10 +62,10 @@ test_that("Use mock_file to have webmockr handle file and contents: crul", {
   ## make a temp file
   f <- tempfile(fileext = ".json")
   ## make the stub
-  stub_request("get", "https://httpbin.org/get") %>% 
+  stub_request("get", hb("/get")) %>% 
     to_return(body = mock_file(f, "{\"hello\":\"mars\"}\n"))
   ## make a request
-  out <- crul::HttpClient$new("https://httpbin.org/get")$get(disk = f)
+  out <- crul::HttpClient$new(hb("/get"))$get(disk = f)
   out$content
   expect_is(out$content, "character")
   expect_match(out$content, "json")
@@ -84,13 +84,13 @@ test_that("Use mock_file to have webmockr handle file and contents: httr", {
   ## make a temp file
   f <- tempfile(fileext = ".json")
   ## make the stub
-  stub_request("get", "https://httpbin.org/get") %>% 
+  stub_request("get", hb("/get")) %>% 
     to_return(
       body = mock_file(path = f, payload = "{\"foo\": \"bar\"}"),
       headers = list('content-type' = "application/json")
     )
   ## make a request
-  out <- GET("https://httpbin.org/get", write_disk(f))
+  out <- GET(hb("/get"), write_disk(f))
   ## view stubbed file content
   expect_is(out$content, "path")
   expect_match(out$content, "json")

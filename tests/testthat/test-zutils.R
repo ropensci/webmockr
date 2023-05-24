@@ -114,7 +114,7 @@ test_that("webmockr_allow_net_connect", {
 
 context("config options: show_stubbing_instructions")
 test_that("show_stubbing_instructions", {
-  x = crul::HttpClient$new("https://httpbin.org/get")
+  x = crul::HttpClient$new("https://hb.opencpu.org/get")
   
   # DO show stubbing instructions
   webmockr_configure(show_stubbing_instructions = TRUE)

@@ -16,7 +16,7 @@ test_that("with crul", {
   # path not set
   expect_error(
     suppressWarnings(use_cassette("write_disk_path_not_set_crul_error", {
-      out <- HttpClient$new("https://httpbin.org/get")$get(disk = f)
+      out <- HttpClient$new(hb("/get"))$get(disk = f)
     })),
     "write_disk_path must be given"
   )
@@ -26,7 +26,7 @@ test_that("with crul", {
   invisible(vcr_configure(dir = dir, write_disk_path = wdp))
   expect_error(
     use_cassette("write_disk_path_not_set_crul_noerror", {
-      out <- HttpClient$new("https://httpbin.org/get")$get(disk = f)
+      out <- HttpClient$new(hb("/get"))$get(disk = f)
     }),
     NA
   )
@@ -55,7 +55,7 @@ test_that("if relative path set its not expanded to full path anymore", {
 
   expect_error(
     use_cassette("write_disk_path_is_relative", {
-      out <- HttpClient$new("https://httpbin.org/get?foo=foo")$get(disk = f)
+      out <- HttpClient$new(hb("/get?foo=foo"))$get(disk = f)
     }),
     NA
   )
@@ -86,7 +86,7 @@ test_that("with httr", {
   # path not set
   expect_error(
     suppressWarnings(use_cassette("write_disk_path_not_set_crul_error", {
-      out <- GET("https://httpbin.org/get", write_disk(f))
+      out <- GET(hb("/get"), write_disk(f))
     })),
     "write_disk_path must be given"
   )
@@ -97,7 +97,7 @@ test_that("with httr", {
   invisible(vcr_configure(dir = dir, write_disk_path = wdp))
   expect_error(
     use_cassette("write_disk_path_not_set_crul_noerror", {
-      out <- GET("https://httpbin.org/get", write_disk(f))
+      out <- GET(hb("/get"), write_disk(f))
     }),
     NA
   )
@@ -126,7 +126,7 @@ test_that("if relative path set its not expanded to full path anymore: httr", {
 
   expect_error(
     use_cassette("write_disk_path_is_relative", {
-      out <- GET("https://httpbin.org/get?foo=foo", write_disk(f))
+      out <- GET(hb("/get?foo=foo"), write_disk(f))
     }),
     NA
   )

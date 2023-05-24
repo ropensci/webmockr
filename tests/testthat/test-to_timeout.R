@@ -6,7 +6,7 @@ test_that("no stubs exist before stub_request called", {
   expect_equal(length(stub_registry()$request_stubs), 0)
 })
 
-aa <- stub_request("get", "https://httpbin.org/get") %>% to_timeout()
+aa <- stub_request("get", hb("/get")) %>% to_timeout()
 
 test_that("stub_request bits are correct", {
 
@@ -22,7 +22,7 @@ test_that("stub_request bits are correct", {
   expect_is(aa$method, "character")
   expect_equal(aa$method, "get")
   expect_is(aa$uri, "character")
-  expect_equal(aa$uri, "https://httpbin.org/get")
+  expect_equal(aa$uri, hb("/get"))
 
   # to_timeout expected stuff
   expect_true(aa$responses_sequences[[1]]$timeout)

@@ -7,10 +7,10 @@ test_that("request_registry: structure", {
   expect_is(request_registry(), "RequestRegistry")
 
   enable()
-  stub_request("get", "https://httpbin.org/get") %>%
+  stub_request("get", hb("/get")) %>%
     to_return(body = "success!", status = 200)
   invisible(
-    crul::HttpClient$new(url = "https://httpbin.org")$get("get")
+    crul::HttpClient$new(url = hb())$get("get")
   )
   disable()
 

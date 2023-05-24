@@ -7,7 +7,7 @@ test_that("no stubs exist before stub_request called", {
 })
 
 library(fauxpas)
-aa <- stub_request("get", "https://httpbin.org/get") %>% to_raise(HTTPAccepted)
+aa <- stub_request("get", hb("/get")) %>% to_raise(HTTPAccepted)
 
 test_that("stub_request bits are correct", {
 
@@ -23,7 +23,7 @@ test_that("stub_request bits are correct", {
   expect_is(aa$method, "character")
   expect_equal(aa$method, "get")
   expect_is(aa$uri, "character")
-  expect_equal(aa$uri, "https://httpbin.org/get")
+  expect_equal(aa$uri, hb("/get"))
 
   # to_raise expected stuff
   rr <- aa$responses_sequences[[1]]
@@ -43,7 +43,7 @@ test_that("stub_request fails well", {
   expect_error(to_raise(5), ".data must be of class StubbedRequest")
 
   # exception clases
-  zzz <- stub_request("get", "https://httpbin.org/get")
+  zzz <- stub_request("get", hb("/get"))
   expect_error(to_raise(zzz, "foo"),
                "all objects must be error classes from fauxpas")
 })

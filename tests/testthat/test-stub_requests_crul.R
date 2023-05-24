@@ -13,7 +13,7 @@ test_that("stub_request works well: get requests", {
   ## 0 stubs
   expect_equal(length(stub_registry()$request_stubs), 0)
 
-  x <- crul::HttpClient$new(url = "https://httpbin.org")
+  x <- crul::HttpClient$new(url = hb())
 
   ms1 <- get_err_mssg(x$get('get', query = list(foo = "bar", a = 5)))
   expect_error(
@@ -34,7 +34,7 @@ test_that("stub_request works well: get requests", {
   )
 
   # after a stub made
-  stub_request("get", "https://httpbin.org/get?foo=bar&a=5") %>%
+  stub_request("get", hb("/get?foo=bar&a=5")) %>%
     wi_th(headers = list(
       'Accept-Encoding' = 'gzip, deflate',
       'Accept' = 'application/json, text/xml, application/xml, */*')
@@ -45,7 +45,7 @@ test_that("stub_request works well: get requests", {
   # the matching request works
   z <- x$get('get', query = list(foo = "bar", a = 5))
   expect_is(z, "HttpResponse")
-  expect_equal(z$url, "https://httpbin.org/get?foo=bar&a=5")
+  expect_equal(z$url, hb("/get?foo=bar&a=5"))
 
   # but the others still do not work cause they dont match the stub
   ms2 <- get_err_mssg(x$get('get', query = list(foo = "bar", stuff = FALSE)))
@@ -54,7 +54,7 @@ test_that("stub_request works well: get requests", {
   expect_error(x$get('get', query = list(foo = "bar")), re_escape(ms3))
 
   # a stub for the second request
-  stub_request("get", "https://httpbin.org/get?foo=bar&stuff=FALSE") %>%
+  stub_request("get", hb("/get?foo=bar&stuff=FALSE")) %>%
     wi_th(headers = list(
       'Accept-Encoding' = 'gzip, deflate',
       'Accept' = 'application/json, text/xml, application/xml, */*')
@@ -65,7 +65,7 @@ test_that("stub_request works well: get requests", {
   # the other request now works
   w <- x$get('get', query = list(foo = "bar", stuff = FALSE))
   expect_is(w, "HttpResponse")
-  expect_equal(w$url, "https://httpbin.org/get?foo=bar&stuff=FALSE")
+  expect_equal(w$url, hb("/get?foo=bar&stuff=FALSE"))
 
   # but the others still do not work cause they dont match the stub
   ms4 <- get_err_mssg(x$get('get', query = list(foo = "bar")))
@@ -84,7 +84,7 @@ test_that("stub_request works well: post requests", {
   ## 0 stubs
   expect_equal(length(stub_registry()$request_stubs), 0)
 
-  x <- crul::HttpClient$new(url = "https://httpbin.org")
+  x <- crul::HttpClient$new(url = hb())
 
   ms1 <- get_err_mssg(x$post('post', body = list(foo = "bar", a = 5)))
   expect_error(
@@ -93,7 +93,7 @@ test_that("stub_request works well: post requests", {
   )
 
   # after a stub made
-  stub_request("post", "https://httpbin.org/post") %>%
+  stub_request("post", hb("/post")) %>%
     wi_th(headers = list(
       'Accept-Encoding' = 'gzip, deflate',
       'Accept' = 'application/json, text/xml, application/xml, */*'),
@@ -105,7 +105,7 @@ test_that("stub_request works well: post requests", {
   # the matching request works
   z <- x$post('post', body = list(foo = "bar", a = 5))
   expect_is(z, "HttpResponse")
-  expect_equal(z$url, "https://httpbin.org/post")
+  expect_equal(z$url, hb("/post"))
 
   # but the others still do not work cause they dont match the stub
   ms2 <- get_err_mssg(x$post('post', query = list(foo = "bar", stuff = FALSE)))

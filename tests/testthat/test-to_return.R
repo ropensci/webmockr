@@ -5,7 +5,7 @@ test_that("no stubs exist before stub_request called", {
   expect_equal(length(stub_registry()$request_stubs), 0)
 })
 
-aa <- stub_request("get", "https://httpbin.org/get") %>%
+aa <- stub_request("get", hb("/get")) %>%
   to_return(status = 200, body = "stuff", headers = list(a = 5))
 
 test_that("stub_request bits are correct", {
@@ -20,7 +20,7 @@ test_that("stub_request bits are correct", {
   expect_is(aa$method, "character")
   expect_equal(aa$method, "get")
   expect_is(aa$uri, "character")
-  expect_equal(aa$uri, "https://httpbin.org/get")
+  expect_equal(aa$uri, hb("/get"))
 
   # to_return expected stuff
   expect_is(aa$response_headers, "list")
@@ -45,7 +45,7 @@ test_that("stub_request fails well", {
   expect_error(to_return(), "argument \".data\" is missing")
   expect_error(to_return(5), ".data must be of class StubbedRequest")
 
-  zzz <- stub_request("get", "https://httpbin.org/get")
+  zzz <- stub_request("get", hb("/get"))
 
   # status
   expect_error(to_return(zzz, status = "foo"), "must be of class numeric")
@@ -62,9 +62,9 @@ stub_registry_clear()
 enable()
 context("to_return: response headers returned all lowercase")
 test_that("to_return (response) headers are all lowercase, crul", {
-  stub <- stub_request(uri = "http://httpbin.org/get") %>%
+  stub <- stub_request(uri = hb("/get")) %>%
     to_return(headers = list("Foo-Bar" = "baz"))
-  cli <- crul::HttpClient$new(url = "http://httpbin.org/")
+  cli <- crul::HttpClient$new(url = hb())
   x <- cli$get("get")
 
   expect_is(x$response_headers, "list")
@@ -74,9 +74,9 @@ test_that("to_return (response) headers are all lowercase, crul", {
 stub_registry_clear()
 test_that("to_return (response) headers are all lowercase, httr", {
   loadNamespace("httr")
-  stub <- stub_request(uri = "http://httpbin.org/get") %>%
+  stub <- stub_request(uri = hb("/get")) %>%
     to_return(headers = list("Foo-Bar" = "baz"))
-  x <- httr::GET("http://httpbin.org/get")
+  x <- httr::GET(hb("/get"))
 
   expect_is(x$headers, "list")
   expect_named(x$headers, "foo-bar")
@@ -89,9 +89,9 @@ stub_registry_clear()
 enable()
 context("to_return: response header values are all character")
 test_that("to_return response header values are all character, crul", {
-  cli <- crul::HttpClient$new(url = "http://httpbin.org/")
+  cli <- crul::HttpClient$new(url = hb())
   
-  stub_request(uri = "http://httpbin.org/get") %>%
+  stub_request(uri = hb("/get")) %>%
     to_return(headers = list("Foo-Bar" = 10))
   x <- cli$get("get")
 
@@ -101,7 +101,7 @@ test_that("to_return response header values are all character, crul", {
   expect_equal(x$response_headers$`foo-bar`, "10")
 
   stub_registry_clear()
-  stub_request(uri = "http://httpbin.org/get") %>%
+  stub_request(uri = hb("/get")) %>%
     to_return(headers = list(
       a = 10, b = 234233434, c = 2344.342342, 
       d = "brown", e = as.factor("blue")
@@ -122,9 +122,9 @@ stub_registry_clear()
 test_that("to_return response header values are all character, httr", {
   loadNamespace("httr")
   
-  stub_request(uri = "http://httpbin.org/get") %>%
+  stub_request(uri = hb("/get")) %>%
     to_return(headers = list("Foo-Bar" = 10))
-  x <- httr::GET("http://httpbin.org/get")
+  x <- httr::GET(hb("/get"))
 
   expect_is(x$headers, "list")
   expect_named(x$headers, "foo-bar")
@@ -132,12 +132,12 @@ test_that("to_return response header values are all character, httr", {
   expect_equal(x$headers$`foo-bar`, "10")
 
   stub_registry_clear()
-  stub_request(uri = "http://httpbin.org/get") %>%
+  stub_request(uri = hb("/get")) %>%
     to_return(headers = list(
       a = 10, b = 234233434, c = 2344.342342, 
       d = "brown", e = as.factor("blue")
     ))
-  z <- httr::GET("http://httpbin.org/get")
+  z <- httr::GET(hb("/get"))
 
   expect_is(z$headers, "list")
   expect_named(z$headers, letters[1:5])
@@ -162,12 +162,12 @@ stub_to_return_status_code <- function() {
 stub_registry_clear()
 enable()
 test_that("stub_request status accepts numeric or integer values", {
-  stub_status_type_a <- stub_request("get", "https://httpbin.org/get")
+  stub_status_type_a <- stub_request("get", hb("/get"))
   expect_s3_class(to_return(stub_status_type_a, status = 200), "StubbedRequest")
   expect_type(stub_to_return_status_code(), "double") # numeric = double
 
   stub_registry_clear()
-  stub_status_type_b <- stub_request("get", "https://httpbin.org/get")
+  stub_status_type_b <- stub_request("get", hb("/get"))
   expect_s3_class(to_return(stub_status_type_b, status = 200L), "StubbedRequest")
   expect_type(stub_to_return_status_code(), "integer")
 })

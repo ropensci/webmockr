@@ -7,7 +7,7 @@ test_that("no cassette in use behaves as expected", {
   invisible(vcr_configure(dir = dir))
 
   crul::mock()
-  x <- crul::HttpClient$new(url = "https://httpbin.org")
+  x <- crul::HttpClient$new(url = hb())
 
   # when no cassette in use, we get expected vcr error
   expect_error(

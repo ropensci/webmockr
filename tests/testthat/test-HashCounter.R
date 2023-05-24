@@ -16,7 +16,7 @@ test_that("HashCounter: structure", {
 test_that("HashCounter: works as expected", {
   x <- HashCounter$new()
 
-  a <- RequestSignature$new(method = "get", uri = "https:/httpbin.org/get")
+  a <- RequestSignature$new(method = "get", uri = hb("/get"))
   b <- RequestSignature$new(method = "post", uri = "https://www.wikipedia.org/")
 
   x$put(a)
