@@ -134,8 +134,12 @@ Adapter <- R6::R6Class("Adapter",
         
         # no vcr
         } else {
+          sac$self <- self
+          sac$req <- req
+          sac$ss <- ss
           resp <- private$build_response(req, resp)
           # add to_return() elements if given
+          sac$resp <- resp
           resp <- private$add_response_sequences(ss, resp)
         }
 
@@ -348,7 +352,12 @@ Adapter <- R6::R6Class("Adapter",
             attr(respx$body_raw, "type") <- NULL
             class(respx$body_raw) <- "path"
           }
-          response$content <- respx$body_raw
+
+          if (self$client == "httr2") {
+            response$body <- respx$body_raw
+          } else {
+            response$content <- respx$body_raw
+          }
         }
         
         if (names(toadd)[i] == "headers") {

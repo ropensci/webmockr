@@ -17,3 +17,20 @@ an httr2 response (\code{httr2_response})
 \description{
 Build a httr2 response (\code{httr2_response})
 }
+\examples{
+x <- Httr2Adapter$new()
+library(httr2)
+req <- request("https://r-project.org")
+req = req \%>\% req_body_json(list(x = 1, y = 2))
+#req$method <- 'POST'
+stub_request("post", "https://r-project.org") \%>\%
+ to_return(status = 418, body = list(a = 5))
+stub = webmockr_stub_registry$request_stubs[[1]]
+stub$counter$.__enclos_env__$private$total <- 1
+resp = x$.__enclos_env__$private$build_stub_response(stub)
+resp = x$.__enclos_env__$private$build_response(req, resp)
+resp = x$.__enclos_env__$private$add_response_sequences(stub, resp)
+out
+out$body
+out$content
+}

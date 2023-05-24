@@ -3,10 +3,25 @@
 #' @param req a request
 #' @param resp a response
 #' @return an httr2 response (`httr2_response`)
-
+#' @examples
+#' x <- Httr2Adapter$new()
+#' library(httr2)
+#' req <- request("https://r-project.org")
+#' req = req %>% req_body_json(list(x = 1, y = 2))
+#' #req$method <- 'POST'
+#' stub_request("post", "https://r-project.org") %>%
+#'  to_return(status = 418, body = list(a = 5))
+#' stub = webmockr_stub_registry$request_stubs[[1]]
+#' stub$counter$.__enclos_env__$private$total <- 1
+#' resp = x$.__enclos_env__$private$build_stub_response(stub)
+#' resp = x$.__enclos_env__$private$build_response(req, resp)
+#' resp = x$.__enclos_env__$private$add_response_sequences(stub, resp)
+#' out
+#' out$body
+#' out$content
 build_httr2_response <- function(req, resp) {
   lst <- list(
-    method = req$method,
+    method = req_method_get_w(req),
     url = tryCatch(resp$url, error = function(e) e) %|s|% req$url,
     status_code = as.integer(resp$status_code),
     headers = {
@@ -16,19 +31,27 @@ build_httr2_response <- function(req, resp) {
         unclass(resp$headers)
       }
     },
-    body = resp$body
+    body = resp$content
   )
   structure(lst, class = "httr2_response")
 }
 
-pluck_httr2_body <- function(x) {
-
+req_method_get_w <- function(req) {
+  if (!is.null(req$method)) {
+    req$method
+  } else if ("nobody" %in% names(req$options)) {
+    "HEAD"
+  } else if (!is.null(req$body)) {
+    "POST"
+  } else {
+    "GET"
+  }
 }
 
-#' Build a httr2 request
+#' Build an httr2 request
 #' @export
-#' @param x an unexecuted httr request object
-#' @return a httr request
+#' @param x an unexecuted httr2 request object
+#' @return a `httr2_request`
 build_httr2_request = function(x) {
   headers <- as.list(x$headers) %||% NULL
   auth <- check_user_pwd(x$options$userpwd) %||% NULL
@@ -37,7 +60,7 @@ build_httr2_request = function(x) {
     headers <- c(headers, auth_header)
   }
   RequestSignature$new(
-    method = x$method,
+    method = req_method_get_w(x),
     uri = x$url,
     options = list(
       body = x$body$data,
@@ -51,18 +74,10 @@ build_httr2_request = function(x) {
   )
 }
 
-# library(httr2)
-# req <- request("https://r-project.org")
-# req = req %>% req_body_json(list(x = 1, y = 2))
-# req$method <- 'POST'
-# enable()
-# stub_registry_clear()
-# stub_request("post", "https://r-project.org") %>% 
-#   to_return(status = 200, body = "{a: 5}")
-# getOption("httr2_mock", NULL)
-# options(httr2_mock = webmockr_handle)
-# getOption("httr2_mock", NULL)
-# httr2::req_perform(req)
+#' @noRd
+mock_httr2 <- function(req) {
+  Httr2Adapter$new()$handle_request(req)
+}
 
 #' Turn on httr2 mocking
 #' @export
@@ -70,16 +85,16 @@ build_httr2_request = function(x) {
 #' @return Silently returns `TRUE` when enabled and `FALSE` when disabled.
 httr2_mock <- function(on = TRUE) {
   check_for_pkg("httr2")
-  webmockr_handle <- function(req) {
-    webmockr::Httr2Adapter$new()$handle_request(req)
-  }
   if (on) {
-    httr2::local_mock(~ webmockr_handle())
-    httr2::local_mock(~ webmockr::Httr2Adapter$new()$handle_request(req))
-    httr2::with_mock(webmockr_handle, httr2::req_perform(req))
+    httr2::local_mock(~ mock_httr2(req), env = globalenv())
+    # options(httr2_mock = ~ webmockr_handle(req))
+    # httr2::local_mock(~ webmockr_handle(req))
+    # httr2::local_mock(~ webmockr::Httr2Adapter$new()$handle_request(req))
+    # httr2::with_mock(webmockr_handle, httr2::req_perform(req))
     # rlang::as_function(webmockr_handle)
   } else {
-    httr::with_mock("request", NULL)
+    httr2::local_mock(NULL, env = globalenv())
+    # options(httr2_mock = NULL)
   }
   invisible(on)
 }
