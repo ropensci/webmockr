@@ -75,7 +75,7 @@ Adapter <- R6::R6Class("Adapter",
       assert(quiet, "logical")
       if (!quiet) message(sprintf("%s enabled!", self$name))
       webmockr_lightswitch[[self$client]] <- TRUE
-      
+
       switch(self$client,
         crul = crul::mock(on = TRUE),
         httr = httr_mock(on = TRUE),
@@ -114,7 +114,7 @@ Adapter <- R6::R6Class("Adapter",
         # if real requests NOT allowed
         # even if net connects allowed, we check if stubbed found first
         ss <- webmockr_stub_registry$find_stubbed_request(request_signature)[[1]]
-        
+
         # if user wants to return a partial object
         #   get stub with response and return that
         resp <- private$build_stub_response(ss)
@@ -131,7 +131,7 @@ Adapter <- R6::R6Class("Adapter",
           if (self$client == "crul" && is.character(resp$content)) {
             resp <- private$update_vcr_disk_path(resp)
           }
-        
+
         # no vcr
         } else {
           sac$self <- self
@@ -155,14 +155,14 @@ Adapter <- R6::R6Class("Adapter",
           # req <- handle_separate_redirects(req)
           # use RequestHandler instead? - which gets current cassette for us
           resp <- private$request_handler(req)$handle()
-          
+
           # if written to disk, see if we should modify file path
           if (self$client == "crul" && is.character(resp$content)) {
             if (file.exists(resp$content)) {
               resp <- private$update_vcr_disk_path(resp)
             }
           }
-          
+
           # stub request so next time we match it
           req_url <- private$pluck_url(req)
           urip <- crul::url_parse(req_url)
@@ -190,7 +190,7 @@ Adapter <- R6::R6Class("Adapter",
           resp <- private$fetch_request(req)
           private$mock(on = TRUE)
         }
-      
+
       # request is not in cache and connections are not allowed
       } else {
         # throw vcr error: should happen when user not using
@@ -273,7 +273,7 @@ Adapter <- R6::R6Class("Adapter",
         tmp <- paste0(tmp, " %>%\n    ", with_str)
       }
       return(tmp)
-    }, 
+    },
 
     build_stub_response = function(stub) {
       stopifnot(inherits(stub, "StubbedRequest"))
@@ -289,7 +289,7 @@ Adapter <- R6::R6Class("Adapter",
         stub_num_get <- length(stub$responses_sequences)
       }
       respx <- stub$responses_sequences[[stub_num_get]]
-      
+
       # if user set to_timeout or to_raise, do that
       if (!is.null(respx)) {
         if (respx$timeout || respx$raise) {
@@ -307,7 +307,7 @@ Adapter <- R6::R6Class("Adapter",
       }
       return(resp)
     },
-    
+
     add_response_sequences = function(stub, response) {
       # TODO: assert HttpResponse (is it ever a crul response?)
       stopifnot(inherits(stub, "StubbedRequest"))
@@ -345,12 +345,21 @@ Adapter <- R6::R6Class("Adapter",
             if (self$client == "httr") {
               class(respx$body_raw) <- "path"
             }
+            if (self$client == "httr2") {
+              class(respx$body_raw) <- "httr2_path"
+            }
           }
-          
+
           body_type <- attr(respx$body_raw, "type") %||% ""
+
           if (self$client == "httr" && body_type == "file") {
             attr(respx$body_raw, "type") <- NULL
             class(respx$body_raw) <- "path"
+          }
+
+          if (self$client == "httr2" && body_type == "file") {
+            attr(respx$body_raw, "type") <- NULL
+            class(respx$body_raw) <- "httr2_path"
           }
 
           if (self$client == "httr2") {
@@ -359,7 +368,7 @@ Adapter <- R6::R6Class("Adapter",
             response$content <- respx$body_raw
           }
         }
-        
+
         if (names(toadd)[i] == "headers") {
           headers <- names_to_lower(as_character(toadd[[i]]))
           if (self$client == "crul") {
