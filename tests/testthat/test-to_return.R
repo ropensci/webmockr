@@ -83,6 +83,18 @@ test_that("to_return (response) headers are all lowercase, httr", {
 })
 disable()
 
+stub_registry_clear()
+test_that("to_return (response) headers are all lowercase, httr2", {
+  loadNamespace("httr2")
+  stub <- stub_request(uri = hb("/get")) %>%
+    to_return(headers = list("Foo-Bar" = "baz"))
+  req <- httr2::request(hb("/get"))
+  x <- httr2::req_perform(req, mock = ~ mock_httr2(req))
+
+  expect_is(x$headers, "list")
+  expect_named(x$headers, "foo-bar")
+})
+disable()
 
 
 stub_registry_clear()
@@ -138,6 +150,38 @@ test_that("to_return response header values are all character, httr", {
       d = "brown", e = as.factor("blue")
     ))
   z <- httr::GET(hb("/get"))
+
+  expect_is(z$headers, "list")
+  expect_named(z$headers, letters[1:5])
+  invisible(
+    vapply(z$headers, function(z) expect_is(z, "character"), "")
+  )
+  expect_equal(z$headers$c, "2344.342342")
+  expect_equal(z$headers$e, "blue")
+})
+disable()
+
+test_that("to_return response header values are all character, httr2", {
+  loadNamespace("httr2")
+  
+  stub_request(uri = hb("/get")) %>%
+    to_return(headers = list("Foo-Bar" = 10))
+  req <- httr2::request(hb("/get"))
+  x <- httr2::req_perform(req, mock = ~ mock_httr2(req))
+
+  expect_is(x$headers, "list")
+  expect_named(x$headers, "foo-bar")
+  expect_is(x$headers$`foo-bar`, "character")
+  expect_equal(x$headers$`foo-bar`, "10")
+
+  stub_registry_clear()
+  stub_request(uri = hb("/get")) %>%
+    to_return(headers = list(
+      a = 10, b = 234233434, c = 2344.342342, 
+      d = "brown", e = as.factor("blue")
+    ))
+  req <- httr2::request(hb("/get"))
+  z <- httr2::req_perform(req, mock = ~ mock_httr2(req))
 
   expect_is(z$headers, "list")
   expect_named(z$headers, letters[1:5])
