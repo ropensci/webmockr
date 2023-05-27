@@ -42,6 +42,7 @@ Port of the Ruby gem [webmock](https://github.com/bblimke/webmock)
 
 * [crul](https://github.com/ropensci/crul)
 * [httr](https://github.com/r-lib/httr)
+* [httr2](https://github.com/r-lib/httr2)
 
 ## Install
 
@@ -207,6 +208,50 @@ res$headers
 #> [1] "teapot"
 ```
 
+## httr2 integration
+
+```{r message=FALSE}
+library(webmockr)
+library(httr2)
+
+# turn on httr2 mocking
+enable()
+```
+
+```{r eval=FALSE}
+# no stub found
+req <- request("https://hb.opencpu.org/get")
+req_perform(req)
+#> Error: Real HTTP connections are disabled.
+#> Unregistered request:
+#>   GET https://hb.opencpu.org/get
+#> 
+#> You can stub this request with the following snippet:
+#> 
+#>    stub_request('get', uri = 'https://hb.opencpu.org/get')
+#> ============================================================
+```
+
+make a stub
+
+```{r}
+stub_request('get', uri = 'https://hb.opencpu.org/get') %>%
+  to_return(status = 418, body = "I'm a teapot!!!", headers = list(im_a = "teapot"))
+```
+
+now returns mocked response
+
+
+```{r eval=FALSE} 
+req <- request("https://hb.opencpu.org/get")
+res <- req_perform(req)
+res$status_code
+#> [1] 418
+res$headers
+#> $im_a
+#> [1] "teapot"
+```
+
 ## Writing to disk
 
 Write to a file before mocked request
@@ -242,7 +287,7 @@ out <- crul::HttpClient$new("https://httpbin.org/get")$get(disk = g)
 readLines(out$content)
 ```
 
-Writing to disk is supported in both `crul` and `httr`
+Writing to disk is supported in `crul`, `httr`, and `httr2`
 
 ## Many requests in a row
 

@@ -104,6 +104,7 @@ yet, but you can allow localhost HTTP requests with the
 
 * [crul](https://github.com/ropensci/crul)
 * [httr](https://github.com/r-lib/httr)
+* [httr2](https://github.com/r-lib/httr2)
 
 ## Install
 
@@ -133,6 +134,7 @@ library(webmockr)
 webmockr::enable()
 #> CrulAdapter enabled!
 #> HttrAdapter enabled!
+#> Httr2Adapter enabled!
 ```
 
 ## Inside a test framework
@@ -206,7 +208,7 @@ x$get('get')
 #> <crul response> 
 #>   url: https://httpbin.org/get
 #>   request_headers: 
-#>     User-Agent: libcurl/7.79.1 r-curl/5.0.0 crul/1.3
+#>     User-Agent: libcurl/7.87.0 r-curl/5.0.0 crul/1.4.0
 #>     Accept-Encoding: gzip, deflate
 #>     Accept: application/json, text/xml, application/xml, */*
 #>   response_headers: 
@@ -242,7 +244,7 @@ x$get('get', query = list(hello = "world"))
 #> <crul response> 
 #>   url: https://httpbin.org/get
 #>   request_headers: 
-#>     User-Agent: libcurl/7.79.1 r-curl/5.0.0 crul/1.3
+#>     User-Agent: libcurl/7.87.0 r-curl/5.0.0 crul/1.4.0
 #>     Accept-Encoding: gzip, deflate
 #>     Accept: application/json, text/xml, application/xml, */*
 #>   response_headers: 
@@ -284,7 +286,7 @@ x$get('get', query = list(hello = "world"))
 #> <crul response> 
 #>   url: https://httpbin.org/get
 #>   request_headers: 
-#>     User-Agent: libcurl/7.79.1 r-curl/5.0.0 crul/1.3
+#>     User-Agent: libcurl/7.87.0 r-curl/5.0.0 crul/1.4.0
 #>     Accept-Encoding: gzip, deflate
 #>     Accept: application/json, text/xml, application/xml, */*
 #>   response_headers: 
@@ -410,6 +412,67 @@ res$headers
 #> [1] "teapot"
 ```
 
+## httr2 integration
+
+
+```r
+library(webmockr)
+library(httr2)
+
+# turn on httr2 mocking
+enable()
+```
+
+
+```r
+# no stub found
+req <- request("https://hb.opencpu.org/get")
+req_perform(req)
+#> Error: Real HTTP connections are disabled.
+#> Unregistered request:
+#>   GET https://hb.opencpu.org/get
+#> 
+#> You can stub this request with the following snippet:
+#> 
+#>    stub_request('get', uri = 'https://hb.opencpu.org/get')
+#> ============================================================
+```
+
+make a stub
+
+
+```r
+stub_request('get', uri = 'https://hb.opencpu.org/get') %>%
+  to_return(status = 418, body = "I'm a teapot!!!", headers = list(im_a = "teapot"))
+#> <webmockr stub> 
+#>   method: get
+#>   uri: https://hb.opencpu.org/get
+#>   with: 
+#>     query: 
+#>     body: 
+#>     request_headers: 
+#>   to_return: 
+#>   - status: 418
+#>     body: I'm a teapot!!!
+#>     response_headers: im_a=teapot
+#>     should_timeout: FALSE
+#>     should_raise: FALSE
+```
+
+now returns mocked response
+
+
+
+```r
+req <- request("https://hb.opencpu.org/get")
+res <- req_perform(req)
+res$status_code
+#> [1] 418
+res$headers
+#> $im_a
+#> [1] "teapot"
+```
+
 ## Writing to disk
 
 Write to a file before mocked request
@@ -447,7 +510,7 @@ readLines(out$content)
 #> [1] "{\"hello\":\"world\"}"
 ```
 
-Writing to disk is supported in both `crul` and `httr`
+Writing to disk is supported in `crul`, `httr`, and `httr2`
 
 ## Many requests in a row
 
