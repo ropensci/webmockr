@@ -247,13 +247,13 @@ test_that("wi_th basic_auth", {
   stub_request("get", "https://x.com") %>%
     wi_th(basic_auth=c("user", "passwd"))
   req <- request("https://x.com") %>% req_auth_basic("user", "passwd")
-  expect_is(req_perform(req, mock = ~ mock_httr2(req)), "httr2_response")
+  expect_is(req_perform(req), "httr2_response")
   # fail
   stub_registry_clear()
   stub_request("get", "https://x.com") %>%
     wi_th(basic_auth=c("user", "passwd"))
   req2 <- request("https://x.com") %>% req_auth_basic("user", "password")
-  expect_error(req_perform(req2, mock = ~ mock_httr2(req2)),
+  expect_error(req_perform(req2),
     "Unregistered")
   disable("httr2")
 })

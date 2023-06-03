@@ -4,7 +4,6 @@
 #' @examples \dontrun{
 #' # enable mocking
 #' enable()
-#' # options(httr2_mock = ~ mock_httr2(req))
 #' # getOption('httr2_mock')
 #'
 #' # Write to a file before mocked request

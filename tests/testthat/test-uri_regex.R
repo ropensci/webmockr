@@ -6,6 +6,7 @@ test_that("uri_regex with crul", {
 
   library(crul)
   enable(adapter = "crul")
+  webmockr_disable_net_connect()
   
   invisible(
     lapply(c('elephants', 'bears', 'leaves', 'foo', 'bar'), function(z) {
@@ -89,7 +90,7 @@ test_that("uri_regex with httr2", {
   invisible(
     lapply(c('elephants', 'bears', 'leaves', 'foo', 'bar'), function(z) {
       req <- request(file.path(hb(), z))
-      expect_false(resp_is_error(req_perform(req, mock = ~ mock_httr2(req))))
+      expect_false(resp_is_error(req_perform(req)))
     })
   )
 
@@ -98,9 +99,9 @@ test_that("uri_regex with httr2", {
   invisible(
     lapply(c('Anounce', 'apple', 'Afar', 'after'), function(z) {
       req <- request(sprintf("https://%s.io/apple", z))
-      expect_false(resp_is_error(req_perform(req, mock = ~ mock_httr2(req))))
+      expect_false(resp_is_error(req_perform(req)))
       req2 <- request(sprintf("https://%s.io/fruit", z))
-      expect_error(req_perform(req2, mock = ~ mock_httr2(req2)),
+      expect_error(req_perform(req2),
         "Real HTTP connections are disabled")
     })
   )
@@ -115,7 +116,7 @@ test_that("uri_regex with httr2", {
       url <- sprintf("https://%s.io", z)
       # res <- GET(url, path = z)
       req <- request(url) %>% req_url_path_append(z)
-      res <- req_perform(req, mock = ~ mock_httr2(req))
+      res <- req_perform(req)
       expect_is(res, "httr2_response")
       expect_true(grepl(res$url, file.path(url, z), ignore.case = TRUE))
     })

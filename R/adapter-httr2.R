@@ -75,12 +75,6 @@ build_httr2_request = function(x) {
   )
 }
 
-#' @export
-#' @noRd
-mock_httr2 <- function(req) {
-  Httr2Adapter$new()$handle_request(req)
-}
-
 #' Turn on httr2 mocking
 #' @export
 #' @param on (logical) `TRUE` to turn on, `FALSE` to turn off. default: `TRUE`

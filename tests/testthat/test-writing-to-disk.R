@@ -71,7 +71,7 @@ test_that("Write to a file before mocked request: httr", {
      headers = list('content-type' = "application/json"))
   ## make a request
   req <- request(hb("/get"))
-  out <- req_perform(req, path = f, mock = ~ mock_httr2(req))
+  out <- req_perform(req, path = f)
   expect_is(out$body, "httr2_path")
   expect_equal(attr(out$body, "class"), "httr2_path")
   expect_is(readLines(out$body), "character")
@@ -144,7 +144,7 @@ test_that("Use mock_file to have webmockr handle file and contents: httr", {
   ## make a request
   req <- request(hb("/get"))
   # req <- request("https://hb.opencpu.org/get")
-  out <- req_perform(req, path = f, mock = ~ mock_httr2(req))
+  out <- req_perform(req, path = f)
   # out <- GET(hb("/get"), write_disk(f))
   ## view stubbed file content
   expect_is(out$body, "httr2_path")

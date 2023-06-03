@@ -293,6 +293,8 @@ test_that("httr2 requests with bodies work", {
   webmockr_disable_net_connect()
 })
 
+disable()
+
 # test_that("httr2 requests with nested list bodies work", {
 #   skip_on_cran()
 
@@ -331,20 +333,20 @@ test_that("httr2 requests with bodies work", {
 #   # encoded body works
 #   req <- request("https://hb.opencpu.org/post") %>% 
 #     req_body_json(body)
-#   res <- req_perform(req, mock = ~ mock_httr2(req))
+#   res <- req_perform(req)
 #   expect_is(res, "response")
 
 #   # encoded but modified body fails
 #   req2 <- request("https://hb.opencpu.org/post") %>% req_body_json(list(foo = "bar1"))
 #   expect_error(
-#     req_perform(req2, mock = ~ mock_httr2(req)),
+#     req_perform(req2),
 #     "Unregistered request"
 #   )
 
 #   # unencoded body fails
 #   req3 <- request("https://hb.opencpu.org/post") %>% req_body_json(body)
 #   expect_error(
-#     req_perform(req3, mock = ~ mock_httr2(req)),
+#     req_perform(req3),
 #     "Unregistered request"
 #   )
 # })
