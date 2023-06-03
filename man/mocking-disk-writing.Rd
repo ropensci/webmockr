@@ -10,6 +10,8 @@ Mocking writing to disk
 \dontrun{
 # enable mocking
 enable()
+# options(httr2_mock = ~ mock_httr2(req))
+# getOption('httr2_mock')
 
 # Write to a file before mocked request
 
@@ -21,7 +23,7 @@ f <- tempfile(fileext = ".json")
 cat("{\"hello\":\"world\"}\n", file = f)
 readLines(f)
 ## make the stub
-stub_request("get", "https://httpbin.org/get") \%>\% 
+stub_request("get", "https://httpbin.org/get") \%>\%
   to_return(body = file(f))
 ## make a request
 (out <- HttpClient$new("https://httpbin.org/get")$get(disk = f))
@@ -36,8 +38,8 @@ f <- tempfile(fileext = ".json")
 cat("{\"hello\":\"world\"}\n", file = f)
 readLines(f)
 ## make the stub
-stub_request("get", "https://httpbin.org/get") \%>\% 
-  to_return(body = file(f), 
+stub_request("get", "https://httpbin.org/get") \%>\%
+  to_return(body = file(f),
    headers = list('content-type' = "application/json"))
 ## make a request
 ## with httr, you must set overwrite=TRUE or you'll get an errror
@@ -46,6 +48,26 @@ out
 out$content
 content(out, "text", encoding = "UTF-8")
 
+# httr2
+library(httr2)
+## make a temp file
+f <- tempfile(fileext = ".json")
+## write something to the file
+cat("{\"hello\":\"world\"}\n", file = f)
+readLines(f)
+## make the stub
+stub_request("get", "https://httpbin.org/get") \%>\%
+  to_return(body = file(f),
+   headers = list('content-type' = "application/json"))
+## make a request
+req <- request("https://httpbin.org/get")
+out <- req_perform(req, path = f)
+out
+out$body
+out
+out$headers
+readLines(out$body)
+
 
 # Use mock_file to have webmockr handle file and contents
 
@@ -53,7 +75,7 @@ content(out, "text", encoding = "UTF-8")
 library(crul)
 f <- tempfile(fileext = ".json")
 ## make the stub
-stub_request("get", "https://httpbin.org/get") \%>\% 
+stub_request("get", "https://httpbin.org/get") \%>\%
   to_return(body = mock_file(f, "{\"hello\":\"mars\"}\n"))
 ## make a request
 (out <- crul::HttpClient$new("https://httpbin.org/get")$get(disk = f))
@@ -65,7 +87,7 @@ library(httr)
 ## make a temp file
 f <- tempfile(fileext = ".json")
 ## make the stub
-stub_request("get", "https://httpbin.org/get") \%>\% 
+stub_request("get", "https://httpbin.org/get") \%>\%
   to_return(
     body = mock_file(path = f, payload = "{\"foo\": \"bar\"}"),
     headers = list('content-type' = "application/json")
@@ -77,6 +99,24 @@ out
 out$content
 readLines(out$content)
 content(out, "text", encoding = "UTF-8")
+
+# httr2
+library(httr2)
+## make a temp file
+f <- tempfile(fileext = ".json")
+## make the stub
+stub_request("get", "https://httpbin.org/get") \%>\%
+  to_return(
+    body = mock_file(path = f, payload = "{\"foo\": \"bar\"}"),
+    headers = list('content-type' = "application/json")
+  )
+## make a request
+req <- request("https://httpbin.org/get")
+out <- req_perform(req, path = f)
+out
+## view stubbed file content
+out$body
+readLines(out$body)
 
 # disable mocking
 disable()

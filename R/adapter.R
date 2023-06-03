@@ -104,6 +104,7 @@ Adapter <- R6::R6Class("Adapter",
     #' @return various outcomes
     handle_request = function(req) {
       # put request in request registry
+      # cat(req)
       request_signature <- private$build_request(req)
       webmockr_request_registry$register_request(
         request = request_signature

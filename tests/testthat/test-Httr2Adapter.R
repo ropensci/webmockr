@@ -239,42 +239,46 @@ test_that("build_httr_request/response fail well", {
 test_that("httr2 works with webmockr_allow_net_connect", {
   skip_on_cran()
 
-  httr2_mock()
+  enable()
   stub_registry_clear()
   z <- stub_request("get", uri = "https://hb.opencpu.org/get?stuff=things") %>%
     to_return(body = "yum=cheese")
   req <- request("https://hb.opencpu.org/get?stuff=things")
-  x <- req_perform(req, mock = ~ mock_httr2(req))
+  x <- req_perform(req)
   expect_true(resp_body_string(x) == "yum=cheese")
-
-  # allow net connect - stub still exists though - so not a real request
-  webmockr_allow_net_connect()
-  req <- httr2::request("https://hb.opencpu.org/get?stuff=things")
-  z <- req_perform(req, mock = ~ mock_httr2(req))
-  expect_true(httr2::resp_body_string(z) == "yum=cheese")
-
-  # allow net connect - stub now gone - so real request should happen
-  stub_registry_clear()
-  req <- httr2::request("https://hb.opencpu.org/get?stuff=things")
-  w <- req_perform(req, mock = ~ mock_httr2(req))
-  expect_false(httr2::resp_body_string(w) == "yum=cheese")
 
   # disable net connect - now real requests can't be made
   webmockr_disable_net_connect()
-  expect_error(httr2::req_perform(req, mock = ~ mock_httr2(req)),
+  stub_registry_clear()
+  expect_error(req_perform(req),
     "Real HTTP connections are disabled")
+
+  # allow net connect - stub still exists though - so not a real request
+  webmockr_allow_net_connect()
+  z <- stub_request("get", uri = "https://hb.opencpu.org/get?stuff=things") %>%
+    to_return(body = "yum=cheese")
+  req <- request("https://hb.opencpu.org/get?stuff=things")
+  z <- req_perform(req)
+  expect_true(resp_body_string(z) == "yum=cheese")
+
+  # allow net connect - stub now gone - so real request should happen
+  stub_registry_clear()
+  req <- request("https://hb.opencpu.org/get?stuff=things")
+  httr2::local_mock(NULL)
+  w <- req_perform(req)
+  expect_false(resp_body_string(w) == "yum=cheese")
 })
 
 test_that("httr2 requests with bodies work", {
   skip_on_cran()
 
-  httr2_mock()
+  enable()
   stub_registry_clear()
   z <- stub_request("post", uri = "https://hb.opencpu.org/post") %>%
     to_return(body = "asdffsdsdf")
   req <- request("https://hb.opencpu.org/post") %>% 
     req_body_json(list(stuff = "things"))
-  x <- req_perform(req, mock = ~ mock_httr2(req))
+  x <- req_perform(req)
   expect_true(httr2::resp_body_string(x) == "asdffsdsdf")
 
   # now with allow net connect

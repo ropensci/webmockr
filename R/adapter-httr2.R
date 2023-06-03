@@ -75,6 +75,7 @@ build_httr2_request = function(x) {
   )
 }
 
+#' @export
 #' @noRd
 mock_httr2 <- function(req) {
   Httr2Adapter$new()$handle_request(req)
@@ -87,15 +88,10 @@ mock_httr2 <- function(req) {
 httr2_mock <- function(on = TRUE) {
   check_for_pkg("httr2")
   if (on) {
-    httr2::local_mock(~ mock_httr2(req), env = globalenv())
-    # options(httr2_mock = ~ webmockr_handle(req))
-    # httr2::local_mock(~ webmockr_handle(req))
-    # httr2::local_mock(~ webmockr::Httr2Adapter$new()$handle_request(req))
-    # httr2::with_mock(webmockr_handle, httr2::req_perform(req))
-    # rlang::as_function(webmockr_handle)
+    httr2::local_mock(~ Httr2Adapter$new()$handle_request(.x), env = .GlobalEnv)
   } else {
-    httr2::local_mock(NULL, env = globalenv())
-    # options(httr2_mock = NULL)
+    httr2::local_mock(NULL, env = .GlobalEnv)
+    options(httr2_mock = NULL)
   }
   invisible(on)
 }
