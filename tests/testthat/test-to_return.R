@@ -100,6 +100,20 @@ disable()
 
 stub_registry_clear()
 enable()
+test_that("to_return (response) header is the correct class, httr2", {
+  loadNamespace("httr2")
+  stub <- stub_request(uri = hb("/get")) %>%
+    to_return(headers = list("Foo-Bar" = "baz"))
+  req <- httr2::request(hb("/get"))
+  x <- httr2::req_perform(req)
+
+  expect_is(x$headers, "httr2_headers")
+})
+disable()
+
+
+stub_registry_clear()
+enable()
 context("to_return: response header values are all character")
 test_that("to_return response header values are all character, crul", {
   cli <- crul::HttpClient$new(url = hb())

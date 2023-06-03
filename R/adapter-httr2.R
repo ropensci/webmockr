@@ -1,3 +1,7 @@
+httr2_headers <- function(x) {
+  structure(x, class = c("httr2_headers", class(x)))
+}
+
 #' Build a httr2 response (`httr2_response`)
 #' @export
 #' @param req a request
@@ -27,9 +31,9 @@ build_httr2_response <- function(req, resp) {
     status_code = as.integer(resp$status_code),
     headers = {
       if (grepl("^ftp://", resp$url %||% "")) { # in case uri_regex only
-        list()
+        httr2_headers(list())
       } else {
-        unclass(resp$headers)
+        httr2_headers(resp$response_headers)
       }
     },
     body = resp$content

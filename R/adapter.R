@@ -375,8 +375,10 @@ Adapter <- R6::R6Class("Adapter",
           if (self$client == "crul") {
             response$response_headers <- headers
             response$response_headers_all <- list(headers)
-          } else {
+          } else if (self$client == "httr") {
             response$headers <- httr::insensitive(headers)
+          } else { # client == "httr2"
+            response$headers <- httr2_headers(headers)
           }
         }
       }
