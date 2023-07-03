@@ -164,6 +164,10 @@ Adapter <- R6::R6Class("Adapter",
             }
           }
 
+          if (self$client == "httr2") {
+            req$method <- req_method_get_w(req$method)
+          }
+
           # stub request so next time we match it
           req_url <- private$pluck_url(req)
           urip <- crul::url_parse(req_url)
