@@ -1,5 +1,5 @@
 httr2_headers <- function(x) {
-  structure(x, class = c("httr2_headers", class(x)))
+  structure(x %||% list(), class = c("httr2_headers", class(x)))
 }
 
 #' Build a httr2 response (`httr2_response`)
@@ -36,7 +36,7 @@ build_httr2_response <- function(req, resp) {
         httr2_headers(resp$response_headers)
       }
     },
-    body = resp$content
+    body = resp$body %||% resp$content
   )
   structure(lst, class = "httr2_response")
 }
@@ -113,7 +113,7 @@ Httr2Adapter <- R6::R6Class("Httr2Adapter",
     build_request   = build_httr2_request,
     build_response  = build_httr2_response,
 
-    request_handler = function(request) vcr::RequestHandlerHttr$new(request),
+    request_handler = function(request) vcr::RequestHandlerHttr2$new(request),
 
     fetch_request = function(request) httr2::req_perform(request)
   )
