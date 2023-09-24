@@ -208,7 +208,7 @@ x$get('get')
 #> <crul response> 
 #>   url: https://httpbin.org/get
 #>   request_headers: 
-#>     User-Agent: libcurl/7.87.0 r-curl/5.0.0 crul/1.4.0
+#>     User-Agent: libcurl/8.1.2 r-curl/4.3.2 crul/1.4.0
 #>     Accept-Encoding: gzip, deflate
 #>     Accept: application/json, text/xml, application/xml, */*
 #>   response_headers: 
@@ -244,7 +244,7 @@ x$get('get', query = list(hello = "world"))
 #> <crul response> 
 #>   url: https://httpbin.org/get
 #>   request_headers: 
-#>     User-Agent: libcurl/7.87.0 r-curl/5.0.0 crul/1.4.0
+#>     User-Agent: libcurl/8.1.2 r-curl/4.3.2 crul/1.4.0
 #>     Accept-Encoding: gzip, deflate
 #>     Accept: application/json, text/xml, application/xml, */*
 #>   response_headers: 
@@ -286,7 +286,7 @@ x$get('get', query = list(hello = "world"))
 #> <crul response> 
 #>   url: https://httpbin.org/get
 #>   request_headers: 
-#>     User-Agent: libcurl/7.87.0 r-curl/5.0.0 crul/1.4.0
+#>     User-Agent: libcurl/8.1.2 r-curl/4.3.2 crul/1.4.0
 #>     Accept-Encoding: gzip, deflate
 #>     Accept: application/json, text/xml, application/xml, */*
 #>   response_headers: 
@@ -466,11 +466,12 @@ now returns mocked response
 ```r
 req <- request("https://hb.opencpu.org/get")
 res <- req_perform(req)
+res
 res$status_code
 #> [1] 418
 res$headers
-#> $im_a
-#> [1] "teapot"
+#> <httr2_headers/list>
+#> im_a: teapot
 ```
 
 ## Writing to disk

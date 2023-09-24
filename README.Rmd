@@ -245,11 +245,12 @@ now returns mocked response
 ```{r eval=FALSE} 
 req <- request("https://hb.opencpu.org/get")
 res <- req_perform(req)
+res
 res$status_code
 #> [1] 418
 res$headers
-#> $im_a
-#> [1] "teapot"
+#> <httr2_headers/list>
+#> im_a: teapot
 ```
 
 ## Writing to disk
