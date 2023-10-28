@@ -36,7 +36,8 @@ build_httr2_response <- function(req, resp) {
         httr2_headers(resp$response_headers)
       }
     },
-    body = resp$body %||% resp$content
+    body = resp$body %||% resp$content,
+    request = req
   )
   structure(lst, class = "httr2_response")
 }
