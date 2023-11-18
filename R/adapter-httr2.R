@@ -37,7 +37,8 @@ build_httr2_response <- function(req, resp) {
       }
     },
     body = resp$body %||% resp$content,
-    request = req
+    request = req,
+    cache = new.env()
   )
   structure(lst, class = "httr2_response")
 }
