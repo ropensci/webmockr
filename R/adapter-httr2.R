@@ -33,7 +33,7 @@ build_httr2_response <- function(req, resp) {
       if (grepl("^ftp://", resp$url %||% "")) { # in case uri_regex only
         httr2_headers(list())
       } else {
-        httr2_headers(resp$response_headers)
+        httr2_headers(resp$headers)
       }
     },
     body = resp$body %||% resp$content,
