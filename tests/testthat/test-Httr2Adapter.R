@@ -264,7 +264,7 @@ test_that("httr2 works with webmockr_allow_net_connect", {
   # allow net connect - stub now gone - so real request should happen
   stub_registry_clear()
   req <- request("https://hb.opencpu.org/get?stuff=things")
-  httr2::local_mock(NULL)
+  httr2::local_mocked_responses(NULL)
   w <- req_perform(req)
   expect_false(resp_body_string(w) == "yum=cheese")
 })
