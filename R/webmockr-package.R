@@ -1,17 +1,3 @@
-#' @title webmockr
-#' @description Stubbing and setting expectations on HTTP requests
-#'
-#' @importFrom R6 R6Class
-#' @importFrom fauxpas HTTPRequestTimeout
-#' @importFrom crul mock
-#' @importFrom base64enc base64encode
-#' @name webmockr-package
-#' @aliases webmockr
-#' @docType package
-#' @keywords package
-#' @author Scott Chamberlain \email{myrmecocystus+r@@gmail.com}
-#' @author Aaron Wolen
-#'
 #' @section Features:
 #'
 #' - Stubbing HTTP requests at low http client lib level
@@ -26,4 +12,14 @@
 #' stub_request("get", "https://httpbin.org/get")
 #' stub_request("post", "https://httpbin.org/post")
 #' stub_registry()
+#' 
+#' @keywords internal
+"_PACKAGE"
+
+## usethis namespace: start
+#' @importFrom R6 R6Class
+#' @importFrom fauxpas HTTPRequestTimeout
+#' @importFrom crul mock
+#' @importFrom base64enc base64encode
+## usethis namespace: end
 NULL
