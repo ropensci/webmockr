@@ -1,5 +1,10 @@
 httr2_headers <- function(x) {
-  structure(x %||% list(), class = c("httr2_headers", class(x)))
+  structure(x %||% list(), class = "httr2_headers")
+}
+
+tryx <- function(exp, give = NULL) {
+  z <- tryCatch(exp, error = function(e) e)
+  if (inherits(z, "error")) give else z
 }
 
 #' Build a httr2 response (`httr2_response`)
@@ -25,18 +30,23 @@ httr2_headers <- function(x) {
 #' # out$content
 #' }
 build_httr2_response <- function(req, resp) {
+  bd <- resp$body %||% resp$content
   lst <- list(
     method = req_method_get_w(req),
     url = tryCatch(resp$url, error = function(e) e) %|s|% req$url,
-    status_code = as.integer(resp$status_code),
+    status_code = as.integer(
+      tryx(resp$status_code$status_code) %||% 
+        tryx(resp$status_code) %||% 
+        resp$status$status_code
+    ),
     headers = {
       if (grepl("^ftp://", resp$url %||% "")) { # in case uri_regex only
         httr2_headers(list())
       } else {
-        httr2_headers(resp$headers)
+        httr2_headers(resp$headers %||% resp$response_headers)
       }
     },
-    body = resp$body %||% resp$content,
+    body = tryx(charToRaw(bd)) %||% bd,
     request = req,
     cache = new.env()
   )

@@ -29,8 +29,8 @@ reg$request_stubs
 \seealso{
 Other stub-registry: 
 \code{\link{remove_request_stub}()},
-\code{\link{stub_registry_clear}()},
-\code{\link{stub_registry}()}
+\code{\link{stub_registry}()},
+\code{\link{stub_registry_clear}()}
 }
 \concept{stub-registry}
 \section{Public fields}{

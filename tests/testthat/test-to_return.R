@@ -92,7 +92,7 @@ test_that("to_return (response) headers are all lowercase, httr2", {
   req <- httr2::request(hb("/get"))
   x <- httr2::req_perform(req)
 
-  expect_is(x$headers, "list")
+  expect_is(x$headers, "httr2_headers")
   expect_named(x$headers, "foo-bar")
 })
 disable()
@@ -185,7 +185,7 @@ test_that("to_return response header values are all character, httr2", {
   req <- httr2::request(hb("/get"))
   x <- httr2::req_perform(req)
 
-  expect_is(x$headers, "list")
+  expect_is(x$headers, "httr2_headers")
   expect_named(x$headers, "foo-bar")
   expect_is(x$headers$`foo-bar`, "character")
   expect_equal(x$headers$`foo-bar`, "10")
@@ -199,7 +199,7 @@ test_that("to_return response header values are all character, httr2", {
   req <- httr2::request(hb("/get"))
   z <- httr2::req_perform(req)
 
-  expect_is(z$headers, "list")
+  expect_is(z$headers, "httr2_headers")
   expect_named(z$headers, letters[1:5])
   invisible(
     vapply(z$headers, function(z) expect_is(z, "character"), "")

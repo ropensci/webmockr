@@ -57,10 +57,10 @@ test_that("Response: bits are correct after having data", {
   expect_equal(aa$url, hb("/get"))
   expect_null(aa$name)
 
-  expect_equal(aa$body, "hello world")
+  expect_equal(aa$body, charToRaw("hello world"))
   expect_is(aa$content, "raw")
   expect_equal(aa$exception, "exception")
-  expect_equal(aa$get_body(), "hello world")
+  expect_equal(rawToChar(aa$get_body()), "hello world")
   expect_equal(aa$get_exception(), "exception")
   expect_equal(aa$get_request_headers()[[1]], "application/json")
   expect_equal(aa$get_respone_headers()[[1]], "hb.opencpu.org")
@@ -73,8 +73,9 @@ test_that("Response: bits are correct after having data", {
 
   # set_body: char gets converted to raw in $content
   aa$set_body(body = "stuff")
-  expect_is(aa$body, "character")
+  expect_is(aa$body, "raw")
   expect_is(aa$content, "raw")
+  expect_length(aa$body, 5)
   expect_length(aa$content, 5)
 
   # set_body: raw remains as raw in $content
@@ -85,7 +86,7 @@ test_that("Response: bits are correct after having data", {
 
   # set_body: other types return raw(0) in $content
   aa$set_body(body = NULL)
-  expect_null(aa$body)
+  expect_equal(aa$body, raw())
   expect_is(aa$content, "raw")
   expect_length(aa$content, 0)
 
