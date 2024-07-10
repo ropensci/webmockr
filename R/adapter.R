@@ -124,7 +124,7 @@ Adapter <- R6::R6Class("Adapter",
         # VCR: recordable/ignored
 
         if (vcr_cassette_inserted()) {
-          # req <- handle_separate_redirects(req)
+          # print("in webmockr: ------- if (vcr_cassette_inserted()) -------")
           # use RequestHandler - gets current cassette & record interaction
           resp <- private$request_handler(req)$handle()
 
