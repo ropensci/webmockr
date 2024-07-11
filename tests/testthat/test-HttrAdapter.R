@@ -66,7 +66,7 @@ test_that("HttrAdapter: works when vcr is loaded but no cassette is inserted", {
 # library(httr)
 # z <- GET(hb("/get"))
 # httr_obj <- z$request
-# save(httr_obj, file = "tests/testthat/httr_obj.rda")
+# save(httr_obj, file = "tests/testthat/httr_obj.rda", version = 2)
 
 context("HttrAdapter: date slot")
 test_that("HttrAdapter date slot works", {

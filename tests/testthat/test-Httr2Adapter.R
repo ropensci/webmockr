@@ -93,7 +93,7 @@ test_that("Httr2Adapter date slot works", {
 # library(httr2)
 # z <- request(hb("/get")) %>% req_perform()
 # httr2_obj <- z$request
-# save(httr2_obj, file = "tests/testthat/httr2_obj.rda")
+# save(httr2_obj, file = "tests/testthat/httr2_obj.rda", version = 2)
 
 context("Httr2Adapter: works with real data")
 test_that("Httr2Adapter works", {
