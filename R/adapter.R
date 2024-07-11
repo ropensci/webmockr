@@ -165,7 +165,7 @@ Adapter <- R6::R6Class("Adapter",
           }
 
           if (self$client == "httr2") {
-            req$method <- req_method_get_w(req$method)
+            req$method <- req_method_get_w(req)
           }
 
           # stub request so next time we match it
