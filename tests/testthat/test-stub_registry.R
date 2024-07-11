@@ -18,7 +18,7 @@ test_that("stub_registry: works", {
      )
   expect_equal(length(stub_registry()$request_stubs), 2)
   expect_match(stub_registry()$request_stubs[[2]]$to_s(),
-    "POST: https://hb.opencpu.org/post")
+    sprintf("POST: %s", hb("/post")))
   expect_match(stub_registry()$request_stubs[[2]]$to_s(),
     "CITATION")
   expect_match(stub_registry()$request_stubs[[2]]$to_s(),

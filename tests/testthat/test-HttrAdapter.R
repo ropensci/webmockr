@@ -167,7 +167,7 @@ test_that("HttrAdapter works", {
   unloadNamespace("vcr")
   expect_error(
     res$handle_request(httr_obj),
-    "Real HTTP connections are disabled.\nUnregistered request:\n  GET:  https://hb.opencpu.org/get"
+    sprintf("Real HTTP connections are disabled.\nUnregistered request:\n  GET:  %s", hb("/get"))
   )
 
   invisible(stub_request("get", hb("/get")))
@@ -255,11 +255,10 @@ test_that("HttrAdapter works with httr::authenticate", {
         body = list(foo = "bar"),
         headers = list("Content-Type" = "application/json")
       )
-  # x <- httr::GET("https://httpbin.org/basic-auth/foo/bar", httr::authenticate("foo", "bar"))
+  # x <- httr::GET(hb("/basic-auth/foo/bar"), httr::authenticate("foo", "bar"))
   # httr_obj_auth <- x$request
   # save(httr_obj_auth, file = "tests/testthat/httr_obj_auth.rda", version = 2)
   # load("tests/testthat/httr_obj_auth.rda")
-  # httr::content(x)
 
   # mocked httr requests with auth work
   # before the fixes in HttrAdapter: a real request through webmockr would
