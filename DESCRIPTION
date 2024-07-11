@@ -37,6 +37,7 @@ Suggests:
     vcr,
     httr,
     httr2
+Remotes: ropensci/vcr@httr2
 RoxygenNote: 7.3.2
 X-schema.org-applicationCategory: Web
 X-schema.org-keywords: http, https, API, web-services, curl, mock, mocking, fakeweb, http-mocking, testing, testing-tools, tdd
