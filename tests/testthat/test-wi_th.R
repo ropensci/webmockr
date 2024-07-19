@@ -195,7 +195,7 @@ test_that("wi_th handles HEADERS with varied input classes", {
 
 disable("httr")
 
-test_that("wi_th basic_auth", {
+test_that("wi_th basic_auth, crul", {
   # crul
   library(crul)
   enable("crul")
@@ -215,8 +215,9 @@ test_that("wi_th basic_auth", {
   con$auth <- crul::auth("user", "password")
   expect_error(con$get(), "Unregistered")
   disable("crul")
+})
 
-  # httr
+test_that("wi_th basic_auth, httr", {
   library(httr)
   enable("httr")
   # pass
@@ -238,6 +239,26 @@ test_that("wi_th basic_auth", {
   expect_error(GET("https://x.com", authenticate("user", "password")),
     "Unregistered")
   disable("httr")
+})
+
+test_that("wi_th basic_auth, httr2", {
+  skip_if_not_installed("httr2")
+  library(httr2)
+  enable("httr2")
+  # pass
+  stub_registry_clear()
+  stub_request("get", "https://x.com") %>%
+    wi_th(basic_auth=c("user", "passwd"))
+  req <- request("https://x.com") %>% req_auth_basic("user", "passwd")
+  expect_is(req_perform(req), "httr2_response")
+  # fail
+  stub_registry_clear()
+  stub_request("get", "https://x.com") %>%
+    wi_th(basic_auth=c("user", "passwd"))
+  req2 <- request("https://x.com") %>% req_auth_basic("user", "password")
+  expect_error(req_perform(req2),
+    "Unregistered")
+  disable("httr2")
 })
 
 # cleanup

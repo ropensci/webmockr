@@ -7,15 +7,20 @@ test_that("flipswitch in default state", {
 })
 
 test_that("flipswitch - turn on with 'enable'", {
+  skip_if_not_installed("httr")
+  skip_if_not_installed("httr2")
+
   aa <- enable()
 
   expect_is(aa, "logical")
-  expect_equal(length(aa), 2)
+  expect_equal(length(aa), 3)
   expect_true(all(aa))
 
   expect_true(webmockr_lightswitch$crul)
   skip_if_not_installed("httr")
   expect_true(webmockr_lightswitch$httr)
+  skip_if_not_installed("httr2")
+  expect_true(webmockr_lightswitch$httr2)
 })
 
 test_that("flipswitch - turn on with 'enable' - one pkg", {
@@ -32,6 +37,8 @@ test_that("flipswitch - turn on with 'enable' - one pkg", {
   expect_true(webmockr_lightswitch$crul)
   skip_if_not_installed("httr")
   expect_false(webmockr_lightswitch$httr)
+  skip_if_not_installed("httr2")
+  expect_false(webmockr_lightswitch$httr2)
 })
 
 test_that("flipswitch - turn off with 'disable'", {
@@ -43,6 +50,8 @@ test_that("flipswitch - turn off with 'disable'", {
   expect_false(webmockr_lightswitch$crul)
   skip_if_not_installed("httr")
   expect_false(webmockr_lightswitch$httr)
+  skip_if_not_installed("httr2")
+  expect_false(webmockr_lightswitch$httr2)
 })
 
 test_that("enable and disable fail well", {
@@ -65,6 +74,7 @@ test_that("enabled works", {
   expect_false(enabled())
   expect_false(enabled('crul'))
   expect_false(enabled('httr'))
+  expect_false(enabled('httr2'))
 
   expect_error(enabled('foobar'), "'adapter' must be in the set")
 })

@@ -21,7 +21,7 @@ test_that("RequestSignature: works", {
   expect_equal(aa$uri, hb("/get"))
 
   expect_is(aa$to_s, "function")
-  expect_equal(aa$to_s(), "GET:  https://hb.opencpu.org/get")
+  expect_equal(aa$to_s(), sprintf("GET:  %s", hb("/get")))
 })
 
 test_that("RequestSignature: different methods work", {

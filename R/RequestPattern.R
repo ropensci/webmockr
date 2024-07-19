@@ -668,30 +668,3 @@ drop_query_params <- function(x) {
   # prune trailing slash
   sub("\\/$", "", x)
 }
-
-## http method
-get_method <- function(x) {
-  x <- as.character(x)
-  tmp <- grep(
-    "(get)$|(post)$|(put)$|(delete)$|(options)$|(patch)$|(head)$",
-    tolower(x), value = TRUE)
-  tmp <- sub("httr::", "", tmp)
-  if (length(tmp) == 0) NULL else tmp
-}
-
-## query and body stuff
-get_query <- function(x) {
-  if ("query" %in% names(x)) {
-    x[["query"]]
-  } else {
-    NULL
-  }
-}
-
-get_body <- function(x) {
-  if ("body" %in% names(x)) {
-    x[["body"]]
-  } else {
-    NULL
-  }
-}

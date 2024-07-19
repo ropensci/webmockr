@@ -35,8 +35,8 @@ Values for query, body, headers, and basic_auth:
 class in the recorded stub. You can pass numeric, integer, etc., but
 all will be coerced to character.
 \item body: various, including character string, list, raw, numeric,
-upload (\code{crul::upload} or \code{httr::upload_file}, they both create the
-same object in the end)
+upload (\code{\link[crul:upload]{crul::upload()}}, \code{\link[httr:upload_file]{httr::upload_file()}}, \code{\link[curl:multipart]{curl::form_file()}}, or
+\code{\link[curl:multipart]{curl::form_data()}} they both create the same object in the end)
 \item headers: (list) a named list
 \item basic_auth: (character) a length two vector, username and password.
 authentication type (basic/digest/ntlm/etc.) is ignored. that is,

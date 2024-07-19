@@ -5,6 +5,7 @@
 #'   currently provides:
 #' * `CrulAdapter` for \pkg{crul}
 #' * `HttrAdapter` for \pkg{httr}
+#' * `Httr2Adapter` for \pkg{httr2}
 #' @details Note that the documented fields and methods are the same across all
 #'   client-specific adapters.
 #' @export
@@ -58,7 +59,8 @@ Adapter <- R6::R6Class("Adapter",
           "Adapter parent class should not be called directly.\n",
           "Use one of the following package-specific adapters instead:\n",
           "  - CrulAdapter$new()\n",
-          "  - HttrAdapter$new()",
+          "  - HttrAdapter$new()\n",
+          "  - Httr2Adapter$new()\n",
           call. = FALSE
         )
       }
@@ -71,10 +73,11 @@ Adapter <- R6::R6Class("Adapter",
       assert(quiet, "logical")
       if (!quiet) message(sprintf("%s enabled!", self$name))
       webmockr_lightswitch[[self$client]] <- TRUE
-      
+
       switch(self$client,
         crul = crul::mock(on = TRUE),
-        httr = httr_mock(on = TRUE)
+        httr = httr_mock(on = TRUE),
+        httr2 = httr2_mock(on = TRUE)
       )
     },
 
@@ -89,7 +92,8 @@ Adapter <- R6::R6Class("Adapter",
 
       switch(self$client,
         crul = crul::mock(on = FALSE),
-        httr = httr_mock(on = FALSE)
+        httr = httr_mock(on = FALSE),
+        httr2 = httr2_mock(on = FALSE)
       )
     },
 
@@ -98,6 +102,7 @@ Adapter <- R6::R6Class("Adapter",
     #' @return various outcomes
     handle_request = function(req) {
       # put request in request registry
+      # cat(req)
       request_signature <- private$build_request(req)
       webmockr_request_registry$register_request(
         request = request_signature
@@ -108,7 +113,7 @@ Adapter <- R6::R6Class("Adapter",
         # if real requests NOT allowed
         # even if net connects allowed, we check if stubbed found first
         ss <- webmockr_stub_registry$find_stubbed_request(request_signature)[[1]]
-        
+
         # if user wants to return a partial object
         #   get stub with response and return that
         resp <- private$build_stub_response(ss)
@@ -117,7 +122,6 @@ Adapter <- R6::R6Class("Adapter",
         # VCR: recordable/ignored
 
         if (vcr_cassette_inserted()) {
-          # req <- handle_separate_redirects(req)
           # use RequestHandler - gets current cassette & record interaction
           resp <- private$request_handler(req)$handle()
 
@@ -125,7 +129,7 @@ Adapter <- R6::R6Class("Adapter",
           if (self$client == "crul" && is.character(resp$content)) {
             resp <- private$update_vcr_disk_path(resp)
           }
-        
+
         # no vcr
         } else {
           resp <- private$build_response(req, resp)
@@ -145,14 +149,18 @@ Adapter <- R6::R6Class("Adapter",
           # req <- handle_separate_redirects(req)
           # use RequestHandler instead? - which gets current cassette for us
           resp <- private$request_handler(req)$handle()
-          
+
           # if written to disk, see if we should modify file path
           if (self$client == "crul" && is.character(resp$content)) {
             if (file.exists(resp$content)) {
               resp <- private$update_vcr_disk_path(resp)
             }
           }
-          
+
+          if (self$client == "httr2") {
+            req$method <- req_method_get_w(req)
+          }
+
           # stub request so next time we match it
           req_url <- private$pluck_url(req)
           urip <- crul::url_parse(req_url)
@@ -180,7 +188,7 @@ Adapter <- R6::R6Class("Adapter",
           resp <- private$fetch_request(req)
           private$mock(on = TRUE)
         }
-      
+
       # request is not in cache and connections are not allowed
       } else {
         # throw vcr error: should happen when user not using
@@ -247,6 +255,7 @@ Adapter <- R6::R6Class("Adapter",
           bd_str <- hdl_lst2(bd)
         }
 
+        with_str <- ""
         if (all(nzchar(hd_str) && nzchar(bd_str))) {
           with_str <- sprintf(" wi_th(\n       headers = list(%s),\n       body = list(%s)\n     )",
                               hd_str, bd_str)
@@ -259,7 +268,7 @@ Adapter <- R6::R6Class("Adapter",
         tmp <- paste0(tmp, " %>%\n    ", with_str)
       }
       return(tmp)
-    }, 
+    },
 
     build_stub_response = function(stub) {
       stopifnot(inherits(stub, "StubbedRequest"))
@@ -275,7 +284,7 @@ Adapter <- R6::R6Class("Adapter",
         stub_num_get <- length(stub$responses_sequences)
       }
       respx <- stub$responses_sequences[[stub_num_get]]
-      
+
       # if user set to_timeout or to_raise, do that
       if (!is.null(respx)) {
         if (respx$timeout || respx$raise) {
@@ -293,7 +302,7 @@ Adapter <- R6::R6Class("Adapter",
       }
       return(resp)
     },
-    
+
     add_response_sequences = function(stub, response) {
       # TODO: assert HttpResponse (is it ever a crul response?)
       stopifnot(inherits(stub, "StubbedRequest"))
@@ -331,23 +340,39 @@ Adapter <- R6::R6Class("Adapter",
             if (self$client == "httr") {
               class(respx$body_raw) <- "path"
             }
+            if (self$client == "httr2") {
+              class(respx$body_raw) <- "httr2_path"
+            }
           }
-          
+
           body_type <- attr(respx$body_raw, "type") %||% ""
+
           if (self$client == "httr" && body_type == "file") {
             attr(respx$body_raw, "type") <- NULL
             class(respx$body_raw) <- "path"
           }
-          response$content <- respx$body_raw
+
+          if (self$client == "httr2" && body_type == "file") {
+            attr(respx$body_raw, "type") <- NULL
+            class(respx$body_raw) <- "httr2_path"
+          }
+
+          if (self$client == "httr2") {
+            response$body <- respx$body_raw
+          } else {
+            response$content <- respx$body_raw
+          }
         }
-        
+
         if (names(toadd)[i] == "headers") {
           headers <- names_to_lower(as_character(toadd[[i]]))
           if (self$client == "crul") {
             response$response_headers <- headers
             response$response_headers_all <- list(headers)
-          } else {
+          } else if (self$client == "httr") {
             response$headers <- httr::insensitive(headers)
+          } else { # client == "httr2"
+            response$headers <- httr2_headers(headers)
           }
         }
       }

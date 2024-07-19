@@ -41,7 +41,7 @@ raise a stop condition then \code{to_raise()} is what you want. But if you
 don't want to raise a stop condition use \code{to_return()}. Use cases for each
 vary. For example, in a unit test you may have a test expecting a 503 error;
 in this case \code{to_raise()} makes sense. In another case, if a unit test
-expects to test some aspect of an HTTP response object that httr or crul
-typically returns, then you'll want \code{to_return()}.
+expects to test some aspect of an HTTP response object that httr, httr2,
+or crul typically returns, then you'll want \code{to_return()}.
 }
 
