@@ -17,6 +17,7 @@ Stubbing and setting expectations on 'HTTP' requests. Includes tools for stubbin
 \item Supports multiple HTTP libraries, including \pkg{crul},
 \pkg{httr}, and \pkg{httr2}
 \item Integration with HTTP test caching library \pkg{vcr}
+\item Supports async http request mocking with \pkg{crul} only
 }
 }
 
@@ -30,7 +31,9 @@ stub_registry()
 \seealso{
 Useful links:
 \itemize{
-  \item \url{https://github.com/ropensci/webmockr (devel) https://books.ropensci.org/http-testing/ (user manual) https://docs.ropensci.org/webmockr/ (documentation)}
+  \item \url{https://github.com/ropensci/webmockr}
+  \item \url{https://books.ropensci.org/http-testing/}
+  \item \url{https://docs.ropensci.org/webmockr/}
   \item Report bugs at \url{https://github.com/ropensci/webmockr/issues}
 }
 
