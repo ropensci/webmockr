@@ -1,3 +1,12 @@
+webmockr 1.0.0
+==============
+
+### NEW FEATURES
+
+* `webmockr` now supports the `httr2` library, in addition to `httr` and `crul`. Note that you'll see different behavior from `httr2` relative to the other 2 http clients because it turns http errors (http statuses 400 and above) into R errors (#122)
+* `webmockr` can now mock async http requests with `crul` (w/ `crul` v1.5 or greater). no change was required in `webmockr` for this to happen. a PR was merged in `crul` to hook into `webmockr`. there's no support for async in `httr` as that package does not do any async and no support in `httr2` because `req_perform_parallel` does not have a mocking hook as does `req_perform` (#124)
+
+
 webmockr 0.9.0
 ==============
 

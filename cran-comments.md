@@ -1,7 +1,7 @@
 ## Test environments
 
-* local macOS install, R 4.2.2
-* ubuntu (on GitHub Actions), R 4.2.2
+* local macOS install, R 4.4.1
+* ubuntu (on GitHub Actions), R 4.4.1
 * win-builder (devel and release)
 
 ## R CMD check results
@@ -10,7 +10,7 @@
 
 ## revdepcheck results
 
-We checked 18 reverse dependencies (13 from CRAN + 5 from Bioconductor), comparing R CMD check results across CRAN and dev versions of this package.
+We checked 18 reverse dependencies, comparing R CMD check results across CRAN and dev versions of this package.
 
  * We saw 0 new problems
  * We failed to check 0 packages
@@ -18,7 +18,7 @@ We checked 18 reverse dependencies (13 from CRAN + 5 from Bioconductor), compari
 
 ---
 
-In this version fixes some bugs
+This version includes ...
 
 Thanks!
 Scott Chamberlain
