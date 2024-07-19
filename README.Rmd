@@ -37,6 +37,7 @@ Port of the Ruby gem [webmock](https://github.com/bblimke/webmock)
 * Matching requests based on method, URI, headers and body
 * Support for `testthat` via [vcr][]
 * Can be used for testing or outside of a testing context
+* Supports async http request mocking with `crul` only
 
 ## Supported HTTP libraries
 

@@ -99,6 +99,7 @@ yet, but you can allow localhost HTTP requests with the
 * Matching requests based on method, URI, headers and body
 * Support for `testthat` via [vcr][]
 * Can be used for testing or outside of a testing context
+* Supports async http request mocking with `crul` only
 
 ## Supported HTTP libraries
 
@@ -111,26 +112,26 @@ yet, but you can allow localhost HTTP requests with the
 from cran
 
 
-```r
+``` r
 install.packages("webmockr")
 ```
 
 Dev version
 
 
-```r
+``` r
 remotes::install_github("ropensci/webmockr")
 ```
 
 
-```r
+``` r
 library(webmockr)
 ```
 
 ## Enable webmockr
 
 
-```r
+``` r
 webmockr::enable()
 #> CrulAdapter enabled!
 #> HttrAdapter enabled!
@@ -140,7 +141,7 @@ webmockr::enable()
 ## Inside a test framework
 
 
-```r
+``` r
 library(crul)
 library(testthat)
 
@@ -182,14 +183,14 @@ expect_equal(z$parse("UTF-8"), "success!")
 ## Outside a test framework
 
 
-```r
+``` r
 library(crul)
 ```
 
 ### Stubbed request based on uri only and with the default response
 
 
-```r
+``` r
 stub_request("get", "https://httpbin.org/get")
 #> <webmockr stub> 
 #>   method: get
@@ -202,13 +203,13 @@ stub_request("get", "https://httpbin.org/get")
 ```
 
 
-```r
+``` r
 x <- HttpClient$new(url = "https://httpbin.org")
 x$get('get')
 #> <crul response> 
 #>   url: https://httpbin.org/get
 #>   request_headers: 
-#>     User-Agent: libcurl/8.1.2 r-curl/4.3.2 crul/1.4.0
+#>     User-Agent: libcurl/8.6.0 r-curl/5.2.1 crul/1.5.0
 #>     Accept-Encoding: gzip, deflate
 #>     Accept: application/json, text/xml, application/xml, */*
 #>   response_headers: 
@@ -218,7 +219,7 @@ x$get('get')
 set return objects
 
 
-```r
+``` r
 stub_request("get", "https://httpbin.org/get") %>%
   wi_th(
     query = list(hello = "world")) %>%
@@ -239,12 +240,12 @@ stub_request("get", "https://httpbin.org/get") %>%
 ```
 
 
-```r
+``` r
 x$get('get', query = list(hello = "world"))
 #> <crul response> 
 #>   url: https://httpbin.org/get
 #>   request_headers: 
-#>     User-Agent: libcurl/8.1.2 r-curl/4.3.2 crul/1.4.0
+#>     User-Agent: libcurl/8.6.0 r-curl/5.2.1 crul/1.5.0
 #>     Accept-Encoding: gzip, deflate
 #>     Accept: application/json, text/xml, application/xml, */*
 #>   response_headers: 
@@ -254,7 +255,7 @@ x$get('get', query = list(hello = "world"))
 ### Stubbing requests based on method, uri and query params
 
 
-```r
+``` r
 stub_request("get", "https://httpbin.org/get") %>%
   wi_th(query = list(hello = "world"), 
         headers = list('User-Agent' = 'libcurl/7.51.0 r-curl/2.6 crul/0.3.6', 
@@ -270,7 +271,7 @@ stub_request("get", "https://httpbin.org/get") %>%
 ```
 
 
-```r
+``` r
 stub_registry()
 #> <webmockr stub registry> 
 #>  Registered Stubs
@@ -280,13 +281,13 @@ stub_registry()
 ```
 
 
-```r
+``` r
 x <- HttpClient$new(url = "https://httpbin.org")
 x$get('get', query = list(hello = "world"))
 #> <crul response> 
 #>   url: https://httpbin.org/get
 #>   request_headers: 
-#>     User-Agent: libcurl/8.1.2 r-curl/4.3.2 crul/1.4.0
+#>     User-Agent: libcurl/8.6.0 r-curl/5.2.1 crul/1.5.0
 #>     Accept-Encoding: gzip, deflate
 #>     Accept: application/json, text/xml, application/xml, */*
 #>   response_headers: 
@@ -296,7 +297,7 @@ x$get('get', query = list(hello = "world"))
 ### Stubbing requests and set expectation of a timeout
 
 
-```r
+``` r
 stub_request("post", "https://httpbin.org/post") %>% to_timeout()
 #> <webmockr stub> 
 #>   method: post
@@ -320,7 +321,7 @@ x$post('post')
 ### Stubbing requests and set HTTP error expectation
 
 
-```r
+``` r
 library(fauxpas)
 stub_request("get", "https://httpbin.org/get?a=b") %>% to_raise(HTTPBadRequest)
 #> <webmockr stub> 
@@ -345,7 +346,7 @@ x$get('get', query = list(a = "b"))
 ## httr integration
 
 
-```r
+``` r
 library(webmockr)
 library(httr)
 #> 
@@ -359,7 +360,7 @@ httr_mock()
 ```
 
 
-```r
+``` r
 # no stub found
 GET("https://httpbin.org/get")
 #> Error: Real HTTP connections are disabled.
@@ -378,7 +379,7 @@ GET("https://httpbin.org/get")
 make a stub
 
 
-```r
+``` r
 stub_request('get', uri = 'https://httpbin.org/get') %>%
   wi_th(
     headers = list('Accept' = 'application/json, text/xml, application/xml, */*')
@@ -403,7 +404,7 @@ now returns mocked response
 
 
 
-```r
+``` r
 (res <- GET("https://httpbin.org/get"))
 res$status_code
 #> [1] 418
@@ -415,7 +416,7 @@ res$headers
 ## httr2 integration
 
 
-```r
+``` r
 library(webmockr)
 library(httr2)
 
@@ -424,7 +425,7 @@ enable()
 ```
 
 
-```r
+``` r
 # no stub found
 req <- request("https://hb.opencpu.org/get")
 req_perform(req)
@@ -441,7 +442,7 @@ req_perform(req)
 make a stub
 
 
-```r
+``` r
 stub_request('get', uri = 'https://hb.opencpu.org/get') %>%
   to_return(status = 418, body = "I'm a teapot!!!", headers = list(im_a = "teapot"))
 #> <webmockr stub> 
@@ -463,7 +464,7 @@ now returns mocked response
 
 
 
-```r
+``` r
 req <- request("https://hb.opencpu.org/get")
 res <- req_perform(req)
 res
@@ -481,7 +482,7 @@ Write to a file before mocked request
 
 
 
-```r
+``` r
 ## make a temp file
 f <- tempfile(fileext = ".json")
 ## write something to the file
@@ -500,7 +501,7 @@ readLines(file(f))
 OR - you can use `mock_file()` to have `webmockr` handle file and contents
 
 
-```r
+``` r
 g <- tempfile(fileext = ".json")
 ## make the stub
 invisible(stub_request("get", "https://httpbin.org/get") %>% 
@@ -518,7 +519,7 @@ Writing to disk is supported in `crul`, `httr`, and `httr2`
 e.g., many redirects, then a final successful request
 
 
-```r
+``` r
 webmockr::enable()
 library(crul)
 library(fauxpas)
