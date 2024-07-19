@@ -2,7 +2,7 @@
 % Please edit documentation in R/adapter-httr2.R
 \name{httr2_mock}
 \alias{httr2_mock}
-\title{Turn on httr2 mocking}
+\title{Turn on \code{httr2} mocking}
 \usage{
 httr2_mock(on = TRUE)
 }
@@ -13,5 +13,5 @@ httr2_mock(on = TRUE)
 Silently returns \code{TRUE} when enabled and \code{FALSE} when disabled.
 }
 \description{
-Turn on httr2 mocking
+Sets a callback that routes \code{httr2} requests through \code{webmockr}
 }

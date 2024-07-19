@@ -96,8 +96,9 @@ build_httr_request = function(x) {
   )
 }
 
-#' Turn on httr mocking
-#' Sets a callback that routes httr request through webmockr
+#' Turn on `httr` mocking
+#' 
+#' Sets a callback that routes `httr` requests through `webmockr`
 #' 
 #' @export
 #' @param on (logical) set to `TRUE` to turn on, and `FALSE`

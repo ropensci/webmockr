@@ -91,7 +91,10 @@ build_httr2_request = function(x) {
   )
 }
 
-#' Turn on httr2 mocking
+#' Turn on `httr2` mocking
+#' 
+#' Sets a callback that routes `httr2` requests through `webmockr`
+#' 
 #' @export
 #' @param on (logical) `TRUE` to turn on, `FALSE` to turn off. default: `TRUE`
 #' @return Silently returns `TRUE` when enabled and `FALSE` when disabled.

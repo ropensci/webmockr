@@ -12,9 +12,10 @@ webmockr_adapters <- c('crul', 'httr', 'httr2')
 #' adapters
 #' @param options list of options - ignored for now.
 #' @param quiet (logical) suppress messages? default: `FALSE`
-#' @details `enable()` enables \pkg{webmockr} for all adapters. 
-#' `disable()` disables \pkg{webmockr} for all adapters.  `enabled()` 
-#' answers whether \pkg{webmockr} is enabled for a given adapter
+#' @details 
+#' - `enable()` enables \pkg{webmockr} for all adapters
+#' - `disable()` disables \pkg{webmockr} for all adapters
+#' - `enabled()` answers whether \pkg{webmockr} is enabled for a given adapter
 #' @return `enable()` and `disable()` invisibly returns booleans for 
 #' each adapter, as a result of running enable or disable, respectively,
 #' on each [HttpLibAdapaterRegistry] object. `enabled` returns a 

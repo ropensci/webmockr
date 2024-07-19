@@ -31,7 +31,9 @@ single boolean
 Enable or disable webmockr
 }
 \details{
-\code{enable()} enables \pkg{webmockr} for all adapters.
-\code{disable()} disables \pkg{webmockr} for all adapters.  \code{enabled()}
-answers whether \pkg{webmockr} is enabled for a given adapter
+\itemize{
+\item \code{enable()} enables \pkg{webmockr} for all adapters
+\item \code{disable()} disables \pkg{webmockr} for all adapters
+\item \code{enabled()} answers whether \pkg{webmockr} is enabled for a given adapter
+}
 }

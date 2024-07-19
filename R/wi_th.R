@@ -23,8 +23,8 @@
 #' class in the recorded stub. You can pass numeric, integer, etc., but
 #' all will be coerced to character.
 #' - body: various, including character string, list, raw, numeric,
-#' upload (`crul::upload` or `httr::upload_file`, they both create the
-#' same object in the end)
+#' upload ([crul::upload()], [httr::upload_file()], [curl::form_file()], or
+#' [curl::form_data()] they both create the same object in the end)
 #' - headers: (list) a named list
 #' - basic_auth: (character) a length two vector, username and password.
 #' authentication type (basic/digest/ntlm/etc.) is ignored. that is,
