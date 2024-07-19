@@ -57,6 +57,7 @@ test_that("Write to a file before mocked request: httr", {
 
 test_that("Write to a file before mocked request: httr", {
   skip_on_cran()
+  skip_if_not_installed("httr2")
 
   library(httr2)
   ## make a temp file
@@ -131,6 +132,7 @@ test_that("Use mock_file to have webmockr handle file and contents: httr", {
 
 test_that("Use mock_file to have webmockr handle file and contents: httr", {
   skip_on_cran()
+  skip_if_not_installed("httr2")
 
   library(httr2)
   ## make a temp file

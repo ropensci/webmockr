@@ -195,7 +195,7 @@ test_that("wi_th handles HEADERS with varied input classes", {
 
 disable("httr")
 
-test_that("wi_th basic_auth", {
+test_that("wi_th basic_auth, crul", {
   # crul
   library(crul)
   enable("crul")
@@ -215,8 +215,9 @@ test_that("wi_th basic_auth", {
   con$auth <- crul::auth("user", "password")
   expect_error(con$get(), "Unregistered")
   disable("crul")
+})
 
-  # httr
+test_that("wi_th basic_auth, httr", {
   library(httr)
   enable("httr")
   # pass
@@ -238,8 +239,10 @@ test_that("wi_th basic_auth", {
   expect_error(GET("https://x.com", authenticate("user", "password")),
     "Unregistered")
   disable("httr")
+})
 
-  # httr2
+test_that("wi_th basic_auth, httr2", {
+  skip_if_not_installed("httr2")
   library(httr2)
   enable("httr2")
   # pass

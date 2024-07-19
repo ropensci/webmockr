@@ -82,6 +82,8 @@ stub_registry_clear()
 
 
 test_that("uri_regex with httr2", {
+  skip_if_not_installed("httr2")
+  
   stub_request("get", uri_regex = "hb.opencpu.org/.+") %>%
     to_return(body = list(foo = "bar"))
 

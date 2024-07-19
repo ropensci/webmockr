@@ -7,6 +7,9 @@ test_that("flipswitch in default state", {
 })
 
 test_that("flipswitch - turn on with 'enable'", {
+  skip_if_not_installed("httr")
+  skip_if_not_installed("httr2")
+
   aa <- enable()
 
   expect_is(aa, "logical")

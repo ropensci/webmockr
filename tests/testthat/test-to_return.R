@@ -86,6 +86,7 @@ disable()
 stub_registry_clear()
 enable()
 test_that("to_return (response) headers are all lowercase, httr2", {
+  skip_if_not_installed("httr2")
   loadNamespace("httr2")
   stub <- stub_request(uri = hb("/get")) %>%
     to_return(headers = list("Foo-Bar" = "baz"))
@@ -101,6 +102,7 @@ disable()
 stub_registry_clear()
 enable()
 test_that("to_return (response) header is the correct class, httr2", {
+  skip_if_not_installed("httr2")
   loadNamespace("httr2")
   stub <- stub_request(uri = hb("/get")) %>%
     to_return(headers = list("Foo-Bar" = "baz"))
@@ -178,6 +180,7 @@ disable()
 
 enable()
 test_that("to_return response header values are all character, httr2", {
+  skip_if_not_installed("httr2")
   loadNamespace("httr2")
   
   stub_request(uri = hb("/get")) %>%
