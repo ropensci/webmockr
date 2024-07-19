@@ -120,7 +120,8 @@ Dev version
 
 
 ``` r
-remotes::install_github("ropensci/webmockr")
+# install.packages("pak")
+pak::pak("ropensci/webmockr")
 ```
 
 
