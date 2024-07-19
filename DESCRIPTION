@@ -15,9 +15,9 @@ Authors@R: c(
     person("rOpenSci", role = "fnd", comment = "https://ropensci.org")
     )
 License: MIT + file LICENSE
-URL: https://github.com/ropensci/webmockr (devel)
-    https://books.ropensci.org/http-testing/ (user manual)
-    https://docs.ropensci.org/webmockr/ (documentation)
+URL: https://github.com/ropensci/webmockr,
+    https://books.ropensci.org/http-testing/,
+    https://docs.ropensci.org/webmockr/
 BugReports: https://github.com/ropensci/webmockr/issues
 Encoding: UTF-8
 Language: en-US
