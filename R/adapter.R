@@ -1,5 +1,3 @@
-sac <- new.env()
-
 #' @title Adapters for Modifying HTTP Requests
 #' @description `Adapter` is the base parent class used to implement
 #'   \pkg{webmockr} support for different HTTP clients. It should not be used
@@ -124,7 +122,6 @@ Adapter <- R6::R6Class("Adapter",
         # VCR: recordable/ignored
 
         if (vcr_cassette_inserted()) {
-          # print("in webmockr: ------- if (vcr_cassette_inserted()) -------")
           # use RequestHandler - gets current cassette & record interaction
           resp <- private$request_handler(req)$handle()
 
@@ -135,12 +132,8 @@ Adapter <- R6::R6Class("Adapter",
 
         # no vcr
         } else {
-          sac$self <- self
-          sac$req <- req
-          sac$ss <- ss
           resp <- private$build_response(req, resp)
           # add to_return() elements if given
-          sac$resp <- resp
           resp <- private$add_response_sequences(ss, resp)
         }
 
@@ -272,9 +265,6 @@ Adapter <- R6::R6Class("Adapter",
           with_str <- sprintf(" wi_th(\n       body = list(%s)\n     )", bd_str)
         }
 
-        sac$hd_str <- hd_str
-        sac$tmp <- tmp
-        sac$bd_str <- bd_str
         tmp <- paste0(tmp, " %>%\n    ", with_str)
       }
       return(tmp)
