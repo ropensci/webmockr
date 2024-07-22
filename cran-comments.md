@@ -18,7 +18,7 @@ We checked 18 reverse dependencies, comparing R CMD check results across CRAN an
 
 ---
 
-This version includes ...
+This version includes two new features.
 
 Thanks!
 Scott Chamberlain
