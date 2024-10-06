@@ -72,14 +72,14 @@ Response <- R6::R6Class(
       cat(paste0("  url: ", self$url), sep = "\n")
       cat(paste0("  status: ", self$status_code), sep = "\n")
       cat("  headers: ", sep = "\n")
+      cat("    request headers: ", sep = "\n")
       for (i in seq_along(self$request_headers)) {
-        cat("    request headers: ", sep = "\n")
         cat(paste0("     ",
             paste(names(self$request_headers)[i], self$request_headers[[i]],
                   sep = ": ")), sep = "\n")
       }
+      cat("    response headers: ", sep = "\n")
       for (i in seq_along(self$response_headers)) {
-        cat("    response headers: ", sep = "\n")
         cat(paste0("     ",
             paste(names(self$response_headers)[i], self$response_headers[[i]],
                    sep = ": ")), sep = "\n")
@@ -127,8 +127,8 @@ Response <- R6::R6Class(
     #' @param disk (logical) whether its on disk; default: `FALSE`
     #' @return nothing returned; sets body on the response
     set_body = function(body, disk = FALSE) {
-      self$body <- body
-      self$content <- if (is.character(body)) {
+      # self$body <- body
+      self$body <- self$content <- if (is.character(body)) {
         stopifnot(length(body) <= 1)
         if (disk) body else charToRaw(body)
       } else if (is.raw(body)) {

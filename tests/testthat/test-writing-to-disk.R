@@ -13,10 +13,10 @@ test_that("Write to a file before mocked request: crul", {
   expect_is(readLines(f), "character")
   expect_match(readLines(f), "world")
   ## make the stub
-  stub_request("get", "https://httpbin.org/get") %>% 
+  stub_request("get", hb("/get")) %>% 
     to_return(body = file(f))
   ## make a request
-  out <- HttpClient$new("https://httpbin.org/get")$get(disk = f)
+  out <- HttpClient$new(hb("/get"))$get(disk = f)
   expect_is(out$content, "character")
   expect_equal(attr(out$content, "type"), "file")
   expect_is(readLines(out$content), "character")
@@ -38,17 +38,45 @@ test_that("Write to a file before mocked request: httr", {
   expect_is(readLines(f), "character")
   expect_match(readLines(f), "world")
   ## make the stub
-  stub_request("get", "https://httpbin.org/get") %>% 
+  stub_request("get", hb("/get")) %>% 
     to_return(body = file(f), 
      headers = list('content-type' = "application/json"))
   ## make a request
   ## with httr, you must set overwrite=TRUE or you'll get an errror
-  out <- GET("https://httpbin.org/get", write_disk(f, overwrite=TRUE))
+  out <- GET(hb("/get"), write_disk(f, overwrite=TRUE))
   content(out)
   expect_is(out$content, "path")
   expect_equal(attr(out$content, "class"), "path")
   expect_is(readLines(out$content), "character")
   expect_match(readLines(out$content), "hello")
+  
+  # cleanup
+  unlink(f)
+  stub_registry_clear()
+})
+
+test_that("Write to a file before mocked request: httr", {
+  skip_on_cran()
+  skip_if_not_installed("httr2")
+
+  library(httr2)
+  ## make a temp file
+  f <- tempfile(fileext = ".json")
+  ## write something to the file
+  cat("{\"hello\":\"world\"}\n", file = f)
+  expect_is(readLines(f), "character")
+  expect_match(readLines(f), "world")
+  ## make the stub
+  stub_request("get", hb("/get")) %>% 
+    to_return(body = file(f), 
+     headers = list('content-type' = "application/json"))
+  ## make a request
+  req <- request(hb("/get"))
+  out <- req_perform(req, path = f)
+  expect_is(out$body, "httr2_path")
+  expect_equal(attr(out$body, "class"), "httr2_path")
+  expect_is(readLines(out$body), "character")
+  expect_match(readLines(out$body), "hello")
   
   # cleanup
   unlink(f)
@@ -62,10 +90,10 @@ test_that("Use mock_file to have webmockr handle file and contents: crul", {
   ## make a temp file
   f <- tempfile(fileext = ".json")
   ## make the stub
-  stub_request("get", "https://httpbin.org/get") %>% 
+  stub_request("get", hb("/get")) %>% 
     to_return(body = mock_file(f, "{\"hello\":\"mars\"}\n"))
   ## make a request
-  out <- crul::HttpClient$new("https://httpbin.org/get")$get(disk = f)
+  out <- crul::HttpClient$new(hb("/get"))$get(disk = f)
   out$content
   expect_is(out$content, "character")
   expect_match(out$content, "json")
@@ -84,18 +112,47 @@ test_that("Use mock_file to have webmockr handle file and contents: httr", {
   ## make a temp file
   f <- tempfile(fileext = ".json")
   ## make the stub
-  stub_request("get", "https://httpbin.org/get") %>% 
+  stub_request("get", hb("/get")) %>% 
     to_return(
       body = mock_file(path = f, payload = "{\"foo\": \"bar\"}"),
       headers = list('content-type' = "application/json")
     )
   ## make a request
-  out <- GET("https://httpbin.org/get", write_disk(f))
+  out <- GET(hb("/get"), write_disk(f))
   ## view stubbed file content
   expect_is(out$content, "path")
   expect_match(out$content, "json")
   expect_is(readLines(out$content), "character")
   expect_true(any(grepl("foo", readLines(out$content))))
+  
+  # cleanup
+  unlink(f)
+  stub_registry_clear()
+})
+
+test_that("Use mock_file to have webmockr handle file and contents: httr", {
+  skip_on_cran()
+  skip_if_not_installed("httr2")
+
+  library(httr2)
+  ## make a temp file
+  f <- tempfile(fileext = ".json")
+  ## make the stub
+  stub_request("get", hb("/get")) %>% 
+    to_return(
+      body = mock_file(path = f, payload = "{\"foo\": \"bar\"}"),
+      headers = list('content-type' = "application/json")
+    )
+  ## make a request
+  req <- request(hb("/get"))
+  # req <- request("https://hb.opencpu.org/get")
+  out <- req_perform(req, path = f)
+  # out <- GET(hb("/get"), write_disk(f))
+  ## view stubbed file content
+  expect_is(out$body, "httr2_path")
+  expect_match(out$body, "json")
+  expect_is(readLines(out$body), "character")
+  expect_true(any(grepl("foo", readLines(out$body))))
   
   # cleanup
   unlink(f)

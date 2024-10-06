@@ -35,9 +35,9 @@ test_that("Response: bits are correct prior to having data", {
 
 test_that("Response: bits are correct after having data", {
   aa <- Response$new()
-  aa$set_url("https://httpbin.org/get")
+  aa$set_url(hb("/get"))
   aa$set_request_headers(list('Content-Type' = "application/json"))
-  aa$set_response_headers(list('Host' = "httpbin.org"))
+  aa$set_response_headers(list('Host' = "hb.opencpu.org"))
   aa$set_status(404)
   aa$set_body("hello world")
   aa$set_exception("exception")
@@ -54,18 +54,18 @@ test_that("Response: bits are correct after having data", {
   expect_null(aa$response_headers_all)
 
   expect_equal(aa$status_code, 404)
-  expect_equal(aa$url, "https://httpbin.org/get")
+  expect_equal(aa$url, hb("/get"))
   expect_null(aa$name)
 
-  expect_equal(aa$body, "hello world")
+  expect_equal(aa$body, charToRaw("hello world"))
   expect_is(aa$content, "raw")
   expect_equal(aa$exception, "exception")
-  expect_equal(aa$get_body(), "hello world")
+  expect_equal(rawToChar(aa$get_body()), "hello world")
   expect_equal(aa$get_exception(), "exception")
   expect_equal(aa$get_request_headers()[[1]], "application/json")
-  expect_equal(aa$get_respone_headers()[[1]], "httpbin.org")
+  expect_equal(aa$get_respone_headers()[[1]], "hb.opencpu.org")
   expect_equal(aa$get_status(), 404)
-  expect_equal(aa$get_url(), "https://httpbin.org/get")
+  expect_equal(aa$get_url(), hb("/get"))
 
   expect_output(aa$print(), "<webmockr response>")
   expect_output(aa$print(), "headers")
@@ -73,8 +73,9 @@ test_that("Response: bits are correct after having data", {
 
   # set_body: char gets converted to raw in $content
   aa$set_body(body = "stuff")
-  expect_is(aa$body, "character")
+  expect_is(aa$body, "raw")
   expect_is(aa$content, "raw")
+  expect_length(aa$body, 5)
   expect_length(aa$content, 5)
 
   # set_body: raw remains as raw in $content
@@ -85,7 +86,7 @@ test_that("Response: bits are correct after having data", {
 
   # set_body: other types return raw(0) in $content
   aa$set_body(body = NULL)
-  expect_null(aa$body)
+  expect_equal(aa$body, raw())
   expect_is(aa$content, "raw")
   expect_length(aa$content, 0)
 

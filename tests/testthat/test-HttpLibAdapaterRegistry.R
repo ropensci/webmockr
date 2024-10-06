@@ -43,6 +43,20 @@ test_that("HttpLibAdapaterRegistry: behaves as expected", {
   expect_output(print(aa), "HttrAdapter")
 })
 
+test_that("HttpLibAdapaterRegistry: behaves as expected", {
+  skip_on_cran()
+
+  aa <- HttpLibAdapaterRegistry$new()
+  aa$register(Httr2Adapter$new())
+
+  expect_length(aa$adapters, 1)
+  expect_is(aa$adapters[[1]], "Httr2Adapter")
+  expect_equal(aa$adapters[[1]]$name, "Httr2Adapter")
+
+  expect_output(print(aa), "HttpLibAdapaterRegistry")
+  expect_output(print(aa), "Httr2Adapter")
+})
+
 test_that("HttpLibAdapaterRegistry fails well", {
   x <- HttpLibAdapaterRegistry$new()
 

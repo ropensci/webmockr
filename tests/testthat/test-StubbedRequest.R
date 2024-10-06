@@ -3,7 +3,7 @@ context("StubbedRequest")
 test_that("StubbedRequest: works", {
   expect_is(StubbedRequest, "R6ClassGenerator")
 
-  aa <- StubbedRequest$new(method = "get", uri = "https://httpbin.org/get")
+  aa <- StubbedRequest$new(method = "get", uri = "https:/hb.opencpu.org/get")
 
   expect_is(aa, "StubbedRequest")
 
@@ -19,14 +19,14 @@ test_that("StubbedRequest: works", {
   expect_equal(aa$method, "get")
 
   expect_is(aa$uri, "character")
-  expect_equal(aa$uri, "https://httpbin.org/get")
+  expect_equal(aa$uri, "https:/hb.opencpu.org/get")
 
   expect_is(aa$uri_parts, "list")
-  expect_equal(aa$uri_parts$domain, "httpbin.org")
-  expect_equal(aa$uri_parts$path, "get")
+  expect_equal(aa$uri_parts$domain, "https")
+  expect_equal(aa$uri_parts$path, "hb.opencpu.org/get")
 
   expect_is(aa$to_s, "function")
-  expect_equal(aa$to_s(), "GET: https://httpbin.org/get")
+  expect_equal(aa$to_s(), "GET: https:/hb.opencpu.org/get")
 
   # with
   expect_is(aa$with, "function")
@@ -34,12 +34,12 @@ test_that("StubbedRequest: works", {
   aa$with(query = list(foo = "bar"))
   expect_is(aa$query, "list")
   expect_named(aa$query, "foo")
-  expect_equal(aa$to_s(), "GET: https://httpbin.org/get  with query params foo=bar")
+  expect_equal(aa$to_s(), "GET: https:/hb.opencpu.org/get?foo=bar")
 
   ## >1 query param gets combined with "&" and not ","
   aa$with(query = list(foo = "bar", stuff = 567))
   expect_equal(sort(names(aa$query)), c("foo", "stuff"))
-  expect_equal(aa$to_s(), "GET: https://httpbin.org/get  with query params foo=bar, stuff=567")
+  expect_equal(aa$to_s(), "GET: https:/hb.opencpu.org/get?foo=bar&stuff=567")
 
   # to_return
   expect_is(aa$to_return, "function")
@@ -56,7 +56,7 @@ test_that("StubbedRequest: works", {
 
 
 test_that("StubbedRequest: to_timeout", {
-  x <- StubbedRequest$new(method = "get", uri = "https://httpbin.org/get")
+  x <- StubbedRequest$new(method = "get", uri = "https:/hb.opencpu.org/get")
   expect_false(grepl("should_timeout: TRUE", x$to_s()))
   x$to_timeout()
   expect_true(grepl("should_timeout: TRUE", x$to_s()))
@@ -64,7 +64,7 @@ test_that("StubbedRequest: to_timeout", {
 
 library("fauxpas")
 test_that("StubbedRequest: to_raise", {
-  x <- StubbedRequest$new(method = "get", uri = "https://httpbin.org/get")
+  x <- StubbedRequest$new(method = "get", uri = "https:/hb.opencpu.org/get")
   expect_false(grepl("to_raise: HTTPBadGateway", x$to_s()))
   x$to_raise(HTTPBadGateway)
   expect_true(grepl("to_raise: HTTPBadGateway", x$to_s()))
@@ -79,37 +79,37 @@ test_that("StubbedRequest: to_raise", {
 test_that("StubbedRequest: different methods work", {
   expect_equal(
     StubbedRequest$new(method = "any",
-      uri = "https:/httpbin.org/get")$method,
+      uri = "https:/hb.opencpu.org/get")$method,
     "any"
   )
   expect_equal(
     StubbedRequest$new(method = "get",
-      uri = "https:/httpbin.org/get")$method,
+      uri = "https:/hb.opencpu.org/get")$method,
     "get"
   )
   expect_equal(
     StubbedRequest$new(method = "head",
-      uri = "https:/httpbin.org/get")$method,
+      uri = "https:/hb.opencpu.org/get")$method,
     "head"
   )
   expect_equal(
     StubbedRequest$new(method = "post",
-      uri = "https:/httpbin.org/get")$method,
+      uri = "https:/hb.opencpu.org/get")$method,
     "post"
   )
   expect_equal(
     StubbedRequest$new(method = "put",
-      uri = "https:/httpbin.org/get")$method,
+      uri = "https:/hb.opencpu.org/get")$method,
     "put"
   )
   expect_equal(
     StubbedRequest$new(method = "patch",
-      uri = "https:/httpbin.org/get")$method,
+      uri = "https:/hb.opencpu.org/get")$method,
     "patch"
   )
   expect_equal(
     StubbedRequest$new(method = "delete",
-      uri = "https:/httpbin.org/get")$method,
+      uri = "https:/hb.opencpu.org/get")$method,
     "delete"
   )
 })
@@ -191,7 +191,7 @@ test_that("StubbedRequest nested lists in body", {
 test_that("StubbedRequest w/ >1 to_return()", {
   stub_registry_clear()
 
-  x <- StubbedRequest$new(method = "get", uri = "httpbin.org")
+  x <- StubbedRequest$new(method = "get", uri = "hb.opencpu.org")
   x$to_return(status = 200, body = "foobar", headers = list(a = 5))
   x$to_return(status = 200, body = "bears", headers = list(b = 6))
   x$to_s()

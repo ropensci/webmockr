@@ -1,10 +1,18 @@
 
 
 
-<p>The very very short version is: <code>webmockr</code> helps you stub HTTP requests so you don’t have to repeat yourself.</p>
+<p>The very very short version is: <code>webmockr</code> helps you stub
+HTTP requests so you don’t have to repeat yourself.</p>
 <p><strong>More details</strong></p>
-<p>You tell <code>webmockr</code> what HTTP request you want to match against and if it sees a request matching your criteria it doesn’t actually do the HTTP request. Instead, it gives back the same object you would have gotten back with a real request, but only with the bits it knows about. For example, we can’t give back the actual data you’d get from a real HTTP request as the request wasn’t performed.</p>
-<p>In addition, if you set an expectation of what <code>webmockr</code> should return, we return that. For example, if you expect a request to return a 418 error (I’m a Teapot), then that’s what you’ll get.</p>
+<p>You tell <code>webmockr</code> what HTTP request you want to match
+against and if it sees a request matching your criteria it doesn’t
+actually do the HTTP request. Instead, it gives back the same object you
+would have gotten back with a real request, but only with the bits it
+knows about. For example, we can’t give back the actual data you’d get
+from a real HTTP request as the request wasn’t performed.</p>
+<p>In addition, if you set an expectation of what <code>webmockr</code>
+should return, we return that. For example, if you expect a request to
+return a 418 error (I’m a Teapot), then that’s what you’ll get.</p>
 <p><strong>What you can match against</strong></p>
 <ul>
 <li>HTTP method (required)</li>
@@ -13,16 +21,22 @@
 <ul>
 <li>URI
 <ul>
-<li>Right now, we can match directly against URI’s, and with regex URI patterns. Eventually, we will support RFC 6570 URI templates.</li>
-<li>We normalize URI paths so that URL encoded things match URL un-encoded things (e.g. <code>hello world</code> to <code>hello%20world</code>)</li>
+<li>Right now, we can match directly against URI’s, and with regex URI
+patterns. Eventually, we will support RFC 6570 URI templates.</li>
+<li>We normalize URI paths so that URL encoded things match URL
+un-encoded things (e.g. <code>hello world</code> to
+<code>hello%20world</code>)</li>
 </ul></li>
 <li>Query parameters
 <ul>
-<li>We normalize query parameter values so that URL encoded things match URL un-encoded things (e.g. <code>message = hello world</code> to <code>message = hello%20world</code>)</li>
+<li>We normalize query parameter values so that URL encoded things match
+URL un-encoded things (e.g. <code>message = hello world</code> to
+<code>message = hello%20world</code>)</li>
 </ul></li>
 <li>Request headers
 <ul>
-<li>We normalize headers and treat all forms of same headers as equal. For example, the following two sets of headers are equal:
+<li>We normalize headers and treat all forms of same headers as equal.
+For example, the following two sets of headers are equal:
 <ul>
 <li><code>list(H1 = &quot;value1&quot;, content_length = 123, X_CuStOm_hEAder = &quot;foo&quot;)</code></li>
 <li><code>list(h1 = &quot;value1&quot;, &quot;Content-Length&quot; = 123, &quot;x-cuSTOM-HeAder&quot; = &quot;foo&quot;)</code></li>
@@ -31,14 +45,25 @@
 <li>Request body</li>
 </ul>
 <p><strong>Real HTTP requests</strong></p>
-<p>There’s a few scenarios to think about when using <code>webmockr</code>:</p>
+<p>There’s a few scenarios to think about when using
+<code>webmockr</code>:</p>
 <p>After doing</p>
 <pre class="r"><code>library(webmockr)</code></pre>
-<p><code>webmockr</code> is loaded but not turned on. At this point <code>webmockr</code> doesn’t change anythning.</p>
+<p><code>webmockr</code> is loaded but not turned on. At this point
+<code>webmockr</code> doesn’t change anythning.</p>
 <p>Once you turn on <code>webmockr</code> like</p>
 <pre class="r"><code>webmockr::enable()</code></pre>
-<p><code>webmockr</code> will now by default not allow real HTTP requests from the http libraries that adapters are loaded for (right now only <code>crul</code>).</p>
-<p>You can optionally allow real requests via <code>webmockr_allow_net_connect()</code>, and disallow real requests via <code>webmockr_disable_net_connect()</code>. You can check whether you are allowing real requests with <code>webmockr_net_connect_allowed()</code>.</p>
-<p>Certain kinds of real HTTP requests allowed: We don’t suppoprt this yet, but you can allow localhost HTTP requests with the <code>allow_localhost</code> parameter in the <code>webmockr_configure()</code> function.</p>
+<p><code>webmockr</code> will now by default not allow real HTTP
+requests from the http libraries that adapters are loaded for (right now
+only <code>crul</code>).</p>
+<p>You can optionally allow real requests via
+<code>webmockr_allow_net_connect()</code>, and disallow real requests
+via <code>webmockr_disable_net_connect()</code>. You can check whether
+you are allowing real requests with
+<code>webmockr_net_connect_allowed()</code>.</p>
+<p>Certain kinds of real HTTP requests allowed: We don’t suppoprt this
+yet, but you can allow localhost HTTP requests with the
+<code>allow_localhost</code> parameter in the
+<code>webmockr_configure()</code> function.</p>
 <p><strong>Storing actual HTTP responses</strong></p>
 <p><code>webmockr</code> doesn’t do that. Check out <a href="https://github.com/ropensci/vcr">vcr</a></p>

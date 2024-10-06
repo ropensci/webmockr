@@ -1,20 +1,24 @@
 ## Test environments
 
-* local OS X install, R 3.6.3 Patched
-* ubuntu 16.04 (on travis-ci), R 3.6.2
+* local macOS install, R 4.4.1
+* ubuntu (on GitHub Actions), R 4.4.1
 * win-builder (devel and release)
 
 ## R CMD check results
 
 0 errors | 0 warnings | 0 notes
 
-## Reverse dependencies
+## revdepcheck results
 
-I have checked the 7 reverse dependencies, and no problems were found. See (<https://github.com/ropensci/webmockr/tree/master/revdep>).
+We checked 18 reverse dependencies, comparing R CMD check results across CRAN and dev versions of this package.
+
+ * We saw 0 new problems
+ * We failed to check 0 packages
+
 
 ---
 
-This version makes a small change regarding paths.
+This version includes two new features.
 
 Thanks!
 Scott Chamberlain

@@ -6,7 +6,7 @@ test_that("no stubs exist before stub_request called", {
   expect_equal(length(stub_registry()$request_stubs), 0)
 })
 
-aa <- stub_request("get", "https://httpbin.org/get")
+aa <- stub_request("get", hb("/get"))
 
 test_that("stub_request bits are correct", {
 
@@ -22,7 +22,7 @@ test_that("stub_request bits are correct", {
   expect_is(aa$method, "character")
   expect_equal(aa$method, "get")
   expect_is(aa$uri, "character")
-  expect_equal(aa$uri, "https://httpbin.org/get")
+  expect_equal(aa$uri, hb("/get"))
 
   expect_is(aa$print, "function")
   expect_output(aa$print(), "<webmockr stub>")
@@ -31,7 +31,7 @@ test_that("stub_request bits are correct", {
   expect_error(aa$to_return(), "argument \"body\" is missing")
 
   expect_is(aa$to_s, "function")
-  expect_equal(aa$to_s(), "GET: https://httpbin.org/get")
+  expect_equal(aa$to_s(), sprintf("GET: %s", hb("/get")))
 
   expect_is(aa$with, "function")
   expect_null(aa$with())

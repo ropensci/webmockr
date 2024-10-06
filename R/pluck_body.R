@@ -4,7 +4,7 @@
 #' body based on its encoding.
 #' 
 #' @export
-#' @param x an unexecuted crul *or* httr request object
+#' @param x an unexecuted crul, httr *or* httr2 request object
 #' @return one of the following:
 #' - `NULL` if the request is not associated with a body
 #' - `NULL` if an upload is used not in a list

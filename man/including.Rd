@@ -25,10 +25,6 @@ including(list(foo = NULL, bar = NULL))
 
 # in a stub
 req <- stub_request("get", "https://httpbin.org/get")
-## body
-wi_th(req, body = list(foo = "bar"))
-wi_th(req, body = including(list(foo = "bar")))
-wi_th(req, body = excluding(list(foo = "bar")))
 
 ## query
 wi_th(req, query = list(foo = "bar"))

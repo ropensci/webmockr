@@ -64,26 +64,26 @@ x$get_exception()
 \section{Methods}{
 \subsection{Public methods}{
 \itemize{
-\item \href{#method-new}{\code{Response$new()}}
-\item \href{#method-print}{\code{Response$print()}}
-\item \href{#method-set_url}{\code{Response$set_url()}}
-\item \href{#method-get_url}{\code{Response$get_url()}}
-\item \href{#method-set_request_headers}{\code{Response$set_request_headers()}}
-\item \href{#method-get_request_headers}{\code{Response$get_request_headers()}}
-\item \href{#method-set_response_headers}{\code{Response$set_response_headers()}}
-\item \href{#method-get_respone_headers}{\code{Response$get_respone_headers()}}
-\item \href{#method-set_body}{\code{Response$set_body()}}
-\item \href{#method-get_body}{\code{Response$get_body()}}
-\item \href{#method-set_status}{\code{Response$set_status()}}
-\item \href{#method-get_status}{\code{Response$get_status()}}
-\item \href{#method-set_exception}{\code{Response$set_exception()}}
-\item \href{#method-get_exception}{\code{Response$get_exception()}}
-\item \href{#method-clone}{\code{Response$clone()}}
+\item \href{#method-Response-new}{\code{Response$new()}}
+\item \href{#method-Response-print}{\code{Response$print()}}
+\item \href{#method-Response-set_url}{\code{Response$set_url()}}
+\item \href{#method-Response-get_url}{\code{Response$get_url()}}
+\item \href{#method-Response-set_request_headers}{\code{Response$set_request_headers()}}
+\item \href{#method-Response-get_request_headers}{\code{Response$get_request_headers()}}
+\item \href{#method-Response-set_response_headers}{\code{Response$set_response_headers()}}
+\item \href{#method-Response-get_respone_headers}{\code{Response$get_respone_headers()}}
+\item \href{#method-Response-set_body}{\code{Response$set_body()}}
+\item \href{#method-Response-get_body}{\code{Response$get_body()}}
+\item \href{#method-Response-set_status}{\code{Response$set_status()}}
+\item \href{#method-Response-get_status}{\code{Response$get_status()}}
+\item \href{#method-Response-set_exception}{\code{Response$set_exception()}}
+\item \href{#method-Response-get_exception}{\code{Response$get_exception()}}
+\item \href{#method-Response-clone}{\code{Response$clone()}}
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-new"></a>}}
-\if{latex}{\out{\hypertarget{method-new}{}}}
+\if{html}{\out{<a id="method-Response-new"></a>}}
+\if{latex}{\out{\hypertarget{method-Response-new}{}}}
 \subsection{Method \code{new()}}{
 Create a new \code{Response} object
 \subsection{Usage}{
@@ -102,8 +102,8 @@ A new \code{Response} object
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-print"></a>}}
-\if{latex}{\out{\hypertarget{method-print}{}}}
+\if{html}{\out{<a id="method-Response-print"></a>}}
+\if{latex}{\out{\hypertarget{method-Response-print}{}}}
 \subsection{Method \code{print()}}{
 print method for the \code{Response} class
 \subsection{Usage}{
@@ -121,8 +121,8 @@ print method for the \code{Response} class
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-set_url"></a>}}
-\if{latex}{\out{\hypertarget{method-set_url}{}}}
+\if{html}{\out{<a id="method-Response-set_url"></a>}}
+\if{latex}{\out{\hypertarget{method-Response-set_url}{}}}
 \subsection{Method \code{set_url()}}{
 set the url for the response
 \subsection{Usage}{
@@ -141,8 +141,8 @@ nothing returned; sets url
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-get_url"></a>}}
-\if{latex}{\out{\hypertarget{method-get_url}{}}}
+\if{html}{\out{<a id="method-Response-get_url"></a>}}
+\if{latex}{\out{\hypertarget{method-Response-get_url}{}}}
 \subsection{Method \code{get_url()}}{
 get the url for the response
 \subsection{Usage}{
@@ -154,8 +154,8 @@ get the url for the response
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-set_request_headers"></a>}}
-\if{latex}{\out{\hypertarget{method-set_request_headers}{}}}
+\if{html}{\out{<a id="method-Response-set_request_headers"></a>}}
+\if{latex}{\out{\hypertarget{method-Response-set_request_headers}{}}}
 \subsection{Method \code{set_request_headers()}}{
 set the request headers for the response
 \subsection{Usage}{
@@ -177,8 +177,8 @@ nothing returned; sets request headers on the response
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-get_request_headers"></a>}}
-\if{latex}{\out{\hypertarget{method-get_request_headers}{}}}
+\if{html}{\out{<a id="method-Response-get_request_headers"></a>}}
+\if{latex}{\out{\hypertarget{method-Response-get_request_headers}{}}}
 \subsection{Method \code{get_request_headers()}}{
 get the request headers for the response
 \subsection{Usage}{
@@ -190,8 +190,8 @@ get the request headers for the response
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-set_response_headers"></a>}}
-\if{latex}{\out{\hypertarget{method-set_response_headers}{}}}
+\if{html}{\out{<a id="method-Response-set_response_headers"></a>}}
+\if{latex}{\out{\hypertarget{method-Response-set_response_headers}{}}}
 \subsection{Method \code{set_response_headers()}}{
 set the response headers for the response
 \subsection{Usage}{
@@ -213,8 +213,8 @@ nothing returned; sets response headers on the response
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-get_respone_headers"></a>}}
-\if{latex}{\out{\hypertarget{method-get_respone_headers}{}}}
+\if{html}{\out{<a id="method-Response-get_respone_headers"></a>}}
+\if{latex}{\out{\hypertarget{method-Response-get_respone_headers}{}}}
 \subsection{Method \code{get_respone_headers()}}{
 get the response headers for the response
 \subsection{Usage}{
@@ -226,8 +226,8 @@ get the response headers for the response
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-set_body"></a>}}
-\if{latex}{\out{\hypertarget{method-set_body}{}}}
+\if{html}{\out{<a id="method-Response-set_body"></a>}}
+\if{latex}{\out{\hypertarget{method-Response-set_body}{}}}
 \subsection{Method \code{set_body()}}{
 set the body of the response
 \subsection{Usage}{
@@ -248,8 +248,8 @@ nothing returned; sets body on the response
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-get_body"></a>}}
-\if{latex}{\out{\hypertarget{method-get_body}{}}}
+\if{html}{\out{<a id="method-Response-get_body"></a>}}
+\if{latex}{\out{\hypertarget{method-Response-get_body}{}}}
 \subsection{Method \code{get_body()}}{
 get the body of the response
 \subsection{Usage}{
@@ -261,8 +261,8 @@ various
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-set_status"></a>}}
-\if{latex}{\out{\hypertarget{method-set_status}{}}}
+\if{html}{\out{<a id="method-Response-set_status"></a>}}
+\if{latex}{\out{\hypertarget{method-Response-set_status}{}}}
 \subsection{Method \code{set_status()}}{
 set the http status of the response
 \subsection{Usage}{
@@ -281,8 +281,8 @@ nothing returned; sets the http status of the response
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-get_status"></a>}}
-\if{latex}{\out{\hypertarget{method-get_status}{}}}
+\if{html}{\out{<a id="method-Response-get_status"></a>}}
+\if{latex}{\out{\hypertarget{method-Response-get_status}{}}}
 \subsection{Method \code{get_status()}}{
 get the http status of the response
 \subsection{Usage}{
@@ -294,8 +294,8 @@ get the http status of the response
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-set_exception"></a>}}
-\if{latex}{\out{\hypertarget{method-set_exception}{}}}
+\if{html}{\out{<a id="method-Response-set_exception"></a>}}
+\if{latex}{\out{\hypertarget{method-Response-set_exception}{}}}
 \subsection{Method \code{set_exception()}}{
 set an exception
 \subsection{Usage}{
@@ -314,8 +314,8 @@ nothing returned; sets an exception
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-get_exception"></a>}}
-\if{latex}{\out{\hypertarget{method-get_exception}{}}}
+\if{html}{\out{<a id="method-Response-get_exception"></a>}}
+\if{latex}{\out{\hypertarget{method-Response-get_exception}{}}}
 \subsection{Method \code{get_exception()}}{
 get the exception, if set
 \subsection{Usage}{
@@ -327,8 +327,8 @@ get the exception, if set
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-clone"></a>}}
-\if{latex}{\out{\hypertarget{method-clone}{}}}
+\if{html}{\out{<a id="method-Response-clone"></a>}}
+\if{latex}{\out{\hypertarget{method-Response-clone}{}}}
 \subsection{Method \code{clone()}}{
 The objects of this class are cloneable with this method.
 \subsection{Usage}{

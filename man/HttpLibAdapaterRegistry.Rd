@@ -23,14 +23,14 @@ x$adapters[[1]]$name
 \section{Methods}{
 \subsection{Public methods}{
 \itemize{
-\item \href{#method-print}{\code{HttpLibAdapaterRegistry$print()}}
-\item \href{#method-register}{\code{HttpLibAdapaterRegistry$register()}}
-\item \href{#method-clone}{\code{HttpLibAdapaterRegistry$clone()}}
+\item \href{#method-HttpLibAdapaterRegistry-print}{\code{HttpLibAdapaterRegistry$print()}}
+\item \href{#method-HttpLibAdapaterRegistry-register}{\code{HttpLibAdapaterRegistry$register()}}
+\item \href{#method-HttpLibAdapaterRegistry-clone}{\code{HttpLibAdapaterRegistry$clone()}}
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-print"></a>}}
-\if{latex}{\out{\hypertarget{method-print}{}}}
+\if{html}{\out{<a id="method-HttpLibAdapaterRegistry-print"></a>}}
+\if{latex}{\out{\hypertarget{method-HttpLibAdapaterRegistry-print}{}}}
 \subsection{Method \code{print()}}{
 print method for the \code{HttpLibAdapaterRegistry} class
 \subsection{Usage}{
@@ -48,8 +48,8 @@ print method for the \code{HttpLibAdapaterRegistry} class
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-register"></a>}}
-\if{latex}{\out{\hypertarget{method-register}{}}}
+\if{html}{\out{<a id="method-HttpLibAdapaterRegistry-register"></a>}}
+\if{latex}{\out{\hypertarget{method-HttpLibAdapaterRegistry-register}{}}}
 \subsection{Method \code{register()}}{
 Register an http library adapter
 \subsection{Usage}{
@@ -68,8 +68,8 @@ nothing, registers the library adapter
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-clone"></a>}}
-\if{latex}{\out{\hypertarget{method-clone}{}}}
+\if{html}{\out{<a id="method-HttpLibAdapaterRegistry-clone"></a>}}
+\if{latex}{\out{\hypertarget{method-HttpLibAdapaterRegistry-clone}{}}}
 \subsection{Method \code{clone()}}{
 The objects of this class are cloneable with this method.
 \subsection{Usage}{

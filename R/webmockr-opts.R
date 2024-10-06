@@ -5,14 +5,8 @@
 #' @param allow_localhost  (logical) Default: `FALSE`
 #' @param allow (character) one or more URI/URL to allow (and by extension
 #' all others are not allowed)
-#' @param net_http_connect_on_start (logical) Default: `FALSE`. ignored for
-#' now
-#' @param show_stubbing_instructions (logical) Default: `FALSE`. ignored for
-#' now
-#' @param query_values_notation (logical) Default: `FALSE`. ignored for
-#' now
-#' @param show_body_diff (logical) Default: `FALSE`. ignored for
-#' now
+#' @param show_stubbing_instructions (logical) Default: `TRUE`. If `FALSE`,
+#' stubbing instructions are not shown
 #' @param uri (character) a URI/URL as a character string - to determine
 #' whether or not it is allowed
 #'
@@ -46,19 +40,13 @@ webmockr_configure <- function(
   allow_net_connect = FALSE,
   allow_localhost = FALSE,
   allow = NULL,
-  net_http_connect_on_start = FALSE,
-  show_stubbing_instructions = FALSE,
-  query_values_notation = FALSE,
-  show_body_diff = FALSE) {
+  show_stubbing_instructions = TRUE) {
 
   opts <- list(
     allow_net_connect = allow_net_connect,
     allow_localhost = allow_localhost,
     allow = allow,
-    net_http_connect_on_start = net_http_connect_on_start,
-    show_stubbing_instructions = show_stubbing_instructions,
-    query_values_notation = query_values_notation,
-    show_body_diff = show_body_diff
+    show_stubbing_instructions = show_stubbing_instructions
   )
   for (i in seq_along(opts)) {
     assign(names(opts)[i], opts[[i]], envir = webmockr_conf_env)
@@ -132,15 +120,12 @@ print.webmockr_config <- function(x, ...) {
   cat("<webmockr configuration>", sep = "\n")
   cat(paste0("  crul enabled?: ", webmockr_lightswitch$crul), sep = "\n")
   cat(paste0("  httr enabled?: ", webmockr_lightswitch$httr), sep = "\n")
+  cat(paste0("  httr2 enabled?: ", webmockr_lightswitch$httr2), sep = "\n")
   cat(paste0("  allow_net_connect?: ", x$allow_net_connect), sep = "\n")
   cat(paste0("  allow_localhost?: ", x$allow_localhost), sep = "\n")
   cat(paste0("  allow: ", x$allow %||% ""), sep = "\n")
-  cat(paste0("  net_http_connect_on_start: ", x$net_http_connect_on_start),
-      sep = "\n")
   cat(paste0("  show_stubbing_instructions: ", x$show_stubbing_instructions),
       sep = "\n")
-  cat(paste0("  query_values_notation: ", x$query_values_notation), sep = "\n")
-  cat(paste0("  show_body_diff: ", x$show_body_diff), sep = "\n")
 }
 
 webmockr_conf_env <- new.env()

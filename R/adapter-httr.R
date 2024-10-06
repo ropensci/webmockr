@@ -5,7 +5,7 @@
 #' @return a httr response
 
 build_httr_response <- function(req, resp) {
-  try_url <- tryCatch(req$url$url, error = function(e) e)
+  try_url <- tryCatch(resp$url, error = function(e) e)
 
   lst <- list(
     url = try_url %|s|% req$url,
@@ -60,26 +60,45 @@ httr_cookies_df <- function() {
   df
 }
 
+# x = "https://foobar.com"
+# check_user_pwd(x)
+check_user_pwd <- function(x) {
+  if (is.null(x)) return(x)
+  if (grepl("^https?://", x)) {
+    stop(sprintf("expecting string of pattern 'user:pwd', got '%s'", x))
+  }
+  return(x)
+}
+
 #' Build a httr request
 #' @export
 #' @param x an unexecuted httr request object
 #' @return a httr request
 build_httr_request = function(x) {
+  headers <- as.list(x$headers) %||% NULL
+  auth <- check_user_pwd(x$options$userpwd) %||% NULL
+  if (!is.null(auth)) {
+    auth_header <- prep_auth(auth)
+    headers <- c(headers, auth_header)
+  }
   RequestSignature$new(
     method = x$method,
     uri = x$url,
     options = list(
       body = pluck_body(x),
-      headers = as.list(x$headers) %||% NULL,
+      headers = headers,
       proxies = x$proxies %||% NULL,
-      auth = x$auth %||% NULL,
-      disk = x$disk %||% NULL
+      auth = auth,
+      disk = x$disk %||% NULL,
+      fields = x$fields %||% NULL,
+      output = x$output %||% NULL
     )
   )
 }
 
-#' Turn on httr mocking
-#' Sets a callback that routes httr request through webmockr
+#' Turn on `httr` mocking
+#' 
+#' Sets a callback that routes `httr` requests through `webmockr`
 #' 
 #' @export
 #' @param on (logical) set to `TRUE` to turn on, and `FALSE`

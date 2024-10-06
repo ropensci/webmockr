@@ -11,11 +11,11 @@ knitr::opts_chunk$set(
 
 <!-- NOTE: run `make readme` to generate the README.md -->
 
-[![cran checks](https://cranchecks.info/badges/worst/webmockr)](https://cranchecks.info/pkgs/webmockr)
+[![cran checks](https://badges.cranchecks.info/worst/webmockr.svg)](https://cloud.r-project.org/web/checks/check_results_webmockr.html)
 [![Project Status: Active - The project has reached a stable, usable state and is being actively developed.](https://www.repostatus.org/badges/latest/active.svg)](https://www.repostatus.org/#active)
 [![R-CMD-check](https://github.com/ropensci/webmockr/workflows/R-CMD-check/badge.svg)](https://github.com/ropensci/webmockr/actions/)
 [![codecov](https://codecov.io/gh/ropensci/webmockr/branch/master/graph/badge.svg)](https://codecov.io/gh/ropensci/webmockr)
-[![rstudio mirror downloads](https://cranlogs.r-pkg.org/badges/webmockr)](https://github.com/metacran/cranlogs.app)
+[![rstudio mirror downloads](https://cranlogs.r-pkg.org/badges/webmockr)](https://github.com/r-hub/cranlogs.app)
 [![cran version](https://www.r-pkg.org/badges/version/webmockr)](https://cran.r-project.org/package=webmockr)
 
 
@@ -37,11 +37,13 @@ Port of the Ruby gem [webmock](https://github.com/bblimke/webmock)
 * Matching requests based on method, URI, headers and body
 * Support for `testthat` via [vcr][]
 * Can be used for testing or outside of a testing context
+* Supports async http request mocking with `crul` only
 
 ## Supported HTTP libraries
 
 * [crul](https://github.com/ropensci/crul)
 * [httr](https://github.com/r-lib/httr)
+* [httr2](https://github.com/r-lib/httr2)
 
 ## Install
 
@@ -54,7 +56,8 @@ install.packages("webmockr")
 Dev version
 
 ```{r eval=FALSE}
-remotes::install_github("ropensci/webmockr")
+# install.packages("pak")
+pak::pak("ropensci/webmockr")
 ```
 
 ```{r}
@@ -207,6 +210,51 @@ res$headers
 #> [1] "teapot"
 ```
 
+## httr2 integration
+
+```{r message=FALSE}
+library(webmockr)
+library(httr2)
+
+# turn on httr2 mocking
+enable()
+```
+
+```{r eval=FALSE}
+# no stub found
+req <- request("https://hb.opencpu.org/get")
+req_perform(req)
+#> Error: Real HTTP connections are disabled.
+#> Unregistered request:
+#>   GET https://hb.opencpu.org/get
+#> 
+#> You can stub this request with the following snippet:
+#> 
+#>    stub_request('get', uri = 'https://hb.opencpu.org/get')
+#> ============================================================
+```
+
+make a stub
+
+```{r}
+stub_request('get', uri = 'https://hb.opencpu.org/get') %>%
+  to_return(status = 418, body = "I'm a teapot!!!", headers = list(im_a = "teapot"))
+```
+
+now returns mocked response
+
+
+```{r eval=FALSE} 
+req <- request("https://hb.opencpu.org/get")
+res <- req_perform(req)
+res
+res$status_code
+#> [1] 418
+res$headers
+#> <httr2_headers/list>
+#> im_a: teapot
+```
+
 ## Writing to disk
 
 Write to a file before mocked request
@@ -242,7 +290,7 @@ out <- crul::HttpClient$new("https://httpbin.org/get")$get(disk = g)
 readLines(out$content)
 ```
 
-Writing to disk is supported in both `crul` and `httr`
+Writing to disk is supported in `crul`, `httr`, and `httr2`
 
 ## Many requests in a row
 
@@ -288,8 +336,5 @@ simply gives the last response you specified. Although if you set a `to_timeout`
 * License: MIT
 * Get citation information for `webmockr` in R doing `citation(package = 'webmockr')`
 * Please note that this package is released with a [Contributor Code of Conduct](https://ropensci.org/code-of-conduct/). By contributing to this project, you agree to abide by its terms.
-
-[![ropensci_footer](https://ropensci.org/public_images/github_footer.png)](https://ropensci.org)
-
 
 [vcr]: https://github.com/ropensci/vcr

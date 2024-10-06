@@ -6,7 +6,7 @@ Description: Stubbing and setting expectations on 'HTTP' requests.
     'HTTP' method, query parameters, request body, headers and
     more. Can be used for unit tests or outside of a testing 
     context.
-Version: 0.6.4.91
+Version: 1.0.0.91
 Authors@R: c(
     person("Scott", "Chamberlain", role = c("aut", "cre"), email =
     "myrmecocystus+r@gmail.com", comment = c(ORCID="0000-0003-1444-9135")),
@@ -15,10 +15,10 @@ Authors@R: c(
     person("rOpenSci", role = "fnd", comment = "https://ropensci.org")
     )
 License: MIT + file LICENSE
-URL: https://github.com/ropensci/webmockr (devel),
-    https://books.ropensci.org/http-testing (user manual)
+URL: https://github.com/ropensci/webmockr,
+    https://books.ropensci.org/http-testing/,
+    https://docs.ropensci.org/webmockr/
 BugReports: https://github.com/ropensci/webmockr/issues
-LazyData: true
 Encoding: UTF-8
 Language: en-US
 Roxygen: list(markdown = TRUE)
@@ -29,13 +29,15 @@ Imports:
     R6 (>= 2.1.3),
     urltools (>= 1.6.0),
     fauxpas,
-    crul (>= 0.7.0)
+    crul (>= 0.7.0),
+    base64enc
 Suggests:
     testthat,
     xml2,
     vcr,
-    httr
-RoxygenNote: 7.1.1
+    httr,
+    httr2
+RoxygenNote: 7.3.2
 X-schema.org-applicationCategory: Web
 X-schema.org-keywords: http, https, API, web-services, curl, mock, mocking, fakeweb, http-mocking, testing, testing-tools, tdd
 X-schema.org-isPartOf: https://ropensci.org

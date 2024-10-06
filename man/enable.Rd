@@ -6,18 +6,20 @@
 \alias{disable}
 \title{Enable or disable webmockr}
 \usage{
-enable(adapter = NULL, options = list())
+enable(adapter = NULL, options = list(), quiet = FALSE)
 
 enabled(adapter = "crul")
 
-disable(adapter = NULL, options = list())
+disable(adapter = NULL, options = list(), quiet = FALSE)
 }
 \arguments{
-\item{adapter}{(character) the adapter name, 'crul' or 'httr'.
+\item{adapter}{(character) the adapter name, 'crul', 'httr', or 'httr2'.
 one or the other. if none given, we attempt to enable both
 adapters}
 
 \item{options}{list of options - ignored for now.}
+
+\item{quiet}{(logical) suppress messages? default: \code{FALSE}}
 }
 \value{
 \code{enable()} and \code{disable()} invisibly returns booleans for
@@ -29,7 +31,9 @@ single boolean
 Enable or disable webmockr
 }
 \details{
-\code{enable()} enables \pkg{webmockr} for all adapters.
-\code{disable()} disables \pkg{webmockr} for all adapters.  \code{enabled()}
-answers whether \pkg{webmockr} is enabled for a given adapter
+\itemize{
+\item \code{enable()} enables \pkg{webmockr} for all adapters
+\item \code{disable()} disables \pkg{webmockr} for all adapters
+\item \code{enabled()} answers whether \pkg{webmockr} is enabled for a given adapter
+}
 }

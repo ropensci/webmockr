@@ -1,31 +1,38 @@
 #' Set additional parts of a stubbed request
 #'
-#' Set query params, request body, and/or request headers
+#' Set query params, request body, request headers and/or basic_auth
 #'
 #' @export
 #' @param .data input. Anything that can be coerced to a `StubbedRequest` class
 #' object
 #' @param ... Comma separated list of named variables. accepts the following: 
-#' `query`, `body`, `headers`. See Details.
-#' @param .list named list, has to be one of 'query', 'body',
-#' and/or 'headers'. An alternative to passing in via `...`. Don't pass the 
-#' same thing to both, e.g. don't pass 'query' to `...`, and also 'query' to 
-#' this parameter
+#' `query`, `body`, `headers`, `basic_auth`. See Details.
+#' @param .list named list, has to be one of `query`, `body`,
+#' `headers` and/or `basic_auth`. An alternative to passing in via `...`.
+#' Don't pass the same thing to both, e.g. don't pass 'query' to `...`, and
+#' also 'query' to this parameter
 #' @details `with` is a function in the `base` package, so we went with
 #' `wi_th`
 #' @return an object of class `StubbedRequest`, with print method describing
 #' the stub
 #' @note see more examples in [stub_request()]
 #' @details 
-#' Values for query, body, and headers:
+#' Values for query, body, headers, and basic_auth:
 #'
 #' - query: (list) a named list. values are coerced to character
 #' class in the recorded stub. You can pass numeric, integer, etc., but
 #' all will be coerced to character.
 #' - body: various, including character string, list, raw, numeric,
-#' upload (`crul::upload` or `httr::upload_file`, they both create the
-#' same object in the end)
+#' upload ([crul::upload()], [httr::upload_file()], [curl::form_file()], or
+#' [curl::form_data()] they both create the same object in the end)
 #' - headers: (list) a named list
+#' - basic_auth: (character) a length two vector, username and password.
+#' authentication type (basic/digest/ntlm/etc.) is ignored. that is,
+#' mocking authenciation right now does not take into account the
+#' authentication type. We don't do any checking of the username/password
+#' except to detect edge cases where for example, the username/password
+#' were probably not set by the user on purpose (e.g., a URL is 
+#' picked up by an environment variable)
 #' 
 #' Note that there is no regex matching on query, body, or headers. They
 #' are tested for matches in the following ways:
@@ -34,7 +41,8 @@
 #' named lists, so both list names and values are compared
 #' - body: varies depending on the body format (list vs. character, etc.)
 #' - headers: compare stub and request values with `==`. list names are
-#' compared with `%in%`
+#' compared with `%in%`. `basic_auth` is included in headers (with the name
+#' Authorization)
 #'
 #' @examples
 #' # first, make a stub object
@@ -63,6 +71,10 @@
 #' # .list - pass in a named list instead
 #' wi_th(req, .list = list(body = list(foo = "bar")))
 #' 
+#' # basic authentication
+#' wi_th(req, basic_auth = c("user", "pass"))
+#' wi_th(req, basic_auth = c("user", "pass"), headers = list(foo = "bar"))
+#' 
 #' # partial matching, query params
 #' ## including
 #' wi_th(req, query = including(list(foo = "bar")))
@@ -81,20 +93,23 @@ wi_th <- function(.data, ..., .list = list()) {
   if (length(z) == 0) z <- NULL
   z <- c(z, .list)
   if (
-    !any(c("query", "body", "headers") %in% names(z)) &&
+    !any(c("query", "body", "headers", "basic_auth") %in% names(z)) &&
     length(z) != 0
   ) {
-    stop("'wi_th' only accepts query, body, headers")
+    stop("'wi_th' only accepts query, body, headers, basic_auth")
   }
   if (any(duplicated(names(z)))) stop("can not have duplicated names")
   assert(z$query, "list")
   if (!all(hz_namez(z$query))) stop("'query' must be a named list")
   assert(z$headers, "list")
   if (!all(hz_namez(z$headers))) stop("'headers' must be a named list")
+  assert(z$basic_auth, "character")
+  assert_eq(z$basic_auth, 2)
   .data$with(
     query = z$query,
     body = z$body,
-    headers = z$headers
+    headers = z$headers,
+    basic_auth = z$basic_auth
   )
   return(.data)
 }

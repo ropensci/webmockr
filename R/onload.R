@@ -6,11 +6,12 @@ webmockr_request_registry <- NULL
   # set defaults for webmockr
   webmockr_configure()
 
-  # assign crul and httr adapters
+  # assign crul, httr, and httr2 adapters
   # which doesn't require those packages loaded yet
   x <- HttpLibAdapaterRegistry$new()
   x$register(CrulAdapter$new())
   x$register(HttrAdapter$new())
+  x$register(Httr2Adapter$new())
   http_lib_adapter_registry <<- x
 
   # initialize empty stub registry on package load

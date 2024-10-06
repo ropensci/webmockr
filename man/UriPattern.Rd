@@ -64,7 +64,7 @@ z$matches("https://foobar.com/pizzas/order?pizza=cheese") # TRUE
 z$matches("https://foobar.com/pizzas?pizza=cheese") # FALSE
 
 # query parameters in the regex uri
-(z <- UriPattern$new(regex_pattern = "https://x.com/.+/order?fruit=apple"))
+(z <- UriPattern$new(regex_pattern = "https://x.com/.+/order\\\\?fruit=apple"))
 z$add_query_params() # have to run this method to gather query params
 z$matches("https://x.com/a/order?fruit=apple") # TRUE
 z$matches("https://x.com/a?fruit=apple") # FALSE
@@ -109,19 +109,19 @@ z$matches("http://foobar.com?bye=mars") # TRUE
 \section{Methods}{
 \subsection{Public methods}{
 \itemize{
-\item \href{#method-new}{\code{UriPattern$new()}}
-\item \href{#method-matches}{\code{UriPattern$matches()}}
-\item \href{#method-pattern_matches}{\code{UriPattern$pattern_matches()}}
-\item \href{#method-query_params_matches}{\code{UriPattern$query_params_matches()}}
-\item \href{#method-extract_query}{\code{UriPattern$extract_query()}}
-\item \href{#method-add_query_params}{\code{UriPattern$add_query_params()}}
-\item \href{#method-to_s}{\code{UriPattern$to_s()}}
-\item \href{#method-clone}{\code{UriPattern$clone()}}
+\item \href{#method-UriPattern-new}{\code{UriPattern$new()}}
+\item \href{#method-UriPattern-matches}{\code{UriPattern$matches()}}
+\item \href{#method-UriPattern-pattern_matches}{\code{UriPattern$pattern_matches()}}
+\item \href{#method-UriPattern-query_params_matches}{\code{UriPattern$query_params_matches()}}
+\item \href{#method-UriPattern-extract_query}{\code{UriPattern$extract_query()}}
+\item \href{#method-UriPattern-add_query_params}{\code{UriPattern$add_query_params()}}
+\item \href{#method-UriPattern-to_s}{\code{UriPattern$to_s()}}
+\item \href{#method-UriPattern-clone}{\code{UriPattern$clone()}}
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-new"></a>}}
-\if{latex}{\out{\hypertarget{method-new}{}}}
+\if{html}{\out{<a id="method-UriPattern-new"></a>}}
+\if{latex}{\out{\hypertarget{method-UriPattern-new}{}}}
 \subsection{Method \code{new()}}{
 Create a new \code{UriPattern} object
 \subsection{Usage}{
@@ -145,10 +145,10 @@ A new \code{UriPattern} object
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-matches"></a>}}
-\if{latex}{\out{\hypertarget{method-matches}{}}}
+\if{html}{\out{<a id="method-UriPattern-matches"></a>}}
+\if{latex}{\out{\hypertarget{method-UriPattern-matches}{}}}
 \subsection{Method \code{matches()}}{
-Match a list of headers against that stored
+Match a uri against a pattern
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{UriPattern$matches(uri)}\if{html}{\out{</div>}}
 }
@@ -165,8 +165,8 @@ a boolean
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-pattern_matches"></a>}}
-\if{latex}{\out{\hypertarget{method-pattern_matches}{}}}
+\if{html}{\out{<a id="method-UriPattern-pattern_matches"></a>}}
+\if{latex}{\out{\hypertarget{method-UriPattern-pattern_matches}{}}}
 \subsection{Method \code{pattern_matches()}}{
 Match a URI
 \subsection{Usage}{
@@ -185,8 +185,8 @@ a boolean
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-query_params_matches"></a>}}
-\if{latex}{\out{\hypertarget{method-query_params_matches}{}}}
+\if{html}{\out{<a id="method-UriPattern-query_params_matches"></a>}}
+\if{latex}{\out{\hypertarget{method-UriPattern-query_params_matches}{}}}
 \subsection{Method \code{query_params_matches()}}{
 Match query parameters of a URI
 \subsection{Usage}{
@@ -205,8 +205,8 @@ a boolean
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-extract_query"></a>}}
-\if{latex}{\out{\hypertarget{method-extract_query}{}}}
+\if{html}{\out{<a id="method-UriPattern-extract_query"></a>}}
+\if{latex}{\out{\hypertarget{method-UriPattern-extract_query}{}}}
 \subsection{Method \code{extract_query()}}{
 Extract query parameters as a named list
 \subsection{Usage}{
@@ -225,8 +225,8 @@ named list, or \code{NULL} if no query parameters
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-add_query_params"></a>}}
-\if{latex}{\out{\hypertarget{method-add_query_params}{}}}
+\if{html}{\out{<a id="method-UriPattern-add_query_params"></a>}}
+\if{latex}{\out{\hypertarget{method-UriPattern-add_query_params}{}}}
 \subsection{Method \code{add_query_params()}}{
 Add query parameters to the URI
 \subsection{Usage}{
@@ -245,8 +245,8 @@ nothing returned, updates uri pattern
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-to_s"></a>}}
-\if{latex}{\out{\hypertarget{method-to_s}{}}}
+\if{html}{\out{<a id="method-UriPattern-to_s"></a>}}
+\if{latex}{\out{\hypertarget{method-UriPattern-to_s}{}}}
 \subsection{Method \code{to_s()}}{
 Print pattern for easy human consumption
 \subsection{Usage}{
@@ -258,8 +258,8 @@ a string
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-clone"></a>}}
-\if{latex}{\out{\hypertarget{method-clone}{}}}
+\if{html}{\out{<a id="method-UriPattern-clone"></a>}}
+\if{latex}{\out{\hypertarget{method-UriPattern-clone}{}}}
 \subsection{Method \code{clone()}}{
 The objects of this class are cloneable with this method.
 \subsection{Usage}{

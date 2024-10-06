@@ -7,7 +7,7 @@
 pluck_body(x)
 }
 \arguments{
-\item{x}{an unexecuted crul \emph{or} httr request object}
+\item{x}{an unexecuted crul, httr \emph{or} httr2 request object}
 }
 \value{
 one of the following:

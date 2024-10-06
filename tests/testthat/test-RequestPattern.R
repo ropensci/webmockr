@@ -3,7 +3,7 @@ context("RequestPattern")
 test_that("RequestPattern: structure is correct", {
   expect_is(RequestPattern, "R6ClassGenerator")
 
-  aa <- RequestPattern$new(method = "get", uri = "https://httpbin.org/get")
+  aa <- RequestPattern$new(method = "get", uri = hb("/get"))
 
   expect_is(aa, "RequestPattern")
   expect_null(aa$body_pattern)
@@ -17,12 +17,12 @@ test_that("RequestPattern: structure is correct", {
 })
 
 test_that("RequestPattern: behaves as expected", {
-  aa <- RequestPattern$new(method = "get", uri = "https://httpbin.org/get")
-  rs1 <- RequestSignature$new(method = "get", uri = "https://httpbin.org/get")
-  rs2 <- RequestSignature$new(method = "post", uri = "https://httpbin.org/get")
+  aa <- RequestPattern$new(method = "get", uri = hb("/get"))
+  rs1 <- RequestSignature$new(method = "get", uri = hb("/get"))
+  rs2 <- RequestSignature$new(method = "post", uri = hb("/get"))
   rs3 <- RequestSignature$new(
     method = "get",
-    uri = "https:/httpbin.org/get",
+    uri = "https:/hb.opencpu.org",
     options = list(headers = list(`User-Agent` = "foobar", stuff = "things"))
   )
 
@@ -32,7 +32,7 @@ test_that("RequestPattern: behaves as expected", {
 
   expect_is(aa$to_s(), "character")
   expect_match(aa$to_s(), "GET")
-  expect_match(aa$to_s(), "httpbin.org/get")
+  expect_match(aa$to_s(), "hb.opencpu.org/get")
 })
 
 test_that("RequestPattern: uri_regex", {
@@ -44,7 +44,7 @@ test_that("RequestPattern: uri_regex", {
 
 test_that("RequestPattern fails well", {
   expect_error(RequestPattern$new(), "one of uri or uri_regex is required")
-  x <- RequestPattern$new(method = "get", uri = "https://httpbin.org/get")
+  x <- RequestPattern$new(method = "get", uri = hb("/get"))
   expect_error(x$matches(), "argument \"request_signature\" is missing")
   expect_error(x$matches("adfadf"),
                "request_signature must be of class RequestSignature")
@@ -103,7 +103,7 @@ test_that("BodyPattern: structure is correct", {
 
   bb <- RequestSignature$new(
     method = "get",
-    uri = "https:/httpbin.org/get",
+    uri = hb("/get"),
     options = list(
       body = list(foo = "bar", a = 5)
     )
@@ -186,8 +186,7 @@ test_that("UriPattern: structure is correct", {
   expect_false(z$matches("https://foobar.com"))
 
   # regex with query parameters
-  z <- UriPattern$new(regex_pattern = "https://x.com/.+/order?fruit=apple")
-  z$add_query_params() # this is done automatically in the pkg
+  z <- UriPattern$new(regex_pattern = "https://x.com/.+/order\\?fruit=apple")
 
   expect_is(z, "UriPattern")
   expect_is(z$pattern, "character")

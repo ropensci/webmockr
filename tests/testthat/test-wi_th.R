@@ -1,7 +1,7 @@
 context("wi_th")
 
 test_that("wi_th: with just headers", {
-  aa <- stub_request("get", "https://httpbin.org/get") %>%
+  aa <- stub_request("get", hb("/get")) %>%
     wi_th(headers = list("User-Agent" = "R"))
 
   expect_is(aa, "StubbedRequest")
@@ -16,12 +16,12 @@ test_that("wi_th: with just headers", {
   expect_is(aa$method, "character")
   expect_equal(aa$method, "get")
   expect_is(aa$uri, "character")
-  expect_equal(aa$uri, "https://httpbin.org/get")
+  expect_equal(aa$uri, hb("/get"))
   expect_equal(aa$request_headers, list("User-Agent" = "R"))
 })
 
 test_that("wi_th: with headers and query", {
-  aa <- stub_request("get", "https://httpbin.org/get") %>%
+  aa <- stub_request("get", hb("/get")) %>%
     wi_th(
       query = list(hello = "world"),
       headers = list("User-Agent" = "R"))
@@ -34,36 +34,36 @@ test_that("wi_th: with headers and query", {
 })
 
 test_that("wi_th: bodies", {
-  aa <- stub_request("post", "https://httpbin.org/post") %>%
+  aa <- stub_request("post", hb("/post")) %>%
     wi_th(body = list(foo = "bar"))
   expect_is(aa$body, "list")
   expect_output(print(aa), "body \\(class: list\\): foo=bar")
 
-  bb <- stub_request("post", "https://httpbin.org/post") %>%
+  bb <- stub_request("post", hb("/post")) %>%
     wi_th(body = '{"foo": "bar"}')
   expect_is(bb$body, "character")
   expect_output(print(bb),
     "body \\(class: character\\): \\{\"foo\": \"bar\"\\}")
 
-  cc <- stub_request("post", "https://httpbin.org/post") %>%
+  cc <- stub_request("post", hb("/post")) %>%
     wi_th(body = charToRaw('{"foo": "bar"}'))
   expect_is(cc$body, "raw")
   expect_output(print(cc),
     "body \\(class: raw\\): raw bytes, length: 14")
 
-  dd <- stub_request("post", "https://httpbin.org/post") %>%
+  dd <- stub_request("post", hb("/post")) %>%
     wi_th(body = 5)
   expect_is(dd$body, "numeric")
   expect_output(print(dd), "body \\(class: numeric\\): 5")
 
-  ee <- stub_request("post", "https://httpbin.org/post") %>%
+  ee <- stub_request("post", hb("/post")) %>%
     wi_th(body = crul::upload(system.file("CITATION")))
   expect_is(ee$body, "form_file")
   expect_output(print(ee), "body \\(class: form_file\\): crul::upload")
 
   # FIXME: ideally (maybe?) we have a upload within a list look like 
   # the above when not in a list?
-  ff <- stub_request("post", "https://httpbin.org/post") %>%
+  ff <- stub_request("post", hb("/post")) %>%
     wi_th(body = list(y = crul::upload(system.file("CITATION"))))
   expect_is(ff$body, "list")
   expect_is(ff$body$y, "form_file")
@@ -74,7 +74,7 @@ test_that("wi_th fails well", {
   expect_error(wi_th(), "argument \".data\" is missing")
   expect_error(wi_th(5), ".data must be of class StubbedRequest")
 
-  zzz <- stub_request("get", "https://httpbin.org/get")
+  zzz <- stub_request("get", hb("/get"))
 
   # query
   expect_error(wi_th(zzz, query = list(5, 6)),
@@ -94,7 +94,7 @@ test_that("wi_th fails well", {
 })
 
 test_that("wi_th .list works", {
-  req <- stub_request("post", "https://httpbin.org/post")
+  req <- stub_request("post", hb("/post"))
   expect_equal(
     wi_th(req, .list = list(body = list(foo = "bar"))),
     wi_th(req, body = list(foo = "bar"))
@@ -193,10 +193,76 @@ test_that("wi_th handles HEADERS with varied input classes", {
   expect_is(GET("https://x.com", add_headers(foo=30)), "response")
 })
 
+disable("httr")
+
+test_that("wi_th basic_auth, crul", {
+  # crul
+  library(crul)
+  enable("crul")
+  con <- HttpClient$new("https://x.com", auth = auth("user", "passwd"))
+  # pass
+  stub_registry_clear()
+  stub_request("get", "https://x.com") %>%
+    wi_th(basic_auth=c("user", "passwd"))
+  expect_is(con$get(), "HttpResponse")
+  # ignores auth type
+  con$auth <- crul::auth("user", "passwd", "digest")
+  expect_is(con$get(), "HttpResponse")
+  # fail
+  stub_registry_clear()
+  stub_request("get", "https://x.com") %>%
+    wi_th(basic_auth=c("user", "passwd"))
+  con$auth <- crul::auth("user", "password")
+  expect_error(con$get(), "Unregistered")
+  disable("crul")
+})
+
+test_that("wi_th basic_auth, httr", {
+  library(httr)
+  enable("httr")
+  # pass
+  stub_registry_clear()
+  stub_request("get", "https://x.com") %>%
+    wi_th(basic_auth=c("user", "passwd"))
+  expect_is(GET("https://x.com", authenticate("user", "passwd")), "response")
+  # ignores auth type
+  expect_is(
+    GET("https://x.com", authenticate("user", "passwd", type = "digest")),
+    "response")
+  expect_is(
+    GET("https://x.com", authenticate("user", "passwd", type = "ntlm")),
+    "response")
+  # fail
+  stub_registry_clear()
+  stub_request("get", "https://x.com") %>%
+    wi_th(basic_auth=c("user", "passwd"))
+  expect_error(GET("https://x.com", authenticate("user", "password")),
+    "Unregistered")
+  disable("httr")
+})
+
+test_that("wi_th basic_auth, httr2", {
+  skip_if_not_installed("httr2")
+  library(httr2)
+  enable("httr2")
+  # pass
+  stub_registry_clear()
+  stub_request("get", "https://x.com") %>%
+    wi_th(basic_auth=c("user", "passwd"))
+  req <- request("https://x.com") %>% req_auth_basic("user", "passwd")
+  expect_is(req_perform(req), "httr2_response")
+  # fail
+  stub_registry_clear()
+  stub_request("get", "https://x.com") %>%
+    wi_th(basic_auth=c("user", "passwd"))
+  req2 <- request("https://x.com") %>% req_auth_basic("user", "password")
+  expect_error(req_perform(req2),
+    "Unregistered")
+  disable("httr2")
+})
 
 # cleanup
 stub_registry_clear()
-disable("httr")
 
 context("wi_th_: defunct")
 test_that("wi_th_: defunct", {

@@ -31,7 +31,7 @@ test_that("StubRegistry: bits are correct after having data", {
   stub1$with(headers = list('User-Agent' = 'R'))
   stub1$to_return(status = 200, body = "foobar", headers = list())
 
-  stub2 <- StubbedRequest$new(method = "get", uri = "https://httpbin.org")
+  stub2 <- StubbedRequest$new(method = "get", uri = hb())
 
   aa <- StubRegistry$new()
   expect_is(aa$register_stub(stub = stub1), "list")

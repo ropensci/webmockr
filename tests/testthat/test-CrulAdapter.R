@@ -45,11 +45,11 @@ test_that("CrulAdapter: works when vcr is loaded but no cassette is inserted", {
     unloadNamespace("vcr")
   })
   
-  stub_request("get", "https://httpbin.org/get")
+  stub_request("get", hb("/get"))
   library("vcr")
   
   # works when no cassette is loaded
-  cli <- crul::HttpClient$new("https://httpbin.org")
+  cli <- crul::HttpClient$new(hb())
   
   expect_silent(x <- cli$get("get"))
   expect_is(x, "HttpResponse")
@@ -183,7 +183,7 @@ test_that("crul requests with JSON-encoded bodies work", {
   enable(adapter = "crul")
   
   body <- list(foo = "bar")
-  url <- "https://httpbin.org"
+  url <- hb()
 
   cli <- crul::HttpClient$new(url)
 

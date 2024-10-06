@@ -62,15 +62,22 @@ StubRegistry <- R6::R6Class(
 
     #' @description Find a stubbed request
     #' @param request_signature an object of class [RequestSignature]
+    #' @param count (bool) iterate counter or not. default: `TRUE`
     #' @return logical, 1 or more
-    request_stub_for = function(request_signature) {
+    request_stub_for = function(request_signature, count = TRUE) {
       stubs <- c(self$global_stubs, self$request_stubs)
-      vapply(stubs, function(z) {
+      mtchs <- vapply(stubs, function(z) {
         tmp <- RequestPattern$new(method = z$method, uri = z$uri,
                                   uri_regex = z$uri_regex, query = z$query,
                                   body = z$body, headers = z$request_headers)
         tmp$matches(request_signature)
       }, logical(1))
+      if (count) {
+        for (i in seq_along(stubs)) {
+          if (mtchs[i]) stubs[[i]]$counter$put(request_signature)
+        }
+      }
+      return(mtchs)
     },
 
     #' @description Remove a stubbed request by matching request signature
@@ -93,13 +100,16 @@ StubRegistry <- R6::R6Class(
     #' @description Remove all request stubs
     #' @return nothing returned; removes all request stubs
     remove_all_request_stubs = function() {
+      for (stub in self$request_stubs) {
+        if (inherits(stub, "StubbedRequest")) stub$reset()
+      }
       self$request_stubs <- list()
     },
 
     #' @description Find a stubbed request
     #' @param x an object of class [RequestSignature]
     #' @return nothing returned; registers the stub
-    is_registered = function(x) any(self$request_stub_for(x))
+    is_registered = function(x) any(self$request_stub_for(x, count = FALSE))
   )
 )
 

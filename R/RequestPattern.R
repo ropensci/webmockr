@@ -372,7 +372,7 @@ BodyPattern <- R6::R6Class(
         self$pattern <- pattern
     },
 
-    #' @description Match a list of headers against that stored
+    #' @description Match a request body pattern against a pattern
     #' @param body (list) the body
     #' @param content_type (character) content type
     #' @return a boolean
@@ -381,8 +381,7 @@ BodyPattern <- R6::R6Class(
         if (length(self$pattern) == 0) return(TRUE)
         private$matching_hashes(private$body_as_hash(body, content_type), self$pattern)
       } else {
-        private$empty_string(self$pattern) && private$empty_string(body) ||
-          self$pattern == body
+        (private$empty_string(self$pattern) && private$empty_string(body)) || all(self$pattern == body)
       }
     },
 
@@ -392,12 +391,8 @@ BodyPattern <- R6::R6Class(
   ),
 
   private = list(
-    empty_headers = function(headers) {
-      is.null(headers) || length(headers) == 0
-    },
-
     empty_string = function(string) {
-      is.null(string) || nchar(string) == 0
+      is.null(string) || !nzchar(string)
     },
 
     matching_hashes = function(z, pattern) {
@@ -408,7 +403,7 @@ BodyPattern <- R6::R6Class(
         expected <- pattern[[names(z)[i]]]
         actual <- z[[i]]
         if (inherits(actual, "list") && inherits(expected, "list")) {
-          if (private$matching_hashes(actual, expected)) return(FALSE)
+          if (!private$matching_hashes(actual, expected)) return(FALSE)
         } else {
           if (!identical(as.character(actual), as.character(expected))) return(FALSE)
         }
@@ -506,7 +501,7 @@ BODY_FORMATS <- list(
 #' z$matches("https://foobar.com/pizzas?pizza=cheese") # FALSE
 #' 
 #' # query parameters in the regex uri
-#' (z <- UriPattern$new(regex_pattern = "https://x.com/.+/order?fruit=apple"))
+#' (z <- UriPattern$new(regex_pattern = "https://x.com/.+/order\\?fruit=apple"))
 #' z$add_query_params() # have to run this method to gather query params
 #' z$matches("https://x.com/a/order?fruit=apple") # TRUE
 #' z$matches("https://x.com/a?fruit=apple") # FALSE
@@ -561,12 +556,15 @@ UriPattern <- R6::R6Class(
       self$pattern <- normalize_uri(pattern, self$regex)
     },
 
-    #' @description Match a list of headers against that stored
+    #' @description Match a uri against a pattern
     #' @param uri (character) a uri
     #' @return a boolean
     matches = function(uri) {
       uri <- normalize_uri(uri, self$regex)
-      self$pattern_matches(uri) && self$query_params_matches(uri)
+      if (self$regex)
+        grepl(self$pattern, uri)
+      else
+        self$pattern_matches(uri) && self$query_params_matches(uri)
     },
 
     #' @description Match a URI
@@ -605,6 +603,7 @@ UriPattern <- R6::R6Class(
     #' @param query_params (list|character) list or character
     #' @return nothing returned, updates uri pattern
     add_query_params = function(query_params) {
+      if (self$regex) return(NULL)
       if (missing(query_params) || is.null(query_params)) {
         self$query_params <- self$extract_query(self$pattern)
       } else {
@@ -709,31 +708,4 @@ drop_query_params <- function(x) {
   x <- urltools::url_compose(x)
   # prune trailing slash
   sub("\\/$", "", x)
-}
-
-## http method
-get_method <- function(x) {
-  x <- as.character(x)
-  tmp <- grep(
-    "(get)$|(post)$|(put)$|(delete)$|(options)$|(patch)$|(head)$",
-    tolower(x), value = TRUE)
-  tmp <- sub("httr::", "", tmp)
-  if (length(tmp) == 0) NULL else tmp
-}
-
-## query and body stuff
-get_query <- function(x) {
-  if ("query" %in% names(x)) {
-    x[["query"]]
-  } else {
-    NULL
-  }
-}
-
-get_body <- function(x) {
-  if ("body" %in% names(x)) {
-    x[["body"]]
-  } else {
-    NULL
-  }
 }

@@ -29,8 +29,8 @@ reg$request_stubs
 \seealso{
 Other stub-registry: 
 \code{\link{remove_request_stub}()},
-\code{\link{stub_registry_clear}()},
-\code{\link{stub_registry}()}
+\code{\link{stub_registry}()},
+\code{\link{stub_registry_clear}()}
 }
 \concept{stub-registry}
 \section{Public fields}{
@@ -45,19 +45,19 @@ Other stub-registry:
 \section{Methods}{
 \subsection{Public methods}{
 \itemize{
-\item \href{#method-print}{\code{StubRegistry$print()}}
-\item \href{#method-register_stub}{\code{StubRegistry$register_stub()}}
-\item \href{#method-find_stubbed_request}{\code{StubRegistry$find_stubbed_request()}}
-\item \href{#method-request_stub_for}{\code{StubRegistry$request_stub_for()}}
-\item \href{#method-remove_request_stub}{\code{StubRegistry$remove_request_stub()}}
-\item \href{#method-remove_all_request_stubs}{\code{StubRegistry$remove_all_request_stubs()}}
-\item \href{#method-is_registered}{\code{StubRegistry$is_registered()}}
-\item \href{#method-clone}{\code{StubRegistry$clone()}}
+\item \href{#method-StubRegistry-print}{\code{StubRegistry$print()}}
+\item \href{#method-StubRegistry-register_stub}{\code{StubRegistry$register_stub()}}
+\item \href{#method-StubRegistry-find_stubbed_request}{\code{StubRegistry$find_stubbed_request()}}
+\item \href{#method-StubRegistry-request_stub_for}{\code{StubRegistry$request_stub_for()}}
+\item \href{#method-StubRegistry-remove_request_stub}{\code{StubRegistry$remove_request_stub()}}
+\item \href{#method-StubRegistry-remove_all_request_stubs}{\code{StubRegistry$remove_all_request_stubs()}}
+\item \href{#method-StubRegistry-is_registered}{\code{StubRegistry$is_registered()}}
+\item \href{#method-StubRegistry-clone}{\code{StubRegistry$clone()}}
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-print"></a>}}
-\if{latex}{\out{\hypertarget{method-print}{}}}
+\if{html}{\out{<a id="method-StubRegistry-print"></a>}}
+\if{latex}{\out{\hypertarget{method-StubRegistry-print}{}}}
 \subsection{Method \code{print()}}{
 print method for the \code{StubRegistry} class
 \subsection{Usage}{
@@ -75,8 +75,8 @@ print method for the \code{StubRegistry} class
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-register_stub"></a>}}
-\if{latex}{\out{\hypertarget{method-register_stub}{}}}
+\if{html}{\out{<a id="method-StubRegistry-register_stub"></a>}}
+\if{latex}{\out{\hypertarget{method-StubRegistry-register_stub}{}}}
 \subsection{Method \code{register_stub()}}{
 Register a stub
 \subsection{Usage}{
@@ -95,8 +95,8 @@ nothing returned; registers the stub
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-find_stubbed_request"></a>}}
-\if{latex}{\out{\hypertarget{method-find_stubbed_request}{}}}
+\if{html}{\out{<a id="method-StubRegistry-find_stubbed_request"></a>}}
+\if{latex}{\out{\hypertarget{method-StubRegistry-find_stubbed_request}{}}}
 \subsection{Method \code{find_stubbed_request()}}{
 Find a stubbed request
 \subsection{Usage}{
@@ -115,18 +115,20 @@ an object of type \link{StubbedRequest}, if matched
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-request_stub_for"></a>}}
-\if{latex}{\out{\hypertarget{method-request_stub_for}{}}}
+\if{html}{\out{<a id="method-StubRegistry-request_stub_for"></a>}}
+\if{latex}{\out{\hypertarget{method-StubRegistry-request_stub_for}{}}}
 \subsection{Method \code{request_stub_for()}}{
 Find a stubbed request
 \subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{StubRegistry$request_stub_for(request_signature)}\if{html}{\out{</div>}}
+\if{html}{\out{<div class="r">}}\preformatted{StubRegistry$request_stub_for(request_signature, count = TRUE)}\if{html}{\out{</div>}}
 }
 
 \subsection{Arguments}{
 \if{html}{\out{<div class="arguments">}}
 \describe{
 \item{\code{request_signature}}{an object of class \link{RequestSignature}}
+
+\item{\code{count}}{(bool) iterate counter or not. default: \code{TRUE}}
 }
 \if{html}{\out{</div>}}
 }
@@ -135,8 +137,8 @@ logical, 1 or more
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-remove_request_stub"></a>}}
-\if{latex}{\out{\hypertarget{method-remove_request_stub}{}}}
+\if{html}{\out{<a id="method-StubRegistry-remove_request_stub"></a>}}
+\if{latex}{\out{\hypertarget{method-StubRegistry-remove_request_stub}{}}}
 \subsection{Method \code{remove_request_stub()}}{
 Remove a stubbed request by matching request signature
 \subsection{Usage}{
@@ -155,8 +157,8 @@ nothing returned; removes the stub from the registry
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-remove_all_request_stubs"></a>}}
-\if{latex}{\out{\hypertarget{method-remove_all_request_stubs}{}}}
+\if{html}{\out{<a id="method-StubRegistry-remove_all_request_stubs"></a>}}
+\if{latex}{\out{\hypertarget{method-StubRegistry-remove_all_request_stubs}{}}}
 \subsection{Method \code{remove_all_request_stubs()}}{
 Remove all request stubs
 \subsection{Usage}{
@@ -168,8 +170,8 @@ nothing returned; removes all request stubs
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-is_registered"></a>}}
-\if{latex}{\out{\hypertarget{method-is_registered}{}}}
+\if{html}{\out{<a id="method-StubRegistry-is_registered"></a>}}
+\if{latex}{\out{\hypertarget{method-StubRegistry-is_registered}{}}}
 \subsection{Method \code{is_registered()}}{
 Find a stubbed request
 \subsection{Usage}{
@@ -188,8 +190,8 @@ nothing returned; registers the stub
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-clone"></a>}}
-\if{latex}{\out{\hypertarget{method-clone}{}}}
+\if{html}{\out{<a id="method-StubRegistry-clone"></a>}}
+\if{latex}{\out{\hypertarget{method-StubRegistry-clone}{}}}
 \subsection{Method \code{clone()}}{
 The objects of this class are cloneable with this method.
 \subsection{Usage}{

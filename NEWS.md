@@ -1,3 +1,85 @@
+webmockr 1.0.0
+==============
+
+### NEW FEATURES
+
+* `webmockr` now supports the `httr2` library, in addition to `httr` and `crul`. Note that you'll see different behavior from `httr2` relative to the other 2 http clients because it turns http errors (http statuses 400 and above) into R errors (#122)
+* `webmockr` can now mock async http requests with `crul` (w/ `crul` v1.5 or greater). no change was required in `webmockr` for this to happen. a PR was merged in `crul` to hook into `webmockr`. there's no support for async in `httr` as that package does not do any async and no support in `httr2` because `req_perform_parallel` does not have a mocking hook as does `req_perform` (#124)
+
+
+webmockr 0.9.0
+==============
+
+### BUG FIXES
+
+* `to_return()` supports returning multiple responses to match many requests to the same matching stub. however, the internals were broken for this, but is now fixed  (#115) thanks @kenahoo for the report
+* matching stubs with specifying a request body to match on (e.g., `stub_request('post', 'https://httpbin.org/post') %>% wi_th(body = list(a=5))`) was not working in some cases; internal matching logic was borked. now fixed. (#118) thanks @konradoberwimmer for the report
+* The `status` parameter in `to_return()` was documented to accept an integer, but it errored when an integer was passed (e.g., `to_return(status=200L)`). This bug is now fixed  (#117) thanks @maelle for the report
+
+### MINOR IMPROVEMENTS
+
+* Config options changes (see `webmockr_configure()`). Three options that were presentg but not implemented are now removed: `show_body_diff`, ` query_values_notation`, ` net_http_connect_on_start`. One option that was present but not implemented yet is now implemented: ` show_stubbing_instructions` (#27) (#120)
+
+### DOCUMENTATION
+
+* `StubCounter` added to pkgdown docs page at <https://docs.ropensci.org/webmockr/reference/StubCounter.html> (#119) @maelle
+
+
+webmockr 0.8.2
+==============
+
+### BUG FIXES
+
+* change to `UriPattern` to make sure regex matching is working as intended (#114) thanks @kenahoo
+
+
+webmockr 0.8.0
+==============
+
+### NEW FEATURES
+
+* `enable()` and the `enable()` method on the `Adapter` R6 class gain new parameter `quiet` to toggle whether messages are printed or not  (#112)
+
+### MINOR IMPROVEMENTS
+
+* to re-create http response objects for both httr and crul we were using the url from the request object; now we use the url from the response object, BUT if there is no url in the response object we fall back to using the url from the request object (#110) (#113)
+* improve docs: add further explanation to manual files for both `to_raise()` and `to_return()` to explain the differenc between them and when you may want to use them (#100)
+
+
+webmockr 0.7.4
+==============
+
+### MINOR IMPROVEMENTS
+
+* to support vcr being able to recreate httr objects fully (see github issue ropensci/vcr#132) we needed to handle additional parts of httr request objects: fields and output - with this change vcr should return objects much closer to what real httr requests return (#109)
+
+### BUG FIXES
+
+* bug fix + improvement: fixes for simple authentication - `wi_th()` now supports `basic_auth` to mock basic authentication either with `crul::auth()` or `httr::authenticate()` (#108)
+
+
+webmockr 0.7.0
+==============
+
+### NEW FEATURES
+
+* Gains ability to define more than 1 returned HTTP response, and the order in which the HTTP responses are returned. The idea is from the Ruby webmock library, but the implementation is different because the Ruby and R languages are very different. You can give more than one `to_return()` one creating a stub, or if you want to return the same response each time, you can use the new `times` parameter within `to_return()`. As a related use case (#31) you can mock http retry's using this new feature (#10) (#32) (#101)
+* Gains new function `webmockr_reset()` to be able to reset stub registry and request registry in one function call (#97) (#101)
+* Gains support for mocking simple authentication. `wi_th()` now accepts `basic_auth` in addition to query, body, and headers. Note that authentication type is ignored (#103)
+
+### MINOR IMPROVEMENTS
+
+* change to how URI's are matched in `stub_request()`: we weren't allowing matching URI's without schemes; you can now do that. In addition, webmockr can match URI's without the "http" scheme, but does not match if the scheme is "https". See `UriPattern` for more (#102)
+* another change to how URI's are matched: now query params compared separately to the URI; note that regex not allowed in query params (#104) - And now query parameters are compared with the same code both when regex uri is used and when it is not (#107)
+* URI matching for stubs is now done only on the URI's themselves; that is, query parameters are removed before comparison, so only the base url with http scheme, plus paths, are compared (#107)
+* wasn't sure `write_disk_path` behavior was correct when using httr, seems to be working, added tests for it (#79)
+* values for query parameters given to `wi_th()` are now all coerced to character class to make sure that all comparisons of stubs and requests are done with the same class (character) (#107)
+
+### BUG FIXES
+
+* fix for `uri_regex` usage in `stub_request()`: no longer curl escape the `uri_regex` given, only escape a non-regex uri (#106)
+
+
 webmockr 0.6.2
 ==============
 
