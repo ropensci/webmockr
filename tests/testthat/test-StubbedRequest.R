@@ -3,7 +3,7 @@ context("StubbedRequest")
 test_that("StubbedRequest: works", {
   expect_is(StubbedRequest, "R6ClassGenerator")
 
-  aa <- StubbedRequest$new(method = "get", uri = "https:/hb.opencpu.org/get")
+  aa <- StubbedRequest$new(method = "get", uri = "https://hb.opencpu.org/get")
 
   expect_is(aa, "StubbedRequest")
 
@@ -19,14 +19,14 @@ test_that("StubbedRequest: works", {
   expect_equal(aa$method, "get")
 
   expect_is(aa$uri, "character")
-  expect_equal(aa$uri, "https:/hb.opencpu.org/get")
+  expect_equal(aa$uri, "https://hb.opencpu.org/get")
 
   expect_is(aa$uri_parts, "list")
-  expect_equal(aa$uri_parts$domain, "https")
-  expect_equal(aa$uri_parts$path, "hb.opencpu.org/get")
+  expect_equal(aa$uri_parts$domain, "hb.opencpu.org")
+  expect_equal(aa$uri_parts$path, "get")
 
   expect_is(aa$to_s, "function")
-  expect_equal(aa$to_s(), "GET: https:/hb.opencpu.org/get")
+  expect_equal(aa$to_s(), "GET: https://hb.opencpu.org/get")
 
   # with
   expect_is(aa$with, "function")
@@ -34,12 +34,12 @@ test_that("StubbedRequest: works", {
   aa$with(query = list(foo = "bar"))
   expect_is(aa$query, "list")
   expect_named(aa$query, "foo")
-  expect_equal(aa$to_s(), "GET: https:/hb.opencpu.org/get?foo=bar")
+  expect_equal(aa$to_s(), "GET: https://hb.opencpu.org/get  with query params foo=bar")
 
   ## >1 query param gets combined with "&" and not ","
   aa$with(query = list(foo = "bar", stuff = 567))
   expect_equal(sort(names(aa$query)), c("foo", "stuff"))
-  expect_equal(aa$to_s(), "GET: https:/hb.opencpu.org/get?foo=bar&stuff=567")
+  expect_equal(aa$to_s(), "GET: https://hb.opencpu.org/get  with query params foo=bar, stuff=567")
 
   # to_return
   expect_is(aa$to_return, "function")
