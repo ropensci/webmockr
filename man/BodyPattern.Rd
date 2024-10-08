@@ -30,20 +30,26 @@ z$matches(bb$body)
 ## upload NOT in a list
 bb <- RequestSignature$new(
   method = "post", uri = "https:/httpbin.org/post",
-  options = list(body = crul::upload(system.file("CITATION"))))
+  options = list(body = crul::upload(system.file("CITATION")))
+)
 bb$body
-z <- BodyPattern$new(pattern = 
-  crul::upload(system.file("CITATION")))
+z <- BodyPattern$new(
+  pattern =
+    crul::upload(system.file("CITATION"))
+)
 z$pattern
 z$matches(bb$body)
 
 ## upload in a list
 bb <- RequestSignature$new(
   method = "post", uri = "https:/httpbin.org/post",
-  options = list(body = list(y = crul::upload(system.file("CITATION")))))
+  options = list(body = list(y = crul::upload(system.file("CITATION"))))
+)
 bb$body
-z <- BodyPattern$new(pattern =
-  list(y = crul::upload(system.file("CITATION"))))
+z <- BodyPattern$new(
+  pattern =
+    list(y = crul::upload(system.file("CITATION")))
+)
 z$pattern
 z$matches(bb$body)
 }

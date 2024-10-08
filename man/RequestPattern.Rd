@@ -29,8 +29,8 @@ x$to_s()
 
 # uri with query parameters
 (x <- RequestPattern$new(
-    method = "get", uri = "https://httpbin.org/get",
-    query = list(foo = "bar")
+  method = "get", uri = "https://httpbin.org/get",
+  query = list(foo = "bar")
 ))
 x$to_s()
 ## query params included in url, not separately
@@ -42,26 +42,35 @@ x$query_params
 
 # just headers (via setting method=any & uri_regex=.+)
 headers <- list(
-  'User-Agent' = 'Apple',
-  'Accept-Encoding' = 'gzip, deflate', 
-  'Accept' = 'application/json, text/xml, application/xml, */*')
+  "User-Agent" = "Apple",
+  "Accept-Encoding" = "gzip, deflate",
+  "Accept" = "application/json, text/xml, application/xml, */*"
+)
 x <- RequestPattern$new(
-   method = "any",
-   uri_regex = ".+",
-   headers = headers)
+  method = "any",
+  uri_regex = ".+",
+  headers = headers
+)
 x$to_s()
-rs <- RequestSignature$new(method = "any", uri = "http://foo.bar", 
-  options = list(headers = headers))
+rs <- RequestSignature$new(
+  method = "any", uri = "http://foo.bar",
+  options = list(headers = headers)
+)
 rs
 x$matches(rs)
 
 # body
-x <- RequestPattern$new(method = "post", uri = "httpbin.org/post",
-  body = list(y = crul::upload(system.file("CITATION"))))
+x <- RequestPattern$new(
+  method = "post", uri = "httpbin.org/post",
+  body = list(y = crul::upload(system.file("CITATION")))
+)
 x$to_s()
-rs <- RequestSignature$new(method = "post", uri = "http://httpbin.org/post",
+rs <- RequestSignature$new(
+  method = "post", uri = "http://httpbin.org/post",
   options = list(
-     body = list(y = crul::upload(system.file("CITATION")))))
+    body = list(y = crul::upload(system.file("CITATION")))
+  )
+)
 rs
 x$matches(rs)
 }

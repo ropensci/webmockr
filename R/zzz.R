@@ -5,7 +5,9 @@ cc <- function(x) Filter(Negate(is.null), x)
 is_nested <- function(x) {
   stopifnot(is.list(x))
   for (i in x) {
-    if (is.list(i)) return(TRUE)
+    if (is.list(i)) {
+      return(TRUE)
+    }
   }
   return(FALSE)
 }
@@ -30,23 +32,36 @@ has_attr <- function(x, at) {
 }
 
 hdl_lst <- function(x) {
-  if (is.null(x) || length(x) == 0) return("")
-  if (is.raw(x)) return(paste0("raw bytes, length: ", length(x)))
-  if (inherits(x, "form_file"))
+  if (is.null(x) || length(x) == 0) {
+    return("")
+  }
+  if (is.raw(x)) {
+    return(paste0("raw bytes, length: ", length(x)))
+  }
+  if (inherits(x, "form_file")) {
     return(sprintf("crul::upload(\"%s\", type=\"%s\")", x$path, x$type))
-  if (inherits(x, "mock_file")) return(paste0("mock file, path: ", x$path))
+  }
+  if (inherits(x, "mock_file")) {
+    return(paste0("mock file, path: ", x$path))
+  }
   if (inherits(x, c("list", "partial"))) {
     if (is_nested(x)) {
       # substring(l2c(x), 1, 80)
       subs(l2c(x), 80)
     } else {
-      txt <- paste(names(x), subs(unname(unlist(x)), 20), sep = "=",
-        collapse = ", ")
+      txt <- paste(names(x), subs(unname(unlist(x)), 20),
+        sep = "=",
+        collapse = ", "
+      )
       txt <- substring(txt, 1, 80)
       if (has_attr(x, "partial_match")) {
-        txt <- sprintf("%s(%s)",
+        txt <- sprintf(
+          "%s(%s)",
           switch(attr(x, "partial_type"),
-            include = "including", exclude = "excluding"), txt)
+            include = "including",
+            exclude = "excluding"
+          ), txt
+        )
       }
       txt
     }
@@ -56,18 +71,23 @@ hdl_lst <- function(x) {
 }
 
 hdl_lst2 <- function(x) {
-  if (is.null(x) || length(x) == 0) return("")
-  if (is.raw(x)) return(rawToChar(x))
-  if (inherits(x, "form_file"))
+  if (is.null(x) || length(x) == 0) {
+    return("")
+  }
+  if (is.raw(x)) {
+    return(rawToChar(x))
+  }
+  if (inherits(x, "form_file")) {
     return(sprintf("crul::upload(\"%s\", \"%s\")", x$path, x$type))
+  }
   if (inherits(x, "list")) {
-    if (any(vapply(x, function(z) inherits(z, "form_file"), logical(1))))
+    if (any(vapply(x, function(z) inherits(z, "form_file"), logical(1)))) {
       for (i in seq_along(x)) x[[i]] <- sprintf("crul::upload(\"%s\", \"%s\")", x[[i]]$path, x[[i]]$type)
+    }
     out <- vector(mode = "character", length = length(x))
     for (i in seq_along(x)) {
       targ <- x[[i]]
-      out[[i]] <- paste(names(x)[i], switch(
-        class(targ)[1L],
+      out[[i]] <- paste(names(x)[i], switch(class(targ)[1L],
         character = if (grepl("upload", targ)) targ else sprintf('\"%s\"', targ),
         list = sprintf("list(%s)", hdl_lst2(targ)),
         targ
@@ -103,16 +123,26 @@ url_builder <- function(uri, regex) {
 `%||%` <- function(x, y) {
   if (
     is.null(x) || length(x) == 0 || all(nchar(x) == 0) || all(is.na(x))
-  ) y else x
+  ) {
+    y
+  } else {
+    x
+  }
 }
 
 # tryCatch version of above
 `%|s|%` <- function(x, y) {
   z <- tryCatch(x)
-  if (inherits(z, "error")) return(y)
+  if (inherits(z, "error")) {
+    return(y)
+  }
   if (
     is.null(z) || length(z) == 0 || all(nchar(z) == 0) || all(is.na(z))
-  ) y else x
+  ) {
+    y
+  } else {
+    x
+  }
 }
 
 `!!` <- function(x) if (is.null(x) || is.na(x)) FALSE else TRUE
@@ -121,21 +151,27 @@ assert <- function(x, y) {
   if (!is.null(x)) {
     if (!inherits(x, y)) {
       stop(deparse(substitute(x)), " must be of class ",
-           paste0(y, collapse = ", "), call. = FALSE)
+        paste0(y, collapse = ", "),
+        call. = FALSE
+      )
     }
   }
 }
 assert_gte <- function(x, y) {
   if (!x >= y) {
-    stop(sprintf("%s must be greater than or equal to %s",
-      deparse(substitute(x)), y), call. = FALSE)
+    stop(sprintf(
+      "%s must be greater than or equal to %s",
+      deparse(substitute(x)), y
+    ), call. = FALSE)
   }
 }
 assert_eq <- function(x, y) {
   if (!is.null(x)) {
     if (!length(x) == y) {
-      stop(sprintf("length of %s must be equal to %s",
-        deparse(substitute(x)), y), call. = FALSE)
+      stop(sprintf(
+        "length of %s must be equal to %s",
+        deparse(substitute(x)), y
+      ), call. = FALSE)
     }
   }
 }
@@ -160,11 +196,9 @@ crul_headers_parse <- function(x) do.call("c", lapply(x, crul_head_parse))
 webmockr_crul_fetch <- function(x) {
   if (is.null(x$disk) && is.null(x$stream)) {
     curl::curl_fetch_memory(x$url$url, handle = x$url$handle)
-  }
-  else if (!is.null(x$disk)) {
+  } else if (!is.null(x$disk)) {
     curl::curl_fetch_disk(x$url$url, x$disk, handle = x$url$handle)
-  }
-  else {
+  } else {
     curl::curl_fetch_stream(x$url$url, x$stream, handle = x$url$handle)
   }
 }
@@ -185,7 +219,7 @@ check_for_pkg <- function(x) {
   if (!requireNamespace(x, quietly = TRUE)) {
     stop(sprintf("Please install '%s'", x), call. = FALSE)
   } else {
-   invisible(TRUE)
+    invisible(TRUE)
   }
 }
 
@@ -201,7 +235,9 @@ as_character <- function(x) {
 }
 
 last <- function(x) {
-  if (length(x) == 0) return(list())
+  if (length(x) == 0) {
+    return(list())
+  }
   x[[length(x)]]
 }
 
@@ -220,8 +256,10 @@ vcr_cassette_inserted <- function() {
 
 check_redirect_setting <- function() {
   cs <- vcr::current_cassette()
-  stopifnot("record_separate_redirects must be logical" =
-    is.logical(cs$record_separate_redirects))
+  stopifnot(
+    "record_separate_redirects must be logical" =
+      is.logical(cs$record_separate_redirects)
+  )
   return(cs)
 }
 
@@ -229,20 +267,25 @@ handle_separate_redirects <- function(req) {
   cs <- check_redirect_setting()
   if (cs$record_separate_redirects) {
     req$options$followlocation <- 0L
-    if (is.list(req$url))
+    if (is.list(req$url)) {
       curl::handle_setopt(req$url$handle, followlocation = 0L)
+    }
   }
   return(req)
 }
 
 redirects_request <- function(x) {
   cs <- check_redirect_setting()
-  if (cs$record_separate_redirects) return(cs$request_handler$request_original)
+  if (cs$record_separate_redirects) {
+    return(cs$request_handler$request_original)
+  }
   x
 }
 
 redirects_response <- function(x) {
   cs <- check_redirect_setting()
-  if (cs$record_separate_redirects) return(last(cs$redirect_pool)[[1]])
+  if (cs$record_separate_redirects) {
+    return(last(cs$redirect_pool)[[1]])
+  }
   x
 }

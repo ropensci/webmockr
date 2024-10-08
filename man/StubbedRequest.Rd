@@ -11,7 +11,7 @@ stubbed request class underlying \code{\link[=stub_request]{stub_request()}}
 x <- StubbedRequest$new(method = "get", uri = "api.crossref.org")
 x$method
 x$uri
-x$with(headers = list('User-Agent' = 'R', apple = "good"))
+x$with(headers = list("User-Agent" = "R", apple = "good"))
 x$to_return(status = 200, body = "foobar", headers = list(a = 5))
 x
 x$to_s()
@@ -48,8 +48,10 @@ x$to_s()
 x
 
 x <- StubbedRequest$new(method = "get", uri = "api.crossref.org")
-x$to_return(status = 200, body = charToRaw("foo bar"),
-  headers = list(a = 5))
+x$to_return(
+  status = 200, body = charToRaw("foo bar"),
+  headers = list(a = 5)
+)
 x$to_s()
 x
 
@@ -71,8 +73,10 @@ unlink(f)
 #   payload written to file during mocked response creation
 x <- StubbedRequest$new(method = "get", uri = "api.crossref.org")
 f <- tempfile()
-x$to_return(status = 200, body = mock_file(f, "{\"foo\": \"bar\"}"),
-  headers = list(a = 5))
+x$to_return(
+  status = 200, body = mock_file(f, "{\"foo\": \"bar\"}"),
+  headers = list(a = 5)
+)
 x
 x$to_s()
 unlink(f)

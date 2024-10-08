@@ -83,7 +83,7 @@ wi_th(req, query = list(foo = "bar"))
 
 # add headers - has to be a named list
 wi_th(req, headers = list(foo = "bar"))
-wi_th(req, headers = list(`User-Agent` = "webmockr/v1", hello="world"))
+wi_th(req, headers = list(`User-Agent` = "webmockr/v1", hello = "world"))
 
 # .list - pass in a named list instead
 wi_th(req, .list = list(body = list(foo = "bar")))

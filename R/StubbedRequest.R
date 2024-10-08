@@ -13,7 +13,7 @@
 #' x$put(z)
 #' x$count()
 StubCounter <- R6::R6Class(
-  'StubCounter',
+  "StubCounter",
   public = list(
     #' @field hash (list) a list for internal use only, with elements
     #' `key`, `sig`, and `count`
@@ -48,11 +48,11 @@ StubCounter <- R6::R6Class(
 #' x <- StubbedRequest$new(method = "get", uri = "api.crossref.org")
 #' x$method
 #' x$uri
-#' x$with(headers = list('User-Agent' = 'R', apple = "good"))
+#' x$with(headers = list("User-Agent" = "R", apple = "good"))
 #' x$to_return(status = 200, body = "foobar", headers = list(a = 5))
 #' x
 #' x$to_s()
-#' 
+#'
 #' # query
 #' x <- StubbedRequest$new(method = "get", uri = "httpbin.org")
 #' x$with(query = list(a = 5))
@@ -85,8 +85,10 @@ StubCounter <- R6::R6Class(
 #' x
 #'
 #' x <- StubbedRequest$new(method = "get", uri = "api.crossref.org")
-#' x$to_return(status = 200, body = charToRaw("foo bar"),
-#'   headers = list(a = 5))
+#' x$to_return(
+#'   status = 200, body = charToRaw("foo bar"),
+#'   headers = list(a = 5)
+#' )
 #' x$to_s()
 #' x
 #'
@@ -108,8 +110,10 @@ StubCounter <- R6::R6Class(
 #' #   payload written to file during mocked response creation
 #' x <- StubbedRequest$new(method = "get", uri = "api.crossref.org")
 #' f <- tempfile()
-#' x$to_return(status = 200, body = mock_file(f, "{\"foo\": \"bar\"}"),
-#'   headers = list(a = 5))
+#' x$to_return(
+#'   status = 200, body = mock_file(f, "{\"foo\": \"bar\"}"),
+#'   headers = list(a = 5)
+#' )
 #' x
 #' x$to_s()
 #' unlink(f)
@@ -201,30 +205,47 @@ StubbedRequest <- R6::R6Class(
       cat(paste0("  uri: ", self$uri %||% self$uri_regex), sep = "\n")
       cat("  with: ", sep = "\n")
       cat(paste0("    query: ", hdl_lst(self$query)), sep = "\n")
-      if (is.null(self$body))
+      if (is.null(self$body)) {
         cat("    body: ", sep = "\n")
-      else
-        cat(sprintf("    body (class: %s): %s", class(self$body)[1L],
-          hdl_lst(self$body)), sep = "\n")
-      cat(paste0("    request_headers: ",
-        hdl_lst(self$request_headers)),
-          sep = "\n")
+      } else {
+        cat(sprintf(
+          "    body (class: %s): %s", class(self$body)[1L],
+          hdl_lst(self$body)
+        ), sep = "\n")
+      }
+      cat(
+        paste0(
+          "    request_headers: ",
+          hdl_lst(self$request_headers)
+        ),
+        sep = "\n"
+      )
       cat("  to_return: ", sep = "\n")
       rs <- self$responses_sequences
       for (i in seq_along(rs)) {
         cat(paste0("  - status: ", hdl_lst(rs[[i]]$status)),
-            sep = "\n")
+          sep = "\n"
+        )
         cat(paste0("    body: ", hdl_lst(rs[[i]]$body)),
-            sep = "\n")
-        cat(paste0("    response_headers: ",
-          hdl_lst(rs[[i]]$headers)),
-            sep = "\n")
+          sep = "\n"
+        )
+        cat(
+          paste0(
+            "    response_headers: ",
+            hdl_lst(rs[[i]]$headers)
+          ),
+          sep = "\n"
+        )
         cat(paste0("    should_timeout: ", rs[[i]]$timeout), sep = "\n")
-        cat(paste0("    should_raise: ",
-          if (rs[[i]]$raise)
+        cat(paste0(
+          "    should_raise: ",
+          if (rs[[i]]$raise) {
             paste0(vapply(rs[[i]]$exceptions, "[[", "", "classname"),
-              collapse = ", ")
-          else "FALSE"
+              collapse = ", "
+            )
+          } else {
+            "FALSE"
+          }
         ), sep = "\n")
       }
     },
@@ -243,7 +264,7 @@ StubbedRequest <- R6::R6Class(
       self$body <- body
       self$basic_auth <- basic_auth
       if (!is.null(basic_auth)) {
-        headers <- c(prep_auth(paste0(basic_auth, collapse = ':')), headers)
+        headers <- c(prep_auth(paste0(basic_auth, collapse = ":")), headers)
       }
       self$request_headers <- headers
     },
@@ -259,8 +280,9 @@ StubbedRequest <- R6::R6Class(
       body <- if (inherits(body, "connection")) {
         bod_sum <- summary(body)
         close.connection(body)
-        if (bod_sum$class != "file")
+        if (bod_sum$class != "file") {
           stop("'to_return' only supports connections of type 'file'")
+        }
         structure(bod_sum$description, type = "file")
       } else {
         body
@@ -274,9 +296,13 @@ StubbedRequest <- R6::R6Class(
             raw()
           } else {
             webmockr_stub_registry$remove_request_stub(self)
-            stop(paste0("Unknown type of `body`: ",
-              "must be NULL, FALSE, character, raw or list; stub removed"),
-            call. = FALSE)
+            stop(
+              paste0(
+                "Unknown type of `body`: ",
+                "must be NULL, FALSE, character, raw or list; stub removed"
+              ),
+              call. = FALSE
+            )
           }
         } else if (inherits(body, "raw")) {
           body
@@ -291,10 +317,14 @@ StubbedRequest <- R6::R6Class(
           }
         } else if (!is.list(body)) {
           webmockr_stub_registry$remove_request_stub(self)
-          stop(paste0("Unknown type of `body`: ",
-            "must be numeric, NULL, FALSE, character, json, ",
-            "raw, list, or file connection; stub removed"),
-            call. = FALSE)
+          stop(
+            paste0(
+              "Unknown type of `body`: ",
+              "must be numeric, NULL, FALSE, character, json, ",
+              "raw, list, or file connection; stub removed"
+            ),
+            call. = FALSE
+          )
         } else {
           charToRaw(jsonlite::toJSON(body, auto_unbox = TRUE))
         }
@@ -344,14 +374,20 @@ StubbedRequest <- R6::R6Class(
             bd <- make_body(ret[[i]]$body)
             stt <- make_status(ret[[i]]$status)
             hed <- make_headers(ret[[i]]$headers)
-            strgs[i] <- sprintf("%s %s %s",
+            strgs[i] <- sprintf(
+              "%s %s %s",
               if (nzchar(paste0(bd, stt, hed))) paste("| to_return: ", bd, stt, hed) else "",
               if (ret[[i]]$timeout) "| should_timeout: TRUE" else "",
-              if (ret[[i]]$raise)
-                paste0("| to_raise: ",
+              if (ret[[i]]$raise) {
+                paste0(
+                  "| to_raise: ",
                   paste0(vapply(ret[[i]]$exceptions, "[[", "", "classname"),
-                  collapse = ", "))
-              else ""
+                    collapse = ", "
+                  )
+                )
+              } else {
+                ""
+              }
             )
           }
           paste0(strgs, collapse = " ")
@@ -367,14 +403,12 @@ StubbedRequest <- R6::R6Class(
       self$counter <- StubCounter$new()
     }
   ),
-
   private = list(
     append_response = function(x) {
       self$responses_sequences <- cc(c(self$responses_sequences, list(x)))
     },
     response = function(status = NULL, body = NULL, headers = NULL,
-      body_raw = NULL, timeout = FALSE, raise = FALSE, exceptions = list()
-    ) {
+                        body_raw = NULL, timeout = FALSE, raise = FALSE, exceptions = list()) {
       list(
         status = status,
         body = body,
@@ -395,7 +429,9 @@ basic_auth_header <- function(x) {
   return(paste0("Basic ", encoded))
 }
 prep_auth <- function(x) {
-  if (is.null(x)) return(NULL)
+  if (is.null(x)) {
+    return(NULL)
+  }
   if (!is.null(x)) {
     list(Authorization = basic_auth_header(x))
   }

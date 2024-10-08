@@ -25,8 +25,8 @@
 #'
 #' # uri with query parameters
 #' (x <- RequestPattern$new(
-#'     method = "get", uri = "https://httpbin.org/get",
-#'     query = list(foo = "bar")
+#'   method = "get", uri = "https://httpbin.org/get",
+#'   query = list(foo = "bar")
 #' ))
 #' x$to_s()
 #' ## query params included in url, not separately
@@ -35,34 +35,43 @@
 #' ))
 #' x$to_s()
 #' x$query_params
-#' 
+#'
 #' # just headers (via setting method=any & uri_regex=.+)
 #' headers <- list(
-#'   'User-Agent' = 'Apple',
-#'   'Accept-Encoding' = 'gzip, deflate', 
-#'   'Accept' = 'application/json, text/xml, application/xml, */*')
+#'   "User-Agent" = "Apple",
+#'   "Accept-Encoding" = "gzip, deflate",
+#'   "Accept" = "application/json, text/xml, application/xml, */*"
+#' )
 #' x <- RequestPattern$new(
-#'    method = "any",
-#'    uri_regex = ".+",
-#'    headers = headers)
+#'   method = "any",
+#'   uri_regex = ".+",
+#'   headers = headers
+#' )
 #' x$to_s()
-#' rs <- RequestSignature$new(method = "any", uri = "http://foo.bar", 
-#'   options = list(headers = headers))
+#' rs <- RequestSignature$new(
+#'   method = "any", uri = "http://foo.bar",
+#'   options = list(headers = headers)
+#' )
 #' rs
 #' x$matches(rs)
-#' 
+#'
 #' # body
-#' x <- RequestPattern$new(method = "post", uri = "httpbin.org/post",
-#'   body = list(y = crul::upload(system.file("CITATION"))))
+#' x <- RequestPattern$new(
+#'   method = "post", uri = "httpbin.org/post",
+#'   body = list(y = crul::upload(system.file("CITATION")))
+#' )
 #' x$to_s()
-#' rs <- RequestSignature$new(method = "post", uri = "http://httpbin.org/post",
+#' rs <- RequestSignature$new(
+#'   method = "post", uri = "http://httpbin.org/post",
 #'   options = list(
-#'      body = list(y = crul::upload(system.file("CITATION")))))
+#'     body = list(y = crul::upload(system.file("CITATION")))
+#'   )
+#' )
 #' rs
 #' x$matches(rs)
 #' }
 RequestPattern <- R6::R6Class(
-  'RequestPattern',
+  "RequestPattern",
   public = list(
     #' @field method_pattern xxx
     method_pattern = NULL,
@@ -84,7 +93,6 @@ RequestPattern <- R6::R6Class(
     #' @return A new `RequestPattern` object
     initialize = function(method, uri = NULL, uri_regex = NULL,
                           query = NULL, body = NULL, headers = NULL) {
-
       if (is.null(uri) && is.null(uri_regex)) {
         stop("one of uri or uri_regex is required", call. = FALSE)
       }
@@ -97,8 +105,9 @@ RequestPattern <- R6::R6Class(
       }
       self$uri_pattern$add_query_params(query)
       self$body_pattern <- if (!is.null(body)) BodyPattern$new(pattern = body)
-      self$headers_pattern <- if (!is.null(headers))
+      self$headers_pattern <- if (!is.null(headers)) {
         HeadersPattern$new(pattern = headers)
+      }
       # FIXME: all private methods used in the below line, see if needed or remove
       # if (length(options)) private$assign_options(options)
     },
@@ -109,7 +118,7 @@ RequestPattern <- R6::R6Class(
     matches = function(request_signature) {
       assert(request_signature, "RequestSignature")
       c_type <- if (!is.null(request_signature$headers)) request_signature$headers$`Content-Type` else NULL
-      if (!is.null(c_type)) c_type <- strsplit(c_type, ';')[[1]][1]
+      if (!is.null(c_type)) c_type <- strsplit(c_type, ";")[[1]][1]
       self$method_pattern$matches(request_signature$method) &&
         self$uri_pattern$matches(request_signature$uri) &&
         (is.null(self$body_pattern) || self$body_pattern$matches(request_signature$body, c_type %||% "")) &&
@@ -127,7 +136,6 @@ RequestPattern <- R6::R6Class(
       ))
     }
   ),
-
   private = list(
     # assign_options = function(options) {
     #   #self$validate_keys(options, 'body', 'headers', 'query', 'basic_auth')
@@ -151,16 +159,14 @@ RequestPattern <- R6::R6Class(
     #     }
     #   }
     # },
-
     set_basic_auth_as_headers = function(options) {
-      if ('basic_auth' %in% names(options)) {
+      if ("basic_auth" %in% names(options)) {
         private$validate_basic_auth(options$basic_auth)
         options$headers <- list()
         options$headers$Authorization <-
           private$make_basic_auth(options$basic_auth[1], options$basic_auth[2])
       }
     },
-
     validate_basic_auth = function(x) {
       if (!inherits(x, "list") || length(unique(unname(unlist(x)))) == 1) {
         stop(
@@ -169,7 +175,6 @@ RequestPattern <- R6::R6Class(
         )
       }
     },
-
     make_basic_auth = function(x, y) {
       jsonlite::base64_enc(paste0(x, ":", y))
     }
@@ -186,7 +191,7 @@ RequestPattern <- R6::R6Class(
 #' x$pattern
 #' x$matches(method = "post")
 #' x$matches(method = "POST")
-#' 
+#'
 #' # all matches() calls should be TRUE
 #' (x <- MethodPattern$new(pattern = "any"))
 #' x$pattern
@@ -194,7 +199,7 @@ RequestPattern <- R6::R6Class(
 #' x$matches(method = "GET")
 #' x$matches(method = "HEAD")
 MethodPattern <- R6::R6Class(
-  'MethodPattern',
+  "MethodPattern",
   public = list(
     #' @field pattern (character) an http method
     pattern = NULL,
@@ -245,17 +250,18 @@ MethodPattern <- R6::R6Class(
 #' x$pattern
 #' x$matches(list(`hello-world` = "yep"))
 #' x$matches(list(`hello-worlds` = "yep"))
-#' 
+#'
 #' headers <- list(
-#'   'User-Agent' = 'Apple',
-#'   'Accept-Encoding' = 'gzip, deflate', 
-#'   'Accept' = 'application/json, text/xml, application/xml, */*')
+#'   "User-Agent" = "Apple",
+#'   "Accept-Encoding" = "gzip, deflate",
+#'   "Accept" = "application/json, text/xml, application/xml, */*"
+#' )
 #' (x <- HeadersPattern$new(pattern = headers))
 #' x$to_s()
 #' x$pattern
 #' x$matches(headers)
 HeadersPattern <- R6::R6Class(
-  'HeadersPattern',
+  "HeadersPattern",
   public = list(
     #' @field pattern a list
     pattern = NULL,
@@ -277,7 +283,9 @@ HeadersPattern <- R6::R6Class(
       if (self$empty_headers(self$pattern)) {
         self$empty_headers(headers)
       } else {
-        if (self$empty_headers(headers)) return(FALSE)
+        if (self$empty_headers(headers)) {
+          return(FALSE)
+        }
         headers <- private$normalize_headers(headers)
         out <- c()
         for (i in seq_along(self$pattern)) {
@@ -299,7 +307,6 @@ HeadersPattern <- R6::R6Class(
     #' @return a string
     to_s = function() hdl_lst2(self$pattern)
   ),
-
   private = list(
     normalize_headers = function(x) {
       # normalize names
@@ -335,29 +342,35 @@ HeadersPattern <- R6::R6Class(
 #' z <- BodyPattern$new(pattern = list(foo = "bar", a = 5))
 #' z$pattern
 #' z$matches(bb$body)
-#' 
+#'
 #' # uploads in bodies
 #' ## upload NOT in a list
 #' bb <- RequestSignature$new(
 #'   method = "post", uri = "https:/httpbin.org/post",
-#'   options = list(body = crul::upload(system.file("CITATION"))))
+#'   options = list(body = crul::upload(system.file("CITATION")))
+#' )
 #' bb$body
-#' z <- BodyPattern$new(pattern = 
-#'   crul::upload(system.file("CITATION")))
+#' z <- BodyPattern$new(
+#'   pattern =
+#'     crul::upload(system.file("CITATION"))
+#' )
 #' z$pattern
 #' z$matches(bb$body)
-#' 
+#'
 #' ## upload in a list
 #' bb <- RequestSignature$new(
 #'   method = "post", uri = "https:/httpbin.org/post",
-#'   options = list(body = list(y = crul::upload(system.file("CITATION")))))
+#'   options = list(body = list(y = crul::upload(system.file("CITATION"))))
+#' )
 #' bb$body
-#' z <- BodyPattern$new(pattern =
-#'   list(y = crul::upload(system.file("CITATION"))))
+#' z <- BodyPattern$new(
+#'   pattern =
+#'     list(y = crul::upload(system.file("CITATION")))
+#' )
 #' z$pattern
 #' z$matches(bb$body)
 BodyPattern <- R6::R6Class(
-  'BodyPattern',
+  "BodyPattern",
   public = list(
     #' @field pattern a list
     pattern = NULL,
@@ -366,10 +379,11 @@ BodyPattern <- R6::R6Class(
     #' @param pattern (list) a body object
     #' @return A new `BodyPattern` object
     initialize = function(pattern) {
-      if (inherits(pattern, "form_file")) 
+      if (inherits(pattern, "form_file")) {
         self$pattern <- unclass(pattern)
-      else 
+      } else {
         self$pattern <- pattern
+      }
     },
 
     #' @description Match a request body pattern against a pattern
@@ -378,7 +392,9 @@ BodyPattern <- R6::R6Class(
     #' @return a boolean
     matches = function(body, content_type = "") {
       if (inherits(self$pattern, "list")) {
-        if (length(self$pattern) == 0) return(TRUE)
+        if (length(self$pattern) == 0) {
+          return(TRUE)
+        }
         private$matching_hashes(private$body_as_hash(body, content_type), self$pattern)
       } else {
         (private$empty_string(self$pattern) && private$empty_string(body)) || all(self$pattern == body)
@@ -389,34 +405,41 @@ BodyPattern <- R6::R6Class(
     #' @return a string
     to_s = function() self$pattern
   ),
-
   private = list(
     empty_string = function(string) {
       is.null(string) || !nzchar(string)
     },
-
     matching_hashes = function(z, pattern) {
-      if (is.null(z)) return(FALSE)
-      if (!inherits(z, "list")) return(FALSE)
-      if (!all(sort(names(z)) %in% sort(names(pattern)))) return(FALSE)
+      if (is.null(z)) {
+        return(FALSE)
+      }
+      if (!inherits(z, "list")) {
+        return(FALSE)
+      }
+      if (!all(sort(names(z)) %in% sort(names(pattern)))) {
+        return(FALSE)
+      }
       for (i in seq_along(z)) {
         expected <- pattern[[names(z)[i]]]
         actual <- z[[i]]
         if (inherits(actual, "list") && inherits(expected, "list")) {
-          if (!private$matching_hashes(actual, expected)) return(FALSE)
+          if (!private$matching_hashes(actual, expected)) {
+            return(FALSE)
+          }
         } else {
-          if (!identical(as.character(actual), as.character(expected))) return(FALSE)
+          if (!identical(as.character(actual), as.character(expected))) {
+            return(FALSE)
+          }
         }
       }
       return(TRUE)
     },
-
     body_as_hash = function(body, content_type) {
       if (inherits(body, "form_file")) body <- unclass(body)
       bctype <- BODY_FORMATS[[content_type]] %||% ""
-      if (bctype == 'json') {
+      if (bctype == "json") {
         jsonlite::fromJSON(body, FALSE)
-      } else if (bctype == 'xml') {
+      } else if (bctype == "xml") {
         check_for_pkg("xml2")
         xml2::read_xml(body)
       } else {
@@ -427,16 +450,16 @@ BodyPattern <- R6::R6Class(
 )
 
 BODY_FORMATS <- list(
-  'text/xml'               = 'xml',
-  'application/xml'        = 'xml',
-  'application/json'       = 'json',
-  'text/json'              = 'json',
-  'application/javascript' = 'json',
-  'text/javascript'        = 'json',
-  'text/html'              = 'html',
-  'application/x-yaml'     = 'yaml',
-  'text/yaml'              = 'yaml',
-  'text/plain'             = 'plain'
+  "text/xml"               = "xml",
+  "application/xml"        = "xml",
+  "application/json"       = "json",
+  "text/json"              = "json",
+  "application/javascript" = "json",
+  "text/javascript"        = "json",
+  "text/html"              = "html",
+  "application/x-yaml"     = "yaml",
+  "text/yaml"              = "yaml",
+  "text/plain"             = "plain"
 )
 
 #' @title UriPattern
@@ -485,7 +508,7 @@ BODY_FORMATS <- list(
 #' z$pattern
 #' z$matches("http://foobar.com?pizza=cheese&cheese=cheddar") # TRUE
 #' z$matches("http://foobar.com?pizza=cheese&cheese=swiss") # FALSE
-#' 
+#'
 #' # query parameters in the uri
 #' (z <- UriPattern$new(pattern = "https://httpbin.org/get?stuff=things"))
 #' z$add_query_params() # have to run this method to gather query params
@@ -567,17 +590,20 @@ UriPattern <- R6::R6Class(
     #' @return a boolean
     matches = function(uri) {
       uri <- normalize_uri(uri, self$regex)
-      if (self$regex)
+      if (self$regex) {
         grepl(self$pattern, uri)
-      else
+      } else {
         self$pattern_matches(uri) && self$query_params_matches(uri)
+      }
     },
 
     #' @description Match a URI
     #' @param uri (character) a uri
     #' @return a boolean
     pattern_matches = function(uri) {
-      if (!self$regex) return(just_uri(uri) == just_uri(self$pattern)) # not regex
+      if (!self$regex) {
+        return(just_uri(uri) == just_uri(self$pattern))
+      } # not regex
       grepl(drop_query_params(self$pattern), just_uri(uri)) # regex
     },
 
@@ -612,7 +638,9 @@ UriPattern <- R6::R6Class(
     #' @return named list, or `NULL` if no query parameters
     extract_query = function(uri) {
       params <- parse_a_url(uri)$parameter
-      if (all(is.na(params))) return(NULL)
+      if (all(is.na(params))) {
+        return(NULL)
+      }
       params
     },
 
@@ -620,19 +648,23 @@ UriPattern <- R6::R6Class(
     #' @param query_params (list|character) list or character
     #' @return nothing returned, updates uri pattern
     add_query_params = function(query_params) {
-      if (self$regex) return(NULL)
+      if (self$regex) {
+        return(NULL)
+      }
       if (missing(query_params) || is.null(query_params)) {
         self$query_params <- self$extract_query(self$pattern)
       } else {
         self$query_params <- query_params
         self$partial <- attr(query_params, "partial_match") %||% FALSE
-        self$partial_type <-  attr(query_params, "partial_type")
+        self$partial_type <- attr(query_params, "partial_type")
         if (
           inherits(query_params, "list") ||
-          inherits(query_params, "character")
+            inherits(query_params, "character")
         ) {
-          pars <- paste0(unname(Map(function(x, y) paste(x, esc(y), sep = "="),
-              names(query_params), query_params)), collapse = "&")
+          pars <- paste0(unname(Map(
+            function(x, y) paste(x, esc(y), sep = "="),
+            names(query_params), query_params
+          )), collapse = "&")
           self$pattern <- paste0(self$pattern, "?", pars)
         }
       }
@@ -654,7 +686,7 @@ UriPattern <- R6::R6Class(
 
 add_scheme <- function(x) {
   if (is.na(urltools::url_parse(x)$scheme)) {
-    paste0('https?://', x)
+    paste0("https?://", x)
   } else {
     x
   }
@@ -663,11 +695,15 @@ esc <- function(x) curl::curl_escape(x)
 normalize_uri <- function(x, regex = FALSE) {
   x <- prune_trailing_slash(x)
   x <- prune_port(x)
-  if (!regex) 
-    if (is.na(urltools::url_parse(x)$scheme))
-      x <- paste0('http://', x)
+  if (!regex) {
+    if (is.na(urltools::url_parse(x)$scheme)) {
+      x <- paste0("http://", x)
+    }
+  }
   tmp <- urltools::url_parse(x)
-  if (is.na(tmp$path)) return(x)
+  if (is.na(tmp$path)) {
+    return(x)
+  }
   if (!regex) tmp$path <- esc(tmp$path)
   urltools::url_compose(tmp)
 }
@@ -696,7 +732,8 @@ parse_a_url <- function(url) {
         strsplit(tmp$parameter, "&")[[1]], function(x) {
           z <- strsplit(x, split = "=")[[1]]
           as.list(stats::setNames(z[2], z[1]))
-        }),
+        }
+      ),
       recursive = FALSE
     )
   }
@@ -706,7 +743,7 @@ parse_a_url <- function(url) {
 
 just_uri <- function(x) {
   z <- urltools::url_parse(x)
-  z$parameter <- NA_character_  
+  z$parameter <- NA_character_
   urltools::url_compose(z)
 }
 
