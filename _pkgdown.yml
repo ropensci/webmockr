@@ -1,3 +1,8 @@
+url: https://docs.ropensci.org/webmockr
+
+template:
+  bootstrap: 5
+
 reference:
   - title: "webmockr"
     desc: >
@@ -32,6 +37,7 @@ reference:
       - to_return
       - to_timeout
       - wi_th
+      - including
   - title: "Mocking writing to disk"
     contents:
       - mock_file
