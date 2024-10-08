@@ -16,6 +16,7 @@
 #' @return an object of class `StubbedRequest`, with print method describing
 #' the stub
 #' @note see more examples in [stub_request()]
+#' @seealso [including()]
 #' @details 
 #' Values for query, body, headers, and basic_auth:
 #'
@@ -83,9 +84,9 @@
 #' 
 #' # partial matching, body
 #' ## including
-#' # wi_th(req, body = including(list(foo = "bar")))
+#' wi_th(req, body = including(list(foo = "bar")))
 #' ## excluding
-#' # wi_th(req, body = excluding(list(foo = "bar")))
+#' wi_th(req, body = excluding(list(foo = "bar")))
 wi_th <- function(.data, ..., .list = list()) {
   assert(.data, "StubbedRequest")
   assert(.list, "list")
@@ -99,7 +100,7 @@ wi_th <- function(.data, ..., .list = list()) {
     stop("'wi_th' only accepts query, body, headers, basic_auth")
   }
   if (any(duplicated(names(z)))) stop("can not have duplicated names")
-  assert(z$query, "list")
+  assert(z$query, c("list", "partial"))
   if (!all(hz_namez(z$query))) stop("'query' must be a named list")
   assert(z$headers, "list")
   if (!all(hz_namez(z$headers))) stop("'headers' must be a named list")

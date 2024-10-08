@@ -100,7 +100,10 @@ wi_th(req, query = excluding(list(foo = "bar")))
 
 # partial matching, body
 ## including
-# wi_th(req, body = including(list(foo = "bar")))
+wi_th(req, body = including(list(foo = "bar")))
 ## excluding
-# wi_th(req, body = excluding(list(foo = "bar")))
+wi_th(req, body = excluding(list(foo = "bar")))
+}
+\seealso{
+\code{\link[=including]{including()}}
 }

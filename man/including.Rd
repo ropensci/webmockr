@@ -2,34 +2,58 @@
 % Please edit documentation in R/include_exclude.R
 \name{including}
 \alias{including}
+\alias{partial}
 \alias{excluding}
-\title{Partially match query parameters or request bodies}
+\title{Partially match request query parameters or request bodies}
 \usage{
 including(x)
 
 excluding(x)
 }
 \arguments{
-\item{x}{various objects}
+\item{x}{(list) a list; may support other classes in the future}
 }
 \value{
-same as \code{x}, but with attributes added
+same as \code{x}, but with two attributes added:
+\itemize{
+\item partial_match: always \code{TRUE}
+\item partial_type: the type of match, one of \code{include} or \code{exclude}
+}
 }
 \description{
-Partially match query parameters or request bodies
+For use inside \code{\link[=wi_th]{wi_th()}}
 }
+\section{Headers}{
+
+Matching on headers already handles partial matching. That is,
+\code{wi_th(headers = list(Fruit = "pear"))} matches any request
+that has any request header that matches - the request can have
+other request headers, but those don't matter as long as there is
+a match. These helpers (\code{including}/\code{excluding}) are needed
+for query parameters and bodies because by default matching must be
+exact for those.
+}
+
 \examples{
 including(list(foo = "bar"))
-# just keys by setting values as NULL
+excluding(list(foo = "bar"))
+
+# get just keys by setting values as NULL
 including(list(foo = NULL, bar = NULL))
 
 # in a stub
 req <- stub_request("get", "https://httpbin.org/get")
+req
 
 ## query
 wi_th(req, query = list(foo = "bar"))
 wi_th(req, query = including(list(foo = "bar")))
 wi_th(req, query = excluding(list(foo = "bar")))
+
+## body
+wi_th(req, body = list(foo = "bar"))
+wi_th(req, body = including(list(foo = "bar")))
+wi_th(req, body = excluding(list(foo = "bar")))
 
 # cleanup
 stub_registry_clear()

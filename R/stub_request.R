@@ -20,25 +20,25 @@
 #' If multiple stubs match the same request, we use the first stub. So if you
 #' want to use a stub that was created after an earlier one that matches,
 #' remove the earlier one(s).
-#' 
+#'
 #' Note on `wi_th()`: If you pass `query` values are coerced to character
 #' class in the recorded stub. You can pass numeric, integer, etc., but
 #' all will be coerced to character.
-#' 
+#'
 #' See [wi_th()] for details on request body/query/headers and
 #' [to_return()] for details on how response status/body/headers
 #' are handled
-#' 
+#'
 #' @note Trailing slashes are dropped from stub URIs before matching
-#' 
+#'
 #' @section uri vs. uri_regex:
 #' When you use `uri`, we compare the URIs without query params AND
-#' also the query params themselves without the URIs. 
-#' 
+#' also the query params themselves without the URIs.
+#'
 #' When you use `uri_regex` we don't compare URIs and query params;
 #' we just use your regex string defined in `uri_regex` as the pattern
 #' for a call to [grepl]
-#' 
+#'
 #' @section Mocking writing to disk:
 #' See [mocking-disk-writing]
 #' @seealso [wi_th()], [to_return()], [to_timeout()], [to_raise()],
@@ -98,7 +98,7 @@
 #' # pass a list to .list
 #' z <- stub_request("get", "https://httpbin.org/get")
 #' wi_th(z, .list = list(query = list(foo = "bar")))
-#' 
+#'
 #' # just body
 #' stub_request("any", uri_regex = ".+") %>%
 #'    wi_th(body = list(foo = 'bar'))
@@ -113,11 +113,11 @@
 #' httr_mock()
 #' POST('https://example.com', body = list(foo = 'bar'))
 #' PUT('https://google.com', body = list(foo = 'bar'))
-#' 
-#' 
+#'
+#'
 #' # just headers
 #' headers <- list(
-#'   'Accept-Encoding' = 'gzip, deflate', 
+#'   'Accept-Encoding' = 'gzip, deflate',
 #'   'Accept' = 'application/json, text/xml, application/xml, */*')
 #' stub_request("any", uri_regex = ".+") %>% wi_th(headers = headers)
 #' library(crul)
@@ -126,25 +126,40 @@
 #' x$post('post')
 #' x$put('put', body = list(foo = 'bar'))
 #' x$get('put', query = list(stuff = 3423234L))
-#' 
+#'
 #' # many responses
 #' ## the first response matches the first to_return call, and so on
-#' stub_request("get", "https://httpbin.org/get") %>% 
-#'   to_return(status = 200, body = "foobar", headers = list(a = 5)) %>% 
+#' stub_request("get", "https://httpbin.org/get") %>%
+#'   to_return(status = 200, body = "foobar", headers = list(a = 5)) %>%
 #'   to_return(status = 200, body = "bears", headers = list(b = 6))
 #' con <- crul::HttpClient$new(url = "https://httpbin.org")
 #' con$get("get")$parse("UTF-8")
 #' con$get("get")$parse("UTF-8")
-#' 
+#'
 #' ## OR, use times with to_return() to repeat the same response many times
 #' library(fauxpas)
-#' stub_request("get", "https://httpbin.org/get") %>% 
-#'   to_return(status = 200, body = "apple-pie", times = 2) %>% 
+#' stub_request("get", "https://httpbin.org/get") %>%
+#'   to_return(status = 200, body = "apple-pie", times = 2) %>%
 #'   to_raise(HTTPUnauthorized)
 #' con <- crul::HttpClient$new(url = "https://httpbin.org")
 #' con$get("get")$parse("UTF-8")
 #' con$get("get")$parse("UTF-8")
 #' con$get("get")$parse("UTF-8")
+#'
+#' # partial matching
+#' library(httr)
+#' ## matches
+#' stub_request("get", "https://hb.opencpu.org/get") %>%
+#'  wi_th(query = including(list(fruit = "pear"))) %>%
+#'  to_return(body = "matched on partial query!")
+#' resp <- GET("https://hb.opencpu.org/get", query = list(fruit = "pear"))
+#' rawToChar(content(resp))
+#' ## doesn't match
+#' stub_registry_clear()
+#' stub_request("get", "https://hb.opencpu.org/get") %>%
+#'  wi_th(query = list(fruit = "pear")) %>%
+#'  to_return(body = "didn't match, ugh!")
+#' # GET("https://hb.opencpu.org/get", query = list(fruit = "pear", meat = "chicken"))
 #'
 #' # clear all stubs
 #' stub_registry()

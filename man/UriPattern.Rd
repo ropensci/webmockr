@@ -89,6 +89,13 @@ z <- UriPattern$new(pattern = "http://foobar.com")
 z$add_query_params(excluding(list(hello = "world")))
 z$matches(uri = "http://foobar.com?hello=world&bye=mars") # FALSE
 z$matches("http://foobar.com?bye=mars") # TRUE
+
+## match on list keys (aka: names) only, ignore values 0
+z <- UriPattern$new(pattern = "http://foobar.com")
+z$add_query_params(including(list(hello = NULL)))
+z$matches(uri = "http://foobar.com?hello=world&bye=mars") # TRUE
+z$matches("http://foobar.com?hello=stuff") # TRUE
+z$matches("http://foobar.com?bye=stuff") # FALSE
 }
 \keyword{internal}
 \section{Public fields}{

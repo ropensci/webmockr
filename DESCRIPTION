@@ -30,7 +30,8 @@ Imports:
     urltools (>= 1.6.0),
     fauxpas,
     crul (>= 0.7.0),
-    base64enc
+    base64enc,
+    rlang
 Suggests:
     testthat,
     xml2,

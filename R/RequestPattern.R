@@ -448,7 +448,7 @@ BODY_FORMATS <- list(
 #' (z <- UriPattern$new(pattern = "http://foobar.com"))
 #' z$matches("http://foobar.com") # TRUE
 #' z$matches("http://foobar.com/") # TRUE
-#' 
+#'
 #' # without scheme
 #' ## matches http by default: does not match https by default
 #' (z <- UriPattern$new(pattern = "foobar.com"))
@@ -491,7 +491,7 @@ BODY_FORMATS <- list(
 #' z$add_query_params() # have to run this method to gather query params
 #' z$matches("https://httpbin.org/get?stuff=things") # TRUE
 #' z$matches("https://httpbin.org/get?stuff2=things") # FALSE
-#' 
+#'
 #' # regex add query parameters
 #' (z <- UriPattern$new(regex_pattern = "https://foobar.com/.+/order"))
 #' z$add_query_params(list(pizza = "cheese"))
@@ -499,13 +499,13 @@ BODY_FORMATS <- list(
 #' z$pattern
 #' z$matches("https://foobar.com/pizzas/order?pizza=cheese") # TRUE
 #' z$matches("https://foobar.com/pizzas?pizza=cheese") # FALSE
-#' 
+#'
 #' # query parameters in the regex uri
 #' (z <- UriPattern$new(regex_pattern = "https://x.com/.+/order\\?fruit=apple"))
 #' z$add_query_params() # have to run this method to gather query params
 #' z$matches("https://x.com/a/order?fruit=apple") # TRUE
 #' z$matches("https://x.com/a?fruit=apple") # FALSE
-#' 
+#'
 #' # any pattern
 #' (z <- UriPattern$new(regex_pattern = "stuff\\.com.+"))
 #' z$regex
@@ -513,22 +513,28 @@ BODY_FORMATS <- list(
 #' z$matches("http://stuff.com") # FALSE
 #' z$matches("https://stuff.com/stff") # TRUE
 #' z$matches("https://stuff.com/apple?bears=brown&bats=grey") # TRUE
-#' 
+#'
 #' # partial matching
 #' ## including
 #' z <- UriPattern$new(pattern = "http://foobar.com")
 #' z$add_query_params(including(list(hello = "world")))
 #' z$matches(uri = "http://foobar.com?hello=world&bye=mars") # TRUE
 #' z$matches("http://foobar.com?bye=mars") # FALSE
-#' 
+#'
 #' ## excluding
 #' z <- UriPattern$new(pattern = "http://foobar.com")
 #' z$add_query_params(excluding(list(hello = "world")))
 #' z$matches(uri = "http://foobar.com?hello=world&bye=mars") # FALSE
 #' z$matches("http://foobar.com?bye=mars") # TRUE
-
+#'
+#' ## match on list keys (aka: names) only, ignore values 0
+#' z <- UriPattern$new(pattern = "http://foobar.com")
+#' z$add_query_params(including(list(hello = NULL)))
+#' z$matches(uri = "http://foobar.com?hello=world&bye=mars") # TRUE
+#' z$matches("http://foobar.com?hello=stuff") # TRUE
+#' z$matches("http://foobar.com?bye=stuff") # FALSE
 UriPattern <- R6::R6Class(
-  'UriPattern',
+  "UriPattern",
   public = list(
     #' @field pattern (character) pattern holder
     pattern = NULL,
@@ -575,6 +581,7 @@ UriPattern <- R6::R6Class(
       grepl(drop_query_params(self$pattern), just_uri(uri)) # regex
     },
 
+    #' @importFrom rlang is_empty
     #' @description Match query parameters of a URI
     #' @param uri (character) a uri
     #' @return a boolean
@@ -582,10 +589,20 @@ UriPattern <- R6::R6Class(
       if (self$partial) {
         uri_qp <- self$extract_query(uri)
         qp <- private$drop_partial_attrs(self$query_params)
-        bools <- uri_qp %in% qp
-        return(switch(self$partial_type, 
-          include = any(bools), 
-          exclude = !any(bools)))
+
+        bools <- vector(mode = "logical")
+        for (i in seq_along(qp)) {
+          if (rlang::is_empty(qp[[i]])) {
+            bools[i] <- names(qp) %in% names(uri_qp)
+          } else {
+            bools[i] <- qp %in% uri_qp
+          }
+        }
+        out <- switch(self$partial_type,
+          include = any(bools),
+          exclude = !any(bools)
+        )
+        return(out)
       }
       identical(self$query_params, self$extract_query(uri))
     },
@@ -625,7 +642,6 @@ UriPattern <- R6::R6Class(
     #' @return a string
     to_s = function() self$pattern
   ),
-
   private = list(
     drop_partial_attrs = function(x) {
       attr(x, "partial_match") <- NULL
@@ -634,6 +650,7 @@ UriPattern <- R6::R6Class(
     }
   )
 )
+
 
 add_scheme <- function(x) {
   if (is.na(urltools::url_parse(x)$scheme)) {

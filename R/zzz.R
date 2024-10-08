@@ -25,13 +25,17 @@ subs <- function(x, n) {
 
 l2c <- function(w) paste(names(w), as.character(w), sep = " = ", collapse = "")
 
+has_attr <- function(x, at) {
+  !is.null(attr(x, at, exact = TRUE))
+}
+
 hdl_lst <- function(x) {
   if (is.null(x) || length(x) == 0) return("")
   if (is.raw(x)) return(paste0("raw bytes, length: ", length(x)))
   if (inherits(x, "form_file"))
     return(sprintf("crul::upload(\"%s\", type=\"%s\")", x$path, x$type))
   if (inherits(x, "mock_file")) return(paste0("mock file, path: ", x$path))
-  if (inherits(x, "list")) {
+  if (inherits(x, c("list", "partial"))) {
     if (is_nested(x)) {
       # substring(l2c(x), 1, 80)
       subs(l2c(x), 80)
@@ -39,7 +43,7 @@ hdl_lst <- function(x) {
       txt <- paste(names(x), subs(unname(unlist(x)), 20), sep = "=",
         collapse = ", ")
       txt <- substring(txt, 1, 80)
-      if (attr(x, "partial_match") %||% FALSE) {
+      if (has_attr(x, "partial_match")) {
         txt <- sprintf("%s(%s)",
           switch(attr(x, "partial_type"),
             include = "including", exclude = "excluding"), txt)

@@ -137,7 +137,7 @@ PUT('https://google.com', body = list(foo = 'bar'))
 
 # just headers
 headers <- list(
-  'Accept-Encoding' = 'gzip, deflate', 
+  'Accept-Encoding' = 'gzip, deflate',
   'Accept' = 'application/json, text/xml, application/xml, */*')
 stub_request("any", uri_regex = ".+") \%>\% wi_th(headers = headers)
 library(crul)
@@ -149,8 +149,8 @@ x$get('put', query = list(stuff = 3423234L))
 
 # many responses
 ## the first response matches the first to_return call, and so on
-stub_request("get", "https://httpbin.org/get") \%>\% 
-  to_return(status = 200, body = "foobar", headers = list(a = 5)) \%>\% 
+stub_request("get", "https://httpbin.org/get") \%>\%
+  to_return(status = 200, body = "foobar", headers = list(a = 5)) \%>\%
   to_return(status = 200, body = "bears", headers = list(b = 6))
 con <- crul::HttpClient$new(url = "https://httpbin.org")
 con$get("get")$parse("UTF-8")
@@ -158,13 +158,28 @@ con$get("get")$parse("UTF-8")
 
 ## OR, use times with to_return() to repeat the same response many times
 library(fauxpas)
-stub_request("get", "https://httpbin.org/get") \%>\% 
-  to_return(status = 200, body = "apple-pie", times = 2) \%>\% 
+stub_request("get", "https://httpbin.org/get") \%>\%
+  to_return(status = 200, body = "apple-pie", times = 2) \%>\%
   to_raise(HTTPUnauthorized)
 con <- crul::HttpClient$new(url = "https://httpbin.org")
 con$get("get")$parse("UTF-8")
 con$get("get")$parse("UTF-8")
 con$get("get")$parse("UTF-8")
+
+# partial matching
+library(httr)
+## matches
+stub_request("get", "https://hb.opencpu.org/get") \%>\%
+ wi_th(query = including(list(fruit = "pear"))) \%>\%
+ to_return(body = "matched on partial query!")
+resp <- GET("https://hb.opencpu.org/get", query = list(fruit = "pear"))
+rawToChar(content(resp))
+## doesn't match
+stub_registry_clear()
+stub_request("get", "https://hb.opencpu.org/get") \%>\%
+ wi_th(query = list(fruit = "pear")) \%>\%
+ to_return(body = "didn't match, ugh!")
+# GET("https://hb.opencpu.org/get", query = list(fruit = "pear", meat = "chicken"))
 
 # clear all stubs
 stub_registry()

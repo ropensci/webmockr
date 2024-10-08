@@ -237,7 +237,7 @@ StubbedRequest <- R6::R6Class(
     #' @return nothing returned; sets only
     with = function(query = NULL, body = NULL, headers = NULL, basic_auth = NULL) {
       if (!is.null(query)) {
-        query <- lapply(query, as.character)
+        query[] <- lapply(query, as.character)
       }
       self$query <- query
       self$body <- body
