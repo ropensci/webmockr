@@ -118,6 +118,9 @@ test_that("BodyPattern: structure is correct", {
   aaa <- BodyPattern$new(pattern = list(foo = "bar", a = 5))
   expect_true(aaa$matches(bb$body))
 
+  aaaa <- BodyPattern$new(pattern = list(foo = "bar", a = 5, b = "asdad"))
+  expect_false(aaaa$matches(bb$body))
+
   # with pattern empty
   bb <- BodyPattern$new(pattern = list())
   expect_true(bb$matches(list()))

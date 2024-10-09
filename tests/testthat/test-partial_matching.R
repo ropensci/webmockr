@@ -145,3 +145,64 @@ test_that("exclude query parameters, just keys", {
   # cleanup
   stub_registry_clear()
 })
+
+
+test_that("include request body", {
+  enable(adapter = "httr")
+  on.exit({
+    disable(adapter = "httr")
+    unloadNamespace("vcr")
+  })
+
+  ## matches
+  stub_request("post", "https://hb.opencpu.org/post") %>%
+    wi_th(body = including(list(fruit = "pear"))) %>%
+    to_return(body = "matched on including partial body!")
+
+  resp_matched <- POST("https://hb.opencpu.org/post", 
+    body = list(fruit = "pear", meat = "chicken"))
+
+  expect_equal(resp_matched$status_code, 200)
+  expect_equal(rawToChar(content(resp_matched)), "matched on including partial body!")
+
+  stub_registry_clear()
+
+  ## doesn't match when request body does not include what the stub has
+  expect_error(
+    POST("https://hb.opencpu.org/post", query = list(meat = "chicken")),
+    "Real HTTP connections are disabled"
+  )
+
+  # cleanup
+  stub_registry_clear()
+})
+
+test_that("exclude request body", {
+  enable(adapter = "httr")
+  on.exit({
+    disable(adapter = "httr")
+    unloadNamespace("vcr")
+  })
+
+  ## matches
+  stub_request("post", "https://hb.opencpu.org/post") %>%
+    wi_th(body = excluding(list(fruit = "pear"))) %>%
+    to_return(body = "matched on excluding partial body!")
+
+  resp_matched <- POST("https://hb.opencpu.org/post",
+    body = list(color = "blue"))
+
+  expect_equal(resp_matched$status_code, 200)
+  expect_equal(rawToChar(content(resp_matched)), "matched on excluding partial body!")
+
+  stub_registry_clear()
+
+  ## doesn't match when request body does not include what the stub has
+  expect_error(
+    POST("https://hb.opencpu.org/post", body = list(fruit = "pear", meat = "chicken")),
+    "Real HTTP connections are disabled"
+  )
+
+  # cleanup
+  stub_registry_clear()
+})

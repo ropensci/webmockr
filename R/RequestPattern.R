@@ -369,17 +369,41 @@ HeadersPattern <- R6::R6Class(
 #' )
 #' z$pattern
 #' z$matches(bb$body)
+#'
+#' # partial matching
+#' ## including
+#' partial_incl <- including(list(foo = "bar"))
+#' z <- BodyPattern$new(pattern = partial_incl)
+#' z$pattern
+#' z$matches(list(foo = "bar", a = 5)) # TRUE
+#'
+#' ## excluding
+#' partial_excl <- excluding(list(hello = "world"))
+#' z <- BodyPattern$new(pattern = partial_excl)
+#' z$pattern
+#' z$matches(list(a = 5)) # TRUE
+#' z$matches(list(hello = "mars", a = 5)) # TRUE
+#' z$matches(list(hello = "world")) # FALSE
 BodyPattern <- R6::R6Class(
   "BodyPattern",
   public = list(
     #' @field pattern a list
     pattern = NULL,
+     #' @field partial bool, default: `FALSE`
+    partial = FALSE,
+    #' @field partial_type a string, default: NULL
+    partial_type = NULL,
 
     #' @description Create a new `BodyPattern` object
     #' @param pattern (list) a body object
     #' @return A new `BodyPattern` object
     initialize = function(pattern) {
-      if (inherits(pattern, "form_file")) {
+      if (inherits(pattern, "partial")) {
+        self$partial <- attr(pattern, "partial_match") %||% FALSE
+        self$partial_type <- attr(pattern, "partial_type")
+        pattern <- drop_partial_attrs(pattern)
+        self$pattern <- unclass(pattern)
+      } else if (inherits(pattern, "form_file")) {
         self$pattern <- unclass(pattern)
       } else {
         self$pattern <- pattern
@@ -395,8 +419,9 @@ BodyPattern <- R6::R6Class(
         if (length(self$pattern) == 0) {
           return(TRUE)
         }
-        private$matching_hashes(private$body_as_hash(body, content_type), self$pattern)
+        private$matching_hashes(self$pattern, private$body_as_hash(body, content_type))
       } else {
+        # FIXME: add partial approach later
         (private$empty_string(self$pattern) && private$empty_string(body)) || all(self$pattern == body)
       }
     },
@@ -409,29 +434,31 @@ BodyPattern <- R6::R6Class(
     empty_string = function(string) {
       is.null(string) || !nzchar(string)
     },
-    matching_hashes = function(z, pattern) {
-      if (is.null(z)) {
+    matching_hashes = function(pattern, body) {
+      if (is.null(pattern)) {
         return(FALSE)
       }
-      if (!inherits(z, "list")) {
+      if (!inherits(pattern, "list")) {
         return(FALSE)
       }
-      if (!all(sort(names(z)) %in% sort(names(pattern)))) {
-        return(FALSE)
-      }
-      for (i in seq_along(z)) {
-        expected <- pattern[[names(z)[i]]]
-        actual <- z[[i]]
-        if (inherits(actual, "list") && inherits(expected, "list")) {
-          if (!private$matching_hashes(actual, expected)) {
-            return(FALSE)
-          }
-        } else {
-          if (!identical(as.character(actual), as.character(expected))) {
-            return(FALSE)
-          }
+
+      pattern_char <- rapply(pattern, as.character, how = "replace")
+      body_char <- rapply(body, as.character, how = "replace")
+      if (self$partial) {
+        names_values_check <- switch(self$partial_type,
+          include = identical(intersect(pattern_char, body_char), pattern_char),
+          exclude = length(intersect(pattern_char, body_char)) == 0
+        )
+        if (!names_values_check) {
+          return(FALSE)
+        }
+      } else {
+        if (!identical(pattern_char, body_char)) {
+          return(FALSE)
         }
       }
+
+      # return TRUE (a match) if no FALSE's returned above
       return(TRUE)
     },
     body_as_hash = function(body, content_type) {
@@ -614,7 +641,7 @@ UriPattern <- R6::R6Class(
     query_params_matches = function(uri) {
       if (self$partial) {
         uri_qp <- self$extract_query(uri)
-        qp <- private$drop_partial_attrs(self$query_params)
+        qp <- drop_partial_attrs(self$query_params)
 
         bools <- vector(mode = "logical")
         for (i in seq_along(qp)) {
@@ -673,16 +700,14 @@ UriPattern <- R6::R6Class(
     #' @description Print pattern for easy human consumption
     #' @return a string
     to_s = function() self$pattern
-  ),
-  private = list(
-    drop_partial_attrs = function(x) {
-      attr(x, "partial_match") <- NULL
-      attr(x, "partial_type") <- NULL
-      return(x)
-    }
   )
 )
 
+drop_partial_attrs <- function(x) {
+  attr(x, "partial_match") <- NULL
+  attr(x, "partial_type") <- NULL
+  return(x)
+}
 
 add_scheme <- function(x) {
   if (is.na(urltools::url_parse(x)$scheme)) {

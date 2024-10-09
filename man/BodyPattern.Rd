@@ -52,12 +52,31 @@ z <- BodyPattern$new(
 )
 z$pattern
 z$matches(bb$body)
+
+# partial matching
+## including
+partial_incl <- including(list(foo = "bar"))
+z <- BodyPattern$new(pattern = partial_incl)
+z$pattern
+z$matches(list(foo = "bar", a = 5)) # TRUE
+
+## excluding
+partial_excl <- excluding(list(hello = "world"))
+z <- BodyPattern$new(pattern = partial_excl)
+z$pattern
+z$matches(list(a = 5)) # TRUE
+z$matches(list(hello = "mars", a = 5)) # TRUE
+z$matches(list(hello = "world")) # FALSE
 }
 \keyword{internal}
 \section{Public fields}{
 \if{html}{\out{<div class="r6-fields">}}
 \describe{
 \item{\code{pattern}}{a list}
+
+\item{\code{partial}}{bool, default: \code{FALSE}}
+
+\item{\code{partial_type}}{a string, default: NULL}
 }
 \if{html}{\out{</div>}}
 }

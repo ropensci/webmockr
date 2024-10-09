@@ -169,19 +169,41 @@ con$get("get")$parse("UTF-8")
 con$get("get")$parse("UTF-8")
 
 # partial matching
+## query parameters
 library(httr)
-## matches
+enable()
+### matches
 stub_request("get", "https://hb.opencpu.org/get") \%>\%
   wi_th(query = including(list(fruit = "pear"))) \%>\%
   to_return(body = "matched on partial query!")
-resp <- GET("https://hb.opencpu.org/get", query = list(fruit = "pear"))
+resp <- GET("https://hb.opencpu.org/get", 
+  query = list(fruit = "pear", bread = "scone"))
 rawToChar(content(resp))
-## doesn't match
+### doesn't match
 stub_registry_clear()
 stub_request("get", "https://hb.opencpu.org/get") \%>\%
   wi_th(query = list(fruit = "pear")) \%>\%
   to_return(body = "didn't match, ugh!")
-# GET("https://hb.opencpu.org/get", query = list(fruit = "pear", meat = "chicken"))
+# GET("https://hb.opencpu.org/get", 
+#  query = list(fruit = "pear", meat = "chicken"))
+
+## request body
+### matches - including
+stub_request("post", "https://hb.opencpu.org/post") \%>\%
+  wi_th(body = including(list(fruit = "pear"))) \%>\%
+  to_return(body = "matched on partial body!")
+resp <- POST("https://hb.opencpu.org/post", 
+  body = list(fruit = "pear", meat = "chicken"))
+rawToChar(content(resp))
+### matches - excluding
+stub_request("post", "https://hb.opencpu.org/post") \%>\%
+  wi_th(body = excluding(list(fruit = "pear"))) \%>\%
+  to_return(body = "matched on partial body!")
+res <- POST("https://hb.opencpu.org/post",
+  body = list(color = "blue"))
+rawToChar(content(res))
+# POST("https://hb.opencpu.org/post",
+#  body = list(fruit = "pear", meat = "chicken"))
 
 # clear all stubs
 stub_registry()
