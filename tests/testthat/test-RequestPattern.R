@@ -122,9 +122,15 @@ test_that("BodyPattern: structure is correct", {
   expect_false(aaaa$matches(bb$body))
 
   # with pattern empty
-  bb <- BodyPattern$new(pattern = list())
-  expect_true(bb$matches(list()))
+  empties <- BodyPattern$new(pattern = list())
+  expect_true(empties$matches(list()))
 
+  # with pattern and body
+  strings <- BodyPattern$new(pattern = "some string")
+  expect_true(strings$matches("some string"))
+  expect_false(strings$matches("some string"))
+
+  # error behavior
   expect_error(
     aa$matches(),
     "argument \"body\" is missing"
