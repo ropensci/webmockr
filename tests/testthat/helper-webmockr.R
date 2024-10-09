@@ -17,5 +17,5 @@ re_escape <- function(strings){
   strings
 }
 
-base_url = "http://hb.opencpu.org"
+base_url = "https://hb.opencpu.org"
 hb <- function(x = NULL) if (is.null(x)) base_url else paste0(base_url, x)
