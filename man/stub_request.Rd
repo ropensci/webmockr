@@ -176,7 +176,7 @@ enable()
 stub_request("get", "https://hb.opencpu.org/get") \%>\%
   wi_th(query = including(list(fruit = "pear"))) \%>\%
   to_return(body = "matched on partial query!")
-resp <- GET("https://hb.opencpu.org/get", 
+resp <- GET("https://hb.opencpu.org/get",
   query = list(fruit = "pear", bread = "scone"))
 rawToChar(content(resp))
 ### doesn't match
@@ -184,7 +184,7 @@ stub_registry_clear()
 stub_request("get", "https://hb.opencpu.org/get") \%>\%
   wi_th(query = list(fruit = "pear")) \%>\%
   to_return(body = "didn't match, ugh!")
-# GET("https://hb.opencpu.org/get", 
+# GET("https://hb.opencpu.org/get",
 #  query = list(fruit = "pear", meat = "chicken"))
 
 ## request body
@@ -192,7 +192,7 @@ stub_request("get", "https://hb.opencpu.org/get") \%>\%
 stub_request("post", "https://hb.opencpu.org/post") \%>\%
   wi_th(body = including(list(fruit = "pear"))) \%>\%
   to_return(body = "matched on partial body!")
-resp <- POST("https://hb.opencpu.org/post", 
+resp <- POST("https://hb.opencpu.org/post",
   body = list(fruit = "pear", meat = "chicken"))
 rawToChar(content(resp))
 ### matches - excluding

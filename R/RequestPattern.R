@@ -446,7 +446,13 @@ BodyPattern <- R6::R6Class(
       body_char <- rapply(body, as.character, how = "replace")
       if (self$partial) {
         names_values_check <- switch(self$partial_type,
-          include = identical(intersect(pattern_char, body_char), pattern_char),
+          # unname() here not needed for R < 4.5, but is needed for R 4.5
+          # because intersect changes to output unnamed lists
+          include =
+            identical(
+              unname(intersect(pattern_char, body_char)),
+              unname(pattern_char)
+            ),
           exclude = length(intersect(pattern_char, body_char)) == 0
         )
         if (!names_values_check) {

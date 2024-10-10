@@ -159,7 +159,7 @@ test_that("include request body", {
     wi_th(body = including(list(fruit = "pear"))) %>%
     to_return(body = "matched on including partial body!")
 
-  resp_matched <- POST("https://hb.opencpu.org/post", 
+  resp_matched <- POST("https://hb.opencpu.org/post",
     body = list(fruit = "pear", meat = "chicken"))
 
   expect_equal(resp_matched$status_code, 200)
