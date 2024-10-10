@@ -483,16 +483,17 @@ BodyPattern <- R6::R6Class(
 )
 
 BODY_FORMATS <- list(
-  "text/xml"               = "xml",
-  "application/xml"        = "xml",
-  "application/json"       = "json",
-  "text/json"              = "json",
-  "application/javascript" = "json",
-  "text/javascript"        = "json",
-  "text/html"              = "html",
-  "application/x-yaml"     = "yaml",
-  "text/yaml"              = "yaml",
-  "text/plain"             = "plain"
+  "text/xml"                   = "xml",
+  "application/xml"            = "xml",
+  "application/json"           = "json",
+  "text/json"                  = "json",
+  "application/javascript"     = "json",
+  "text/javascript"            = "json",
+  "application/x-amz-json-1.1" = "json", # AWS
+  "text/html"                  = "html",
+  "application/x-yaml"         = "yaml",
+  "text/yaml"                  = "yaml",
+  "text/plain"                 = "plain"
 )
 
 #' @title UriPattern
