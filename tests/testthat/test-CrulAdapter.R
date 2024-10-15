@@ -192,7 +192,7 @@ test_that("crul requests with JSON-encoded bodies work", {
 
   # encoded body works
   res <- cli$post("post", body = body, encode = "json")
-  expect_is(res, "HttpResponse")
+  expect_s3_class(res, "HttpResponse")
 
   # encoded but modified body fails
   expect_error(
@@ -200,9 +200,6 @@ test_that("crul requests with JSON-encoded bodies work", {
     "Unregistered request"
   )
 
-  # unencoded body fails
-  expect_error(
-    cli$post("post", body = body),
-    "Unregistered request"
-  )
+  # unencoded body should work because we serialize internally
+  expect_s3_class(cli$post("post", body = body), "HttpResponse")
 })

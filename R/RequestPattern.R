@@ -131,7 +131,11 @@ RequestPattern <- R6::R6Class(
       gsub("^\\s+|\\s+$", "", paste(
         toupper(self$method_pattern$to_s()),
         self$uri_pattern$to_s(),
-        if (!is.null(self$body_pattern)) paste0(" with body ", self$body_pattern$to_s()),
+        if (!is.null(self$body_pattern)) {
+          if (!is.null(self$body_pattern$pattern)) {
+            paste0(" with body ", self$body_pattern$to_s())
+          }
+        },
         if (!is.null(self$headers_pattern)) paste0(" with headers ", self$headers_pattern$to_s())
       ))
     }
@@ -319,6 +323,11 @@ HeadersPattern <- R6::R6Class(
   )
 )
 
+seems_like_json <- function(x) {
+  res <- tryCatch(jsonlite::fromJSON(x), error = function(msg) msg)
+  !inherits(res, "error")
+}
+
 #' @title BodyPattern
 #' @description body matcher
 #' @export
@@ -408,8 +417,14 @@ BodyPattern <- R6::R6Class(
       } else {
         self$pattern <- pattern
       }
+
+      # convert self$pattern to a list if it's json
+      if (seems_like_json(self$pattern)) {
+        self$pattern <- jsonlite::fromJSON(self$pattern)
+      }
     },
 
+    #' @importFrom rlang is_null is_na
     #' @description Match a request body pattern against a pattern
     #' @param body (list) the body
     #' @param content_type (character) content type
@@ -419,10 +434,21 @@ BodyPattern <- R6::R6Class(
         if (length(self$pattern) == 0) {
           return(TRUE)
         }
-        private$matching_hashes(self$pattern, private$body_as_hash(body, content_type))
+        private$matching_hashes(
+          self$pattern,
+          private$body_as_hash(body, content_type)
+        )
       } else {
         # FIXME: add partial approach later
-        (private$empty_string(self$pattern) && private$empty_string(body)) || all(self$pattern == body)
+        (private$empty_string(self$pattern) && private$empty_string(body)) || {
+          if (xor(is_na(self$pattern), is_na(body))) {
+            return(FALSE)
+          }
+          if (xor(is_null(self$pattern), is_null(body))) {
+            return(FALSE)
+          }
+          all(self$pattern == body)
+        }
       }
     },
 
@@ -432,10 +458,10 @@ BodyPattern <- R6::R6Class(
   ),
   private = list(
     empty_string = function(string) {
-      is.null(string) || !nzchar(string)
+      is_null(string) || !nzchar(string)
     },
     matching_hashes = function(pattern, body) {
-      if (is.null(pattern)) {
+      if (is_null(pattern)) {
         return(FALSE)
       }
       if (!inherits(pattern, "list")) {
@@ -444,6 +470,7 @@ BodyPattern <- R6::R6Class(
 
       pattern_char <- rapply(pattern, as.character, how = "replace")
       body_char <- rapply(body, as.character, how = "replace")
+
       if (self$partial) {
         names_values_check <- switch(self$partial_type,
           # unname() here not needed for R < 4.5, but is needed for R 4.5
@@ -471,10 +498,21 @@ BodyPattern <- R6::R6Class(
       if (inherits(body, "form_file")) body <- unclass(body)
       bctype <- BODY_FORMATS[[content_type]] %||% ""
       if (bctype == "json") {
-        jsonlite::fromJSON(body, FALSE)
+        jsonlite::fromJSON(body)
       } else if (bctype == "xml") {
         check_for_pkg("xml2")
-        xml2::read_xml(body)
+        try_xml2list <- rlang::try_fetch({
+          body_xml <- xml2::read_xml(body)
+          xml_as_list <- xml2::as_list(body_xml)
+          lapply(xml_as_list, promote_attr)
+        }, error = function(e) e)
+        if (rlang::is_error(try_xml2list)) {
+          rlang::warn("xml to list conversion failed; using xml string for comparison",
+            use_cli_format = TRUE, .frequency = "always")
+          body
+        } else {
+          try_xml2list
+        }
       } else {
         query_mapper(body)
       }
@@ -495,6 +533,29 @@ BODY_FORMATS <- list(
   "text/yaml"                  = "yaml",
   "text/plain"                 = "plain"
 )
+
+# remove_reserved & promote_attr from https://www.garrickadenbuie.com/blog/recursive-xml-workout/
+remove_reserved <- function(this_attr) {
+  reserved_attr <- c("class", "comment", "dim", "dimnames", "names", "row.names", "tsp")
+  if (!any(reserved_attr %in% names(this_attr))) {
+    return(this_attr)
+  }
+  for (reserved in reserved_attr) {
+    if (!is.null(this_attr[[reserved]])) this_attr[[reserved]] <- NULL
+  }
+  this_attr
+}
+promote_attr <- function(ll) {
+  this_attr <- attributes(ll)
+  this_attr <- remove_reserved(this_attr)
+  if (length(ll)) {
+    # recursive case
+    c(this_attr, lapply(ll, promote_attr))
+  } else {
+    # base case (no sub-items)
+    this_attr
+  }
+}
 
 #' @title UriPattern
 #' @description uri matcher

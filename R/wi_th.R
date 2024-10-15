@@ -25,7 +25,10 @@
 #' all will be coerced to character.
 #' - body: various, including character string, list, raw, numeric,
 #' upload ([crul::upload()], [httr::upload_file()], [curl::form_file()], or
-#' [curl::form_data()] they both create the same object in the end)
+#' [curl::form_data()] they both create the same object in the end). for the
+#' special case of an empty request body use `NA` instead of `NULL` because
+#' with `NULL` we can't determine if the user did not supply a body or
+#' they supplied `NULL` to indicate an empty body.
 #' - headers: (list) a named list
 #' - basic_auth: (character) a length two vector, username and password.
 #' authentication type (basic/digest/ntlm/etc.) is ignored. that is,

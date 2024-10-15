@@ -363,7 +363,7 @@ test_that("httr requests with JSON-encoded bodies work", {
 
   # encoded body works
   res <- httr::POST(hb("/post"), body = body, encode = "json")
-  expect_is(res, "response")
+  expect_s3_class(res, "response")
 
   # encoded but modified body fails
   expect_error(
@@ -371,9 +371,6 @@ test_that("httr requests with JSON-encoded bodies work", {
     "Unregistered request"
   )
 
-  # unencoded body fails
-  expect_error(
-    httr::POST(hb("/post"), body = body),
-    "Unregistered request"
-  )
+  # unencoded body should work because we serialize internally
+  expect_s3_class(httr::POST(hb("/post"), body = body), "response")
 })

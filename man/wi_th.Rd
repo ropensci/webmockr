@@ -36,7 +36,10 @@ class in the recorded stub. You can pass numeric, integer, etc., but
 all will be coerced to character.
 \item body: various, including character string, list, raw, numeric,
 upload (\code{\link[crul:upload]{crul::upload()}}, \code{\link[httr:upload_file]{httr::upload_file()}}, \code{\link[curl:multipart]{curl::form_file()}}, or
-\code{\link[curl:multipart]{curl::form_data()}} they both create the same object in the end)
+\code{\link[curl:multipart]{curl::form_data()}} they both create the same object in the end). for the
+special case of an empty request body use \code{NA} instead of \code{NULL} because
+with \code{NULL} we can't determine if the user did not supply a body or
+they supplied \code{NULL} to indicate an empty body.
 \item headers: (list) a named list
 \item basic_auth: (character) a length two vector, username and password.
 authentication type (basic/digest/ntlm/etc.) is ignored. that is,
