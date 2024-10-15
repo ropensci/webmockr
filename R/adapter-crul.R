@@ -99,8 +99,8 @@ CrulAdapter <- R6::R6Class("CrulAdapter",
       
       # if crul_resp$content is character, it must be a file path (I THINK?)
       if (is.null(write_disk_path)) {
-        stop("if writing to disk, write_disk_path must be given; ",
-             "see ?vcr::vcr_configure")
+        abort(c("if writing to disk, write_disk_path must be given",
+          "see ?vcr::vcr_configure"))
       }
       
       response$content <- file.path(

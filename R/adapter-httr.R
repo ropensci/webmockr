@@ -65,7 +65,7 @@ httr_cookies_df <- function() {
 check_user_pwd <- function(x) {
   if (is.null(x)) return(x)
   if (grepl("^https?://", x)) {
-    stop(sprintf("expecting string of pattern 'user:pwd', got '%s'", x))
+    abort(c("expecting string of pattern 'user:pwd'", sprintf("got '%s'", x)))
   }
   return(x)
 }
@@ -105,7 +105,7 @@ build_httr_request = function(x) {
 #' to turn off. default: `TRUE`
 #' @return Silently returns `TRUE` when enabled and `FALSE` when disabled.
 httr_mock <- function(on = TRUE) {
-  check_for_pkg("httr")
+  check_installed("httr")
   webmockr_handle <- function(req) {
     webmockr::HttrAdapter$new()$handle_request(req)
   }

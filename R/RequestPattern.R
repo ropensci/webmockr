@@ -94,7 +94,7 @@ RequestPattern <- R6::R6Class(
     initialize = function(method, uri = NULL, uri_regex = NULL,
                           query = NULL, body = NULL, headers = NULL) {
       if (is.null(uri) && is.null(uri_regex)) {
-        stop("one of uri or uri_regex is required", call. = FALSE)
+        abort("one of uri or uri_regex is required")
       }
 
       self$method_pattern <- MethodPattern$new(pattern = method)
@@ -173,10 +173,10 @@ RequestPattern <- R6::R6Class(
     },
     validate_basic_auth = function(x) {
       if (!inherits(x, "list") || length(unique(unname(unlist(x)))) == 1) {
-        stop(
-          "'basic_auth' option should be a list of length 2: username and password",
-          call. = FALSE
-        )
+        abort(c(
+          "error in basic auth",
+          "'basic_auth' option should be list of length 2: username, password"
+        ))
       }
     },
     make_basic_auth = function(x, y) {
@@ -500,7 +500,7 @@ BodyPattern <- R6::R6Class(
       if (bctype == "json") {
         jsonlite::fromJSON(body)
       } else if (bctype == "xml") {
-        check_for_pkg("xml2")
+        check_installed("xml2")
         try_xml2list <- rlang::try_fetch({
           body_xml <- xml2::read_xml(body)
           xml_as_list <- xml2::as_list(body_xml)

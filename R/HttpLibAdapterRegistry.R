@@ -30,7 +30,7 @@ HttpLibAdapaterRegistry <- R6::R6Class(
     register = function(x) {
       # FIXME: when other adapters supported, change this inherits test
       if (!inherits(x, c("CrulAdapter", "HttrAdapter", "Httr2Adapter"))) {
-        stop("'x' must be an adapter, such as CrulAdapter", call. = FALSE)
+        abort("'x' must be an adapter, such as CrulAdapter")
       }
       self$adapters <- c(self$adapters, x)
     }

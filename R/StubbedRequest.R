@@ -187,7 +187,7 @@ StubbedRequest <- R6::R6Class(
         self$method <- verb
       }
       if (is.null(uri) && is.null(uri_regex)) {
-        stop("one of uri or uri_regex is required", call. = FALSE)
+        abort("one of uri or uri_regex is required")
       }
       self$uri <- uri
       self$uri_regex <- uri_regex
@@ -281,7 +281,7 @@ StubbedRequest <- R6::R6Class(
         bod_sum <- summary(body)
         close.connection(body)
         if (bod_sum$class != "file") {
-          stop("'to_return' only supports connections of type 'file'")
+          abort("'to_return' only supports connections of type 'file'")
         }
         structure(bod_sum$description, type = "file")
       } else {
@@ -296,13 +296,10 @@ StubbedRequest <- R6::R6Class(
             raw()
           } else {
             webmockr_stub_registry$remove_request_stub(self)
-            stop(
-              paste0(
-                "Unknown type of `body`: ",
-                "must be NULL, FALSE, character, raw or list; stub removed"
-              ),
-              call. = FALSE
-            )
+            abort(c(
+              "Unknown `body` type",
+              "*" = "must be NULL, FALSE, character, raw or list; stub removed"
+            ))
           }
         } else if (inherits(body, "raw")) {
           body
@@ -317,14 +314,11 @@ StubbedRequest <- R6::R6Class(
           }
         } else if (!is.list(body)) {
           webmockr_stub_registry$remove_request_stub(self)
-          stop(
-            paste0(
-              "Unknown type of `body`: ",
-              "must be numeric, NULL, FALSE, character, json, ",
-              "raw, list, or file connection; stub removed"
-            ),
-            call. = FALSE
-          )
+          abort(c(
+            "Unknown `body` type",
+            "*" = "must be: numeric, NULL, FALSE, character, json, raw, list, or file connection",
+            "*" = "stub removed"
+          ))
         } else {
           charToRaw(jsonlite::toJSON(body, auto_unbox = TRUE))
         }

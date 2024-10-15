@@ -214,15 +214,6 @@ hz_namez <- function(x) {
   }
 }
 
-# check for a package
-check_for_pkg <- function(x) {
-  if (!requireNamespace(x, quietly = TRUE)) {
-    stop(sprintf("Please install '%s'", x), call. = FALSE)
-  } else {
-    invisible(TRUE)
-  }
-}
-
 # lower case names in a list, return that list
 names_to_lower <- function(x) {
   names(x) <- tolower(names(x))

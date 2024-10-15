@@ -100,13 +100,13 @@ wi_th <- function(.data, ..., .list = list()) {
     !any(c("query", "body", "headers", "basic_auth") %in% names(z)) &&
       length(z) != 0
   ) {
-    stop("'wi_th' only accepts query, body, headers, basic_auth")
+    abort("'wi_th' only accepts query, body, headers, basic_auth")
   }
-  if (any(duplicated(names(z)))) stop("can not have duplicated names")
+  if (any(duplicated(names(z)))) abort("can not have duplicated names")
   assert(z$query, c("list", "partial"))
-  if (!all(hz_namez(z$query))) stop("'query' must be a named list")
+  if (!all(hz_namez(z$query))) abort("'query' must be a named list")
   assert(z$headers, "list")
-  if (!all(hz_namez(z$headers))) stop("'headers' must be a named list")
+  if (!all(hz_namez(z$headers))) abort("'headers' must be a named list")
   assert(z$basic_auth, "character")
   assert_eq(z$basic_auth, 2)
   .data$with(

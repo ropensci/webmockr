@@ -34,9 +34,8 @@ pluck_body <- function(x) {
    
   # unknown, fail out
   } else {
-    stop("couldn't fetch request body; file an issue at \n",
-         "  https://github.com/ropensci/webmockr/issues/",
-         call. = FALSE)
+    abort("couldn't fetch request body; file an issue at \n",
+         "  https://github.com/ropensci/webmockr/issues/")
   }
 }
 

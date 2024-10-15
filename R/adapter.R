@@ -55,14 +55,13 @@ Adapter <- R6::R6Class("Adapter",
     #' @description Create a new Adapter object
     initialize = function() {
       if (is.null(self$client)) {
-        stop(
-          "Adapter parent class should not be called directly.\n",
-          "Use one of the following package-specific adapters instead:\n",
-          "  - CrulAdapter$new()\n",
-          "  - HttrAdapter$new()\n",
-          "  - Httr2Adapter$new()\n",
-          call. = FALSE
-        )
+        abort(c(
+          "Adapter parent class should not be called directly",
+          "*" = "Use one of the following package-specific adapters instead:",
+          "*" = "  CrulAdapter$new()",
+          "*" = "  HttrAdapter$new()",
+          "*" = "  Httr2Adapter$new()"
+        ))
       }
     },
 
@@ -216,7 +215,7 @@ Adapter <- R6::R6Class("Adapter",
           msgz <- ""
         }
         ending <- "\n============================================================"
-        stop(paste0(msgx, msgy, msgz, ending), call. = FALSE)
+        abort(paste0(msgx, msgy, msgz, ending))
       }
 
       return(resp)

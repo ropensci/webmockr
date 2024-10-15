@@ -24,7 +24,7 @@ enable <- function(adapter = NULL, options = list(), quiet = FALSE) {
   adnms <- vapply(http_lib_adapter_registry$adapters, function(w) w$client, "")
   if (!is.null(adapter)) {
     if (!adapter %in% webmockr_adapters) {
-      stop("adapter must be one of 'crul', 'httr', or 'httr2'")
+      abort("adapter must be one of 'crul', 'httr', or 'httr2'")
     }
     if (!requireNamespace(adapter, quietly = TRUE)) {
       message(adapter, " not installed, skipping enable")
@@ -50,8 +50,8 @@ enable <- function(adapter = NULL, options = list(), quiet = FALSE) {
 #' @rdname enable
 enabled <- function(adapter = "crul") {
   if (!adapter %in% webmockr_adapters) {
-    stop("'adapter' must be in the set ", 
-      paste0(webmockr_adapters, collapse = ", "))
+    abort(c("'adapter' must be in the set ", 
+          paste0(webmockr_adapters, collapse = ", ")))
   }
   webmockr_lightswitch[[adapter]]
 }
@@ -62,7 +62,7 @@ disable <- function(adapter = NULL, options = list(), quiet = FALSE) {
   adnms <- vapply(http_lib_adapter_registry$adapters, function(w) w$client, "")
   if (!is.null(adapter)) {
     if (!adapter %in% webmockr_adapters) {
-      stop("adapter must be one of 'crul', 'httr', or 'httr2'")
+      abort("adapter must be one of 'crul', 'httr', or 'httr2'")
     }
     if (!requireNamespace(adapter, quietly = TRUE)) {
       message(adapter, " not installed, skipping disable")

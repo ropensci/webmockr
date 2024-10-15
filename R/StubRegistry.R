@@ -88,12 +88,10 @@ StubRegistry <- R6::R6Class(
       if (stub$to_s() %in% xx) {
         self$request_stubs <- self$request_stubs[-which(stub$to_s() %in% xx)]
       } else {
-        stop(
-          "Request stub \n\n  ",
-          stub$to_s(),
-          "\n\n is not registered.",
-          call. = FALSE
-        )
+        abort(c(
+          "This request stub is not registered:",
+          stub$to_s()
+        ))
       }
     },
 

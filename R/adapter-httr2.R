@@ -99,7 +99,7 @@ build_httr2_request = function(x) {
 #' @param on (logical) `TRUE` to turn on, `FALSE` to turn off. default: `TRUE`
 #' @return Silently returns `TRUE` when enabled and `FALSE` when disabled.
 httr2_mock <- function(on = TRUE) {
-  check_for_pkg("httr2")
+  check_installed("httr2")
   if (on) {
     httr2::local_mocked_responses(~ Httr2Adapter$new()$handle_request(.x), env = .GlobalEnv)
   } else {

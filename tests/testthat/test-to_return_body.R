@@ -55,6 +55,6 @@ test_that("to_return: setting body with wrong type errors well", {
   expect_error(
     stub_request("get", "https://google.com") %>%
       to_return(body = TRUE),
-    "Unknown type of `body`"
+    "Unknown `body` type"
   )
 })
