@@ -103,12 +103,13 @@ test_that("should match when pattern body is json or list", {
     a = "1",
     b = "five",
     c = list(
-      d = c("e", "f")
+      d = list("e", "f")
     )
   )
 
   # These should both be TRUE
-  pattern_as_list <- RequestPattern$new(method = "get", uri = hb("/get"), body = body_list)
+  pattern_as_list <- RequestPattern$new(method = "get", uri = hb("/get"),
+    body = body_list)
   rs7 <- RequestSignature$new(method = "get", uri = hb("/get"),
     options = list(
       headers = list(`Content-Type` = "application/json"),
@@ -119,12 +120,6 @@ test_that("should match when pattern body is json or list", {
 
   pattern_as_json <- RequestPattern$new(method = "get", uri = hb("/get"),
     body = jsonlite::toJSON(body_list, auto_unbox = TRUE))
-  rs7 <- RequestSignature$new(method = "get", uri = hb("/get"),
-    options = list(
-      headers = list(`Content-Type` = "application/json"),
-      body = jsonlite::toJSON(body_list, auto_unbox = TRUE)
-    )
-  )
   expect_true(pattern_as_json$matches(rs7))
 })
 

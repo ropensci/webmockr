@@ -420,7 +420,7 @@ BodyPattern <- R6::R6Class(
 
       # convert self$pattern to a list if it's json
       if (seems_like_json(self$pattern)) {
-        self$pattern <- jsonlite::fromJSON(self$pattern)
+        self$pattern <- jsonlite::fromJSON(self$pattern, FALSE)
       }
     },
 
@@ -498,7 +498,7 @@ BodyPattern <- R6::R6Class(
       if (inherits(body, "form_file")) body <- unclass(body)
       bctype <- BODY_FORMATS[[content_type]] %||% ""
       if (bctype == "json") {
-        jsonlite::fromJSON(body)
+        jsonlite::fromJSON(body, FALSE)
       } else if (bctype == "xml") {
         check_installed("xml2")
         try_xml2list <- rlang::try_fetch({
