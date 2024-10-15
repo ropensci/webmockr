@@ -160,7 +160,7 @@ RequestSignature <- R6::R6Class(
 
 cat_foo <- function(x) {
   cat(paste0("     ",
-             paste0(paste(names(x), x, sep = ": "),
+             paste0(paste(names(x) %||% "<unnamed>", x, sep = ": "),
                     collapse = "\n     ")), sep = "\n")
 }
 
