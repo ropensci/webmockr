@@ -97,8 +97,8 @@ wi_th <- function(.data, ..., .list = list()) {
   if (length(z) == 0) z <- NULL
   z <- c(z, .list)
   if (
-    !any(c("query", "body", "headers", "basic_auth") %in% names(z)) &&
-      length(z) != 0
+    !any(c("query", "body", "headers", "basic_auth") %in% names(z))
+    && length(z) != 0
   ) {
     abort("'wi_th' only accepts query, body, headers, basic_auth")
   }
