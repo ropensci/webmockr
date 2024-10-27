@@ -467,6 +467,9 @@ BodyPattern <- R6::R6Class(
       if (!inherits(pattern, "list")) {
         return(FALSE)
       }
+      if (!rlang::is_list(body)) {
+        return(FALSE)
+      }
 
       pattern_char <- rapply(pattern, as.character, how = "replace")
       body_char <- rapply(body, as.character, how = "replace")
@@ -496,6 +499,7 @@ BodyPattern <- R6::R6Class(
     },
     body_as_hash = function(body, content_type) {
       if (inherits(body, "form_file")) body <- unclass(body)
+      if (is_empty(content_type)) content_type <- ""
       bctype <- BODY_FORMATS[[content_type]] %||% ""
       if (bctype == "json") {
         jsonlite::fromJSON(body, FALSE)

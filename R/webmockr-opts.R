@@ -7,6 +7,8 @@
 #' all others are not allowed)
 #' @param show_stubbing_instructions (logical) Default: `TRUE`. If `FALSE`,
 #' stubbing instructions are not shown
+#' @param show_body_diff (logical) Default: `FALSE`. If `TRUE` show's
+#' a diff of the stub's request body and the http request body
 #' @param uri (character) a URI/URL as a character string - to determine
 #' whether or not it is allowed
 #'
@@ -35,18 +37,23 @@
 #' webmockr_disable_net_connect(allow = "google.com")
 #' ### is a specific URI allowed?
 #' webmockr_net_connect_allowed("google.com")
+#'
+#' # show body diff
+#' webmockr_configure(show_body_diff = TRUE)
 #' }
 webmockr_configure <- function(
   allow_net_connect = FALSE,
   allow_localhost = FALSE,
   allow = NULL,
-  show_stubbing_instructions = TRUE) {
+  show_stubbing_instructions = TRUE,
+  show_body_diff = FALSE) {
 
   opts <- list(
     allow_net_connect = allow_net_connect,
     allow_localhost = allow_localhost,
     allow = allow,
-    show_stubbing_instructions = show_stubbing_instructions
+    show_stubbing_instructions = show_stubbing_instructions,
+    show_body_diff = show_body_diff
   )
   for (i in seq_along(opts)) {
     assign(names(opts)[i], opts[[i]], envir = webmockr_conf_env)
@@ -125,6 +132,8 @@ print.webmockr_config <- function(x, ...) {
   cat(paste0("  allow_localhost?: ", x$allow_localhost), sep = "\n")
   cat(paste0("  allow: ", x$allow %||% ""), sep = "\n")
   cat(paste0("  show_stubbing_instructions: ", x$show_stubbing_instructions),
+      sep = "\n")
+  cat(paste0("  show_body_diff: ", x$show_body_diff),
       sep = "\n")
 }
 

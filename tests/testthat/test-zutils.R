@@ -114,6 +114,7 @@ test_that("webmockr_allow_net_connect", {
 
 context("config options: show_stubbing_instructions")
 test_that("show_stubbing_instructions", {
+  enable()
   x = crul::HttpClient$new("https://hb.opencpu.org/get")
   
   # DO show stubbing instructions
@@ -128,6 +129,7 @@ test_that("show_stubbing_instructions", {
 
   # reset to default
   webmockr_configure(show_stubbing_instructions = TRUE)
+  disable()
 })
 
 context("util fxns: webmockr_configuration")
@@ -135,8 +137,8 @@ test_that("webmockr_configuration", {
   expect_is(webmockr_configuration(), "webmockr_config")
   expect_named(
     webmockr_configuration(),
-    c('show_stubbing_instructions', 'allow', 'allow_net_connect',
-      'allow_localhost')
+    c('show_stubbing_instructions', 'show_body_diff', 'allow',
+      'allow_net_connect', 'allow_localhost')
   )
 
   # errors when an argument passed

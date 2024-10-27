@@ -116,7 +116,7 @@ test_that("Httr2Adapter works", {
   unloadNamespace("vcr")
   expect_error(
     res$handle_request(httr2_obj),
-    sprintf("Real HTTP connections are disabled.\nUnregistered request:\n  GET:  %s", hb("/get"))
+    "Real HTTP connections are disabled.\n\033\\[33m!\033\\[39m Unregistered request"
   )
 
   invisible(stub_request("get", hb("/get")))

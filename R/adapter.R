@@ -197,25 +197,29 @@ Adapter <- R6::R6Class("Adapter",
         }
 
         # no stubs found and net connect not allowed - STOP
-        x <- "Real HTTP connections are disabled.\nUnregistered request:\n "
-        y <- "\n\nYou can stub this request with the following snippet:\n\n  "
-        z <- "\n\nregistered request stubs:\n\n"
-        msgx <- paste(x, request_signature$to_s())
+        x <- c("Real HTTP connections are disabled.", "!" = "Unregistered request:")
+        y <- "\nYou can stub this request with the following snippet:\n"
+        z <- "\nregistered request stubs:\n"
+        # msgx <- paste(x, request_signature$to_s())
+        msgx <- c(x, "i" = request_signature$to_s())
         msgy <- ""
         if (webmockr_conf_env$show_stubbing_instructions) {
           msgy <- paste(y, private$make_stub_request_code(request_signature))
         }
+        msgz <- ""
         if (length(webmockr_stub_registry$request_stubs)) {
           msgz <- paste(
             z,
             paste0(vapply(webmockr_stub_registry$request_stubs, function(z)
               z$to_s(), ""), collapse = "\n ")
           )
-        } else {
-          msgz <- ""
+        }
+        msg_diff <- ""
+        if (webmockr_conf_env$show_body_diff) {
+          msg_diff <- private$make_body_diff(request_signature)
         }
         ending <- "\n============================================================"
-        abort(paste0(msgx, msgy, msgz, ending))
+        abort(c(msgx, msgy, msgz, msg_diff, ending))
       }
 
       return(resp)
@@ -377,6 +381,23 @@ Adapter <- R6::R6Class("Adapter",
       }
 
       return(response)
+    },
+
+    make_body_diff = function(request_signature) {
+      check_installed("diffobj")
+      prefix <- "\n\nBody diff:"
+      stubs <- webmockr_stub_registry$request_stubs
+      comps <- lapply(stubs, \(stub) {
+        diffobj::diffObj(stub$body, request_signature$body)
+      })
+      num_diffs <- vapply(comps, \(w) attr(w@diffs, "meta")$diffs[2], 1)
+      if (length(stubs) > 1) {
+        num_diffs_msg <- "diffs: >1 stub found, showing diff with least differences"
+        diff_to_show <- comps[which.min(num_diffs)][[1]]
+        c(prefix, "i" = num_diffs_msg, as.character(diff_to_show))
+      } else {
+        c(prefix, as.character(comps[[1]]))
+      }
     }
 
   )

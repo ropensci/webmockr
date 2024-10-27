@@ -83,7 +83,7 @@ test_that("CrulAdapter works", {
   unloadNamespace("vcr")
   expect_error(
     res$handle_request(crul_obj),
-    "Real HTTP connections are disabled.\nUnregistered request:\n  GET:  http://localhost:9000/get\n\nYou can stub this request with the following snippet:\n\n   stub_request\\('get', uri = 'http://localhost:9000/get'\\)\n============================================================"
+    "Real HTTP connections are disabled.\n\033\\[33m!\033\\[39m Unregistered request"
   )
 
   invisible(stub_request("get", "http://localhost:9000/get"))
