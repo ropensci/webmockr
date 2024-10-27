@@ -167,7 +167,7 @@ test_that("HttrAdapter works", {
   unloadNamespace("vcr")
   expect_error(
     res$handle_request(httr_obj),
-    "Real HTTP connections are disabled.\n\033\\[33m!\033\\[39m Unregistered request"
+    "Real HTTP connections are disabled"
   )
 
   invisible(stub_request("get", hb("/get")))
