@@ -1,6 +1,8 @@
 PACKAGE := $(shell grep '^Package:' DESCRIPTION | sed -E 's/^Package:[[:space:]]+//')
 RSCRIPT = Rscript --no-init-file
 
+.PHONY: docs
+
 all: move rmd2md
 
 move:
@@ -20,6 +22,9 @@ build:
 
 doc:
 	${RSCRIPT} -e "devtools::document()"
+
+docs:
+	${RSCRIPT} -e "pkgdown::build_site()"
 
 eg:
 	${RSCRIPT} -e "devtools::run_examples(run_dontrun = TRUE)"
