@@ -31,7 +31,8 @@ Imports:
     fauxpas,
     crul (>= 0.7.0),
     base64enc,
-    rlang
+    rlang,
+    cli
 Suggests:
     testthat,
     xml2,

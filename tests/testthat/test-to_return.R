@@ -43,18 +43,24 @@ test_that("stubs exist after stub_request called", {
 
 test_that("stub_request fails well", {
   expect_error(to_return(), "argument \".data\" is missing")
-  expect_error(to_return(5), ".data must be of class StubbedRequest")
-
-  zzz <- stub_request("get", hb("/get"))
+  expect_error(to_return(5), "must be of class StubbedRequest")
 
   # status
-  expect_error(to_return(zzz, status = "foo"), "must be of class numeric")
+  zzz <- stub_request("get", hb("/get"))
+  expect_error(sw(to_return(zzz, status = "foo")),
+    "must be of class numeric")
 
   # headers
-  expect_error(to_return(zzz, headers = list(5, 6)), "'headers' must be a named list")
-  expect_error(to_return(zzz, headers = list(a = 5, 6)), "'headers' must be a named list")
+  zzz <- stub_request("get", hb("/get"))
+  expect_error(sw(to_return(zzz, headers = list(5, 6))),
+    "'headers' must be a named list")
+  zzz <- stub_request("get", hb("/get"))
+  expect_error(sw(to_return(zzz, headers = list(a = 5, 6))),
+    "'headers' must be a named list")
 
-  expect_error(to_return(zzz, .list = 4), ".list must be of class list")
+  zzz <- stub_request("get", hb("/get"))
+  expect_error(sw(to_return(zzz, .list = 4)),
+   "must be of class list")
 })
 
 
@@ -119,7 +125,7 @@ enable()
 context("to_return: response header values are all character")
 test_that("to_return response header values are all character, crul", {
   cli <- crul::HttpClient$new(url = hb())
-  
+
   stub_request(uri = hb("/get")) %>%
     to_return(headers = list("Foo-Bar" = 10))
   x <- cli$get("get")
@@ -132,7 +138,7 @@ test_that("to_return response header values are all character, crul", {
   stub_registry_clear()
   stub_request(uri = hb("/get")) %>%
     to_return(headers = list(
-      a = 10, b = 234233434, c = 2344.342342, 
+      a = 10, b = 234233434, c = 2344.342342,
       d = "brown", e = as.factor("blue")
     ))
   z <- cli$get("get")
@@ -150,7 +156,7 @@ stub_registry_clear()
 
 test_that("to_return response header values are all character, httr", {
   loadNamespace("httr")
-  
+
   stub_request(uri = hb("/get")) %>%
     to_return(headers = list("Foo-Bar" = 10))
   x <- httr::GET(hb("/get"))
@@ -163,7 +169,7 @@ test_that("to_return response header values are all character, httr", {
   stub_registry_clear()
   stub_request(uri = hb("/get")) %>%
     to_return(headers = list(
-      a = 10, b = 234233434, c = 2344.342342, 
+      a = 10, b = 234233434, c = 2344.342342,
       d = "brown", e = as.factor("blue")
     ))
   z <- httr::GET(hb("/get"))
@@ -182,7 +188,7 @@ enable()
 test_that("to_return response header values are all character, httr2", {
   skip_if_not_installed("httr2")
   loadNamespace("httr2")
-  
+
   stub_request(uri = hb("/get")) %>%
     to_return(headers = list("Foo-Bar" = 10))
   req <- httr2::request(hb("/get"))
@@ -196,7 +202,7 @@ test_that("to_return response header values are all character, httr2", {
   stub_registry_clear()
   stub_request(uri = hb("/get")) %>%
     to_return(headers = list(
-      a = 10, b = 234233434, c = 2344.342342, 
+      a = 10, b = 234233434, c = 2344.342342,
       d = "brown", e = as.factor("blue")
     ))
   req <- httr2::request(hb("/get"))

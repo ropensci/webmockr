@@ -42,7 +42,9 @@ pluck_body <- function(x) {
 assert_request <- function(x) {
   request_slots <- c("url", "method", "options", "headers")
   if (!is.list(x) || !all(request_slots %in% names(x))) {
-    stop(deparse(substitute(x)), " is not a valid request ", call. = FALSE)
+    webmockr_abort(
+      format_error("{.arg {deparse(substitute(x))}} is not a valid request")
+    )
   }
 }
 

@@ -69,7 +69,7 @@ Adapter <- R6::R6Class("Adapter",
     #' @param quiet (logical) suppress messages? default: `FALSE`
     #' @return `TRUE`, invisibly
     enable = function(quiet = FALSE) {
-      assert(quiet, "logical")
+      assert_is(quiet, "logical")
       if (!quiet) message(sprintf("%s enabled!", self$name))
       webmockr_lightswitch[[self$client]] <- TRUE
 
@@ -84,7 +84,7 @@ Adapter <- R6::R6Class("Adapter",
     #' @param quiet (logical) suppress messages? default: `FALSE`
     #' @return `FALSE`, invisibly
     disable = function(quiet = FALSE) {
-      assert(quiet, "logical")
+      assert_is(quiet, "logical")
       if (!quiet) message(sprintf("%s disabled!", self$name))
       webmockr_lightswitch[[self$client]] <- FALSE
       self$remove_stubs()

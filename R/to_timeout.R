@@ -7,7 +7,10 @@
 #' the stub
 #' @note see examples in [stub_request()]
 to_timeout <- function(.data) {
-  assert(.data, "StubbedRequest")
-  .data$to_timeout()
+  handle_stub_removal(.data, {
+    assert_is(.data, "StubbedRequest")
+    assert_stub_registered(.data)
+    .data$to_timeout()
+  })
   return(.data)
 }

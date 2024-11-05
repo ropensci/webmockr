@@ -72,23 +72,26 @@
 #' # many of the same response using the times parameter
 #' foo() %>% to_return(body = "stuff", times = 3)
 to_return <- function(.data, ..., .list = list(), times = 1) {
-  assert(.data, "StubbedRequest")
-  assert(.list, "list")
-  assert(times, c("integer", "numeric"))
-  assert_gte(times, 1)
-  z <- list(...)
-  if (length(z) == 0) z <- NULL
-  z <- c(z, .list)
-  if (
-    !any(c("status", "body", "headers") %in% names(z)) &&
-    length(z) != 0
-  ) {
-    abort("'to_return' only accepts status, body, headers")
-  }
-  assert(z$status, c("numeric", "integer"))
-  assert(z$headers, "list")
-  if (!all(hz_namez(z$headers))) abort("'headers' must be a named list")
-  replicate(times,
-    .data$to_return(status = z$status, body = z$body, headers = z$headers))
+  handle_stub_removal(.data, {
+    assert_is(.data, "StubbedRequest")
+    assert_stub_registered(.data)
+    assert_is(.list, "list")
+    assert_is(times, c("integer", "numeric"))
+    assert_gte(times, 1)
+    z <- list(...)
+    if (length(z) == 0) z <- NULL
+    z <- c(z, .list)
+    if (
+      !any(c("status", "body", "headers") %in% names(z)) &&
+      length(z) != 0
+    ) {
+      abort("'to_return' only accepts status, body, headers")
+    }
+    assert_is(z$status, c("numeric", "integer"))
+    assert_is(z$headers, "list")
+    if (!all(hz_namez(z$headers))) abort("'headers' must be a named list")
+    replicate(times,
+      .data$to_return(status = z$status, body = z$body, headers = z$headers))
+  })
   return(.data)
 }

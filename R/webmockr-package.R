@@ -22,6 +22,8 @@
 #' @importFrom fauxpas HTTPRequestTimeout
 #' @importFrom crul mock
 #' @importFrom base64enc base64encode
-#' @importFrom rlang abort check_installed is_list
+#' @importFrom rlang abort warn check_installed is_list is_function is_error
+#' caller_arg try_fetch caller_env
+#' @importFrom cli cli_abort ansi_collapse format_error
 ## usethis namespace: end
 NULL

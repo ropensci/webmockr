@@ -40,7 +40,7 @@
 #' # cleanup
 #' stub_registry_clear()
 including <- function(x) {
-  assert(x, "list")
+  assert_is(x, "list")
   class(x) <- "partial"
   attr(x, "partial_match") <- TRUE
   attr(x, "partial_type") <- "include"
@@ -50,7 +50,7 @@ including <- function(x) {
 #' @export
 #' @rdname including
 excluding <- function(x) {
-  assert(x, "list")
+  assert_is(x, "list")
   class(x) <- "partial"
   attr(x, "partial_match") <- TRUE
   attr(x, "partial_type") <- "exclude"

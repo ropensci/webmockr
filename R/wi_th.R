@@ -91,29 +91,34 @@
 #' ## excluding
 #' wi_th(req, body = excluding(list(foo = "bar")))
 wi_th <- function(.data, ..., .list = list()) {
-  assert(.data, "StubbedRequest")
-  assert(.list, "list")
-  z <- list(...)
-  if (length(z) == 0) z <- NULL
-  z <- c(z, .list)
-  if (
-    !any(c("query", "body", "headers", "basic_auth") %in% names(z))
-    && length(z) != 0
-  ) {
-    abort("'wi_th' only accepts query, body, headers, basic_auth")
-  }
-  if (any(duplicated(names(z)))) abort("can not have duplicated names")
-  assert(z$query, c("list", "partial"))
-  if (!all(hz_namez(z$query))) abort("'query' must be a named list")
-  assert(z$headers, "list")
-  if (!all(hz_namez(z$headers))) abort("'headers' must be a named list")
-  assert(z$basic_auth, "character")
-  assert_eq(z$basic_auth, 2)
-  .data$with(
-    query = z$query,
-    body = z$body,
-    headers = z$headers,
-    basic_auth = z$basic_auth
-  )
+  handle_stub_removal(.data, {
+    assert_is(.data, "StubbedRequest")
+    assert_stub_registered(.data)
+    assert_is(.list, "list")
+    z <- list(...)
+    if (length(z) == 0) z <- NULL
+    z <- c(z, .list)
+    if (
+      !any(c("query", "body", "headers", "basic_auth") %in% names(z))
+      && length(z) != 0
+    ) {
+      abort("'wi_th' only accepts query, body, headers, basic_auth")
+    }
+    if (any(duplicated(names(z)))) abort("can not have duplicated names")
+    assert_is(z$query, c("list", "partial"))
+    if (!all(hz_namez(z$query))) abort("'query' must be a named list")
+    assert_is(z$headers, "list")
+    if (!all(hz_namez(z$headers))) abort("'headers' must be a named list")
+    assert_is(z$basic_auth, "character")
+    assert_eq(z$basic_auth, 2)
+    assert_not_function(z)
+
+    .data$with(
+      query = z$query,
+      body = z$body,
+      headers = z$headers,
+      basic_auth = z$basic_auth
+    )
+  })
   return(.data)
 }

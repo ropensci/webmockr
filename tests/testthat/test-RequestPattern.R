@@ -47,7 +47,7 @@ test_that("RequestPattern fails well", {
   x <- RequestPattern$new(method = "get", uri = hb("/get"))
   expect_error(x$matches(), "argument \"request_signature\" is missing")
   expect_error(x$matches("adfadf"),
-               "request_signature must be of class RequestSignature")
+               "must be of class RequestSignature")
 })
 
 

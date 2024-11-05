@@ -24,7 +24,7 @@ HashCounter <- R6::R6Class(
     #' @return nothing returned; registers request and iterates
     #' internal counter
     put = function(req_sig) {
-      assert(req_sig, "RequestSignature")
+      assert_is(req_sig, "RequestSignature")
       key <- req_sig$to_s()
       self$hash[[key]] <- list(
         key = key,
@@ -37,7 +37,7 @@ HashCounter <- R6::R6Class(
     #' @param req_sig an object of class `RequestSignature`
     #' @return (integer) the count of how many times the request has been made
     get = function(req_sig) {
-      assert(req_sig, "RequestSignature")
+      assert_is(req_sig, "RequestSignature")
       self$hash[[req_sig$to_s()]]$count %||% 0
     }
   )

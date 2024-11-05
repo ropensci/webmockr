@@ -68,7 +68,7 @@ test_that("webmockr_net_connect_allowed", {
 
   # errors when of wrong class
   expect_error(webmockr_net_connect_allowed(mtcars),
-               "uri must be of class character, list")
+               "class character or list")
 })
 
 context("util fxns: webmockr_disable_net_connect")
@@ -92,9 +92,9 @@ test_that("webmockr_disable_net_connect", {
 
   # errors when of wrong class
   expect_error(webmockr_disable_net_connect(5),
-               "allow must be of class character")
+               "class character")
   expect_error(webmockr_disable_net_connect(mtcars),
-               "allow must be of class character")
+               "class character")
 })
 
 context("util fxns: webmockr_allow_net_connect")

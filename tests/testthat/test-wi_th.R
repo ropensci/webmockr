@@ -72,24 +72,27 @@ test_that("wi_th: bodies", {
 
 test_that("wi_th fails well", {
   expect_error(wi_th(), "argument \".data\" is missing")
-  expect_error(wi_th(5), ".data must be of class StubbedRequest")
-
-  zzz <- stub_request("get", hb("/get"))
+  expect_error(wi_th(5), "must be of class StubbedRequest")
 
   # query
-  expect_error(wi_th(zzz, query = list(5, 6)),
+  zzz <- stub_request("get", hb("/get"))
+  expect_error(sw(wi_th(zzz, query = list(5, 6))),
                "'query' must be a named list")
-  expect_error(wi_th(zzz, query = list(a = 5, 6)),
+  zzz <- stub_request("get", hb("/get"))
+  expect_error(sw(wi_th(zzz, query = list(a = 5, 6))),
                "'query' must be a named list")
 
   # headers
-  expect_error(wi_th(zzz, headers = list(5, 6)),
+  zzz <- stub_request("get", hb("/get"))
+  expect_error(sw(wi_th(zzz, headers = list(5, 6))),
                "'headers' must be a named list")
-  expect_error(wi_th(zzz, headers = list(a = 5, 6)),
+  zzz <- stub_request("get", hb("/get"))
+  expect_error(sw(wi_th(zzz, headers = list(a = 5, 6))),
                "'headers' must be a named list")
 
   # only accepts certain set of named things
-  expect_error(wi_th(zzz, a = 5),
+  zzz <- stub_request("get", hb("/get"))
+  expect_error(sw(wi_th(zzz, a = 5)),
     "'wi_th' only accepts query, body, headers")
 })
 
@@ -105,8 +108,10 @@ test_that("wi_th .list works", {
   )
   expect_equal(wi_th(req, .list = ), wi_th(req))
 
-  expect_error(wi_th(req, .list = 4), ".list must be of class list")
-  expect_error(wi_th(req, .list = list(a = 5)),
+  expect_error(sw(wi_th(req, .list = 4)),
+    "must be of class list")
+  req <- stub_request("post", hb("/post"))
+  expect_error(sw(wi_th(req, .list = list(a = 5))),
     "'wi_th' only accepts query, body, headers")
 })
 

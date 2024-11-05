@@ -23,7 +23,7 @@ StubCounter <- R6::R6Class(
     #' @param x an object of class `RequestSignature`
     #' @return nothing returned; registers request & iterates internal counter
     put = function(x) {
-      assert(x, "RequestSignature")
+      assert_is(x, "RequestSignature")
       key <- x$to_s()
       self$hash[[key]] <- list(key = key, sig = x)
       private$total <- private$total + 1
@@ -417,7 +417,7 @@ StubbedRequest <- R6::R6Class(
 )
 
 basic_auth_header <- function(x) {
-  assert(x, "character")
+  assert_is(x, "character")
   stopifnot(length(x) == 1)
   encoded <- base64enc::base64encode(charToRaw(x))
   return(paste0("Basic ", encoded))

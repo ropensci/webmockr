@@ -116,7 +116,7 @@ RequestPattern <- R6::R6Class(
     #' @param request_signature a [RequestSignature] object
     #' @return a boolean
     matches = function(request_signature) {
-      assert(request_signature, "RequestSignature")
+      assert_is(request_signature, "RequestSignature")
       c_type <- if (!is.null(request_signature$headers)) request_signature$headers$`Content-Type` else NULL
       if (!is.null(c_type)) c_type <- strsplit(c_type, ";")[[1]][1]
       self$method_pattern$matches(request_signature$method) &&

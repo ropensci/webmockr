@@ -24,6 +24,7 @@ last_request <- function() {
 
 #' Get the last stub created
 #' 
+#' @importFrom rlang is_empty
 #' @export
 #' @return `NULL` if no stubs found; otherwise the last stub created 
 #' as a `StubbedRequest` class

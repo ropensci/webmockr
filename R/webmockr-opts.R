@@ -83,7 +83,7 @@ webmockr_allow_net_connect <- function() {
 #' @export
 #' @rdname webmockr_configure
 webmockr_disable_net_connect <- function(allow = NULL) {
-  assert(allow, "character")
+  assert_is(allow, "character")
   message("net connect disabled")
   assign('allow_net_connect', FALSE, envir = webmockr_conf_env)
   assign('allow', allow, envir = webmockr_conf_env)
@@ -92,7 +92,7 @@ webmockr_disable_net_connect <- function(allow = NULL) {
 #' @export
 #' @rdname webmockr_configure
 webmockr_net_connect_allowed <- function(uri = NULL) {
-  assert(uri, c("character", "list"))
+  assert_is(uri, c("character", "list"))
   if (is.null(uri)) return(webmockr_conf_env$allow_net_connect)
   uri <- normalize_uri(uri)
   webmockr_conf_env$allow_net_connect ||

@@ -27,17 +27,20 @@
 #' But for now, only the first exception is used until we get that fixed
 #' @note see examples in [stub_request()]
 to_raise <- function(.data, ...) {
-  assert(.data, "StubbedRequest")
-  tmp <- list(...)
-  if (!all(vapply(
-    tmp, function(x) inherits(x, "R6ClassGenerator"),
-    logical(1)
-  ))) {
-    abort("all objects must be error classes from fauxpas")
-  }
-  if (!all(vapply(tmp, function(x) grepl("HTTP", x$classname), logical(1)))) {
-    abort("all objects must be error classes from fauxpas")
-  }
-  .data$to_raise(tmp)
+  handle_stub_removal(.data, {
+    assert_is(.data, "StubbedRequest")
+    assert_stub_registered(.data)
+    tmp <- list(...)
+    if (!all(vapply(
+      tmp, function(x) inherits(x, "R6ClassGenerator"),
+      logical(1)
+    ))) {
+      abort("all objects must be error classes from fauxpas")
+    }
+    if (!all(vapply(tmp, function(x) grepl("HTTP", x$classname), logical(1)))) {
+      abort("all objects must be error classes from fauxpas")
+    }
+    .data$to_raise(tmp)
+  })
   return(.data)
 }

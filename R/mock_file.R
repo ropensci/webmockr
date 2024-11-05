@@ -8,8 +8,8 @@
 #' @examples
 #' mock_file(path = tempfile(), payload = "{\"foo\": \"bar\"}")
 mock_file <- function(path, payload) {
-  assert(path, "character")
-  assert(payload, c("character", "json"))
+  assert_is(path, "character")
+  assert_is(payload, c("character", "json"))
   structure(list(path = path, payload = payload), class = "mock_file")
 }
 #' @export

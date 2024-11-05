@@ -1,4 +1,5 @@
 sm <- function(x) suppressMessages(x)
+sw <- function(x) suppressWarnings(x)
 
 get_err_mssg <- function(x) {
   tmp <- tryCatch(x, error = function(e) e)

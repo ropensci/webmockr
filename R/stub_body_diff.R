@@ -44,7 +44,7 @@ stub_body_diff <- function(stub = last_stub(), request = last_request()) {
 		abort(c("`stub` and/or `request` are NULL or otherwise empty",
 			"see `?stub_body_diff`"))
 	}
-	assert(stub, "StubbedRequest")
-	assert(request, "RequestSignature")
+	assert_is(stub, "StubbedRequest")
+	assert_is(request, "RequestSignature")
   diffobj::diffObj(stub$body, request$body)
 }

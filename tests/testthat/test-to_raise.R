@@ -40,10 +40,15 @@ test_that("stubs exist after stub_request called", {
 
 test_that("stub_request fails well", {
   expect_error(to_raise(), "argument \".data\" is missing")
-  expect_error(to_raise(5), ".data must be of class StubbedRequest")
+  expect_error(to_raise(5), "must be of class StubbedRequest")
+
+  stub_registry_clear()
 
   # exception clases
   zzz <- stub_request("get", hb("/get"))
-  expect_error(to_raise(zzz, "foo"),
-               "all objects must be error classes from fauxpas")
+  expect_error(sw(to_raise(zzz, "foo")),
+    "all objects must be error classes from fauxpas")
+  ### if stub is not registered any longer, errors about that
+  expect_error(sw(to_raise(zzz, "foo")),
+    "not registered")
 })
