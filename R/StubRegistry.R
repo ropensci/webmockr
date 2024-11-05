@@ -52,11 +52,6 @@ StubRegistry <- R6::R6Class(
       self$request_stubs[self$request_stub_for(req)]
     },
 
-    # response_for_request = function(request_signature) {
-    #   stub <- self$request_stub_for(request_signature)
-    #   evaluate_response_for_request(stub$response, request_signature) %||% NULL
-    # },
-
     #' @description Find a stubbed request
     #' @param request_signature an object of class [RequestSignature]
     #' @param count (bool) iterate counter or not. default: `TRUE`

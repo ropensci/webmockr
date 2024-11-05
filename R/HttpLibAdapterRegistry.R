@@ -28,7 +28,6 @@ HttpLibAdapaterRegistry <- R6::R6Class(
     #' @param x an http lib adapter, e.g., [CrulAdapter]
     #' @return nothing, registers the library adapter
     register = function(x) {
-      # FIXME: when other adapters supported, change this inherits test
       if (!inherits(x, c("CrulAdapter", "HttrAdapter", "Httr2Adapter"))) {
         abort("'x' must be an adapter, such as CrulAdapter")
       }
