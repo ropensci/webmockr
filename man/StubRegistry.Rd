@@ -37,8 +37,6 @@ Other stub-registry:
 \if{html}{\out{<div class="r6-fields">}}
 \describe{
 \item{\code{request_stubs}}{(list) list of request stubs}
-
-\item{\code{global_stubs}}{(list) list of global stubs}
 }
 \if{html}{\out{</div>}}
 }

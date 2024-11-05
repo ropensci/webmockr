@@ -25,8 +25,6 @@ StubRegistry <- R6::R6Class(
   public = list(
     #' @field request_stubs (list) list of request stubs
     request_stubs = list(),
-    #' @field global_stubs (list) list of global stubs
-    global_stubs = list(),
 
     #' @description print method for the `StubRegistry` class
     #' @param x self
@@ -51,8 +49,7 @@ StubRegistry <- R6::R6Class(
     #' @param req an object of class [RequestSignature]
     #' @return an object of type [StubbedRequest], if matched
     find_stubbed_request = function(req) {
-      stubs <- c(self$global_stubs, self$request_stubs)
-      stubs[self$request_stub_for(req)]
+      self$request_stubs[self$request_stub_for(req)]
     },
 
     # response_for_request = function(request_signature) {
@@ -65,7 +62,7 @@ StubRegistry <- R6::R6Class(
     #' @param count (bool) iterate counter or not. default: `TRUE`
     #' @return logical, 1 or more
     request_stub_for = function(request_signature, count = TRUE) {
-      stubs <- c(self$global_stubs, self$request_stubs)
+      stubs <- self$request_stubs
       mtchs <- vapply(stubs, function(z) {
         tmp <- RequestPattern$new(method = z$method, uri = z$uri,
                                   uri_regex = z$uri_regex, query = z$query,

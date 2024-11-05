@@ -7,9 +7,6 @@ test_that("StubRegistry: bits are correct prior to having data", {
 
   expect_is(aa, "StubRegistry")
 
-  expect_is(aa$global_stubs, "list")
-  expect_equal(length(aa$global_stubs), 0)
-
   expect_is(aa$request_stubs, "list")
   expect_equal(length(aa$request_stubs), 0)
 
@@ -38,10 +35,6 @@ test_that("StubRegistry: bits are correct after having data", {
   expect_is(aa$register_stub(stub = stub2), "list")
 
   expect_is(aa, "StubRegistry")
-
-  # global stubs are still empty
-  expect_is(aa$global_stubs, "list")
-  expect_equal(length(aa$global_stubs), 0)
 
   # request stubs now length 2
   expect_is(aa$request_stubs, "list")
