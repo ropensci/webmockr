@@ -52,6 +52,7 @@ Other stub-registry:
 \item \href{#method-StubRegistry-remove_request_stub}{\code{StubRegistry$remove_request_stub()}}
 \item \href{#method-StubRegistry-remove_all_request_stubs}{\code{StubRegistry$remove_all_request_stubs()}}
 \item \href{#method-StubRegistry-is_registered}{\code{StubRegistry$is_registered()}}
+\item \href{#method-StubRegistry-is_stubbed}{\code{StubRegistry$is_stubbed()}}
 \item \href{#method-StubRegistry-clone}{\code{StubRegistry$clone()}}
 }
 }
@@ -173,7 +174,7 @@ nothing returned; removes all request stubs
 \if{html}{\out{<a id="method-StubRegistry-is_registered"></a>}}
 \if{latex}{\out{\hypertarget{method-StubRegistry-is_registered}{}}}
 \subsection{Method \code{is_registered()}}{
-Find a stubbed request
+Find a stubbed request from a request signature
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{StubRegistry$is_registered(x)}\if{html}{\out{</div>}}
 }
@@ -187,6 +188,26 @@ Find a stubbed request
 }
 \subsection{Returns}{
 nothing returned; registers the stub
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-StubRegistry-is_stubbed"></a>}}
+\if{latex}{\out{\hypertarget{method-StubRegistry-is_stubbed}{}}}
+\subsection{Method \code{is_stubbed()}}{
+Check if a stubbed request is in the stub registry
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{StubRegistry$is_stubbed(stub)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{stub}}{an object of class \link{StubbedRequest}}
+}
+\if{html}{\out{</div>}}
+}
+\subsection{Returns}{
+single boolean, \code{TRUE} or \code{FALSE}
 }
 }
 \if{html}{\out{<hr>}}

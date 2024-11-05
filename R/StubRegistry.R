@@ -104,10 +104,20 @@ StubRegistry <- R6::R6Class(
       self$request_stubs <- list()
     },
 
-    #' @description Find a stubbed request
+    #' @description Find a stubbed request from a request signature
     #' @param x an object of class [RequestSignature]
     #' @return nothing returned; registers the stub
-    is_registered = function(x) any(self$request_stub_for(x, count = FALSE))
+    is_registered = function(x) any(self$request_stub_for(x, count = FALSE)),
+
+    #' @description Check if a stubbed request is in the stub registry
+    #' @param stub an object of class [StubbedRequest]
+    #' @return single boolean, `TRUE` or `FALSE`
+    is_stubbed = function(stub) {
+      if (!length(self$request_stubs)) {
+        return(FALSE)
+      }
+      any(stub$to_s() %in% vapply(self$request_stubs, \(x) x$to_s(), ""))
+    }
   )
 )
 
