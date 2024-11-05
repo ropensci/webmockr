@@ -42,6 +42,10 @@ reference:
     contents:
       - mock_file
       - mocking-disk-writing
+  - title: "Introspection"
+    contents:
+      - starts_with("last")
+      - stub_body_diff
   - title: "HTTP package adapters and utilities"
     contents:
       - CrulAdapter
