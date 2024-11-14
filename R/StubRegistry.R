@@ -113,6 +113,7 @@ StubRegistry <- R6::R6Class(
   )
 )
 
+#' @importFrom jsonlite validate
 json_validate <- function(x) {
   res <- tryCatch(jsonlite::validate(x), error = function(e) e)
   if (inherits(res, "error")) return(FALSE)
@@ -146,7 +147,10 @@ make_query <- function(x) {
   paste0(" with query params ", txt)
 }
 
-# make headers info for print method
+#' make headers info for print method
+#' @importFrom jsonlite toJSON
+#' @param x a named list
+#' @noRd
 make_headers <- function(x) {
   if (is.null(x)) return("")
   paste0(" with headers ", jsonlite::toJSON(x, auto_unbox = TRUE))

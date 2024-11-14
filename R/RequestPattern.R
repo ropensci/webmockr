@@ -69,6 +69,22 @@
 #' )
 #' rs
 #' x$matches(rs)
+#'
+#' # basic auth
+#' x <- RequestPattern$new(
+#'   method = "post",
+#'   uri = "httpbin.org/post",
+#'   basic_auth = c("user", "pass")
+#' )
+#' x
+#' x$headers_pattern$to_s()
+#' x$to_s()
+#' rs <- RequestSignature$new(
+#'   method = "post", uri = "http://httpbin.org/post",
+#'   options = list(auth = list(user = "user", pass = "pass"))
+#' )
+#' rs
+#' x$matches(rs)
 #' }
 RequestPattern <- R6::R6Class(
   "RequestPattern",
@@ -90,9 +106,12 @@ RequestPattern <- R6::R6Class(
     #' @param query (list) query parameters, optional
     #' @param body (list) body request, optional
     #' @param headers (list) headers, optional
+    #' @param basic_auth (list) vector of length 2 (username, passwdord),
+    #' optional
     #' @return A new `RequestPattern` object
     initialize = function(method, uri = NULL, uri_regex = NULL,
-                          query = NULL, body = NULL, headers = NULL) {
+                          query = NULL, body = NULL, headers = NULL,
+                          basic_auth = NULL) {
       if (is.null(uri) && is.null(uri_regex)) {
         abort("one of uri or uri_regex is required")
       }
@@ -105,11 +124,11 @@ RequestPattern <- R6::R6Class(
       }
       self$uri_pattern$add_query_params(query)
       self$body_pattern <- if (!is.null(body)) BodyPattern$new(pattern = body)
+      auth_headers <- private$set_basic_auth_as_headers(basic_auth)
+      headers <- c(headers, auth_headers)
       self$headers_pattern <- if (!is.null(headers)) {
         HeadersPattern$new(pattern = headers)
       }
-      # FIXME: all private methods used in the below line, see if needed or remove
-      # if (length(options)) private$assign_options(options)
     },
 
     #' @description does a request signature match the selected matchers?
@@ -141,46 +160,24 @@ RequestPattern <- R6::R6Class(
     }
   ),
   private = list(
-    # assign_options = function(options) {
-    #   #self$validate_keys(options, 'body', 'headers', 'query', 'basic_auth')
-    #   set_basic_auth_as_headers(options)
-    #   self$body_pattern <- if ('body' %in% names(options)) BodyPattern$new(options['body'])
-    #   self$headers_pattern <- if ('headers' %in% names(options)) HeadersPattern$new(options['headers'])
-    #   if ('query' %in% names(options)) self$uri_pattern$add_query_params(options['query'])
-    # },
-
-    # validate_keys = function(x, ...) {
-    #   valid_keys <- unlist(list(...), recursive = FALSE)
-    #   for (i in seq_along(x)) {
-    #     if (!names(x)[i] %in% valid_keys) {
-    #       stop(
-    #         sprintf("Unknown key: %s. Valid keys are: %s",
-    #                 names(x)[i],
-    #                 paste0(valid_keys, collapse = ", "),
-    #                 call. = FALSE
-    #         )
-    #       )
-    #     }
-    #   }
-    # },
-    set_basic_auth_as_headers = function(options) {
-      if ("basic_auth" %in% names(options)) {
-        private$validate_basic_auth(options$basic_auth)
-        options$headers <- list()
-        options$headers$Authorization <-
-          private$make_basic_auth(options$basic_auth[1], options$basic_auth[2])
+    set_basic_auth_as_headers = function(x) {
+      if (!is_null(x)) {
+        private$validate_basic_auth(x)
+        list(
+          Authorization = private$make_basic_auth(x[1], x[2])
+        )
       }
     },
     validate_basic_auth = function(x) {
-      if (!inherits(x, "list") || length(unique(unname(unlist(x)))) == 1) {
+      if (!inherits(x, "character") || length(unique(unname(unlist(x)))) == 1) {
         abort(c(
           "error in basic auth",
-          "'basic_auth' option should be list of length 2: username, password"
+          "'basic_auth' option should be a length 2 vector"
         ))
       }
     },
     make_basic_auth = function(x, y) {
-      jsonlite::base64_enc(paste0(x, ":", y))
+      paste0("Basic ", jsonlite::base64_enc(paste0(x, ":", y)))
     }
   )
 )
@@ -315,14 +312,14 @@ HeadersPattern <- R6::R6Class(
     normalize_headers = function(x) {
       # normalize names
       names(x) <- tolower(names(x))
-      # normalize symbols
-      ## underscores to single dash
+      # underscores to single dash
       names(x) <- gsub("_", "-", names(x))
       return(x)
     }
   )
 )
 
+#' @importFrom jsonlite fromJSON
 seems_like_json <- function(x) {
   res <- tryCatch(jsonlite::fromJSON(x), error = function(msg) msg)
   !inherits(res, "error")
@@ -398,7 +395,7 @@ BodyPattern <- R6::R6Class(
   public = list(
     #' @field pattern a list
     pattern = NULL,
-     #' @field partial bool, default: `FALSE`
+    #' @field partial bool, default: `FALSE`
     partial = FALSE,
     #' @field partial_type a string, default: NULL
     partial_type = NULL,
@@ -505,14 +502,18 @@ BodyPattern <- R6::R6Class(
         jsonlite::fromJSON(body, FALSE)
       } else if (bctype == "xml") {
         check_installed("xml2")
-        try_xml2list <- rlang::try_fetch({
-          body_xml <- xml2::read_xml(body)
-          xml_as_list <- xml2::as_list(body_xml)
-          lapply(xml_as_list, promote_attr)
-        }, error = function(e) e)
+        try_xml2list <- rlang::try_fetch(
+          {
+            body_xml <- xml2::read_xml(body)
+            xml_as_list <- xml2::as_list(body_xml)
+            lapply(xml_as_list, promote_attr)
+          },
+          error = function(e) e
+        )
         if (rlang::is_error(try_xml2list)) {
           rlang::warn("xml to list conversion failed; using xml string for comparison",
-            use_cli_format = TRUE, .frequency = "always")
+            use_cli_format = TRUE, .frequency = "always"
+          )
           body
         } else {
           try_xml2list

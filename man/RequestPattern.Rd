@@ -73,6 +73,22 @@ rs <- RequestSignature$new(
 )
 rs
 x$matches(rs)
+
+# basic auth
+x <- RequestPattern$new(
+  method = "post",
+  uri = "httpbin.org/post",
+  basic_auth = c("user", "pass")
+)
+x
+x$headers_pattern$to_s()
+x$to_s()
+rs <- RequestSignature$new(
+  method = "post", uri = "http://httpbin.org/post",
+  options = list(auth = list(user = "user", pass = "pass"))
+)
+rs
+x$matches(rs)
 }
 }
 \seealso{
@@ -113,7 +129,8 @@ Create a new \code{RequestPattern} object
   uri_regex = NULL,
   query = NULL,
   body = NULL,
-  headers = NULL
+  headers = NULL,
+  basic_auth = NULL
 )}\if{html}{\out{</div>}}
 }
 
@@ -132,6 +149,9 @@ patch, trace, or delete). "any" matches any HTTP method. required.}
 \item{\code{body}}{(list) body request, optional}
 
 \item{\code{headers}}{(list) headers, optional}
+
+\item{\code{basic_auth}}{(list) vector of length 2 (username, passwdord),
+optional}
 }
 \if{html}{\out{</div>}}
 }

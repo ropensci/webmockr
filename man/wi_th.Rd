@@ -42,12 +42,11 @@ with \code{NULL} we can't determine if the user did not supply a body or
 they supplied \code{NULL} to indicate an empty body.
 \item headers: (list) a named list
 \item basic_auth: (character) a length two vector, username and password.
-authentication type (basic/digest/ntlm/etc.) is ignored. that is,
-mocking authenciation right now does not take into account the
-authentication type. We don't do any checking of the username/password
-except to detect edge cases where for example, the username/password
+We don't do any checking of the username/password except to detect
+edge cases where for example, the username/password
 were probably not set by the user on purpose (e.g., a URL is
-picked up by an environment variable)
+picked up by an environment variable). Only basic authentication
+supported \url{https://en.wikipedia.org/wiki/Basic_access_authentication}.
 }
 
 Note that there is no regex matching on query, body, or headers. They
@@ -102,6 +101,12 @@ wi_th(req, query = including(list(foo = "bar")))
 wi_th(req, query = excluding(list(foo = "bar")))
 
 # partial matching, body
+## including
+wi_th(req, body = including(list(foo = "bar")))
+## excluding
+wi_th(req, body = excluding(list(foo = "bar")))
+
+# basic auth
 ## including
 wi_th(req, body = including(list(foo = "bar")))
 ## excluding

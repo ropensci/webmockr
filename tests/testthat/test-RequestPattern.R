@@ -193,6 +193,18 @@ test_that("should warn when xml parsing fails and fall back to the xml string", 
   #expect_warning(pattern$matches(rs_xml_parse_fail)) # FIXME: should throw warning
 })
 
+test_that("should work with basic_auth", {
+  pattern <- RequestPattern$new(method = "get", uri = hb("/get"),
+    basic_auth = c("user", "pass"))
+
+  expect_equal(pattern$headers_pattern$to_s(), "authorization=\"Basic dXNlcjpwYXNz\"")
+
+  rs_basic_auth <- RequestSignature$new(
+    method = "get", uri = hb("/get"),
+    options = list(headers = prep_auth("user:pass"))
+  )
+  expect_true(pattern$matches(rs_basic_auth))
+})
 
 
 context("MethodPattern")

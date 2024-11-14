@@ -30,7 +30,6 @@ Imports:
     urltools (>= 1.6.0),
     fauxpas,
     crul (>= 0.7.0),
-    base64enc,
     rlang,
     cli
 Suggests:

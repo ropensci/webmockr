@@ -402,7 +402,8 @@ StubbedRequest <- R6::R6Class(
       self$responses_sequences <- cc(c(self$responses_sequences, list(x)))
     },
     response = function(status = NULL, body = NULL, headers = NULL,
-                        body_raw = NULL, timeout = FALSE, raise = FALSE, exceptions = list()) {
+                        body_raw = NULL, timeout = FALSE, raise = FALSE,
+                        exceptions = list()) {
       list(
         status = status,
         body = body,
@@ -416,17 +417,16 @@ StubbedRequest <- R6::R6Class(
   )
 )
 
+#' @importFrom jsonlite base64_enc
 basic_auth_header <- function(x) {
   assert_is(x, "character")
   stopifnot(length(x) == 1)
-  encoded <- base64enc::base64encode(charToRaw(x))
-  return(paste0("Basic ", encoded))
+  encoded <- jsonlite::base64_enc(x)
+  paste0("Basic ", encoded)
 }
+
 prep_auth <- function(x) {
-  if (is.null(x)) {
-    return(NULL)
-  }
-  if (!is.null(x)) {
+  if (!is_null(x)) {
     list(Authorization = basic_auth_header(x))
   }
 }
