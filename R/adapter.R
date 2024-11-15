@@ -145,7 +145,7 @@ Adapter <- R6::R6Class("Adapter",
         # if vcr loaded: record http interaction into vcr namespace
         # VCR: recordable
         if (vcr_loaded()) {
-          # req <- handle_separate_redirects(req)
+          req <- handle_separate_redirects(req)
           # use RequestHandler instead? - which gets current cassette for us
           resp <- private$request_handler(req)$handle()
 
@@ -179,8 +179,8 @@ Adapter <- R6::R6Class("Adapter",
           }
 
           # check if new request/response from redirects in vcr
-          # req <- redirects_request(req)
-          # resp <- redirects_response(resp)
+          req <- redirects_request(req)
+          resp <- redirects_response(resp)
 
         } else {
           private$mock(on = FALSE)

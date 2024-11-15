@@ -39,6 +39,7 @@ Suggests:
     httr,
     httr2,
     diffobj
+Remotes: ropensci/vcr@redirects
 RoxygenNote: 7.3.2
 X-schema.org-applicationCategory: Web
 X-schema.org-keywords: http, https, API, web-services, curl, mock, mocking, fakeweb, http-mocking, testing, testing-tools, tdd
