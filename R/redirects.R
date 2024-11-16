@@ -29,7 +29,7 @@ redirects_request <- function(x) {
 redirects_response <- function(x) {
   cs <- check_redirect_setting()
   if (cs$record_separate_redirects) {
-    return(last(cs$redirect_pool)[[1]])
+    return(last1(cs$redirect_pool))
   }
   x
 }

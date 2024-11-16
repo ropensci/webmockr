@@ -250,6 +250,11 @@ last <- function(x) {
   x[[length(x)]]
 }
 
+last1 <- function(x) {
+  z <- last(x)
+  if (!is.list(z)) return(z)
+  if (length(z) > 0) z[[1]] else z
+}
 
 vcr_loaded <- function() {
   "package:vcr" %in% search()
