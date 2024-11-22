@@ -17,13 +17,14 @@ call \code{\link[=last_request]{last_request()}}, which gets the last stub creat
 object of class \code{Diff} from the \pkg{diffobj} package
 }
 \description{
-Get a diff of a stub request body and a request body from an http request
+Requires the Suggested package \code{diffobj}
 }
 \details{
-If either \code{stub} or \code{request} are \code{NULL}, this function will
-return an error message. You may not intentionally pass in a \code{NULL}, but
-the return value of \code{\link[=last_stub]{last_stub()}} and \code{\link[=last_request]{last_request()}} when there's
-nothing found is \code{NULL}.
+Returns error message if either \code{stub} or \code{request} are \code{NULL}.
+Even though you may not intentionally pass in a \code{NULL}, the return values
+of \code{\link[=last_stub]{last_stub()}} and \code{\link[=last_request]{last_request()}} when there's nothing found is \code{NULL}.
+
+Under the hood the Suggested package \code{diffobj} is used to do the comparison.
 }
 \examples{
 \dontshow{if (interactive()) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
@@ -55,4 +56,10 @@ HttpClient$new("https://hb.opencpu.org")$post(
 	path = "post", body = "the quick black fox")
 stub_body_diff()
 \dontshow{\}) # examplesIf}
+}
+\seealso{
+\code{\link[=webmockr_configure]{webmockr_configure()}} to toggle \code{webmockr} showing request body
+diffs when there's not a match. \code{stub_body_diff()} is offered as a manual
+way to compare requests and stubs - whereas turning on with
+\code{\link[=webmockr_configure]{webmockr_configure()}} will do the diff for you.
 }

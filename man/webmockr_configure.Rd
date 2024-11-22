@@ -39,7 +39,10 @@ all others are not allowed)}
 stubbing instructions are not shown}
 
 \item{show_body_diff}{(logical) Default: \code{FALSE}. If \code{TRUE} show's
-a diff of the stub's request body and the http request body}
+a diff of the stub's request body and the http request body. See also
+\code{\link[=stub_body_diff]{stub_body_diff()}} for manually comparing request and stub bodies.
+Under the hood the Suggested package \code{diffobj} is required to do
+the comparison.}
 
 \item{uri}{(character) a URI/URL as a character string - to determine
 whether or not it is allowed}
