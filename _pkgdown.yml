@@ -47,6 +47,8 @@ reference:
       - starts_with("last")
       - stub_body_diff
   - title: "HTTP package adapters and utilities"
+    desc: >
+      Internal use only most likely
     contents:
       - CrulAdapter
       - HttrAdapter
@@ -58,7 +60,7 @@ reference:
       - build_httr_response
       - build_httr2_request
       - build_httr2_response
-  - title: "Internal utilities"
+  - title: "Various Internal utilities"
     contents:
       - RequestPattern
       - RequestSignature
