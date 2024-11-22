@@ -115,7 +115,7 @@ wi_th <- function(.data, ..., .list = list()) {
     assert_is(z$headers, "list")
     if (!all(hz_namez(z$headers))) abort("'headers' must be a named list")
     assert_is(z$basic_auth, "character")
-    assert_eq(z$basic_auth, 2)
+    assert_length(z$basic_auth, 2)
     assert_not_function(z)
 
     .data$with(

@@ -169,7 +169,7 @@ assert_gte <- function(x, y, arg = caller_arg(x)) {
     webmockr_abort(msg)
   }
 }
-assert_eq <- function(x, y, args = caller_arg(x)) {
+assert_length <- function(x, y, args = caller_arg(x)) {
   if (!is_null(x)) {
     if (!length(x) == y) {
       msg <- format_error("length of {.arg {arg}} must be equal to {y}")
