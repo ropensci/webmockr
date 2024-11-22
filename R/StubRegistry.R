@@ -59,9 +59,12 @@ StubRegistry <- R6::R6Class(
     request_stub_for = function(request_signature, count = TRUE) {
       stubs <- self$request_stubs
       mtchs <- vapply(stubs, function(z) {
-        tmp <- RequestPattern$new(method = z$method, uri = z$uri,
-                                  uri_regex = z$uri_regex, query = z$query,
-                                  body = z$body, headers = z$request_headers)
+        tmp <- RequestPattern$new(
+          method = z$method, uri = z$uri,
+          uri_regex = z$uri_regex, query = z$query,
+          body = z$body, headers = z$request_headers,
+          basic_auth = z$basic_auth
+        )
         tmp$matches(request_signature)
       }, logical(1))
       if (count) {
