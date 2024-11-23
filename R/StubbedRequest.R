@@ -220,6 +220,13 @@ StubbedRequest <- R6::R6Class(
         ),
         sep = "\n"
       )
+      cat(
+        paste0(
+          "    auth: ",
+          prep_cat_auth(self$basic_auth)
+        ),
+        sep = "\n"
+      )
       cat("  to_return: ", sep = "\n")
       rs <- self$responses_sequences
       for (i in seq_along(rs)) {
@@ -263,9 +270,6 @@ StubbedRequest <- R6::R6Class(
       self$query <- query
       self$body <- body
       self$basic_auth <- basic_auth
-      if (!is.null(basic_auth)) {
-        headers <- c(prep_auth(paste0(basic_auth, collapse = ":")), headers)
-      }
       self$request_headers <- headers
     },
 
@@ -428,5 +432,11 @@ basic_auth_header <- function(x) {
 prep_auth <- function(x) {
   if (!is_null(x)) {
     list(Authorization = basic_auth_header(x))
+  }
+}
+
+prep_cat_auth <- function(x) {
+  if (!is_null(x %||% NULL)) {
+    basic_auth_header(paste0(x, collapse = ":"))
   }
 }
