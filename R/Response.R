@@ -68,24 +68,28 @@ Response <- R6::R6Class(
     #' @param x self
     #' @param ... ignored
     print = function(x, ...) {
-      cat("<webmockr response> ", sep = "\n")
-      cat(paste0("  url: ", self$url), sep = "\n")
-      cat(paste0("  status: ", self$status_code), sep = "\n")
-      cat("  headers: ", sep = "\n")
-      cat("    request headers: ", sep = "\n")
+      cat_line("<webmockr response> ")
+      cat_line(paste0("  url: ", self$url))
+      cat_line(paste0("  status: ", self$status_code))
+      cat_line("  headers: ")
+      cat_line("    request headers: ")
       for (i in seq_along(self$request_headers)) {
-        cat(paste0("     ",
-            paste(names(self$request_headers)[i], self$request_headers[[i]],
-                  sep = ": ")), sep = "\n")
+        cat_line(paste0("     ",
+          paste(names(self$request_headers)[i], self$request_headers[[i]],
+            sep = ": ")
+          )
+        )
       }
-      cat("    response headers: ", sep = "\n")
+      cat_line("    response headers: ")
       for (i in seq_along(self$response_headers)) {
-        cat(paste0("     ",
-            paste(names(self$response_headers)[i], self$response_headers[[i]],
-                   sep = ": ")), sep = "\n")
+        cat_line(paste0("     ",
+          paste(names(self$response_headers)[i], self$response_headers[[i]],
+            sep = ": ")
+          )
+        )
       }
-      cat(paste0("  exception: ", self$exception), sep = "\n")
-      cat(paste0("  body length: ", length(self$body)), sep = "\n")
+      cat_line(paste0("  exception: ", self$exception))
+      cat_line(paste0("  body length: ", length(self$body)))
     },
 
     #' @description set the url for the response

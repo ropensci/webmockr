@@ -59,7 +59,7 @@ excluding <- function(x) {
 
 #' @export
 print.partial <- function(x, ...) {
-  cat("<partial match>", sep = "\n")
-  cat(paste0("  partial type: ", attr(x, "partial_type")), sep = "\n")
-  cat(paste0("  length: ", length(x)), sep = "\n")
+  cat_line("<partial match>")
+  cat_line(paste0("  partial type: ", attr(x, "partial_type")))
+  cat_line(paste0("  length: ", length(x)))
 }

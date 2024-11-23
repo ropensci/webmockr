@@ -127,17 +127,16 @@ net_connect_explicit_allowed <- function(allowed, uri = NULL) {
 
 #' @export
 print.webmockr_config <- function(x, ...) {
-  cat("<webmockr configuration>", sep = "\n")
-  cat(paste0("  crul enabled?: ", webmockr_lightswitch$crul), sep = "\n")
-  cat(paste0("  httr enabled?: ", webmockr_lightswitch$httr), sep = "\n")
-  cat(paste0("  httr2 enabled?: ", webmockr_lightswitch$httr2), sep = "\n")
-  cat(paste0("  allow_net_connect?: ", x$allow_net_connect), sep = "\n")
-  cat(paste0("  allow_localhost?: ", x$allow_localhost), sep = "\n")
-  cat(paste0("  allow: ", x$allow %||% ""), sep = "\n")
-  cat(paste0("  show_stubbing_instructions: ", x$show_stubbing_instructions),
-      sep = "\n")
-  cat(paste0("  show_body_diff: ", x$show_body_diff),
-      sep = "\n")
+  cat_line("<webmockr configuration>")
+  cat_line(paste0("  crul enabled?: ", webmockr_lightswitch$crul))
+  cat_line(paste0("  httr enabled?: ", webmockr_lightswitch$httr))
+  cat_line(paste0("  httr2 enabled?: ", webmockr_lightswitch$httr2))
+  cat_line(paste0("  allow_net_connect?: ", x$allow_net_connect))
+  cat_line(paste0("  allow_localhost?: ", x$allow_localhost))
+  cat_line(paste0("  allow: ", x$allow %||% ""))
+  cat_line(paste0("  show_stubbing_instructions: ",
+    x$show_stubbing_instructions))
+  cat_line(paste0("  show_body_diff: ", x$show_body_diff))
 }
 
 webmockr_conf_env <- new.env()

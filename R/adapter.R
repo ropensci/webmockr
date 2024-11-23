@@ -333,10 +333,9 @@ Adapter <- R6::R6Class("Adapter",
 
         if (names(toadd)[i] == "body") {
           if (inherits(respx$body_raw, "mock_file")) {
-            cat(
+            cat_line(
               respx$body_raw$payload,
-              file = respx$body_raw$path,
-              sep = "\n"
+              file = respx$body_raw$path
             )
             respx$body_raw <-
               respx$body_raw$path

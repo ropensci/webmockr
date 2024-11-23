@@ -105,16 +105,15 @@ RequestRegistry <- R6::R6Class(
     #' @param x self
     #' @param ... ignored
     print = function(x, ...) {
-      cat("<webmockr request registry> ", sep = "\n")
-      cat(" Registered Requests", sep = "\n")
+      cat_line("<webmockr request registry> ")
+      cat_line(" Registered Requests")
       for (i in seq_along(self$request_signatures$hash)) {
-        cat(
+        cat_line(
           sprintf(
             "  %s was made %s times\n",
             names(self$request_signatures$hash)[i],
             self$request_signatures$hash[[i]]$count
-          ),
-          sep = "\n"
+          )
         )
       }
       invisible(self$request_signatures$hash)

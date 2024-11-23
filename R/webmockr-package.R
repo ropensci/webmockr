@@ -23,6 +23,6 @@
 #' @importFrom crul mock
 #' @importFrom rlang abort warn check_installed is_list is_function is_error
 #' caller_arg try_fetch caller_env
-#' @importFrom cli cli_abort ansi_collapse format_error
+#' @importFrom cli cli_abort ansi_collapse format_error cat_line
 ## usethis namespace: end
 NULL

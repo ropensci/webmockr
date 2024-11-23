@@ -87,36 +87,35 @@ RequestSignature <- R6::R6Class(
     #' @param x self
     #' @param ... ignored
     print = function() {
-      cat("<RequestSignature> ", sep = "\n")
-      cat(paste0("  method: ", toupper(self$method)), sep = "\n")
-      cat(paste0("  uri: ", self$uri), sep = "\n")
+      cat_line("<RequestSignature> ")
+      cat_line(paste0("  method: ", toupper(self$method)))
+      cat_line(paste0("  uri: ", self$uri))
       if (!is.null(self$body)) {
-        cat("  body: ", sep = "\n")
+        cat_line("  body: ")
         if (inherits(self$body, "form_file")) {
-          cat(paste0("     ",
-              sprintf("type=%s; path=%s", self$body$type, self$body$path)),
-              sep = "\n")
+          cat_line(paste0("     ",
+              sprintf("type=%s; path=%s", self$body$type, self$body$path)))
         } else {
           cat_foo(self$body)
         }
       }
       if (!is.null(self$headers)) {
-        cat("  headers: ", sep = "\n")
+        cat_line("  headers: ")
         cat_foo(self$headers)
       }
       if (!is.null(self$proxies)) {
-        cat("  proxies: ", sep = "\n")
+        cat_line("  proxies: ")
         cat_foo(self$proxies)
       }
       if (!is.null(self$auth)) {
-        cat("  auth: ", sep = "\n")
+        cat_line("  auth: ")
         cat_foo(self$auth)
       }
       if (!is.null(self$disk)) {
-        cat(paste0("  disk: ", self$disk), sep = "\n")
+        cat_line(paste0("  disk: ", self$disk))
       }
       if (!is.null(self$fields)) {
-        cat("  fields: ", sep = "\n")
+        cat_line("  fields: ")
         cat_foo(self$fields)
       }
     },
@@ -159,9 +158,11 @@ RequestSignature <- R6::R6Class(
 )
 
 cat_foo <- function(x) {
-  cat(paste0("     ",
-             paste0(paste(names(x) %||% "<unnamed>", x, sep = ": "),
-                    collapse = "\n     ")), sep = "\n")
+  cat_line(paste0("     ",
+    paste0(paste(names(x) %||% "<unnamed>", x, sep = ": "),
+      collapse = "\n     ")
+    )
+  )
 }
 
 to_string <- function(x) {

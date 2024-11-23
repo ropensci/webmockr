@@ -30,10 +30,10 @@ StubRegistry <- R6::R6Class(
     #' @param x self
     #' @param ... ignored
     print = function(x, ...) {
-      cat("<webmockr stub registry> ", sep = "\n")
-      cat(" Registered Stubs", sep = "\n")
+      cat_line("<webmockr stub registry> ")
+      cat_line(" Registered Stubs")
       for (i in seq_along(self$request_stubs)) {
-        cat("  ", self$request_stubs[[i]]$to_s(), "\n")
+        cat_line("  ", self$request_stubs[[i]]$to_s())
       }
       invisible(self$request_stubs)
     },

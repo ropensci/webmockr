@@ -17,10 +17,14 @@ HttpLibAdapaterRegistry <- R6::R6Class(
     #' @param x self
     #' @param ... ignored
     print = function(x, ...) {
-      cat("<HttpLibAdapaterRegistry> ", sep = "\n")
+      cat_line("<HttpLibAdapaterRegistry> ")
       for (i in seq_along(self$adapters)) {
-        cat(sprintf("  %s: webmockr:::%s", self$adapters[[i]]$name,
-                    class(self$adapters[[i]])[1]), sep = "\n")
+        cat_line(
+          sprintf("  %s: webmockr:::%s", 
+            self$adapters[[i]]$name,
+            class(self$adapters[[i]])[1]
+          )
+        )
       }
     },
 

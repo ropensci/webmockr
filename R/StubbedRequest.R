@@ -200,51 +200,44 @@ StubbedRequest <- R6::R6Class(
     #' @param x self
     #' @param ... ignored
     print = function(x, ...) {
-      cat("<webmockr stub> ", sep = "\n")
-      cat(paste0("  method: ", self$method), sep = "\n")
-      cat(paste0("  uri: ", self$uri %||% self$uri_regex), sep = "\n")
-      cat("  with: ", sep = "\n")
-      cat(paste0("    query: ", hdl_lst(self$query)), sep = "\n")
+      cat_line("<webmockr stub> ")
+      cat_line(paste0("  method: ", self$method))
+      cat_line(paste0("  uri: ", self$uri %||% self$uri_regex))
+      cat_line("  with: ")
+      cat_line(paste0("    query: ", hdl_lst(self$query)))
       if (is.null(self$body)) {
-        cat("    body: ", sep = "\n")
+        cat_line("    body: ")
       } else {
-        cat(sprintf(
+        cat_line(sprintf(
           "    body (class: %s): %s", class(self$body)[1L],
           hdl_lst(self$body)
-        ), sep = "\n")
+        ))
       }
-      cat(
+      cat_line(
         paste0(
           "    request_headers: ",
           hdl_lst(self$request_headers)
-        ),
-        sep = "\n"
+        )
       )
-      cat(
+      cat_line(
         paste0(
           "    auth: ",
           prep_cat_auth(self$basic_auth)
-        ),
-        sep = "\n"
+        )
       )
-      cat("  to_return: ", sep = "\n")
+      cat_line("  to_return: ")
       rs <- self$responses_sequences
       for (i in seq_along(rs)) {
-        cat(paste0("  - status: ", hdl_lst(rs[[i]]$status)),
-          sep = "\n"
-        )
-        cat(paste0("    body: ", hdl_lst(rs[[i]]$body)),
-          sep = "\n"
-        )
-        cat(
+        cat_line(paste0("  - status: ", hdl_lst(rs[[i]]$status)))
+        cat_line(paste0("    body: ", hdl_lst(rs[[i]]$body)))
+        cat_line(
           paste0(
             "    response_headers: ",
             hdl_lst(rs[[i]]$headers)
-          ),
-          sep = "\n"
+          )
         )
-        cat(paste0("    should_timeout: ", rs[[i]]$timeout), sep = "\n")
-        cat(paste0(
+        cat_line(paste0("    should_timeout: ", rs[[i]]$timeout))
+        cat_line(paste0(
           "    should_raise: ",
           if (rs[[i]]$raise) {
             paste0(vapply(rs[[i]]$exceptions, "[[", "", "classname"),
@@ -253,7 +246,7 @@ StubbedRequest <- R6::R6Class(
           } else {
             "FALSE"
           }
-        ), sep = "\n")
+        ))
       }
     },
 
