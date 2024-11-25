@@ -31,7 +31,7 @@
 #' they supplied `NULL` to indicate an empty body.
 #' - headers: (list) a named list
 #' - basic_auth: (character) a length two vector, username and password.
-#' We don't do any checking of the username/password except to detect 
+#' We don't do any checking of the username/password except to detect
 #' edge cases where for example, the username/password
 #' were probably not set by the user on purpose (e.g., a URL is
 #' picked up by an environment variable). Only basic authentication
@@ -89,7 +89,7 @@
 #' wi_th(req, body = including(list(foo = "bar")))
 #' ## excluding
 #' wi_th(req, body = excluding(list(foo = "bar")))
-#' 
+#'
 #' # basic auth
 #' ## including
 #' wi_th(req, body = including(list(foo = "bar")))
@@ -104,8 +104,8 @@ wi_th <- function(.data, ..., .list = list()) {
     if (length(z) == 0) z <- NULL
     z <- c(z, .list)
     if (
-      !any(c("query", "body", "headers", "basic_auth") %in% names(z))
-      && length(z) != 0
+      !any(c("query", "body", "headers", "basic_auth") %in% names(z)) &&
+        length(z) != 0
     ) {
       abort("'wi_th' only accepts query, body, headers, basic_auth")
     }

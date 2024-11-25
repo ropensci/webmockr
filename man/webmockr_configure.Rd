@@ -62,7 +62,7 @@ are allowed, then a real HTTP request can be made.
 \dontrun{
 webmockr_configure()
 webmockr_configure(
- allow_localhost = TRUE
+  allow_localhost = TRUE
 )
 webmockr_configuration()
 webmockr_configure_reset()

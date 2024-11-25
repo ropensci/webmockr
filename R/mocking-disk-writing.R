@@ -32,11 +32,13 @@
 #' readLines(f)
 #' ## make the stub
 #' stub_request("get", "https://httpbin.org/get") %>%
-#'   to_return(body = file(f),
-#'    headers = list('content-type' = "application/json"))
+#'   to_return(
+#'     body = file(f),
+#'     headers = list("content-type" = "application/json")
+#'   )
 #' ## make a request
 #' ## with httr, you must set overwrite=TRUE or you'll get an errror
-#' out <- GET("https://httpbin.org/get", write_disk(f, overwrite=TRUE))
+#' out <- GET("https://httpbin.org/get", write_disk(f, overwrite = TRUE))
 #' out
 #' out$content
 #' content(out, "text", encoding = "UTF-8")
@@ -50,8 +52,10 @@
 #' readLines(f)
 #' ## make the stub
 #' stub_request("get", "https://httpbin.org/get") %>%
-#'   to_return(body = file(f),
-#'    headers = list('content-type' = "application/json"))
+#'   to_return(
+#'     body = file(f),
+#'     headers = list("content-type" = "application/json")
+#'   )
 #' ## make a request
 #' req <- request("https://httpbin.org/get")
 #' out <- req_perform(req, path = f)
@@ -83,7 +87,7 @@
 #' stub_request("get", "https://httpbin.org/get") %>%
 #'   to_return(
 #'     body = mock_file(path = f, payload = "{\"foo\": \"bar\"}"),
-#'     headers = list('content-type' = "application/json")
+#'     headers = list("content-type" = "application/json")
 #'   )
 #' ## make a request
 #' out <- GET("https://httpbin.org/get", write_disk(f))
@@ -101,7 +105,7 @@
 #' stub_request("get", "https://httpbin.org/get") %>%
 #'   to_return(
 #'     body = mock_file(path = f, payload = "{\"foo\": \"bar\"}"),
-#'     headers = list('content-type' = "application/json")
+#'     headers = list("content-type" = "application/json")
 #'   )
 #' ## make a request
 #' req <- request("https://httpbin.org/get")

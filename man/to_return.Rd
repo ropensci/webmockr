@@ -89,14 +89,16 @@ foo() \%>\% to_return(status = 200)
 foo() \%>\% to_return(body = "stuff")
 foo() \%>\% to_return(body = list(a = list(b = "world")))
 foo() \%>\% to_return(headers = list(a = 5))
-foo() \%>\% 
+foo() \%>\%
   to_return(status = 200, body = "stuff", headers = list(a = 5))
 
 # .list - pass in a named list instead
 foo() \%>\% to_return(.list = list(body = list(foo = "bar")))
 
 # multiple responses using chained `to_return()`
-foo() \%>\% to_return(body = "stuff") \%>\% to_return(body = "things")
+foo() \%>\%
+  to_return(body = "stuff") \%>\%
+  to_return(body = "things")
 
 # many of the same response using the times parameter
 foo() \%>\% to_return(body = "stuff", times = 3)

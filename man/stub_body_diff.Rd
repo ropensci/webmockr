@@ -41,19 +41,21 @@ HttpClient$new("https://hb.opencpu.org")$get(path = "get")
 stub_body_diff()
 
 # Gives diff when there's a stub and request found - with request body
-stub_request("post", "https://hb.opencpu.org/post") \%>\% 
-	wi_th(body = list(apple = "green"))
+stub_request("post", "https://hb.opencpu.org/post") \%>\%
+  wi_th(body = list(apple = "green"))
 enable()
 library(crul)
 HttpClient$new("https://hb.opencpu.org")$post(
-	path = "post", body = list(apple = "red"))
+  path = "post", body = list(apple = "red")
+)
 stub_body_diff()
 
 # Gives diff when there's a stub and request found - with request body
-stub_request("post", "https://hb.opencpu.org/post") \%>\% 
-	wi_th(body = "the quick brown fox")
+stub_request("post", "https://hb.opencpu.org/post") \%>\%
+  wi_th(body = "the quick brown fox")
 HttpClient$new("https://hb.opencpu.org")$post(
-	path = "post", body = "the quick black fox")
+  path = "post", body = "the quick black fox"
+)
 stub_body_diff()
 \dontshow{\}) # examplesIf}
 }

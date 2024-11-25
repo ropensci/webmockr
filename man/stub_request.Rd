@@ -74,7 +74,7 @@ intended.
 When you encounter an error creating a stub you should see a warning
 message that the stub has been removed, for example:
 
-\if{html}{\out{<div class="sourceCode">}}\preformatted{stub_request("get", "https://httpbin.org/get") \%>\% 
+\if{html}{\out{<div class="sourceCode">}}\preformatted{stub_request("get", "https://httpbin.org/get") \%>\%
   wi_th(query = mtcars)
 #> Error in `wi_th()`:
 #> ! z$query must be of class list or partial
@@ -201,7 +201,8 @@ stub_request("get", "https://hb.opencpu.org/get") \%>\%
   wi_th(query = including(list(fruit = "pear"))) \%>\%
   to_return(body = "matched on partial query!")
 resp <- GET("https://hb.opencpu.org/get",
-  query = list(fruit = "pear", bread = "scone"))
+  query = list(fruit = "pear", bread = "scone")
+)
 rawToChar(content(resp))
 ### doesn't match
 stub_registry_clear()
@@ -217,14 +218,16 @@ stub_request("post", "https://hb.opencpu.org/post") \%>\%
   wi_th(body = including(list(fruit = "pear"))) \%>\%
   to_return(body = "matched on partial body!")
 resp <- POST("https://hb.opencpu.org/post",
-  body = list(fruit = "pear", meat = "chicken"))
+  body = list(fruit = "pear", meat = "chicken")
+)
 rawToChar(content(resp))
 ### matches - excluding
 stub_request("post", "https://hb.opencpu.org/post") \%>\%
   wi_th(body = excluding(list(fruit = "pear"))) \%>\%
   to_return(body = "matched on partial body!")
 res <- POST("https://hb.opencpu.org/post",
-  body = list(color = "blue"))
+  body = list(color = "blue")
+)
 rawToChar(content(res))
 # POST("https://hb.opencpu.org/post",
 #  body = list(fruit = "pear", meat = "chicken"))

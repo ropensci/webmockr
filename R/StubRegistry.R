@@ -5,7 +5,7 @@
 #' @examples \dontrun{
 #' # Make a stub
 #' stub1 <- StubbedRequest$new(method = "get", uri = "api.crossref.org")
-#' stub1$with(headers = list('User-Agent' = 'R'))
+#' stub1$with(headers = list("User-Agent" = "R"))
 #' stub1$to_return(status = 200, body = "foobar", headers = list())
 #' stub1
 #'
@@ -119,33 +119,46 @@ StubRegistry <- R6::R6Class(
 #' @importFrom jsonlite validate
 json_validate <- function(x) {
   res <- tryCatch(jsonlite::validate(x), error = function(e) e)
-  if (inherits(res, "error")) return(FALSE)
+  if (inherits(res, "error")) {
+    return(FALSE)
+  }
   res
 }
 
 # make body info for print method
 make_body <- function(x) {
-  if (is.null(x)) return("")
+  if (is.null(x)) {
+    return("")
+  }
   if (inherits(x, "mock_file")) x <- x$payload
   if (inherits(x, c("form_file", "partial"))) x <- unclass(x)
   clzzes <- vapply(x, function(z) inherits(z, "form_file"), logical(1))
-  if (any(clzzes)) for(i in seq_along(x)) x[[i]] <- unclass(x[[i]])
-  if (json_validate(x))
+  if (any(clzzes)) for (i in seq_along(x)) x[[i]] <- unclass(x[[i]])
+  if (json_validate(x)) {
     body <- x
-  else
+  } else {
     body <- jsonlite::toJSON(x, auto_unbox = TRUE)
+  }
   paste0(" with body ", body)
 }
 
 # make query info for print
 make_query <- function(x) {
-  if (is.null(x)) return("")
-  txt <- paste(names(x), subs(unname(unlist(x)), 20), sep = "=",
-    collapse = ", ")
+  if (is.null(x)) {
+    return("")
+  }
+  txt <- paste(names(x), subs(unname(unlist(x)), 20),
+    sep = "=",
+    collapse = ", "
+  )
   if (attr(x, "partial_match") %||% FALSE) {
-    txt <- sprintf("%s(%s)",
+    txt <- sprintf(
+      "%s(%s)",
       switch(attr(x, "partial_type"),
-        include = "including", exclude = "excluding"), txt)
+        include = "including",
+        exclude = "excluding"
+      ), txt
+    )
   }
   paste0(" with query params ", txt)
 }
@@ -155,12 +168,16 @@ make_query <- function(x) {
 #' @param x a named list
 #' @noRd
 make_headers <- function(x) {
-  if (is.null(x)) return("")
+  if (is.null(x)) {
+    return("")
+  }
   paste0(" with headers ", jsonlite::toJSON(x, auto_unbox = TRUE))
 }
 
 # make body info for print method
 make_status <- function(x) {
-  if (is.null(x)) return("")
+  if (is.null(x)) {
+    return("")
+  }
   paste0(" with status ", as.character(x))
 }

@@ -34,7 +34,7 @@
 #' bb$headers
 #' bb$body
 #' bb$to_s()
-#' 
+#'
 #' # with disk path
 #' f <- tempfile()
 #' bb <- RequestSignature$new(
@@ -46,7 +46,7 @@
 #' bb$disk
 #' bb$to_s()
 RequestSignature <- R6::R6Class(
-  'RequestSignature',
+  "RequestSignature",
   public = list(
     #' @field method (character) an http method
     method = NULL,
@@ -93,8 +93,10 @@ RequestSignature <- R6::R6Class(
       if (!is.null(self$body)) {
         cat_line("  body: ")
         if (inherits(self$body, "form_file")) {
-          cat_line(paste0("     ",
-              sprintf("type=%s; path=%s", self$body$type, self$body$path)))
+          cat_line(paste0(
+            "     ",
+            sprintf("type=%s; path=%s", self$body$type, self$body$path)
+          ))
         } else {
           cat_foo(self$body)
         }
@@ -132,24 +134,29 @@ RequestSignature <- R6::R6Class(
         if (!is.null(self$headers) && length(self$headers)) {
           paste0(
             " with headers ",
-            sprintf("{%s}",
-                    paste(names(self$headers),
-                          unlist(unname(self$headers)), sep = ": ",
-                          collapse = ", "))
+            sprintf(
+              "{%s}",
+              paste(names(self$headers),
+                unlist(unname(self$headers)),
+                sep = ": ",
+                collapse = ", "
+              )
+            )
           )
         }
       ))
     }
   ),
-
   private = list(
     assign_options = function(options) {
-      op_vars <- c("body", "headers", "proxies", "auth",
-        "disk", "fields", "output")
+      op_vars <- c(
+        "body", "headers", "proxies", "auth",
+        "disk", "fields", "output"
+      )
       for (i in seq_along(op_vars)) {
         if (op_vars[i] %in% names(options)) {
-          if (!is.null(options[[ op_vars[i] ]]) && length(options)) {
-            self[[ op_vars[i] ]] <- options[[ op_vars[i] ]]
+          if (!is.null(options[[op_vars[i]]]) && length(options)) {
+            self[[op_vars[i]]] <- options[[op_vars[i]]]
           }
         }
       }
@@ -158,11 +165,12 @@ RequestSignature <- R6::R6Class(
 )
 
 cat_foo <- function(x) {
-  cat_line(paste0("     ",
+  cat_line(paste0(
+    "     ",
     paste0(paste(names(x) %||% "<unnamed>", x, sep = ": "),
-      collapse = "\n     ")
+      collapse = "\n     "
     )
-  )
+  ))
 }
 
 to_string <- function(x) {

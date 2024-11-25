@@ -6,13 +6,13 @@
 #' performed
 #' @family request-registry
 #' @details `request_registry()` lists the requests that have been made
-#' that webmockr knows about; `request_registry_clear()` resets the 
+#' that webmockr knows about; `request_registry_clear()` resets the
 #' request registry (removes all recorded requests)
 #' @examples
 #' webmockr::enable()
 #' stub_request("get", "https://httpbin.org/get") %>%
 #'   to_return(body = "success!", status = 200)
-#' 
+#'
 #' # nothing in the request registry
 #' request_registry()
 #'
@@ -27,7 +27,7 @@
 #'
 #' # check the request registry - now it's been made 2 times, yay!
 #' request_registry()
-#' 
+#'
 #' # clear the request registry
 #' request_registry_clear()
 #' webmockr::disable()

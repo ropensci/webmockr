@@ -1,8 +1,8 @@
 #' Mock file
-#' 
+#'
 #' @export
 #' @param path (character) a file path. required
-#' @param payload (character) string to be written to the file given 
+#' @param payload (character) string to be written to the file given
 #' at `path` parameter. required
 #' @return a list with S3 class `mock_file`
 #' @examples
