@@ -8,13 +8,13 @@
   "codeRepository": "https://github.com/ropensci/webmockr",
   "issueTracker": "https://github.com/ropensci/webmockr/issues",
   "license": "https://spdx.org/licenses/MIT",
-  "version": "1.0.0",
+  "version": "2.0.0",
   "programmingLanguage": {
     "@type": "ComputerLanguage",
     "name": "R",
     "url": "https://r-project.org"
   },
-  "runtimePlatform": "R version 4.4.1 Patched (2024-06-25 r86831)",
+  "runtimePlatform": "R version 4.4.2 (2024-10-31)",
   "provider": {
     "@id": "https://cran.r-project.org",
     "@type": "Organization",
@@ -113,6 +113,18 @@
         "url": "https://cran.r-project.org"
       },
       "sameAs": "https://CRAN.R-project.org/package=httr2"
+    },
+    {
+      "@type": "SoftwareApplication",
+      "identifier": "diffobj",
+      "name": "diffobj",
+      "provider": {
+        "@id": "https://cran.r-project.org",
+        "@type": "Organization",
+        "name": "Comprehensive R Archive Network (CRAN)",
+        "url": "https://cran.r-project.org"
+      },
+      "sameAs": "https://CRAN.R-project.org/package=diffobj"
     }
   ],
   "softwareRequirements": {
@@ -206,20 +218,32 @@
     },
     "8": {
       "@type": "SoftwareApplication",
-      "identifier": "base64enc",
-      "name": "base64enc",
+      "identifier": "rlang",
+      "name": "rlang",
       "provider": {
         "@id": "https://cran.r-project.org",
         "@type": "Organization",
         "name": "Comprehensive R Archive Network (CRAN)",
         "url": "https://cran.r-project.org"
       },
-      "sameAs": "https://CRAN.R-project.org/package=base64enc"
+      "sameAs": "https://CRAN.R-project.org/package=rlang"
+    },
+    "9": {
+      "@type": "SoftwareApplication",
+      "identifier": "cli",
+      "name": "cli",
+      "provider": {
+        "@id": "https://cran.r-project.org",
+        "@type": "Organization",
+        "name": "Comprehensive R Archive Network (CRAN)",
+        "url": "https://cran.r-project.org"
+      },
+      "sameAs": "https://CRAN.R-project.org/package=cli"
     },
     "SystemRequirements": null
   },
   "applicationCategory": "Web",
   "isPartOf": "https://ropensci.org",
   "keywords": ["http", "https", "API", "web-services", "curl", "mock", "mocking", "fakeweb", "http-mocking", "testing", "testing-tools", "tdd"],
-  "fileSize": "378.648KB"
+  "fileSize": "428.317KB"
 }
