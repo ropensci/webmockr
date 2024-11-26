@@ -8,7 +8,7 @@ webmockr 2.0.0
 ### NEW FEATURES
 
 * Partial matching. New functions `including()` and `excluding()` for use with `wi_th()` support partial for bodies and queries (header partial matching was already supported without any additional steps). See `?partial`. This makes it slightly to a whole lot easier to do matching depending on the HTTP request your trying to match (e.g., let's say you're trying to match against a query with 20 parameters - if you can match uniquely to it with 1 or 2 of those params, then you're all set) (#38)
-* Basic auth (i.e., user/password pair) now works! 🎉 Some of the pieces for this to work were in place before this version, but not all. NEED TO CHECK IF THIS IS NEW OR JUST THAT IT'S BEHAVIOR MAY BE DIFFERENT NOW (#133)
+* Basic auth internal work for `RequestPattern`. Shouldn't change behavior (#133)
 * New features for supporting request body diffs. There are two ways to use request body diffing. First, you can toggle it on/off globally like `webmockr_configure(show_body_diff = TRUE)` or `webmockr_configure(show_body_diff = FALSE)`. Second, a new function `stub_body_diff()` is a standalone function that compares by default the last stub created and the last http request made - but you can pass in any stub and http request. Note that body diffing functionality requires the suggested package `diffobj` (#126)
 * As part of the above body diffing functionality, two new functions are offered: `last_request()` and `last_stub()`, which get the last http request made and the last webmockr stub created, respectively.  (#126)
 
