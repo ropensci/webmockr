@@ -85,10 +85,15 @@ x$headers_pattern$to_s()
 x$to_s()
 rs <- RequestSignature$new(
   method = "post", uri = "http://httpbin.org/post",
-  options = list(auth = list(user = "user", pass = "pass"))
+  options = list(headers = prep_auth("user:pass"))
 )
 rs
-x$matches(rs)
+x$matches(rs) # TRUE
+rs <- RequestSignature$new(
+  method = "post", uri = "http://httpbin.org/post",
+  options = list(headers = prep_auth("user:longpassword"))
+)
+x$matches(rs) # FALSE
 }
 }
 \seealso{
