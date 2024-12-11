@@ -255,7 +255,7 @@ Adapter <- R6::R6Class("Adapter",
         # body can be lots of things, so need to handle various cases
         if (!is.null(x$body)) {
           bd <- x$body
-          bd_str <- hdl_lst2(bd)
+          bd_str <- hdl_lst2(bd, client = self$client)
         }
 
         with_str <- ""
