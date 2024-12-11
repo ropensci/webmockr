@@ -82,7 +82,9 @@ hdl_lst2 <- function(x) {
   }
   if (inherits(x, "list")) {
     if (any(vapply(x, function(z) inherits(z, "form_file"), logical(1)))) {
-      for (i in seq_along(x)) x[[i]] <- sprintf("crul::upload(\"%s\", \"%s\")", x[[i]]$path, x[[i]]$type)
+      for (i in seq_along(x)) {
+        x[[i]] <- sprintf("crul::upload(\"%s\", \"%s\")", x[[i]]$path, x[[i]]$type)
+      }
     }
     out <- vector(mode = "character", length = length(x))
     for (i in seq_along(x)) {
