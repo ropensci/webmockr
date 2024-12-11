@@ -70,7 +70,7 @@ hdl_lst <- function(x) {
   }
 }
 
-file_switch <- function(client, path, type) {
+upload_switch <- function(client, path, type) {
   switch(
     client,
     crul = sprintf("crul::upload(\"%s\", \"%s\")", path, type),
@@ -87,12 +87,12 @@ hdl_lst2 <- function(x, client) {
     return(rawToChar(x))
   }
   if (inherits(x, "form_file")) {
-    return(file_switch(client, x$path, x$type))
+    return(upload_switch(client, x$path, x$type))
   }
   if (inherits(x, "list")) {
     if (any(vapply(x, function(z) inherits(z, "form_file"), logical(1)))) {
       for (i in seq_along(x)) {
-        x[[i]] <- file_switch(client, x[[i]]$path, x[[i]]$type)
+        x[[i]] <- upload_switch(client, x[[i]]$path, x[[i]]$type)
       }
     }
     out <- vector(mode = "character", length = length(x))
