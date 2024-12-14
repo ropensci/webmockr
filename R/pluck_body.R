@@ -19,12 +19,7 @@ pluck_body <- function(x) {
 
   # multipart body
   if (!is.null(x$fields)) {
-    form_file_comp <- vapply(x$fields, inherits, logical(1), "form_file")
-    if (any(form_file_comp)) {
-      return(x$fields[form_file_comp])
-    } else {
-      return(x$fields)
-    }
+    return(x$fields)
 
     # json/raw-encoded body
   } else if (!is.null(x$options$postfields) && is.raw(x$options$postfields)) {
