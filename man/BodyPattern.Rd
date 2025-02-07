@@ -101,7 +101,8 @@ Create a new \code{BodyPattern} object
 \subsection{Arguments}{
 \if{html}{\out{<div class="arguments">}}
 \describe{
-\item{\code{pattern}}{(list) a body object}
+\item{\code{pattern}}{(list) a body object - from a request stub (i.e.,
+the mock)}
 }
 \if{html}{\out{</div>}}
 }
@@ -121,7 +122,7 @@ Match a request body pattern against a pattern
 \subsection{Arguments}{
 \if{html}{\out{<div class="arguments">}}
 \describe{
-\item{\code{body}}{(list) the body}
+\item{\code{body}}{(list) the body, i.e., from the HTTP request}
 
 \item{\code{content_type}}{(character) content type}
 }

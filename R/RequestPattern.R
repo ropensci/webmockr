@@ -406,7 +406,8 @@ BodyPattern <- R6::R6Class(
     partial_type = NULL,
 
     #' @description Create a new `BodyPattern` object
-    #' @param pattern (list) a body object
+    #' @param pattern (list) a body object - from a request stub (i.e.,
+    #' the mock)
     #' @return A new `BodyPattern` object
     initialize = function(pattern) {
       if (inherits(pattern, "partial")) {
@@ -428,7 +429,7 @@ BodyPattern <- R6::R6Class(
 
     #' @importFrom rlang is_null is_na
     #' @description Match a request body pattern against a pattern
-    #' @param body (list) the body
+    #' @param body (list) the body, i.e., from the HTTP request
     #' @param content_type (character) content type
     #' @return a boolean
     matches = function(body, content_type = "") {
