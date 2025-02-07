@@ -293,9 +293,29 @@ test_that("BodyPattern: structure is correct", {
   )
 
   expect_equal(aa$to_s(), list(foo = "bar"))
+
 })
 
+test_that("BodyPattern: converts json/character to list internally", {
+  skip_if_not_installed("httr")
+  library("httr")
 
+  enable()
+
+  # via https://github.com/ropensci/webmockr/issues/139
+  # and https://github.com/mdneuzerling/lambdr/issues/40
+  response_body <- as.character(jsonlite::toJSON(list(parity = "odd"), auto_unbox = TRUE))
+
+  stub_request("post", "http://pink.tv/pajamas") |>
+    wi_th(body = response_body) |>
+    to_return(status = 200)
+
+  res <- POST(url = "http://pink.tv/pajamas", body = response_body)
+  expect_s3_class(res, "response")
+  expect_equal(status_code(res), 200)
+
+  disable()
+})
 
 context("UriPattern")
 test_that("UriPattern: structure is correct", {
