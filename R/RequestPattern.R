@@ -504,6 +504,9 @@ BodyPattern <- R6::R6Class(
       if (inherits(body, "form_file")) body <- unclass(body)
       if (is_empty(content_type)) content_type <- ""
       bctype <- BODY_FORMATS[[content_type]] %||% ""
+      if (grepl("json", content_type)) {
+        bctype <- "json"
+      }
       if (bctype == "json") {
         jsonlite::fromJSON(body, FALSE)
       } else if (bctype == "xml") {
@@ -525,6 +528,9 @@ BodyPattern <- R6::R6Class(
           try_xml2list
         }
       } else {
+        if (seems_like_json(body)) {
+          return(jsonlite::fromJSON(body, FALSE))
+        }
         query_mapper(body)
       }
     }
