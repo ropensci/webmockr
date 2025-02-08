@@ -140,7 +140,9 @@ RequestRegistry <- R6::R6Class(
     times_executed = function(request_pattern) {
       bools <- c()
       for (i in seq_along(self$request_signatures$hash)) {
-        bools[i] <- request_pattern$matches(self$request_signatures$hash[[i]]$sig)
+        bools[i] <- request_pattern$matches(
+          self$request_signatures$hash[[i]]$sig
+        )
       }
       if (all(!bools)) {
         return(0)

@@ -284,7 +284,8 @@ StubbedRequest <- R6::R6Class(
       } else {
         body
       }
-      self$response_headers <- headers # FIXME: for then change, remove eventually
+      # FIXME: for then change, remove eventually
+      self$response_headers <- headers
       body_raw <- {
         if (inherits(body, "mock_file")) {
           body
@@ -313,7 +314,10 @@ StubbedRequest <- R6::R6Class(
           webmockr_stub_registry$remove_request_stub(self)
           abort(c(
             "Unknown `body` type",
-            "*" = "must be: numeric, NULL, FALSE, character, json, raw, list, or file connection",
+            "*" = paste(
+              "must be: numeric, NULL, FALSE, character,",
+              "json, raw, list, or file connection"
+            ),
             "*" = "stub removed"
           ))
         } else {

@@ -8,7 +8,7 @@
 #' x$adapters
 #' x$adapters[[1]]$name
 HttpLibAdapaterRegistry <- R6::R6Class(
-  'HttpLibAdapaterRegistry',
+  "HttpLibAdapaterRegistry",
   public = list(
     #' @field adapters list
     adapters = NULL,
@@ -20,7 +20,8 @@ HttpLibAdapaterRegistry <- R6::R6Class(
       cat_line("<HttpLibAdapaterRegistry> ")
       for (i in seq_along(self$adapters)) {
         cat_line(
-          sprintf("  %s: webmockr:::%s", 
+          sprintf(
+            "  %s: webmockr:::%s",
             self$adapters[[i]]$name,
             class(self$adapters[[i]])[1]
           )

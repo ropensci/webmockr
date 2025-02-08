@@ -141,12 +141,21 @@ RequestPattern <- R6::R6Class(
     #' @return a boolean
     matches = function(request_signature) {
       assert_is(request_signature, "RequestSignature")
-      c_type <- if (!is.null(request_signature$headers)) request_signature$headers$`Content-Type` else NULL
+      c_type <- NULL
+      c_type <- if (!is.null(request_signature$headers)) {
+        request_signature$headers$`Content-Type`
+      }
       if (!is.null(c_type)) c_type <- strsplit(c_type, ";")[[1]][1]
       self$method_pattern$matches(request_signature$method) &&
         self$uri_pattern$matches(request_signature$uri) &&
-        (is.null(self$body_pattern) || self$body_pattern$matches(request_signature$body, c_type %||% "")) &&
-        (is.null(self$headers_pattern) || self$headers_pattern$matches(request_signature$headers))
+        (
+          is.null(self$body_pattern) ||
+            self$body_pattern$matches(request_signature$body, c_type %||% "")
+        ) &&
+        (
+          is.null(self$headers_pattern) ||
+            self$headers_pattern$matches(request_signature$headers)
+        )
     },
 
     #' @description Print pattern for easy human consumption
@@ -160,7 +169,9 @@ RequestPattern <- R6::R6Class(
             paste0(" with body ", self$body_pattern$to_s())
           }
         },
-        if (!is.null(self$headers_pattern)) paste0(" with headers ", self$headers_pattern$to_s())
+        if (!is.null(self$headers_pattern)) {
+          paste0(" with headers ", self$headers_pattern$to_s())
+        }
       ))
     }
   ),
@@ -520,8 +531,10 @@ BodyPattern <- R6::R6Class(
           error = function(e) e
         )
         if (rlang::is_error(try_xml2list)) {
-          rlang::warn("xml to list conversion failed; using xml string for comparison",
-            use_cli_format = TRUE, .frequency = "always"
+          rlang::warn(
+            "xml to list conversion failed; using xml string for comparison",
+            use_cli_format = TRUE,
+            .frequency = "always"
           )
           body
         } else {
@@ -551,9 +564,13 @@ BODY_FORMATS <- list(
   "text/plain"                 = "plain"
 )
 
-# remove_reserved & promote_attr from https://www.garrickadenbuie.com/blog/recursive-xml-workout/
+# remove_reserved & promote_attr from
+# https://www.garrickadenbuie.com/blog/recursive-xml-workout/
 remove_reserved <- function(this_attr) {
-  reserved_attr <- c("class", "comment", "dim", "dimnames", "names", "row.names", "tsp")
+  reserved_attr <- c(
+    "class", "comment", "dim", "dimnames",
+    "names", "row.names", "tsp"
+  )
   if (!any(reserved_attr %in% names(this_attr))) {
     return(this_attr)
   }

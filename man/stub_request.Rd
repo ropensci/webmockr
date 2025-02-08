@@ -133,7 +133,8 @@ res <- x$get("get")
 # raise exception
 library(fauxpas)
 stub_request("get", "https://httpbin.org/get") \%>\% to_raise(HTTPAccepted)
-stub_request("get", "https://httpbin.org/get") \%>\% to_raise(HTTPAccepted, HTTPGone)
+stub_request("get", "https://httpbin.org/get") \%>\%
+  to_raise(HTTPAccepted, HTTPGone)
 
 x <- crul::HttpClient$new(url = "https://httpbin.org")
 stub_request("get", "https://httpbin.org/get") \%>\% to_raise(HTTPBadGateway)

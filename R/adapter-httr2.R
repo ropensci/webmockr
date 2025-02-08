@@ -35,8 +35,8 @@ build_httr2_response <- function(req, resp) {
     method = req_method_get_w(req),
     url = tryCatch(resp$url, error = function(e) e) %|s|% req$url,
     status_code = as.integer(
-      tryx(resp$status_code$status_code) %||% 
-        tryx(resp$status_code) %||% 
+      tryx(resp$status_code$status_code) %||%
+        tryx(resp$status_code) %||%
         resp$status$status_code
     ),
     headers = {
@@ -69,7 +69,7 @@ req_method_get_w <- function(req) {
 #' @export
 #' @param x an unexecuted httr2 request object
 #' @return a `httr2_request`
-build_httr2_request = function(x) {
+build_httr2_request <- function(x) {
   headers <- as.list(x$headers) %||% NULL
   auth <- check_user_pwd(x$options$userpwd) %||% NULL
   if (!is.null(auth)) {
@@ -92,9 +92,9 @@ build_httr2_request = function(x) {
 }
 
 #' Turn on `httr2` mocking
-#' 
+#'
 #' Sets a callback that routes `httr2` requests through `webmockr`
-#' 
+#'
 #' @export
 #' @param on (logical) `TRUE` to turn on, `FALSE` to turn off. default: `TRUE`
 #' @return Silently returns `TRUE` when enabled and `FALSE` when disabled.
@@ -119,17 +119,12 @@ Httr2Adapter <- R6::R6Class("Httr2Adapter",
     #' @field name adapter name
     name = "Httr2Adapter"
   ),
-
   private = list(
     pluck_url = function(request) request$url,
-
     mock = function(on) httr2_mock(on),
-
-    build_request   = build_httr2_request,
-    build_response  = build_httr2_response,
-
+    build_request = build_httr2_request,
+    build_response = build_httr2_response,
     request_handler = function(request) vcr::RequestHandlerHttr2$new(request),
-
     fetch_request = function(request) httr2::req_perform(request)
   )
 )

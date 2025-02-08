@@ -44,7 +44,7 @@ Useful links:
 Other contributors:
 \itemize{
   \item Aaron Wolen (\href{https://orcid.org/0000-0003-2542-2202}{ORCID}) [contributor]
-  \item rOpenSci (https://ropensci.org) [funder]
+  \item rOpenSci (019jywm96) [funder]
 }
 
 }

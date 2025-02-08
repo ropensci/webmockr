@@ -23,15 +23,18 @@ stub_removal_message <- c(
 #' @return if no error, the result of running `code`; if an error occurs
 #' [withCallingHandlers()] throws a warning and then the stub is removed
 handle_stub_removal <- function(.data, code) {
-  withCallingHandlers({
-    force(code)
-  },
-  error = function(cnd) {
-    if (!grepl(errors_to_skip_stub_removal(), cnd$message)) {
-      warn(stub_removal_message)
-      remove_request_stub(.data)
+  withCallingHandlers(
+    {
+      force(code)
+    },
+    error = function(cnd) {
+      if (!grepl(errors_to_skip_stub_removal(), cnd$message)) {
+        warn(stub_removal_message)
+        remove_request_stub(.data)
+      }
     }
-  })
+  )
 }
 
-# FIXME: add envir handling so that error message says the exported user fxn that the error occurred in
+# FIXME: add envir handling so that error message says the
+# exported user fxn that the error occurred in

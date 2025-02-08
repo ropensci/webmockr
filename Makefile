@@ -1,5 +1,6 @@
 PACKAGE := $(shell grep '^Package:' DESCRIPTION | sed -E 's/^Package:[[:space:]]+//')
 RSCRIPT = Rscript --no-init-file
+FILE_TARGET := "R/${FILE}.R"
 
 .PHONY: docs
 
@@ -43,3 +44,14 @@ check_windows:
 readme:
 	${RSCRIPT} -e "rmarkdown::render('details.md')"
 	${RSCRIPT} -e "knitr::knit('README.Rmd')"
+
+lint_package:
+	${RSCRIPT} -e "lintr::lint_package()"
+
+style_package:
+	${RSCRIPT} -e "styler::style_pkg()"
+
+# use: `make style_file FILE=stuff`
+# ("R/" is prepended); accepts 1 file only
+style_file:
+	${RSCRIPT} -e 'styler::style_file(${FILE_TARGET})'

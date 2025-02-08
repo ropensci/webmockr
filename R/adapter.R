@@ -11,38 +11,40 @@
 #' @export
 #' @examples \dontrun{
 #' if (requireNamespace("httr", quietly = TRUE)) {
-#' # library(httr)
+#'   # library(httr)
 #'
-#' # normal httr request, works fine
-#' # real <- GET("https://httpbin.org/get")
-#' # real
+#'   # normal httr request, works fine
+#'   # real <- GET("https://httpbin.org/get")
+#'   # real
 #'
-#' # with webmockr
-#' # library(webmockr)
-#' ## turn on httr mocking
-#' # httr_mock()
-#' ## now this request isn't allowed
-#' # GET("https://httpbin.org/get")
-#' ## stub the request
-#' # stub_request('get', uri = 'https://httpbin.org/get') %>%
-#' #   wi_th(
-#' #     headers = list('Accept' = 'application/json, text/xml, application/xml, */*')
-#' #   ) %>%
-#' #   to_return(status = 418, body = "I'm a teapot!", headers = list(a = 5))
-#' ## now the request succeeds and returns a mocked response
-#' # (res <- GET("https://httpbin.org/get"))
-#' # res$status_code
-#' # rawToChar(res$content)
+#'   # with webmockr
+#'   # library(webmockr)
+#'   ## turn on httr mocking
+#'   # httr_mock()
+#'   ## now this request isn't allowed
+#'   # GET("https://httpbin.org/get")
+#'   ## stub the request
+#'   # stub_request('get', uri = 'https://httpbin.org/get') %>%
+#'   #   wi_th(
+#'   #     headers = list(
+#'   #      'Accept' = 'application/json, text/xml, application/xml, */*'
+#'   #     )
+#'   #   ) %>%
+#'   #   to_return(status = 418, body = "I'm a teapot!", headers = list(a = 5))
+#'   ## now the request succeeds and returns a mocked response
+#'   # (res <- GET("https://httpbin.org/get"))
+#'   # res$status_code
+#'   # rawToChar(res$content)
 #'
-#' # allow real requests while webmockr is loaded
-#' # webmockr_allow_net_connect()
-#' # webmockr_net_connect_allowed()
-#' # GET("https://httpbin.org/get?animal=chicken")
-#' # webmockr_disable_net_connect()
-#' # webmockr_net_connect_allowed()
-#' # GET("https://httpbin.org/get?animal=chicken")
+#'   # allow real requests while webmockr is loaded
+#'   # webmockr_allow_net_connect()
+#'   # webmockr_net_connect_allowed()
+#'   # GET("https://httpbin.org/get?animal=chicken")
+#'   # webmockr_disable_net_connect()
+#'   # webmockr_net_connect_allowed()
+#'   # GET("https://httpbin.org/get?animal=chicken")
 #'
-#' # httr_mock(FALSE)
+#'   # httr_mock(FALSE)
 #' }
 #' }
 Adapter <- R6::R6Class("Adapter",
@@ -111,7 +113,9 @@ Adapter <- R6::R6Class("Adapter",
       if (request_is_in_cache(request_signature)) {
         # if real requests NOT allowed
         # even if net connects allowed, we check if stubbed found first
-        ss <- webmockr_stub_registry$find_stubbed_request(request_signature)[[1]]
+        ss <- webmockr_stub_registry$find_stubbed_request(
+          request_signature
+        )[[1]]
 
         # if user wants to return a partial object
         #   get stub with response and return that
@@ -129,7 +133,7 @@ Adapter <- R6::R6Class("Adapter",
             resp <- private$update_vcr_disk_path(resp)
           }
 
-        # no vcr
+          # no vcr
         } else {
           resp <- private$build_response(req, resp)
           # add to_return() elements if given
@@ -137,7 +141,7 @@ Adapter <- R6::R6Class("Adapter",
         }
 
 
-      # request is not in cache but connections are allowed
+        # request is not in cache but connections are allowed
       } else if (webmockr_net_connect_allowed(uri = private$pluck_url(req))) {
         # if real requests || localhost || certain exceptions ARE
         #   allowed && nothing found above
@@ -167,28 +171,35 @@ Adapter <- R6::R6Class("Adapter",
 
           if (all(m %in% c("method", "uri")) && length(m) == 2) {
             stub_request(req$method, req_url)
-          } else if (all(m %in% c("method", "uri", "query")) && length(m) == 3) {
+          } else if (
+            all(m %in% c("method", "uri", "query")) && length(m) == 3
+          ) {
             tmp <- stub_request(req$method, req_url)
             wi_th(tmp, .list = list(query = urip$parameter))
-          } else if (all(m %in% c("method", "uri", "headers")) && length(m) == 3) {
+          } else if (
+            all(m %in% c("method", "uri", "headers")) && length(m) == 3
+          ) {
             tmp <- stub_request(req$method, req_url)
             wi_th(tmp, .list = list(headers = req$headers))
-          } else if (all(m %in% c("method", "uri", "headers", "query")) && length(m) == 4) {
+          } else if (
+            all(m %in% c("method", "uri", "headers", "query")) && length(m) == 4
+          ) {
             tmp <- stub_request(req$method, req_url)
-            wi_th(tmp, .list = list(query = urip$parameter, headers = req$headers))
+            wi_th(tmp,
+              .list = list(query = urip$parameter, headers = req$headers)
+            )
           }
 
           # check if new request/response from redirects in vcr
           # req <- redirects_request(req)
           # resp <- redirects_response(resp)
-
         } else {
           private$mock(on = FALSE)
           resp <- private$fetch_request(req)
           private$mock(on = TRUE)
         }
 
-      # request is not in cache and connections are not allowed
+        # request is not in cache and connections are not allowed
       } else {
         # throw vcr error: should happen when user not using
         #  use_cassette or insert_cassette
@@ -197,10 +208,11 @@ Adapter <- R6::R6Class("Adapter",
         }
 
         # no stubs found and net connect not allowed - STOP
-        x <- c("Real HTTP connections are disabled.", "!" = "Unregistered request:")
+        x <- c("Real HTTP connections are disabled.",
+          "!" = "Unregistered request:"
+        )
         y <- "\nYou can stub this request with the following snippet:\n"
         z <- "\nregistered request stubs:\n"
-        # msgx <- paste(x, request_signature$to_s())
         msgx <- c(x, "i" = request_signature$to_s())
         msgy <- ""
         if (webmockr_conf_env$show_stubbing_instructions) {
@@ -210,15 +222,16 @@ Adapter <- R6::R6Class("Adapter",
         if (length(webmockr_stub_registry$request_stubs)) {
           msgz <- paste(
             z,
-            paste0(vapply(webmockr_stub_registry$request_stubs, function(z)
-              z$to_s(), ""), collapse = "\n ")
+            paste0(vapply(webmockr_stub_registry$request_stubs, function(z) {
+              z$to_s()
+            }, ""), collapse = "\n ")
           )
         }
         msg_diff <- ""
         if (webmockr_conf_env$show_body_diff) {
           msg_diff <- private$make_body_diff(request_signature)
         }
-        ending <- "\n============================================================"
+        ending <- paste0("\n", paste(rep.int("=", 60), collapse = ""))
         abort(c(msgx, msgy, msgz, msg_diff, ending))
       }
 
@@ -231,7 +244,6 @@ Adapter <- R6::R6Class("Adapter",
       webmockr_stub_registry$remove_all_request_stubs()
     }
   ),
-
   private = list(
     make_stub_request_code = function(x) {
       tmp <- sprintf(
@@ -248,8 +260,11 @@ Adapter <- R6::R6Class("Adapter",
           hd <- x$headers
           hd_str <- paste0(
             paste(sprintf("'%s'", names(hd)),
-                  sprintf("'%s'", unlist(unname(hd))), sep = " = "),
-            collapse = ", ")
+              sprintf("'%s'", unlist(unname(hd))),
+              sep = " = "
+            ),
+            collapse = ", "
+          )
         }
 
         # body can be lots of things, so need to handle various cases
@@ -260,10 +275,18 @@ Adapter <- R6::R6Class("Adapter",
 
         with_str <- ""
         if (all(nzchar(hd_str) && nzchar(bd_str))) {
-          with_str <- sprintf(" wi_th(\n       headers = list(%s),\n       body = list(%s)\n     )",
-                              hd_str, bd_str)
+          with_str <- sprintf(
+            paste0(
+              " wi_th(\n       headers = list(%s),",
+              "\n       body = list(%s)\n     )"
+            ),
+            hd_str, bd_str
+          )
         } else if (nzchar(hd_str) && !nzchar(bd_str)) {
-          with_str <- sprintf(" wi_th(\n       headers = list(%s)\n     )", hd_str)
+          with_str <- sprintf(
+            " wi_th(\n       headers = list(%s)\n     )",
+            hd_str
+          )
         } else if (!nzchar(hd_str) && nzchar(bd_str)) {
           with_str <- sprintf(" wi_th(\n       body = list(%s)\n     )", bd_str)
         }
@@ -272,7 +295,6 @@ Adapter <- R6::R6Class("Adapter",
       }
       return(tmp)
     },
-
     build_stub_response = function(stub) {
       stopifnot(inherits(stub, "StubbedRequest"))
       resp <- Response$new()
@@ -305,7 +327,6 @@ Adapter <- R6::R6Class("Adapter",
       }
       return(resp)
     },
-
     add_response_sequences = function(stub, response) {
       # TODO: assert HttpResponse (is it ever a crul response?)
       stopifnot(inherits(stub, "StubbedRequest"))
@@ -321,10 +342,12 @@ Adapter <- R6::R6Class("Adapter",
       respx <- stub$responses_sequences[[stub_num_get]]
       # remove NULLs
       toadd <- cc(respx)
-      if (is.null(toadd)) return(response)
+      if (is.null(toadd)) {
+        return(response)
+      }
 
       # remove timeout, raise, exceptions fields
-      toadd <- toadd[!names(toadd) %in% c('timeout', 'raise', 'exceptions')]
+      toadd <- toadd[!names(toadd) %in% c("timeout", "raise", "exceptions")]
 
       for (i in seq_along(toadd)) {
         if (names(toadd)[i] == "status") {
@@ -373,7 +396,7 @@ Adapter <- R6::R6Class("Adapter",
             response$response_headers_all <- list(headers)
           } else if (self$client == "httr") {
             response$headers <- httr::insensitive(headers)
-          } else { # client == "httr2"
+          } else {
             response$headers <- httr2_headers(headers)
           }
         }
@@ -381,7 +404,6 @@ Adapter <- R6::R6Class("Adapter",
 
       return(response)
     },
-
     make_body_diff = function(request_signature) {
       check_installed("diffobj")
       prefix <- "\n\nBody diff:"
@@ -391,13 +413,12 @@ Adapter <- R6::R6Class("Adapter",
       })
       num_diffs <- vapply(comps, \(w) attr(w@diffs, "meta")$diffs[2], 1)
       if (length(stubs) > 1) {
-        num_diffs_msg <- "diffs: >1 stub found, showing diff with least differences"
+        diffs_msg <- "diffs: >1 stub found, showing diff with least differences"
         diff_to_show <- comps[which.min(num_diffs)][[1]]
-        c(prefix, "i" = num_diffs_msg, as.character(diff_to_show))
+        c(prefix, "i" = diffs_msg, as.character(diff_to_show))
       } else {
         c(prefix, as.character(comps[[1]]))
       }
     }
-
   )
 )

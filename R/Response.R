@@ -168,6 +168,8 @@ Response <- R6::R6Class(
     get_exception = function() self$exception
   ),
   private = list(
-    normalize_headers = function(x, capitalize = TRUE) normalize_headers(x, capitalize)
+    normalize_headers = function(x, capitalize = TRUE) {
+      normalize_headers(x, capitalize)
+    }
   )
 )

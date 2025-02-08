@@ -46,7 +46,6 @@ hdl_lst <- function(x) {
   }
   if (inherits(x, c("list", "partial"))) {
     if (is_nested(x)) {
-      # substring(l2c(x), 1, 80)
       subs(l2c(x), 80)
     } else {
       txt <- paste(names(x), subs(unname(unlist(x)), 20),
@@ -71,8 +70,7 @@ hdl_lst <- function(x) {
 }
 
 upload_switch <- function(client, path, type) {
-  switch(
-    client,
+  switch(client,
     crul = sprintf("crul::upload(\"%s\", \"%s\")", path, type),
     httr = sprintf("httr::upload_file(\"%s\", \"%s\")", path, type),
     sprintf("curl::form_file(\"%s\", \"%s\")", path, type)
@@ -98,11 +96,18 @@ hdl_lst2 <- function(x, client) {
     out <- vector(mode = "character", length = length(x))
     for (i in seq_along(x)) {
       targ <- x[[i]]
-      out[[i]] <- paste(names(x)[i], switch(class(targ)[1L],
-        character = if (grepl("upload", targ)) targ else sprintf('\"%s\"', targ),
-        list = sprintf("list(%s)", hdl_lst2(targ)),
-        targ
-      ), sep = "=")
+      out[[i]] <- paste(names(x)[i],
+        switch(class(targ)[1L],
+          character = if (grepl("upload", targ)) {
+            targ
+          } else {
+            sprintf('\"%s\"', targ)
+          },
+          list = sprintf("list(%s)", hdl_lst2(targ)),
+          targ
+        ),
+        sep = "="
+      )
     }
     return(paste(out, collapse = ", "))
   } else {
@@ -126,10 +131,6 @@ parseurl <- function(x) {
 url_builder <- function(uri, regex) {
   if (regex) uri else normalize_uri(uri)
 }
-# url_builder <- function(uri, args = NULL) {
-#   if (is_null(args)) return(uri)
-#   paste0(uri, "?", paste(names(args), args, sep = "=", collapse = "&"))
-# }
 
 `%||%` <- function(x, y) {
   if (
