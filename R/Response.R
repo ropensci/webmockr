@@ -133,7 +133,6 @@ Response <- R6::R6Class(
     #' @param disk (logical) whether its on disk; default: `FALSE`
     #' @return nothing returned; sets body on the response
     set_body = function(body, disk = FALSE) {
-      # self$body <- body
       self$body <- self$content <- if (is.character(body)) {
         stopifnot(length(body) <= 1)
         if (disk) body else charToRaw(body)

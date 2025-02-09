@@ -160,7 +160,8 @@ test_that("include request body", {
     to_return(body = "matched on including partial body!")
 
   resp_matched <- POST("https://hb.opencpu.org/post",
-    body = list(fruit = "pear", meat = "chicken"))
+    body = list(fruit = "pear", meat = "chicken")
+  )
 
   expect_equal(resp_matched$status_code, 200)
   expect_equal(rawToChar(content(resp_matched)), "matched on including partial body!")
@@ -190,7 +191,8 @@ test_that("exclude request body", {
     to_return(body = "matched on excluding partial body!")
 
   resp_matched <- POST("https://hb.opencpu.org/post",
-    body = list(color = "blue"))
+    body = list(color = "blue")
+  )
 
   expect_equal(resp_matched$status_code, 200)
   expect_equal(rawToChar(content(resp_matched)), "matched on excluding partial body!")

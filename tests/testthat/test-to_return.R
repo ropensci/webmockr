@@ -9,7 +9,6 @@ aa <- stub_request("get", hb("/get")) %>%
   to_return(status = 200, body = "stuff", headers = list(a = 5))
 
 test_that("stub_request bits are correct", {
-
   expect_is(aa, "StubbedRequest")
   expect_null(aa$body)
   expect_null(aa$host)
@@ -30,8 +29,10 @@ test_that("stub_request bits are correct", {
   expect_is(aa$responses_sequences, "list")
   expect_identical(
     sort(names(aa$responses_sequences[[1]])),
-    sort(c("status", "body", "headers", "body_raw",
-      "timeout", "raise", "exceptions"))
+    sort(c(
+      "status", "body", "headers", "body_raw",
+      "timeout", "raise", "exceptions"
+    ))
   )
   expect_equal(aa$responses_sequences[[1]]$status, 200)
   expect_equal(aa$responses_sequences[[1]]$body, "stuff")
@@ -47,20 +48,28 @@ test_that("stub_request fails well", {
 
   # status
   zzz <- stub_request("get", hb("/get"))
-  expect_error(sw(to_return(zzz, status = "foo")),
-    "must be of class numeric")
+  expect_error(
+    sw(to_return(zzz, status = "foo")),
+    "must be of class numeric"
+  )
 
   # headers
   zzz <- stub_request("get", hb("/get"))
-  expect_error(sw(to_return(zzz, headers = list(5, 6))),
-    "'headers' must be a named list")
+  expect_error(
+    sw(to_return(zzz, headers = list(5, 6))),
+    "'headers' must be a named list"
+  )
   zzz <- stub_request("get", hb("/get"))
-  expect_error(sw(to_return(zzz, headers = list(a = 5, 6))),
-    "'headers' must be a named list")
+  expect_error(
+    sw(to_return(zzz, headers = list(a = 5, 6))),
+    "'headers' must be a named list"
+  )
 
   zzz <- stub_request("get", hb("/get"))
-  expect_error(sw(to_return(zzz, .list = 4)),
-   "must be of class list")
+  expect_error(
+    sw(to_return(zzz, .list = 4)),
+    "must be of class list"
+  )
 })
 
 

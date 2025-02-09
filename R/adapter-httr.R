@@ -60,8 +60,6 @@ httr_cookies_df <- function() {
   df
 }
 
-# x = "https://foobar.com"
-# check_user_pwd(x)
 check_user_pwd <- function(x) {
   if (is.null(x)) {
     return(x)

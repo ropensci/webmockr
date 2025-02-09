@@ -61,6 +61,8 @@ test_that("HttpLibAdapaterRegistry fails well", {
   x <- HttpLibAdapaterRegistry$new()
 
   expect_error(x$register(), "argument \"x\" is missing")
-  expect_error(x$register(4),
-               "'x' must be an adapter, such as CrulAdapter")
+  expect_error(
+    x$register(4),
+    "'x' must be an adapter, such as CrulAdapter"
+  )
 })

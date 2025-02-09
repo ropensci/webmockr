@@ -20,7 +20,7 @@ test_that("RequestRegistry: behaves as expected", {
 
   expect_length(aa$request_signatures$hash, 0)
 
-  z1 = RequestSignature$new(method = "post", uri = "https://www.wikipedia.org/")
+  z1 <- RequestSignature$new(method = "post", uri = "https://www.wikipedia.org/")
 
   aa$register_request(request = z1)
   aa$register_request(request = z1)

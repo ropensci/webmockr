@@ -107,10 +107,10 @@ test_that("HttrAdapter insensitive headers work, webmockr flow", {
   httr_mock()
   stub_registry_clear()
   invisible(stub_request("get", uri = hb("/get")) %>%
-      to_return(
-        body = list(foo = "bar"),
-        headers = list("Content-Type" = "application/json")
-      ))
+    to_return(
+      body = list(foo = "bar"),
+      headers = list("Content-Type" = "application/json")
+    ))
   x <- httr::GET(hb("/get"))
 
   expect_equal(x$headers[["content-type"]], "application/json")
@@ -212,11 +212,12 @@ test_that("HttrAdapter works", {
   # stub with redirect headers
   my_url <- "https://doi.org/10.1007/978-3-642-40455-9_52-1"
   x <- stub_request("get", my_url)
-  x <- to_return(x, status = 302, headers =
-    list(
-      status = 302,
-      location = "http://link.springer.com/10.1007/978-3-642-40455-9_52-1"
-    )
+  x <- to_return(x,
+    status = 302, headers =
+      list(
+        status = 302,
+        location = "http://link.springer.com/10.1007/978-3-642-40455-9_52-1"
+      )
   )
 
   httr_obj$url <- my_url
@@ -236,8 +237,10 @@ test_that("HttrAdapter works", {
   expect_is(aa$all_headers, "list")
   expect_is(aa$all_headers[[1]], "list")
   expect_named(aa$all_headers, NULL)
-  expect_equal(sort(names(aa$all_headers[[1]])),
-    c("headers", "status", "version"))
+  expect_equal(
+    sort(names(aa$all_headers[[1]])),
+    c("headers", "status", "version")
+  )
 })
 
 test_that("HttrAdapter works with httr::authenticate", {
@@ -251,10 +254,10 @@ test_that("HttrAdapter works with httr::authenticate", {
   # stub_registry()
   # request_registry()
   z <- stub_request("get", uri = hb("/basic-auth/foo/bar")) %>%
-      to_return(
-        body = list(foo = "bar"),
-        headers = list("Content-Type" = "application/json")
-      )
+    to_return(
+      body = list(foo = "bar"),
+      headers = list("Content-Type" = "application/json")
+    )
   # x <- httr::GET(hb("/basic-auth/foo/bar"), httr::authenticate("foo", "bar"))
   # httr_obj_auth <- x$request
   # save(httr_obj_auth, file = "tests/testthat/httr_obj_auth.rda", version = 2)
@@ -267,7 +270,8 @@ test_that("HttrAdapter works with httr::authenticate", {
   expect_is(x, "response")
   expect_equal(httr::content(x), list(foo = "bar"))
   expect_equal(x$headers, structure(list(`content-type` = "application/json"),
-    class = c("insensitive", "list")))
+    class = c("insensitive", "list")
+  ))
   expect_equal(x$status_code, 200)
 
   # HttrAdapter works on requests with auth
@@ -277,7 +281,8 @@ test_that("HttrAdapter works with httr::authenticate", {
   expect_is(z, "response")
   expect_equal(httr::content(z), list(foo = "bar"))
   expect_equal(z$headers, structure(list(`content-type` = "application/json"),
-    class = c("insensitive", "list")))
+    class = c("insensitive", "list")
+  ))
   expect_equal(z$status_code, 200)
 })
 
@@ -289,22 +294,24 @@ test_that("httr works with webmockr_allow_net_connect", {
   z <- stub_request("get", uri = hb("/get?stuff=things")) %>%
     to_return(body = "yum=cheese")
   x <- httr::GET(hb("/get?stuff=things"))
-  expect_true(httr::content(x, "text", encoding="UTF-8") == "yum=cheese")
+  expect_true(httr::content(x, "text", encoding = "UTF-8") == "yum=cheese")
 
   # allow net connect - stub still exists though - so not a real request
   webmockr_allow_net_connect()
   z <- httr::GET(hb("/get?stuff=things"))
-  expect_true(httr::content(z, "text", encoding="UTF-8") == "yum=cheese")
+  expect_true(httr::content(z, "text", encoding = "UTF-8") == "yum=cheese")
 
   # allow net connect - stub now gone - so real request should happen
   stub_registry_clear()
   w <- httr::GET(hb("/get?stuff=things"))
-  expect_false(httr::content(w, "text", encoding="UTF-8") == "yum=cheese")
+  expect_false(httr::content(w, "text", encoding = "UTF-8") == "yum=cheese")
 
   # disable net connect - now real requests can't be made
   webmockr_disable_net_connect()
-  expect_error(httr::GET(hb("/get?stuff=things")),
-    "Real HTTP connections are disabled")
+  expect_error(
+    httr::GET(hb("/get?stuff=things")),
+    "Real HTTP connections are disabled"
+  )
 })
 
 test_that("httr requests with bodies work", {
@@ -315,7 +322,7 @@ test_that("httr requests with bodies work", {
   z <- stub_request("post", uri = hb("/post")) %>%
     to_return(body = "asdffsdsdf")
   x <- httr::POST(hb("/post"), body = list(stuff = "things"))
-  expect_true(httr::content(x, "text", encoding="UTF-8") == "asdffsdsdf")
+  expect_true(httr::content(x, "text", encoding = "UTF-8") == "asdffsdsdf")
 
   # now with allow net connect
   stub_registry_clear()
@@ -331,21 +338,23 @@ test_that("httr requests with nested list bodies work", {
 
   httr_mock()
   stub_registry_clear()
-  body = list(id = ' ', method = 'x', params = list(pwd = 'p', user = 'a'))
+  body <- list(id = " ", method = "x", params = list(pwd = "p", user = "a"))
   z <- stub_request("post", uri = hb("/post")) %>%
     wi_th(body = body) %>%
     to_return(body = "asdffsdsdf")
   x <- httr::POST(hb("/post"), body = body)
-  expect_true(httr::content(x, "text", encoding="UTF-8") == "asdffsdsdf")
+  expect_true(httr::content(x, "text", encoding = "UTF-8") == "asdffsdsdf")
 
   # now with allow net connect
   stub_registry_clear()
   webmockr_allow_net_connect()
   x <- httr::POST(hb("/post"),
-    body = jsonlite::toJSON(body), httr::content_type_json())
+    body = jsonlite::toJSON(body), httr::content_type_json()
+  )
   expect_equal(
     jsonlite::fromJSON(rawToChar(x$content))$json,
-    body)
+    body
+  )
 
   webmockr_disable_net_connect()
 })

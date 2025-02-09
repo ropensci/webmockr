@@ -9,7 +9,6 @@ test_that("no stubs exist before stub_request called", {
 aa <- stub_request("get", hb("/get")) %>% to_timeout()
 
 test_that("stub_request bits are correct", {
-
   expect_is(aa, "StubbedRequest")
   expect_null(aa$body)
   expect_null(aa$host)

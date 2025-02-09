@@ -16,7 +16,7 @@ test_that("remove_request_stub", {
   w <- remove_request_stub(x)
   expect_is(w, "list")
   expect_equal(length(w), 0)
-  
+
   # no there's no stubs
   expect_equal(length(stub_registry()$request_stubs), 0)
 })
@@ -30,7 +30,7 @@ test_that("remove_request_stub: removes the stub upon an error", {
     stub_request("post", uri = hb("/post")) %>%
       to_return(body = 5)
   )
-  expect_equal(length(stub_registry()$request_stubs), 0)  
+  expect_equal(length(stub_registry()$request_stubs), 0)
   stub_registry_clear()
 })
 

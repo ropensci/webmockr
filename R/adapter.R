@@ -103,11 +103,9 @@ Adapter <- R6::R6Class("Adapter",
     #' @return various outcomes
     handle_request = function(req) {
       # put request in request registry
-      # cat(req)
       request_signature <- private$build_request(req)
       webmockr_request_registry$register_request(
         request = request_signature
-        # request = request_signature$to_s()
       )
 
       if (request_is_in_cache(request_signature)) {
@@ -121,9 +119,7 @@ Adapter <- R6::R6Class("Adapter",
         #   get stub with response and return that
         resp <- private$build_stub_response(ss)
 
-        # generate response
-        # VCR: recordable/ignored
-
+        # generate response / vcr: recordable/ignored
         if (vcr_cassette_inserted()) {
           # use RequestHandler - gets current cassette & record interaction
           resp <- private$request_handler(req)$handle()
@@ -149,8 +145,9 @@ Adapter <- R6::R6Class("Adapter",
         # if vcr loaded: record http interaction into vcr namespace
         # VCR: recordable
         if (vcr_loaded()) {
-          # req <- handle_separate_redirects(req)
-          # use RequestHandler instead? - which gets current cassette for us
+          # NOT USED # req <- handle_separate_redirects(req) # nolint
+          # FIXME: maybe use RequestHandler instead?
+          #   which gets current cassette for us
           resp <- private$request_handler(req)$handle()
 
           # if written to disk, see if we should modify file path

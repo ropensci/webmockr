@@ -9,12 +9,18 @@ test_that("normalize_uri", {
   expect_match(normalize_uri("example.com:443"), "example.com")
 
   # escapes special characters
-  expect_match(normalize_uri("example.com/foo/bar"),
-               "example.com/foo%2Fbar")
-  expect_match(normalize_uri("example.com/foo+bar"),
-               "example.com/foo%2Bbar")
-  expect_match(normalize_uri("example.com/foo*bar"),
-               "example.com/foo%2Abar")
+  expect_match(
+    normalize_uri("example.com/foo/bar"),
+    "example.com/foo%2Fbar"
+  )
+  expect_match(
+    normalize_uri("example.com/foo+bar"),
+    "example.com/foo%2Bbar"
+  )
+  expect_match(
+    normalize_uri("example.com/foo*bar"),
+    "example.com/foo%2Abar"
+  )
 })
 
 
@@ -22,7 +28,8 @@ context("util fxns: net_connect_explicit_allowed")
 test_that("net_connect_explicit_allowed", {
   aa <- net_connect_explicit_allowed(
     allowed = "example.com",
-    uri = "http://example.com")
+    uri = "http://example.com"
+  )
 
   expect_is(aa, "logical")
   expect_equal(length(aa), 1)
@@ -48,8 +55,10 @@ test_that("net_connect_explicit_allowed", {
   expect_false(net_connect_explicit_allowed("google.com", ""))
 
   # no allowed passed, errors
-  expect_error(net_connect_explicit_allowed(),
-               "argument \"allowed\" is missing")
+  expect_error(
+    net_connect_explicit_allowed(),
+    "argument \"allowed\" is missing"
+  )
 })
 
 context("util fxns: webmockr_net_connect_allowed")
@@ -67,8 +76,10 @@ test_that("webmockr_net_connect_allowed", {
   expect_false(webmockr_net_connect_allowed("asdfadfafsd"))
 
   # errors when of wrong class
-  expect_error(webmockr_net_connect_allowed(mtcars),
-               "class character or list")
+  expect_error(
+    webmockr_net_connect_allowed(mtcars),
+    "class character or list"
+  )
 })
 
 context("util fxns: webmockr_disable_net_connect")
@@ -83,18 +94,28 @@ test_that("webmockr_disable_net_connect", {
   expect_equal(sm(webmockr_disable_net_connect("google.com")), "google.com")
 
   # many uri's passed
-  expect_message(webmockr_disable_net_connect(c("google.com", "nytimes.com")),
-                 "net connect disabled")
-  expect_is(sm(webmockr_disable_net_connect(c("google.com", "nytimes.com"))),
-            "character")
-  expect_equal(sm(webmockr_disable_net_connect(c("google.com", "nytimes.com"))),
-               c("google.com", "nytimes.com"))
+  expect_message(
+    webmockr_disable_net_connect(c("google.com", "nytimes.com")),
+    "net connect disabled"
+  )
+  expect_is(
+    sm(webmockr_disable_net_connect(c("google.com", "nytimes.com"))),
+    "character"
+  )
+  expect_equal(
+    sm(webmockr_disable_net_connect(c("google.com", "nytimes.com"))),
+    c("google.com", "nytimes.com")
+  )
 
   # errors when of wrong class
-  expect_error(webmockr_disable_net_connect(5),
-               "class character")
-  expect_error(webmockr_disable_net_connect(mtcars),
-               "class character")
+  expect_error(
+    webmockr_disable_net_connect(5),
+    "class character"
+  )
+  expect_error(
+    webmockr_disable_net_connect(mtcars),
+    "class character"
+  )
 })
 
 context("util fxns: webmockr_allow_net_connect")
@@ -115,8 +136,8 @@ test_that("webmockr_allow_net_connect", {
 context("config options: show_stubbing_instructions")
 test_that("show_stubbing_instructions", {
   enable()
-  x = crul::HttpClient$new("https://hb.opencpu.org/get")
-  
+  x <- crul::HttpClient$new("https://hb.opencpu.org/get")
+
   # DO show stubbing instructions
   webmockr_configure(show_stubbing_instructions = TRUE)
   err_mssg <- as.character(tryCatch(x$get(), error = function(e) e))
@@ -137,8 +158,10 @@ test_that("webmockr_configuration", {
   expect_is(webmockr_configuration(), "webmockr_config")
   expect_named(
     webmockr_configuration(),
-    c('show_stubbing_instructions', 'show_body_diff', 'allow',
-      'allow_net_connect', 'allow_localhost')
+    c(
+      "show_stubbing_instructions", "show_body_diff", "allow",
+      "allow_net_connect", "allow_localhost"
+    )
   )
 
   # errors when an argument passed
@@ -199,11 +222,11 @@ test_that("hdl_lst2 works", {
   expect_equal(hdl_lst2(1.5), 1.5)
 })
 
-context("query_mapper") 
+context("query_mapper")
 test_that("query_mapper", {
   expect_is(query_mapper, "function")
   expect_null(query_mapper(NULL))
   expect_equal(query_mapper(5), 5)
-  expect_equal(query_mapper('aaa'), 'aaa')
+  expect_equal(query_mapper("aaa"), "aaa")
   expect_equal(query_mapper(mtcars), mtcars)
 })

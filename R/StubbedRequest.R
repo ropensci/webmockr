@@ -256,7 +256,9 @@ StubbedRequest <- R6::R6Class(
     #' @param headers (list) request headers as a named list. optional.
     #' @param basic_auth (character) basic authentication. optional.
     #' @return nothing returned; sets only
-    with = function(query = NULL, body = NULL, headers = NULL, basic_auth = NULL) {
+    with = function(
+        query = NULL, body = NULL, headers = NULL,
+        basic_auth = NULL) {
       if (!is.null(query)) {
         query[] <- lapply(query, as.character)
       }
@@ -371,7 +373,11 @@ StubbedRequest <- R6::R6Class(
             hed <- make_headers(ret[[i]]$headers)
             strgs[i] <- sprintf(
               "%s %s %s",
-              if (nzchar(paste0(bd, stt, hed))) paste("| to_return: ", bd, stt, hed) else "",
+              if (nzchar(paste0(bd, stt, hed))) {
+                paste("| to_return: ", bd, stt, hed)
+              } else {
+                ""
+              },
               if (ret[[i]]$timeout) "| should_timeout: TRUE" else "",
               if (ret[[i]]$raise) {
                 paste0(

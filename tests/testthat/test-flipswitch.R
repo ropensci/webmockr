@@ -28,7 +28,7 @@ test_that("flipswitch - turn on with 'enable' - one pkg", {
   disable()
 
   # enable one pkg
-  aa <- enable('crul')
+  aa <- enable("crul")
 
   expect_is(aa, "logical")
   expect_equal(length(aa), 1)
@@ -58,10 +58,14 @@ test_that("enable and disable fail well", {
   expect_error(enable(wasp = 5), "unused argument")
   expect_error(disable(bee = 5), "unused argument")
 
-  expect_error(enable(adapter = 'stuff'), 
-    "adapter must be one of")
-  expect_error(disable(adapter = 'stuff'), 
-    "adapter must be one of")
+  expect_error(
+    enable(adapter = "stuff"),
+    "adapter must be one of"
+  )
+  expect_error(
+    disable(adapter = "stuff"),
+    "adapter must be one of"
+  )
 
   # FIXME: not sure how to test when pkg not installed
   #   inside of test suite
@@ -72,9 +76,9 @@ test_that("enabled works", {
   disable()
 
   expect_false(enabled())
-  expect_false(enabled('crul'))
-  expect_false(enabled('httr'))
-  expect_false(enabled('httr2'))
+  expect_false(enabled("crul"))
+  expect_false(enabled("httr"))
+  expect_false(enabled("httr2"))
 
-  expect_error(enabled('foobar'), "'adapter' must be in the set")
+  expect_error(enabled("foobar"), "'adapter' must be in the set")
 })

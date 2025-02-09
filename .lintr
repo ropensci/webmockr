@@ -1,0 +1,9 @@
+encoding: "UTF-8"
+linters: linters_with_defaults(
+    object_name_linter = NULL,
+    cyclocomp_linter = NULL
+  )
+exclusions: list(
+    "inst/ignore" = Inf,
+    "tests/testthat" = list(commented_code_linter = Inf)
+  )

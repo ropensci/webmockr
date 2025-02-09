@@ -10,7 +10,6 @@ library(fauxpas)
 aa <- stub_request("get", hb("/get")) %>% to_raise(HTTPAccepted)
 
 test_that("stub_request bits are correct", {
-
   expect_is(aa, "StubbedRequest")
   expect_null(aa$body)
   expect_null(aa$host)
@@ -46,9 +45,13 @@ test_that("stub_request fails well", {
 
   # exception clases
   zzz <- stub_request("get", hb("/get"))
-  expect_error(sw(to_raise(zzz, "foo")),
-    "all objects must be error classes from fauxpas")
+  expect_error(
+    sw(to_raise(zzz, "foo")),
+    "all objects must be error classes from fauxpas"
+  )
   ### if stub is not registered any longer, errors about that
-  expect_error(sw(to_raise(zzz, "foo")),
-    "not registered")
+  expect_error(
+    sw(to_raise(zzz, "foo")),
+    "not registered"
+  )
 })

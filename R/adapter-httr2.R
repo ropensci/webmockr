@@ -101,7 +101,10 @@ build_httr2_request <- function(x) {
 httr2_mock <- function(on = TRUE) {
   check_installed("httr2")
   if (on) {
-    httr2::local_mocked_responses(~ Httr2Adapter$new()$handle_request(.x), env = .GlobalEnv)
+    httr2::local_mocked_responses(
+      ~ Httr2Adapter$new()$handle_request(.x),
+      env = .GlobalEnv
+    )
   } else {
     httr2::local_mocked_responses(NULL, env = .GlobalEnv)
     options(httr2_mock = NULL)
