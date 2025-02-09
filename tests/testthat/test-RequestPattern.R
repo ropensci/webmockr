@@ -46,24 +46,30 @@ test_that("RequestPattern fails well", {
   expect_error(RequestPattern$new(), "one of uri or uri_regex is required")
   x <- RequestPattern$new(method = "get", uri = hb("/get"))
   expect_error(x$matches(), "argument \"request_signature\" is missing")
-  expect_error(x$matches("adfadf"),
-               "must be of class RequestSignature")
+  expect_error(
+    x$matches("adfadf"),
+    "must be of class RequestSignature"
+  )
 })
 
 
 # BODY PATTERNS: plain text bodies and related
 test_that("should match if request body and body pattern are the same", {
   aa <- RequestPattern$new(method = "get", uri = hb("/get"), body = "abc")
-  rs1 <- RequestSignature$new(method = "get", uri = hb("/get"),
-    options = list(body = "abc"))
+  rs1 <- RequestSignature$new(
+    method = "get", uri = hb("/get"),
+    options = list(body = "abc")
+  )
   expect_true(aa$matches(rs1))
 })
 
 test_that("should match if request body and body pattern are the same with multline text", {
   multiline_text <- "hello\nworld"
   bb <- RequestPattern$new(method = "get", uri = hb("/get"), body = multiline_text)
-  rs2 <- RequestSignature$new(method = "get", uri = hb("/get"),
-    options = list(body = multiline_text))
+  rs2 <- RequestSignature$new(
+    method = "get", uri = hb("/get"),
+    options = list(body = multiline_text)
+  )
   expect_true(bb$matches(rs2))
 })
 
@@ -72,22 +78,28 @@ test_that("regex", {})
 
 test_that("should match if pattern is missing body but is in signature", {
   cc <- RequestPattern$new(method = "get", uri = hb("/get"))
-  rs3 <- RequestSignature$new(method = "get", uri = hb("/get"),
-    options = list(body = "abc"))
+  rs3 <- RequestSignature$new(
+    method = "get", uri = hb("/get"),
+    options = list(body = "abc")
+  )
   expect_true(cc$matches(rs3))
 })
 
 test_that("should not match if pattern has body specified as NA but request body is not empty", {
   dd <- RequestPattern$new(method = "get", uri = hb("/get"), body = NA)
-  rs4 <- RequestSignature$new(method = "get", uri = hb("/get"),
-    options = list(body = "abc"))
+  rs4 <- RequestSignature$new(
+    method = "get", uri = hb("/get"),
+    options = list(body = "abc")
+  )
   expect_false(dd$matches(rs4))
 })
 
 test_that("should not match if pattern has body specified as empty string but request body is not empty", {
   ee <- RequestPattern$new(method = "get", uri = hb("/get"), body = "")
-  rs5 <- RequestSignature$new(method = "get", uri = hb("/get"),
-    options = list(body = "abc"))
+  rs5 <- RequestSignature$new(
+    method = "get", uri = hb("/get"),
+    options = list(body = "abc")
+  )
   expect_false(ee$matches(rs5))
 })
 
@@ -108,9 +120,12 @@ test_that("should match when pattern body is json or list", {
   )
 
   # These should both be TRUE
-  pattern_as_list <- RequestPattern$new(method = "get", uri = hb("/get"),
-    body = body_list)
-  rs7 <- RequestSignature$new(method = "get", uri = hb("/get"),
+  pattern_as_list <- RequestPattern$new(
+    method = "get", uri = hb("/get"),
+    body = body_list
+  )
+  rs7 <- RequestSignature$new(
+    method = "get", uri = hb("/get"),
     options = list(
       headers = list(`Content-Type` = "application/json"),
       body = jsonlite::toJSON(body_list, auto_unbox = TRUE)
@@ -118,15 +133,20 @@ test_that("should match when pattern body is json or list", {
   )
   expect_true(pattern_as_list$matches(rs7))
 
-  pattern_as_json <- RequestPattern$new(method = "get", uri = hb("/get"),
-    body = jsonlite::toJSON(body_list, auto_unbox = TRUE))
+  pattern_as_json <- RequestPattern$new(
+    method = "get", uri = hb("/get"),
+    body = jsonlite::toJSON(body_list, auto_unbox = TRUE)
+  )
   expect_true(pattern_as_json$matches(rs7))
 })
 
 test_that("should match when pattern body is a list and body is various content types", {
-  pattern <- RequestPattern$new(method = "get", uri = hb("/get"),
-    body = list(data = list(a = '1', b = 'five')))
-  rs_xml <- RequestSignature$new(method = "get", uri = hb("/get"),
+  pattern <- RequestPattern$new(
+    method = "get", uri = hb("/get"),
+    body = list(data = list(a = "1", b = "five"))
+  )
+  rs_xml <- RequestSignature$new(
+    method = "get", uri = hb("/get"),
     options = list(
       headers = list(`Content-Type` = "application/xml"),
       body = '<data a="1" b="five" />'
@@ -169,9 +189,12 @@ test_that("should match when pattern body is a list and body is various content 
     )
   ))
 
-  pattern2 <- RequestPattern$new(method = "get", uri = hb("/get"),
-    body = xml_employees_list)
-  rs_xml2 <- RequestSignature$new(method = "get", uri = hb("/get"),
+  pattern2 <- RequestPattern$new(
+    method = "get", uri = hb("/get"),
+    body = xml_employees_list
+  )
+  rs_xml2 <- RequestSignature$new(
+    method = "get", uri = hb("/get"),
     options = list(
       headers = list(`Content-Type` = "application/xml"),
       body = xml_employees_text
@@ -181,21 +204,26 @@ test_that("should match when pattern body is a list and body is various content 
 })
 
 test_that("should warn when xml parsing fails and fall back to the xml string", {
-  pattern <- RequestPattern$new(method = "get", uri = hb("/get"),
-    body = '<data a="1" b="five" />')
-  rs_xml_parse_fail <- RequestSignature$new(method = "get", uri = hb("/get"),
+  pattern <- RequestPattern$new(
+    method = "get", uri = hb("/get"),
+    body = '<data a="1" b="five" />'
+  )
+  rs_xml_parse_fail <- RequestSignature$new(
+    method = "get", uri = hb("/get"),
     options = list(
       headers = list(`Content-Type` = "application/xml"),
       body = '<data a="1" b="five" '
     )
   )
   expect_false(pattern$matches(rs_xml_parse_fail))
-  #expect_warning(pattern$matches(rs_xml_parse_fail)) # FIXME: should throw warning
+  # expect_warning(pattern$matches(rs_xml_parse_fail)) # FIXME: should throw warning
 })
 
 test_that("should work with basic_auth", {
-  pattern <- RequestPattern$new(method = "get", uri = hb("/get"),
-    basic_auth = c("user", "pass"))
+  pattern <- RequestPattern$new(
+    method = "get", uri = hb("/get"),
+    basic_auth = c("user", "pass")
+  )
 
   expect_equal(pattern$headers_pattern$to_s(), "authorization=\"Basic dXNlcjpwYXNz\"")
 
@@ -295,7 +323,26 @@ test_that("BodyPattern: structure is correct", {
   expect_equal(aa$to_s(), list(foo = "bar"))
 })
 
+test_that("BodyPattern: converts json/character to list internally", {
+  skip_if_not_installed("httr")
+  library("httr")
 
+  enable()
+
+  # via https://github.com/ropensci/webmockr/issues/139
+  # and https://github.com/mdneuzerling/lambdr/issues/40
+  response_body <- as.character(jsonlite::toJSON(list(parity = "odd"), auto_unbox = TRUE))
+
+  stub_request("post", "http://pink.tv/pajamas") |>
+    wi_th(body = response_body) |>
+    to_return(status = 200)
+
+  res <- POST(url = "http://pink.tv/pajamas", body = response_body)
+  expect_s3_class(res, "response")
+  expect_equal(status_code(res), 200)
+
+  disable()
+})
 
 context("UriPattern")
 test_that("UriPattern: structure is correct", {

@@ -38,19 +38,19 @@ test_that("build_crul_request/response fail well", {
 test_that("CrulAdapter: works when vcr is loaded but no cassette is inserted", {
   skip_on_cran()
   skip_if_not_installed("vcr")
-  
+
   webmockr::enable(adapter = "crul")
   on.exit({
     webmockr::disable(adapter = "crul")
     unloadNamespace("vcr")
   })
-  
+
   stub_request("get", hb("/get"))
   library("vcr")
-  
+
   # works when no cassette is loaded
   cli <- crul::HttpClient$new(hb())
-  
+
   expect_silent(x <- cli$get("get"))
   expect_is(x, "HttpResponse")
 
@@ -65,7 +65,7 @@ test_that("CrulAdapter: works when vcr is loaded but no cassette is inserted", {
 context("CrulAdapter - with real data")
 test_that("CrulAdapter works", {
   skip_on_cran()
-  skip_if_not_installed('vcr')
+  skip_if_not_installed("vcr")
 
   load("crul_obj.rda")
   crul_obj$url$handle <- curl::new_handle()
@@ -106,7 +106,7 @@ test_that("CrulAdapter works", {
 
   # stub with headers
   x <- stub_request("get", "http://localhost:9000/get")
-  x <- to_return(x, headers = list('User-Agent' = 'foo-bar'))
+  x <- to_return(x, headers = list("User-Agent" = "foo-bar"))
 
   aa <- res$handle_request(crul_obj)
 
@@ -128,11 +128,12 @@ test_that("CrulAdapter works", {
   # stub with redirect headers
   my_url <- "https://doi.org/10.1007/978-3-642-40455-9_52-1"
   x <- stub_request("get", my_url)
-  x <- to_return(x, status = 302, headers =
-    list(
-      status = 302, 
-      location = "http://link.springer.com/10.1007/978-3-642-40455-9_52-1"
-    )
+  x <- to_return(x,
+    status = 302, headers =
+      list(
+        status = 302,
+        location = "http://link.springer.com/10.1007/978-3-642-40455-9_52-1"
+      )
   )
 
   crul_obj$url$url <- my_url
@@ -146,28 +147,30 @@ test_that("CrulAdapter works", {
   # has response_headers and response_headers_all
   expect_equal(length(aa$response_headers), 2)
   expect_is(aa$response_headers, "list")
-  expect_equal(sort(names(aa$response_headers)), c('location', 'status'))
+  expect_equal(sort(names(aa$response_headers)), c("location", "status"))
   expect_equal(length(aa$response_headers_all), 1)
   expect_equal(length(aa$response_headers_all[[1]]), 2)
   expect_is(aa$response_headers_all, "list")
   expect_is(aa$response_headers_all[[1]], "list")
   expect_named(aa$response_headers_all, NULL)
-  expect_equal(sort(names(aa$response_headers_all[[1]])), 
-    c('location', 'status'))
+  expect_equal(
+    sort(names(aa$response_headers_all[[1]])),
+    c("location", "status")
+  )
 
   ## FIXME: ideally can test multiple redirect headers, e.g. like this:
   # x <- stub_request("get", "https://doi.org/10.1007/978-3-642-40455-9_52-1")
   # x <- to_return(x, headers = list(
   #   list(
-  #     status = 'HTTP/1.1 302 ', 
+  #     status = 'HTTP/1.1 302 ',
   #     location = "http://link.springer.com/10.1007/978-3-642-40455-9_52-1"
   #   ),
   #   list(
-  #     status = 'HTTP/1.1 301 Moved Permanently', 
+  #     status = 'HTTP/1.1 301 Moved Permanently',
   #     location = "https://link.springer.com/10.1007/978-3-642-40455-9_52-1"
   #   ),
   #   list(
-  #     status = 'HTTP/1.1 302 Found', 
+  #     status = 'HTTP/1.1 302 Found',
   #     location = "https://link.springer.com/referenceworkentry/10.1007%2F978-3-642-40455-9_52-1"
   #   ),
   #   list(
@@ -181,7 +184,7 @@ test_that("crul requests with JSON-encoded bodies work", {
 
   on.exit(disable(adapter = "crul"))
   enable(adapter = "crul")
-  
+
   body <- list(foo = "bar")
   url <- hb()
 

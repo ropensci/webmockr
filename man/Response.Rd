@@ -13,11 +13,11 @@ custom webmockr http response class
 x$set_url("https://httpbin.org/get")
 x
 
-x$set_request_headers(list('Content-Type' = "application/json"))
+x$set_request_headers(list("Content-Type" = "application/json"))
 x
 x$request_headers
 
-x$set_response_headers(list('Host' = "httpbin.org"))
+x$set_response_headers(list("Host" = "httpbin.org"))
 x
 x$response_headers
 

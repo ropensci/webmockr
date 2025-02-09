@@ -1,8 +1,8 @@
 #' Extract the body from an HTTP request
-#' 
+#'
 #' Returns an appropriate representation of the data contained within a request
 #' body based on its encoding.
-#' 
+#'
 #' @export
 #' @param x an unexecuted crul, httr *or* httr2 request object
 #' @return one of the following:
@@ -13,29 +13,28 @@
 
 pluck_body <- function(x) {
   assert_request(x)
-  if (is_body_empty(x)) return(NULL)
+  if (is_body_empty(x)) {
+    return(NULL)
+  }
 
   # multipart body
   if (!is.null(x$fields)) {
-    form_file_comp <- vapply(x$fields, inherits, logical(1), "form_file")
-    if (any(form_file_comp)) {
-      return(x$fields[form_file_comp])
-    } else {
-      return(x$fields)
-    }
+    return(x$fields)
 
-  # json/raw-encoded body
+    # json/raw-encoded body
   } else if (!is.null(x$options$postfields) && is.raw(x$options$postfields)) {
     return(rawToChar(x$options$postfields))
 
-  # upload not in a list
+    # upload not in a list
   } else if (!is.null(x$options$postfieldsize_large)) {
-      return(paste0("upload, file size: ", x$options$postfieldsize_large))
-   
-  # unknown, fail out
+    return(paste0("upload, file size: ", x$options$postfieldsize_large))
+
+    # unknown, fail out
   } else {
-    abort("couldn't fetch request body; file an issue at \n",
-         "  https://github.com/ropensci/webmockr/issues/")
+    abort(
+      "couldn't fetch request body; file an issue at \n",
+      "  https://github.com/ropensci/webmockr/issues/"
+    )
   }
 }
 

@@ -10,7 +10,7 @@ stub registry to keep track of \link{StubbedRequest} stubs
 \dontrun{
 # Make a stub
 stub1 <- StubbedRequest$new(method = "get", uri = "api.crossref.org")
-stub1$with(headers = list('User-Agent' = 'R'))
+stub1$with(headers = list("User-Agent" = "R"))
 stub1$to_return(status = 200, body = "foobar", headers = list())
 stub1
 

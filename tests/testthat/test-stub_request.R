@@ -9,7 +9,6 @@ test_that("no stubs exist before stub_request called", {
 aa <- stub_request("get", hb("/get"))
 
 test_that("stub_request bits are correct", {
-
   expect_is(aa, "StubbedRequest")
   expect_null(aa$body)
   expect_null(aa$host)
@@ -45,6 +44,8 @@ test_that("stubs exist after stub_request called", {
 
 test_that("stub_request fails well", {
   expect_error(stub_request(), "one of uri or uri_regex is required")
-  expect_error(stub_request(method = "stuff", "adf"),
-               "'arg' should be one of")
+  expect_error(
+    stub_request(method = "stuff", "adf"),
+    "'arg' should be one of"
+  )
 })

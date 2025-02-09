@@ -200,44 +200,44 @@ StubbedRequest <- R6::R6Class(
     #' @param x self
     #' @param ... ignored
     print = function(x, ...) {
-      cat("<webmockr stub> ", sep = "\n")
-      cat(paste0("  method: ", self$method), sep = "\n")
-      cat(paste0("  uri: ", self$uri %||% self$uri_regex), sep = "\n")
-      cat("  with: ", sep = "\n")
-      cat(paste0("    query: ", hdl_lst(self$query)), sep = "\n")
+      cat_line("<webmockr stub> ")
+      cat_line(paste0("  method: ", self$method))
+      cat_line(paste0("  uri: ", self$uri %||% self$uri_regex))
+      cat_line("  with: ")
+      cat_line(paste0("    query: ", hdl_lst(self$query)))
       if (is.null(self$body)) {
-        cat("    body: ", sep = "\n")
+        cat_line("    body: ")
       } else {
-        cat(sprintf(
+        cat_line(sprintf(
           "    body (class: %s): %s", class(self$body)[1L],
           hdl_lst(self$body)
-        ), sep = "\n")
+        ))
       }
-      cat(
+      cat_line(
         paste0(
           "    request_headers: ",
           hdl_lst(self$request_headers)
-        ),
-        sep = "\n"
+        )
       )
-      cat("  to_return: ", sep = "\n")
+      cat_line(
+        paste0(
+          "    auth: ",
+          prep_cat_auth(self$basic_auth)
+        )
+      )
+      cat_line("  to_return: ")
       rs <- self$responses_sequences
       for (i in seq_along(rs)) {
-        cat(paste0("  - status: ", hdl_lst(rs[[i]]$status)),
-          sep = "\n"
-        )
-        cat(paste0("    body: ", hdl_lst(rs[[i]]$body)),
-          sep = "\n"
-        )
-        cat(
+        cat_line(paste0("  - status: ", hdl_lst(rs[[i]]$status)))
+        cat_line(paste0("    body: ", hdl_lst(rs[[i]]$body)))
+        cat_line(
           paste0(
             "    response_headers: ",
             hdl_lst(rs[[i]]$headers)
-          ),
-          sep = "\n"
+          )
         )
-        cat(paste0("    should_timeout: ", rs[[i]]$timeout), sep = "\n")
-        cat(paste0(
+        cat_line(paste0("    should_timeout: ", rs[[i]]$timeout))
+        cat_line(paste0(
           "    should_raise: ",
           if (rs[[i]]$raise) {
             paste0(vapply(rs[[i]]$exceptions, "[[", "", "classname"),
@@ -246,7 +246,7 @@ StubbedRequest <- R6::R6Class(
           } else {
             "FALSE"
           }
-        ), sep = "\n")
+        ))
       }
     },
 
@@ -256,16 +256,15 @@ StubbedRequest <- R6::R6Class(
     #' @param headers (list) request headers as a named list. optional.
     #' @param basic_auth (character) basic authentication. optional.
     #' @return nothing returned; sets only
-    with = function(query = NULL, body = NULL, headers = NULL, basic_auth = NULL) {
+    with = function(
+        query = NULL, body = NULL, headers = NULL,
+        basic_auth = NULL) {
       if (!is.null(query)) {
         query[] <- lapply(query, as.character)
       }
       self$query <- query
       self$body <- body
       self$basic_auth <- basic_auth
-      if (!is.null(basic_auth)) {
-        headers <- c(prep_auth(paste0(basic_auth, collapse = ":")), headers)
-      }
       self$request_headers <- headers
     },
 
@@ -287,7 +286,8 @@ StubbedRequest <- R6::R6Class(
       } else {
         body
       }
-      self$response_headers <- headers # FIXME: for then change, remove eventually
+      # FIXME: for then change, remove eventually
+      self$response_headers <- headers
       body_raw <- {
         if (inherits(body, "mock_file")) {
           body
@@ -316,7 +316,10 @@ StubbedRequest <- R6::R6Class(
           webmockr_stub_registry$remove_request_stub(self)
           abort(c(
             "Unknown `body` type",
-            "*" = "must be: numeric, NULL, FALSE, character, json, raw, list, or file connection",
+            "*" = paste(
+              "must be: numeric, NULL, FALSE, character,",
+              "json, raw, list, or file connection"
+            ),
             "*" = "stub removed"
           ))
         } else {
@@ -370,7 +373,11 @@ StubbedRequest <- R6::R6Class(
             hed <- make_headers(ret[[i]]$headers)
             strgs[i] <- sprintf(
               "%s %s %s",
-              if (nzchar(paste0(bd, stt, hed))) paste("| to_return: ", bd, stt, hed) else "",
+              if (nzchar(paste0(bd, stt, hed))) {
+                paste("| to_return: ", bd, stt, hed)
+              } else {
+                ""
+              },
               if (ret[[i]]$timeout) "| should_timeout: TRUE" else "",
               if (ret[[i]]$raise) {
                 paste0(
@@ -428,5 +435,11 @@ basic_auth_header <- function(x) {
 prep_auth <- function(x) {
   if (!is_null(x)) {
     list(Authorization = basic_auth_header(x))
+  }
+}
+
+prep_cat_auth <- function(x) {
+  if (!is_null(x %||% NULL)) {
+    basic_auth_header(paste0(x, collapse = ":"))
   }
 }

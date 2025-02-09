@@ -21,5 +21,4 @@
 #'
 #' # to clear the stub registry
 #' stub_registry_clear()
-
 stub_registry <- function() webmockr_stub_registry

@@ -25,7 +25,7 @@ test_that("StubRegistry: bits are correct prior to having data", {
 
 test_that("StubRegistry: bits are correct after having data", {
   stub1 <- StubbedRequest$new(method = "get", uri = "http://api.crossref.org")
-  stub1$with(headers = list('User-Agent' = 'R'))
+  stub1$with(headers = list("User-Agent" = "R"))
   stub1$to_return(status = 200, body = "foobar", headers = list())
 
   stub2 <- StubbedRequest$new(method = "get", uri = hb())
@@ -47,7 +47,7 @@ test_that("StubRegistry: bits are correct after having data", {
     method = "get",
     uri = "http://api.crossref.org",
     options = list(
-      headers = list('User-Agent' = 'R')
+      headers = list("User-Agent" = "R")
     )
   )
 

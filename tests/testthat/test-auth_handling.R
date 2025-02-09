@@ -20,7 +20,7 @@ test_that("auth handling: httr", {
     GET("http://stuff.com", authenticate("foo:bar", "adf")),
     "response"
   )
-  
+
   # malformed: url as username
   expect_error(
     GET("http://stuff.com", authenticate("http://", "foo.com"))
@@ -42,12 +42,12 @@ test_that("auth handling: httr", {
   x <- HttpClient$new("http://stuff.com")
   x$auth <- auth("adf", "adf")
   expect_is(x$get(), "HttpResponse")
-  
+
   # user name invalid according to RFC, but we can't know that
   y <- HttpClient$new("http://stuff.com")
   y$auth <- auth("foo:bar", "adf")
   expect_is(y$get(), "HttpResponse")
-  
+
   # malformed: url as username
   z <- HttpClient$new("http://stuff.com")
   z$auth <- auth("http://", "foo.com")

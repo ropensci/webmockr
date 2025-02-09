@@ -36,8 +36,8 @@ test_that("Response: bits are correct prior to having data", {
 test_that("Response: bits are correct after having data", {
   aa <- Response$new()
   aa$set_url(hb("/get"))
-  aa$set_request_headers(list('Content-Type' = "application/json"))
-  aa$set_response_headers(list('Host' = "hb.opencpu.org"))
+  aa$set_request_headers(list("Content-Type" = "application/json"))
+  aa$set_response_headers(list("Host" = "hb.opencpu.org"))
   aa$set_status(404)
   aa$set_body("hello world")
   aa$set_exception("exception")

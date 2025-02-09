@@ -46,7 +46,6 @@ hdl_lst <- function(x) {
   }
   if (inherits(x, c("list", "partial"))) {
     if (is_nested(x)) {
-      # substring(l2c(x), 1, 80)
       subs(l2c(x), 80)
     } else {
       txt <- paste(names(x), subs(unname(unlist(x)), 20),
@@ -70,7 +69,15 @@ hdl_lst <- function(x) {
   }
 }
 
-hdl_lst2 <- function(x) {
+upload_switch <- function(client, path, type) {
+  switch(client,
+    crul = sprintf("crul::upload(\"%s\", \"%s\")", path, type),
+    httr = sprintf("httr::upload_file(\"%s\", \"%s\")", path, type),
+    sprintf("curl::form_file(\"%s\", \"%s\")", path, type)
+  )
+}
+
+hdl_lst2 <- function(x, client) {
   if (is_null(x) || length(x) == 0) {
     return("")
   }
@@ -78,20 +85,29 @@ hdl_lst2 <- function(x) {
     return(rawToChar(x))
   }
   if (inherits(x, "form_file")) {
-    return(sprintf("crul::upload(\"%s\", \"%s\")", x$path, x$type))
+    return(upload_switch(client, x$path, x$type))
   }
   if (inherits(x, "list")) {
     if (any(vapply(x, function(z) inherits(z, "form_file"), logical(1)))) {
-      for (i in seq_along(x)) x[[i]] <- sprintf("crul::upload(\"%s\", \"%s\")", x[[i]]$path, x[[i]]$type)
+      for (i in seq_along(x)) {
+        x[[i]] <- upload_switch(client, x[[i]]$path, x[[i]]$type)
+      }
     }
     out <- vector(mode = "character", length = length(x))
     for (i in seq_along(x)) {
       targ <- x[[i]]
-      out[[i]] <- paste(names(x)[i], switch(class(targ)[1L],
-        character = if (grepl("upload", targ)) targ else sprintf('\"%s\"', targ),
-        list = sprintf("list(%s)", hdl_lst2(targ)),
-        targ
-      ), sep = "=")
+      out[[i]] <- paste(names(x)[i],
+        switch(class(targ)[1L],
+          character = if (grepl("upload", targ)) {
+            targ
+          } else {
+            sprintf('\"%s\"', targ)
+          },
+          list = sprintf("list(%s)", hdl_lst2(targ)),
+          targ
+        ),
+        sep = "="
+      )
     }
     return(paste(out, collapse = ", "))
   } else {
@@ -115,10 +131,6 @@ parseurl <- function(x) {
 url_builder <- function(uri, regex) {
   if (regex) uri else normalize_uri(uri)
 }
-# url_builder <- function(uri, args = NULL) {
-#   if (is_null(args)) return(uri)
-#   paste0(uri, "?", paste(names(args), args, sep = "=", collapse = "&"))
-# }
 
 `%||%` <- function(x, y) {
   if (
@@ -169,7 +181,7 @@ assert_gte <- function(x, y, arg = caller_arg(x)) {
     webmockr_abort(msg)
   }
 }
-assert_eq <- function(x, y, args = caller_arg(x)) {
+assert_length <- function(x, y, args = caller_arg(x)) {
   if (!is_null(x)) {
     if (!length(x) == y) {
       msg <- format_error("length of {.arg {arg}} must be equal to {y}")

@@ -1,41 +1,23 @@
-# riskmetric
+# connectwidgets
 
 <details>
 
-* Version: 0.2.4
-* GitHub: https://github.com/pharmaR/riskmetric
-* Source code: https://github.com/cran/riskmetric
-* Date/Publication: 2024-01-09 15:50:02 UTC
-* Number of recursive dependencies: 111
+* Version: 0.2.1
+* GitHub: https://github.com/rstudio/connectwidgets
+* Source code: https://github.com/cran/connectwidgets
+* Date/Publication: 2023-09-20 20:30:02 UTC
+* Number of recursive dependencies: 77
 
-Run `revdepcheck::revdep_details(, "riskmetric")` for more info
+Run `revdepcheck::revdep_details(, "connectwidgets")` for more info
 
 </details>
 
 ## Newly broken
 
-*   R CMD check timed out
-    
-
-## Newly fixed
-
-*   checking running R code from vignettes ...
+*   checking installed package size ... NOTE
     ```
-      ‘extending-riskmetric.Rmd’ using ‘UTF-8’... OK
-      ‘riskmetric.Rmd’ using ‘UTF-8’... failed
-     ERROR
-    Errors in running code in vignettes:
-    when running code in ‘riskmetric.Rmd’
-      ...
-    > options(repos = "https://cran.rstudio.com")
-    
-    > knitr::opts_chunk$set(collapse = TRUE, comment = "#>", 
-    +     fig.path = "man/figures/")
-    
-    > knitr::include_graphics("../man/figures/core-workflow.svg")
-    
-      When sourcing ‘riskmetric.R’:
-    Error: Cannot find the file(s): "../man/figures/core-workflow.svg"
-    Execution halted
+      installed size is  5.0Mb
+      sub-directories of 1Mb or more:
+        htmlwidgets   3.8Mb
     ```
 

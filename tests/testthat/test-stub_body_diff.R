@@ -42,13 +42,14 @@ test_that("stub_body_diff works when both stub AND request are found, & there's 
   stub_registry_clear()
 
   enable()
-  stub_request("post", "https://hb.opencpu.org/post") %>% 
+  stub_request("post", "https://hb.opencpu.org/post") %>%
     wi_th(body = list(apple = "green"))
 
   library(crul)
   expect_error(
     HttpClient$new("https://hb.opencpu.org")$post(
-      path = "post", body = list(apple = "red")),
+      path = "post", body = list(apple = "red")
+    ),
     "disabled"
   )
 

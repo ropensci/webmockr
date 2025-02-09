@@ -8,21 +8,29 @@ test_that("stub_registry: works", {
   # after a stub creatd
   stub_request("get", "https://scottchamberlain.info")
   expect_equal(length(stub_registry()$request_stubs), 1)
-  expect_match(stub_registry()$request_stubs[[1]]$to_s(),
-    "GET: https://scottchamberlain.info")
+  expect_match(
+    stub_registry()$request_stubs[[1]]$to_s(),
+    "GET: https://scottchamberlain.info"
+  )
 
   # stub with body
-  stub_request('post', uri = hb('/post')) %>%
-     wi_th(
-       body = list(y=crul::upload(system.file("CITATION")))
-     )
+  stub_request("post", uri = hb("/post")) %>%
+    wi_th(
+      body = list(y = crul::upload(system.file("CITATION")))
+    )
   expect_equal(length(stub_registry()$request_stubs), 2)
-  expect_match(stub_registry()$request_stubs[[2]]$to_s(),
-    sprintf("POST: %s", hb("/post")))
-  expect_match(stub_registry()$request_stubs[[2]]$to_s(),
-    "CITATION")
-  expect_match(stub_registry()$request_stubs[[2]]$to_s(),
-    "text/plain")
+  expect_match(
+    stub_registry()$request_stubs[[2]]$to_s(),
+    sprintf("POST: %s", hb("/post"))
+  )
+  expect_match(
+    stub_registry()$request_stubs[[2]]$to_s(),
+    "CITATION"
+  )
+  expect_match(
+    stub_registry()$request_stubs[[2]]$to_s(),
+    "text/plain"
+  )
 
   stub_registry_clear()
 

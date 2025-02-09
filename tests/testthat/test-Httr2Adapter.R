@@ -154,11 +154,12 @@ test_that("Httr2Adapter works", {
   # stub with redirect headers
   my_url <- "https://doi.org/10.1007/978-3-642-40455-9_52-1"
   x <- stub_request("get", my_url)
-  x <- to_return(x, status = 302, headers =
-    list(
-      status = 302,
-      location = "http://link.springer.com/10.1007/978-3-642-40455-9_52-1"
-    )
+  x <- to_return(x,
+    status = 302, headers =
+      list(
+        status = 302,
+        location = "http://link.springer.com/10.1007/978-3-642-40455-9_52-1"
+      )
   )
 
   httr2_obj$url <- my_url
@@ -186,18 +187,18 @@ test_that("Httr2Adapter works with req_auth_basic", {
   # stub_registry()
   # request_registry()
   z <- stub_request("get", uri = hb("/basic-auth/foo/bar")) %>%
-      to_return(
-        body = list(foo = "bar"),
-        headers = list("Content-Type" = "application/json")
-      )
+    to_return(
+      body = list(foo = "bar"),
+      headers = list("Content-Type" = "application/json")
+    )
 
   # mocked httr2 requests with auth work
   x <- request(hb("/basic-auth/foo/bar")) %>%
-    req_auth_basic("foo", "bar") %>% 
+    req_auth_basic("foo", "bar") %>%
     req_perform()
   expect_is(x, "httr2_response")
   expect_equal(
-    jsonlite::fromJSON(rawToChar(x$body)), 
+    jsonlite::fromJSON(rawToChar(x$body)),
     list(authenticated = TRUE, user = "foo")
   )
   expect_s3_class(x$headers, "httr2_headers")
@@ -205,7 +206,7 @@ test_that("Httr2Adapter works with req_auth_basic", {
 
   # Httr2Adapter works on requests with auth
   # x <- request(hb("/basic-auth/foo/bar")) %>%
-  #   req_auth_basic("foo", "bar") %>% 
+  #   req_auth_basic("foo", "bar") %>%
   #   req_perform()
   # httr2_obj_auth <- x$request
   # save(httr2_obj_auth, file = "tests/testthat/httr2_obj_auth.rda", version = 2)
@@ -232,28 +233,30 @@ test_that("httr2 works with webmockr_allow_net_connect", {
   z <- stub_request("get", uri = hb("/get")) %>%
     wi_th(query = list(stuff = "things")) %>%
     to_return(body = "yum=cheese")
-  req <- request(hb("/get")) %>% req_url_query(stuff = "things") 
+  req <- request(hb("/get")) %>% req_url_query(stuff = "things")
   x <- req_perform(req)
   expect_true(resp_body_string(x) == "yum=cheese")
 
   # disable net connect - now real requests can't be made
   webmockr_disable_net_connect()
   stub_registry_clear()
-  expect_error(req_perform(req),
-    "Real HTTP connections are disabled")
+  expect_error(
+    req_perform(req),
+    "Real HTTP connections are disabled"
+  )
 
   # allow net connect - stub still exists though - so not a real request
   webmockr_allow_net_connect()
   z <- stub_request("get", uri = hb("/get")) %>%
     wi_th(query = list(stuff = "things")) %>%
     to_return(body = "yum=cheese")
-  req <- request(hb("/get")) %>% req_url_query(stuff = "things") 
+  req <- request(hb("/get")) %>% req_url_query(stuff = "things")
   z <- req_perform(req)
   expect_true(resp_body_string(z) == "yum=cheese")
 
   # allow net connect - stub now gone - so real request should happen
   stub_registry_clear()
-  req <- request(hb("/get")) %>% req_url_query(stuff = "things") 
+  req <- request(hb("/get")) %>% req_url_query(stuff = "things")
   httr2::local_mocked_responses(NULL)
   w <- req_perform(req)
   expect_false(resp_body_string(w) == "yum=cheese")
@@ -266,7 +269,7 @@ test_that("httr2 requests with bodies work", {
   stub_registry_clear()
   z <- stub_request("post", uri = hb("/post")) %>%
     to_return(body = "asdffsdsdf")
-  req <- request(hb("/post")) %>% 
+  req <- request(hb("/post")) %>%
     req_body_json(list(stuff = "things"))
   x <- req_perform(req)
   expect_true(httr2::resp_body_string(x) == "asdffsdsdf")
@@ -275,7 +278,7 @@ test_that("httr2 requests with bodies work", {
   stub_registry_clear()
   httr2_mock(FALSE)
   webmockr_allow_net_connect()
-  req <- request(hb("/post")) %>% 
+  req <- request(hb("/post")) %>%
     req_body_json(list(stuff = "things"))
   x <- req_perform(req)
   expect_identical(httr2::resp_body_json(x)$json, list(stuff = "things"))
@@ -291,7 +294,7 @@ test_that("httr2 requests with nested list bodies work", {
   enable()
   # httr_mock()
   stub_registry_clear()
-  body = list(id = ' ', method = 'x', params = list(pwd = 'p', user = 'a'))
+  body <- list(id = " ", method = "x", params = list(pwd = "p", user = "a"))
   z <- stub_request("post", uri = hb("/post")) %>%
     wi_th(body = body) %>%
     to_return(body = "asdffsdsdf")
@@ -308,7 +311,8 @@ test_that("httr2 requests with nested list bodies work", {
     req_perform()
   expect_equal(
     jsonlite::fromJSON(rawToChar(response_real$body))$json,
-    body)
+    body
+  )
 
   webmockr_disable_net_connect()
 })

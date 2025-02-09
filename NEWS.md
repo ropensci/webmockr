@@ -1,3 +1,24 @@
+webmockr 2.0.0
+==============
+
+### Breaking changes
+
+* Previous to this version when stubs were constructed starting with `stub_request()` if an error occurred in a pipe chain, or non-pipe flow, the stub prior to the error remained. This was not correct behavior from a logical perspective - i.e., one would expect if an error occurred that thing they were trying to do did not stick around. The new behavior as of this version deletes the stub upon any error during its creation. Under the hood we're using `withCallingHandlers` to handle different types of errors, throw warnings, etc.
+
+### NEW FEATURES
+
+* Partial matching. New functions `including()` and `excluding()` for use with `wi_th()` support partial for bodies and queries (header partial matching was already supported without any additional steps). See `?partial`. This makes it slightly to a whole lot easier to do matching depending on the HTTP request your trying to match (e.g., let's say you're trying to match against a query with 20 parameters - if you can match uniquely to it with 1 or 2 of those params, then you're all set) (#38)
+* Basic auth internal work for `RequestPattern`. Shouldn't change behavior (#133)
+* New features for supporting request body diffs. There are two ways to use request body diffing. First, you can toggle it on/off globally like `webmockr_configure(show_body_diff = TRUE)` or `webmockr_configure(show_body_diff = FALSE)`. Second, a new function `stub_body_diff()` is a standalone function that compares by default the last stub created and the last http request made - but you can pass in any stub and http request. Note that body diffing functionality requires the suggested package `diffobj` (#126)
+* As part of the above body diffing functionality, two new functions are offered: `last_request()` and `last_stub()`, which get the last http request made and the last webmockr stub created, respectively.  (#126)
+
+### MINOR IMPROVEMENTS
+
+* Removed `global_stubs` field from the `StubRegistry` class as it was completely unused (holdover from the initial port from Ruby). Should not impact users at all. (#127)
+* Wider use of `rlang` functions throughout the package for nicer assertions and condition handling. This change alters the main error message you get when there's no match to registered stubs. Hopefully this feels like an improvement to you; let me know. (#129)
+* `StubRegistry` gains new method `is_stubbed()` to check if a stub is in the stub registry
+
+
 webmockr 1.0.0
 ==============
 
