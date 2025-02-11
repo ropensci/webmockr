@@ -248,7 +248,7 @@ Set expectations for what's returned in HTTP response
 
 \item{\code{body}}{(list) response body, one of: \code{character}, \code{json},
 \code{list}, \code{raw}, \code{numeric}, \code{NULL}, \code{FALSE}, or a file connection
-(other connetion types not supported)}
+(other connection types not supported)}
 
 \item{\code{headers}}{(list) named list, response headers. optional.}
 }

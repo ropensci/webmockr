@@ -272,7 +272,7 @@ StubbedRequest <- R6::R6Class(
     #' @param status (numeric) an HTTP status code
     #' @param body (list) response body, one of: `character`, `json`,
     #' `list`, `raw`, `numeric`, `NULL`, `FALSE`, or a file connection
-    #' (other connetion types not supported)
+    #' (other connection types not supported)
     #' @param headers (list) named list, response headers. optional.
     #' @return nothing returned; sets whats to be returned
     to_return = function(status, body, headers) {

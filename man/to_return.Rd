@@ -54,7 +54,7 @@ You can add more than one \code{to_return()} to a webmockr stub (including
 \code{\link[=to_raise]{to_raise()}}, \code{\link[=to_timeout]{to_timeout()}}). Each one is a HTTP response returned.
 That is, you'll match to an HTTP request based on \code{stub_request()} and
 \code{wi_th()}; the first time the request is made, the first response
-is returned; the second time the reqeust is made, the second response
+is returned; the second time the request is made, the second response
 is returned; and so on.
 
 Be aware that webmockr has to track number of requests

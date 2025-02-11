@@ -8,7 +8,7 @@ webmockr
 [![cran checks](https://badges.cranchecks.info/worst/webmockr.svg)](https://cloud.r-project.org/web/checks/check_results_webmockr.html)
 [![Project Status: Active - The project has reached a stable, usable state and is being actively developed.](https://www.repostatus.org/badges/latest/active.svg)](https://www.repostatus.org/#active)
 [![R-CMD-check](https://github.com/ropensci/webmockr/workflows/R-CMD-check/badge.svg)](https://github.com/ropensci/webmockr/actions/)
-[![codecov](https://codecov.io/gh/ropensci/webmockr/branch/main/graph/badge.svg?token=1zWlEQbaEh)](https://codecov.io/gh/ropensci/webmockr)
+[![codecov](https://codecov.io/gh/ropensci/webmockr/branch/main/graph/badge.svg?token=1zWlEQbaEh)]((https://app.codecov.io/gh/ropensci/webmockr)
 [![rstudio mirror downloads](https://cranlogs.r-pkg.org/badges/webmockr)](https://github.com/r-hub/cranlogs.app)
 [![cran version](https://www.r-pkg.org/badges/version/webmockr)](https://cran.r-project.org/package=webmockr)
 
@@ -156,6 +156,7 @@ stub_request("get", "https://httpbin.org/get") %>%
 #>     query: 
 #>     body: 
 #>     request_headers: 
+#>     auth: 
 #>   to_return: 
 #>   - status: 200
 #>     body: success!
@@ -167,7 +168,7 @@ stub_request("get", "https://httpbin.org/get") %>%
 stub_registry()
 #> <webmockr stub registry> 
 #>  Registered Stubs
-#>    GET: https://httpbin.org/get    | to_return:   with body "success!"  with status 200
+#>   GET: https://httpbin.org/get    | to_return:   with body "success!"  with status 200
 
 # make the request
 z <- crul::HttpClient$new(url = "https://httpbin.org")$get("get")
@@ -200,6 +201,7 @@ stub_request("get", "https://httpbin.org/get")
 #>     query: 
 #>     body: 
 #>     request_headers: 
+#>     auth: 
 #>   to_return:
 ```
 
@@ -210,7 +212,7 @@ x$get('get')
 #> <crul response> 
 #>   url: https://httpbin.org/get
 #>   request_headers: 
-#>     User-Agent: libcurl/8.7.1 r-curl/5.2.1 crul/1.5.0
+#>     User-Agent: libcurl/8.11.1 r-curl/6.2.0 crul/1.5.0.91
 #>     Accept-Encoding: gzip, deflate
 #>     Accept: application/json, text/xml, application/xml, */*
 #>   response_headers: 
@@ -232,6 +234,7 @@ stub_request("get", "https://httpbin.org/get") %>%
 #>     query: hello=world
 #>     body: 
 #>     request_headers: 
+#>     auth: 
 #>   to_return: 
 #>   - status: 418
 #>     body: 
@@ -246,7 +249,7 @@ x$get('get', query = list(hello = "world"))
 #> <crul response> 
 #>   url: https://httpbin.org/get
 #>   request_headers: 
-#>     User-Agent: libcurl/8.7.1 r-curl/5.2.1 crul/1.5.0
+#>     User-Agent: libcurl/8.11.1 r-curl/6.2.0 crul/1.5.0.91
 #>     Accept-Encoding: gzip, deflate
 #>     Accept: application/json, text/xml, application/xml, */*
 #>   response_headers: 
@@ -268,6 +271,7 @@ stub_request("get", "https://httpbin.org/get") %>%
 #>     query: hello=world
 #>     body: 
 #>     request_headers: User-Agent=libcurl/7.51.0 r-cur..., Accept-Encoding=gzip, deflate
+#>     auth: 
 #>   to_return:
 ```
 
@@ -276,9 +280,9 @@ stub_request("get", "https://httpbin.org/get") %>%
 stub_registry()
 #> <webmockr stub registry> 
 #>  Registered Stubs
-#>    GET: https://httpbin.org/get 
-#>    GET: https://httpbin.org/get  with query params hello=world   | to_return:    with status 418 
-#>    GET: https://httpbin.org/get  with query params hello=world   with headers {"User-Agent":"libcurl/7.51.0 r-curl/2.6 crul/0.3.6","Accept-Encoding":"gzip, deflate"}
+#>   GET: https://httpbin.org/get
+#>   GET: https://httpbin.org/get  with query params hello=world   | to_return:    with status 418
+#>   GET: https://httpbin.org/get  with query params hello=world   with headers {"User-Agent":"libcurl/7.51.0 r-curl/2.6 crul/0.3.6","Accept-Encoding":"gzip, deflate"}
 ```
 
 
@@ -288,7 +292,7 @@ x$get('get', query = list(hello = "world"))
 #> <crul response> 
 #>   url: https://httpbin.org/get
 #>   request_headers: 
-#>     User-Agent: libcurl/8.7.1 r-curl/5.2.1 crul/1.5.0
+#>     User-Agent: libcurl/8.11.1 r-curl/6.2.0 crul/1.5.0.91
 #>     Accept-Encoding: gzip, deflate
 #>     Accept: application/json, text/xml, application/xml, */*
 #>   response_headers: 
@@ -307,6 +311,7 @@ stub_request("post", "https://httpbin.org/post") %>% to_timeout()
 #>     query: 
 #>     body: 
 #>     request_headers: 
+#>     auth: 
 #>   to_return: 
 #>   - status: 
 #>     body: 
@@ -332,6 +337,7 @@ stub_request("get", "https://httpbin.org/get?a=b") %>% to_raise(HTTPBadRequest)
 #>     query: 
 #>     body: 
 #>     request_headers: 
+#>     auth: 
 #>   to_return: 
 #>   - status: 
 #>     body: 
@@ -393,6 +399,7 @@ stub_request('get', uri = 'https://httpbin.org/get') %>%
 #>     query: 
 #>     body: 
 #>     request_headers: Accept=application/json, te...
+#>     auth: 
 #>   to_return: 
 #>   - status: 418
 #>     body: I'm a teapot!!!
@@ -453,6 +460,7 @@ stub_request('get', uri = 'https://hb.opencpu.org/get') %>%
 #>     query: 
 #>     body: 
 #>     request_headers: 
+#>     auth: 
 #>   to_return: 
 #>   - status: 418
 #>     body: I'm a teapot!!!

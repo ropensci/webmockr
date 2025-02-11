@@ -108,7 +108,7 @@ Reset the registry to no registered requests
 }
 
 \subsection{Returns}{
-nothing returned; ressets registry to no requests
+nothing returned; resets registry to no requests
 }
 }
 \if{html}{\out{<hr>}}

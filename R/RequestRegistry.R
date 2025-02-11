@@ -120,7 +120,7 @@ RequestRegistry <- R6::R6Class(
     },
 
     #' @description Reset the registry to no registered requests
-    #' @return nothing returned; ressets registry to no requests
+    #' @return nothing returned; resets registry to no requests
     reset = function() {
       self$request_signatures <- HashCounter$new()
     },

@@ -111,7 +111,7 @@ RequestPattern <- R6::R6Class(
     #' @param query (list) query parameters, optional
     #' @param body (list) body request, optional
     #' @param headers (list) headers, optional
-    #' @param basic_auth (list) vector of length 2 (username, passwdord),
+    #' @param basic_auth (list) vector of length 2 (username, password),
     #' optional
     #' @return A new `RequestPattern` object
     initialize = function(method, uri = NULL, uri_regex = NULL,

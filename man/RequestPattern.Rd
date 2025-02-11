@@ -155,7 +155,7 @@ patch, trace, or delete). "any" matches any HTTP method. required.}
 
 \item{\code{headers}}{(list) headers, optional}
 
-\item{\code{basic_auth}}{(list) vector of length 2 (username, passwdord),
+\item{\code{basic_auth}}{(list) vector of length 2 (username, password),
 optional}
 }
 \if{html}{\out{</div>}}
