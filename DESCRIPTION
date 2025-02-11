@@ -22,6 +22,8 @@ BugReports: https://github.com/ropensci/webmockr/issues
 Encoding: UTF-8
 Language: en-US
 Roxygen: list(markdown = TRUE)
+Depends:
+    R(>= 4.1.0)
 Imports:
     curl,
     jsonlite,
