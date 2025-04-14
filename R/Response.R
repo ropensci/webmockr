@@ -76,7 +76,9 @@ Response <- R6::R6Class(
       for (i in seq_along(self$request_headers)) {
         cat_line(paste0(
           "     ",
-          paste(names(self$request_headers)[i], self$request_headers[[i]],
+          paste(
+            names(self$request_headers)[i],
+            self$request_headers[[i]],
             sep = ": "
           )
         ))
@@ -85,7 +87,9 @@ Response <- R6::R6Class(
       for (i in seq_along(self$response_headers)) {
         cat_line(paste0(
           "     ",
-          paste(names(self$response_headers)[i], self$response_headers[[i]],
+          paste(
+            names(self$response_headers)[i],
+            self$response_headers[[i]],
             sep = ": "
           )
         ))

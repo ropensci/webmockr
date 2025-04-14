@@ -99,18 +99,19 @@ test_that("HttrAdapter date slot works", {
 })
 
 
-
 context("HttrAdapter: insensitive headers, webmockr flow")
 test_that("HttrAdapter insensitive headers work, webmockr flow", {
   skip_on_cran()
   unloadNamespace("vcr")
   httr_mock()
   stub_registry_clear()
-  invisible(stub_request("get", uri = hb("/get")) %>%
-    to_return(
-      body = list(foo = "bar"),
-      headers = list("Content-Type" = "application/json")
-    ))
+  invisible(
+    stub_request("get", uri = hb("/get")) %>%
+      to_return(
+        body = list(foo = "bar"),
+        headers = list("Content-Type" = "application/json")
+      )
+  )
   x <- httr::GET(hb("/get"))
 
   expect_equal(x$headers[["content-type"]], "application/json")
@@ -143,7 +144,6 @@ test_that("HttrAdapter insensitive headers work, vcr flow", {
   # cleanup
   unlink(path, recursive = TRUE)
 })
-
 
 
 context("HttrAdapter: works with real data")
@@ -183,7 +183,6 @@ test_that("HttrAdapter works", {
   expect_equal(length(aa$headers), 0)
   expect_equal(length(aa$all_headers), 1)
 
-
   # with headers
   # clear registry
   stub_registry_clear()
@@ -208,16 +207,16 @@ test_that("HttrAdapter works", {
   expect_named(aa$all_headers, NULL)
   expect_named(aa$all_headers[[1]], c("status", "version", "headers"))
 
-
   # stub with redirect headers
   my_url <- "https://doi.org/10.1007/978-3-642-40455-9_52-1"
   x <- stub_request("get", my_url)
-  x <- to_return(x,
-    status = 302, headers =
-      list(
-        status = 302,
-        location = "http://link.springer.com/10.1007/978-3-642-40455-9_52-1"
-      )
+  x <- to_return(
+    x,
+    status = 302,
+    headers = list(
+      status = 302,
+      location = "http://link.springer.com/10.1007/978-3-642-40455-9_52-1"
+    )
   )
 
   httr_obj$url <- my_url
@@ -269,9 +268,13 @@ test_that("HttrAdapter works with httr::authenticate", {
   x <- httr::GET(hb("/basic-auth/foo/bar"), httr::authenticate("foo", "bar"))
   expect_is(x, "response")
   expect_equal(httr::content(x), list(foo = "bar"))
-  expect_equal(x$headers, structure(list(`content-type` = "application/json"),
-    class = c("insensitive", "list")
-  ))
+  expect_equal(
+    x$headers,
+    structure(
+      list(`content-type` = "application/json"),
+      class = c("insensitive", "list")
+    )
+  )
   expect_equal(x$status_code, 200)
 
   # HttrAdapter works on requests with auth
@@ -280,9 +283,13 @@ test_that("HttrAdapter works with httr::authenticate", {
   z <- zz$handle_request(httr_obj_auth)
   expect_is(z, "response")
   expect_equal(httr::content(z), list(foo = "bar"))
-  expect_equal(z$headers, structure(list(`content-type` = "application/json"),
-    class = c("insensitive", "list")
-  ))
+  expect_equal(
+    z$headers,
+    structure(
+      list(`content-type` = "application/json"),
+      class = c("insensitive", "list")
+    )
+  )
   expect_equal(z$status_code, 200)
 })
 
@@ -348,8 +355,10 @@ test_that("httr requests with nested list bodies work", {
   # now with allow net connect
   stub_registry_clear()
   webmockr_allow_net_connect()
-  x <- httr::POST(hb("/post"),
-    body = jsonlite::toJSON(body), httr::content_type_json()
+  x <- httr::POST(
+    hb("/post"),
+    body = jsonlite::toJSON(body),
+    httr::content_type_json()
   )
   expect_equal(
     jsonlite::fromJSON(rawToChar(x$content))$json,

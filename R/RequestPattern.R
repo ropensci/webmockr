@@ -114,9 +114,15 @@ RequestPattern <- R6::R6Class(
     #' @param basic_auth (list) vector of length 2 (username, password),
     #' optional
     #' @return A new `RequestPattern` object
-    initialize = function(method, uri = NULL, uri_regex = NULL,
-                          query = NULL, body = NULL, headers = NULL,
-                          basic_auth = NULL) {
+    initialize = function(
+      method,
+      uri = NULL,
+      uri_regex = NULL,
+      query = NULL,
+      body = NULL,
+      headers = NULL,
+      basic_auth = NULL
+    ) {
       if (is.null(uri) && is.null(uri_regex)) {
         abort("one of uri or uri_regex is required")
       }
@@ -148,31 +154,31 @@ RequestPattern <- R6::R6Class(
       if (!is.null(c_type)) c_type <- strsplit(c_type, ";")[[1]][1]
       self$method_pattern$matches(request_signature$method) &&
         self$uri_pattern$matches(request_signature$uri) &&
-        (
-          is.null(self$body_pattern) ||
-            self$body_pattern$matches(request_signature$body, c_type %||% "")
-        ) &&
-        (
-          is.null(self$headers_pattern) ||
-            self$headers_pattern$matches(request_signature$headers)
-        )
+        (is.null(self$body_pattern) ||
+          self$body_pattern$matches(request_signature$body, c_type %||% "")) &&
+        (is.null(self$headers_pattern) ||
+          self$headers_pattern$matches(request_signature$headers))
     },
 
     #' @description Print pattern for easy human consumption
     #' @return a string
     to_s = function() {
-      gsub("^\\s+|\\s+$", "", paste(
-        toupper(self$method_pattern$to_s()),
-        self$uri_pattern$to_s(),
-        if (!is.null(self$body_pattern)) {
-          if (!is.null(self$body_pattern$pattern)) {
-            paste0(" with body ", self$body_pattern$to_s())
+      gsub(
+        "^\\s+|\\s+$",
+        "",
+        paste(
+          toupper(self$method_pattern$to_s()),
+          self$uri_pattern$to_s(),
+          if (!is.null(self$body_pattern)) {
+            if (!is.null(self$body_pattern$pattern)) {
+              paste0(" with body ", self$body_pattern$to_s())
+            }
+          },
+          if (!is.null(self$headers_pattern)) {
+            paste0(" with headers ", self$headers_pattern$to_s())
           }
-        },
-        if (!is.null(self$headers_pattern)) {
-          paste0(" with headers ", self$headers_pattern$to_s())
-        }
-      ))
+        )
+      )
     }
   ),
   private = list(
@@ -306,7 +312,8 @@ HeadersPattern <- R6::R6Class(
         headers <- private$normalize_headers(headers)
         out <- c()
         for (i in seq_along(self$pattern)) {
-          out[i] <- names(self$pattern)[i] %in% names(headers) &&
+          out[i] <- names(self$pattern)[i] %in%
+            names(headers) &&
             self$pattern[[i]] == headers[[names(self$pattern)[i]]]
         }
         all(out)
@@ -454,15 +461,16 @@ BodyPattern <- R6::R6Class(
         )
       } else {
         # FIXME: add partial approach later
-        (private$empty_string(self$pattern) && private$empty_string(body)) || {
-          if (xor(is_na(self$pattern), is_na(body))) {
-            return(FALSE)
+        (private$empty_string(self$pattern) && private$empty_string(body)) ||
+          {
+            if (xor(is_na(self$pattern), is_na(body))) {
+              return(FALSE)
+            }
+            if (xor(is_null(self$pattern), is_null(body))) {
+              return(FALSE)
+            }
+            all(self$pattern == body)
           }
-          if (xor(is_null(self$pattern), is_null(body))) {
-            return(FALSE)
-          }
-          all(self$pattern == body)
-        }
       }
     },
 
@@ -489,14 +497,14 @@ BodyPattern <- R6::R6Class(
       body_char <- rapply(body, as.character, how = "replace")
 
       if (self$partial) {
-        names_values_check <- switch(self$partial_type,
+        names_values_check <- switch(
+          self$partial_type,
           # unname() here not needed for R < 4.5, but is needed for R 4.5
           # because intersect changes to output unnamed lists
-          include =
-            identical(
-              unname(intersect(pattern_char, body_char)),
-              unname(pattern_char)
-            ),
+          include = identical(
+            unname(intersect(pattern_char, body_char)),
+            unname(pattern_char)
+          ),
           exclude = length(intersect(pattern_char, body_char)) == 0
         )
         if (!names_values_check) {
@@ -551,25 +559,30 @@ BodyPattern <- R6::R6Class(
 )
 
 BODY_FORMATS <- list(
-  "text/xml"                   = "xml",
-  "application/xml"            = "xml",
-  "application/json"           = "json",
-  "text/json"                  = "json",
-  "application/javascript"     = "json",
-  "text/javascript"            = "json",
+  "text/xml" = "xml",
+  "application/xml" = "xml",
+  "application/json" = "json",
+  "text/json" = "json",
+  "application/javascript" = "json",
+  "text/javascript" = "json",
   "application/x-amz-json-1.1" = "json", # AWS
-  "text/html"                  = "html",
-  "application/x-yaml"         = "yaml",
-  "text/yaml"                  = "yaml",
-  "text/plain"                 = "plain"
+  "text/html" = "html",
+  "application/x-yaml" = "yaml",
+  "text/yaml" = "yaml",
+  "text/plain" = "plain"
 )
 
 # remove_reserved & promote_attr from
 # https://www.garrickadenbuie.com/blog/recursive-xml-workout/
 remove_reserved <- function(this_attr) {
   reserved_attr <- c(
-    "class", "comment", "dim", "dimnames",
-    "names", "row.names", "tsp"
+    "class",
+    "comment",
+    "dim",
+    "dimnames",
+    "names",
+    "row.names",
+    "tsp"
   )
   if (!any(reserved_attr %in% names(this_attr))) {
     return(this_attr)
@@ -753,7 +766,8 @@ UriPattern <- R6::R6Class(
             bools[i] <- qp %in% uri_qp
           }
         }
-        out <- switch(self$partial_type,
+        out <- switch(
+          self$partial_type,
           include = any(bools),
           exclude = !any(bools)
         )
@@ -790,10 +804,14 @@ UriPattern <- R6::R6Class(
           inherits(query_params, "list") ||
             inherits(query_params, "character")
         ) {
-          pars <- paste0(unname(Map(
-            function(x, y) paste(x, esc(y), sep = "="),
-            names(query_params), query_params
-          )), collapse = "&")
+          pars <- paste0(
+            unname(Map(
+              function(x, y) paste(x, esc(y), sep = "="),
+              names(query_params),
+              query_params
+            )),
+            collapse = "&"
+          )
           self$pattern <- paste0(self$pattern, "?", pars)
         }
       }
@@ -856,7 +874,8 @@ parse_a_url <- function(url) {
   if (!is.na(tmp$parameter)) {
     tmp$parameter <- unlist(
       lapply(
-        strsplit(tmp$parameter, "&")[[1]], function(x) {
+        strsplit(tmp$parameter, "&")[[1]],
+        function(x) {
           z <- strsplit(x, split = "=")[[1]]
           as.list(stats::setNames(z[2], z[1]))
         }

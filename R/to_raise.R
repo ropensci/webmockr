@@ -31,10 +31,13 @@ to_raise <- function(.data, ...) {
     assert_is(.data, "StubbedRequest")
     assert_stub_registered(.data)
     tmp <- list(...)
-    if (!all(vapply(
-      tmp, function(x) inherits(x, "R6ClassGenerator"),
-      logical(1)
-    ))) {
+    if (
+      !all(vapply(
+        tmp,
+        function(x) inherits(x, "R6ClassGenerator"),
+        logical(1)
+      ))
+    ) {
       abort("all objects must be error classes from fauxpas")
     }
     if (!all(vapply(tmp, function(x) grepl("HTTP", x$classname), logical(1)))) {

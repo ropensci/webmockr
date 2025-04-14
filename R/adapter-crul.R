@@ -5,7 +5,8 @@
 #' @return a crul response
 build_crul_response <- function(req, resp) {
   # prep headers
-  if (grepl("^ftp://", resp$url %||% "")) { # in case uri_regex only
+  if (grepl("^ftp://", resp$url %||% "")) {
+    # in case uri_regex only
     headers <- list()
   } else {
     hds <- resp$headers
@@ -75,7 +76,8 @@ build_crul_request <- function(x) {
 
 #' @rdname Adapter
 #' @export
-CrulAdapter <- R6::R6Class("CrulAdapter",
+CrulAdapter <- R6::R6Class(
+  "CrulAdapter",
   inherit = Adapter,
   public = list(
     #' @field client HTTP client package name

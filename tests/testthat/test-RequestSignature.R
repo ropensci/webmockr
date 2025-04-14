@@ -26,13 +26,15 @@ test_that("RequestSignature: works", {
 
 test_that("RequestSignature: with bodies work", {
   aa <- RequestSignature$new(
-    method = "get", uri = hb("/get"),
+    method = "get",
+    uri = hb("/get"),
     options = list(body = "abc")
   )
   expect_output(print(aa), "<unnamed>")
 
   bb <- RequestSignature$new(
-    method = "get", uri = hb("/get"),
+    method = "get",
+    uri = hb("/get"),
     options = list(body = list(some_thing = "abc"))
   )
   expect_no_match(capture.output(print(bb)), "<unnamed>")
@@ -40,7 +42,8 @@ test_that("RequestSignature: with bodies work", {
 
 test_that("RequestSignature: different methods work", {
   aa <- RequestSignature$new(
-    method = "post", uri = hb("/post"),
+    method = "post",
+    uri = hb("/post"),
     options = list(fields = list(foo = "bar"))
   )
   aa$headers <- list(Accept = "application/json")

@@ -9,9 +9,20 @@ get_err_mssg <- function(x) {
 # from https://stackoverflow.com/a/14838321/1091766
 re_escape <- function(strings) {
   vals <- c(
-    "\\\\", "\\[", "\\]", "\\(", "\\)",
-    "\\{", "\\}", "\\^", "\\$", "\\*",
-    "\\+", "\\?", "\\.", "\\|"
+    "\\\\",
+    "\\[",
+    "\\]",
+    "\\(",
+    "\\)",
+    "\\{",
+    "\\}",
+    "\\^",
+    "\\$",
+    "\\*",
+    "\\+",
+    "\\?",
+    "\\.",
+    "\\|"
   )
   replace.vals <- paste0("\\\\", vals)
   for (i in seq_along(vals)) {

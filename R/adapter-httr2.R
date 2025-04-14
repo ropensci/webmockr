@@ -40,7 +40,8 @@ build_httr2_response <- function(req, resp) {
         resp$status$status_code
     ),
     headers = {
-      if (grepl("^ftp://", resp$url %||% "")) { # in case uri_regex only
+      if (grepl("^ftp://", resp$url %||% "")) {
+        # in case uri_regex only
         httr2_headers(list())
       } else {
         httr2_headers(resp$headers %||% resp$response_headers)
@@ -110,7 +111,8 @@ httr2_mock <- function(on = TRUE) {
 
 #' @rdname Adapter
 #' @export
-Httr2Adapter <- R6::R6Class("Httr2Adapter",
+Httr2Adapter <- R6::R6Class(
+  "Httr2Adapter",
   inherit = Adapter,
   public = list(
     #' @field client HTTP client package name

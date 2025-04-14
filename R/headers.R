@@ -22,11 +22,13 @@ normalize_headers <- function(x = NULL, capitalize = TRUE) {
     name <- paste0(
       vapply(
         strsplit(as.character(names(x)[i]), "_|-")[[1]],
-        function(w) simple_cap(w, capitalize), ""
+        function(w) simple_cap(w, capitalize),
+        ""
       ),
       collapse = "-"
     )
-    value <- switch(class(x[[i]]),
+    value <- switch(
+      class(x[[i]]),
       list = if (length(x[[i]]) == 1) {
         x[[i]][[1]]
       } else {
@@ -47,8 +49,11 @@ normalize_headers <- function(x = NULL, capitalize = TRUE) {
 simple_cap <- function(x, capitalize) {
   if (capitalize) {
     s <- strsplit(x, " ")[[1]]
-    paste(toupper(substring(s, 1, 1)), substring(s, 2),
-      sep = "", collapse = " "
+    paste(
+      toupper(substring(s, 1, 1)),
+      substring(s, 2),
+      sep = "",
+      collapse = " "
     )
   } else {
     x

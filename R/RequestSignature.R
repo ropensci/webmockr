@@ -125,33 +125,43 @@ RequestSignature <- R6::R6Class(
     #' @description Request signature to a string
     #' @return a character string representation of the request signature
     to_s = function() {
-      gsub("^\\s+|\\s+$", "", paste(
-        paste0(toupper(self$method), ": "),
-        self$uri,
-        if (!is.null(self$body) && length(self$body)) {
-          paste0(" with body ", to_string(self$body))
-        },
-        if (!is.null(self$headers) && length(self$headers)) {
-          paste0(
-            " with headers ",
-            sprintf(
-              "{%s}",
-              paste(names(self$headers),
-                unlist(unname(self$headers)),
-                sep = ": ",
-                collapse = ", "
+      gsub(
+        "^\\s+|\\s+$",
+        "",
+        paste(
+          paste0(toupper(self$method), ": "),
+          self$uri,
+          if (!is.null(self$body) && length(self$body)) {
+            paste0(" with body ", to_string(self$body))
+          },
+          if (!is.null(self$headers) && length(self$headers)) {
+            paste0(
+              " with headers ",
+              sprintf(
+                "{%s}",
+                paste(
+                  names(self$headers),
+                  unlist(unname(self$headers)),
+                  sep = ": ",
+                  collapse = ", "
+                )
               )
             )
-          )
-        }
-      ))
+          }
+        )
+      )
     }
   ),
   private = list(
     assign_options = function(options) {
       op_vars <- c(
-        "body", "headers", "proxies", "auth",
-        "disk", "fields", "output"
+        "body",
+        "headers",
+        "proxies",
+        "auth",
+        "disk",
+        "fields",
+        "output"
       )
       for (i in seq_along(op_vars)) {
         if (op_vars[i] %in% names(options)) {
@@ -167,7 +177,8 @@ RequestSignature <- R6::R6Class(
 cat_foo <- function(x) {
   cat_line(paste0(
     "     ",
-    paste0(paste(names(x) %||% "<unnamed>", x, sep = ": "),
+    paste0(
+      paste(names(x) %||% "<unnamed>", x, sep = ": "),
       collapse = "\n     "
     )
   ))

@@ -154,12 +154,13 @@ test_that("Httr2Adapter works", {
   # stub with redirect headers
   my_url <- "https://doi.org/10.1007/978-3-642-40455-9_52-1"
   x <- stub_request("get", my_url)
-  x <- to_return(x,
-    status = 302, headers =
-      list(
-        status = 302,
-        location = "http://link.springer.com/10.1007/978-3-642-40455-9_52-1"
-      )
+  x <- to_return(
+    x,
+    status = 302,
+    headers = list(
+      status = 302,
+      location = "http://link.springer.com/10.1007/978-3-642-40455-9_52-1"
+    )
   )
 
   httr2_obj$url <- my_url

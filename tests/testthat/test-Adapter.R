@@ -9,7 +9,8 @@ test_that("Adapter class can't be instantiated", {
 })
 
 test_that("Adapter initialize method errors as expected", {
-  adap <- R6::R6Class("CrulAdapter",
+  adap <- R6::R6Class(
+    "CrulAdapter",
     inherit = Adapter,
     public = list(
       client = NULL

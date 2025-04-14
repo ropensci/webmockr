@@ -43,10 +43,16 @@ test_that("include query parameters", {
     wi_th(query = including(list(fruit = "pear"))) %>%
     to_return(body = "matched on including partial query!")
 
-  resp_matched <- GET("https://hb.opencpu.org/get", query = list(fruit = "pear"))
+  resp_matched <- GET(
+    "https://hb.opencpu.org/get",
+    query = list(fruit = "pear")
+  )
 
   expect_equal(resp_matched$status_code, 200)
-  expect_equal(rawToChar(content(resp_matched)), "matched on including partial query!")
+  expect_equal(
+    rawToChar(content(resp_matched)),
+    "matched on including partial query!"
+  )
 
   stub_registry_clear()
 
@@ -72,10 +78,16 @@ test_that("exclude query parameters", {
     wi_th(query = excluding(list(fruit = "pear"))) %>%
     to_return(body = "matched on excluding partial query!")
 
-  resp_matched <- GET("https://hb.opencpu.org/get", query = list(fruit = "apple"))
+  resp_matched <- GET(
+    "https://hb.opencpu.org/get",
+    query = list(fruit = "apple")
+  )
 
   expect_equal(resp_matched$status_code, 200)
-  expect_equal(rawToChar(content(resp_matched)), "matched on excluding partial query!")
+  expect_equal(
+    rawToChar(content(resp_matched)),
+    "matched on excluding partial query!"
+  )
 
   ## doesn't match when query params include what's excluded
   expect_error(
@@ -100,7 +112,10 @@ test_that("include query parameters, just keys", {
     wi_th(query = including(list(fruit = NULL))) %>%
     to_return(body = "matched on including key!")
 
-  resp_matched <- GET("https://hb.opencpu.org/get", query = list(fruit = "pear"))
+  resp_matched <- GET(
+    "https://hb.opencpu.org/get",
+    query = list(fruit = "pear")
+  )
 
   expect_equal(resp_matched$status_code, 200)
   expect_equal(rawToChar(content(resp_matched)), "matched on including key!")
@@ -129,7 +144,10 @@ test_that("exclude query parameters, just keys", {
     wi_th(query = excluding(list(fruit = NULL))) %>%
     to_return(body = "matched on excluding key!")
 
-  resp_matched <- GET("https://hb.opencpu.org/get", query = list(stuff = "things"))
+  resp_matched <- GET(
+    "https://hb.opencpu.org/get",
+    query = list(stuff = "things")
+  )
 
   expect_equal(resp_matched$status_code, 200)
   expect_equal(rawToChar(content(resp_matched)), "matched on excluding key!")
@@ -159,12 +177,16 @@ test_that("include request body", {
     wi_th(body = including(list(fruit = "pear"))) %>%
     to_return(body = "matched on including partial body!")
 
-  resp_matched <- POST("https://hb.opencpu.org/post",
+  resp_matched <- POST(
+    "https://hb.opencpu.org/post",
     body = list(fruit = "pear", meat = "chicken")
   )
 
   expect_equal(resp_matched$status_code, 200)
-  expect_equal(rawToChar(content(resp_matched)), "matched on including partial body!")
+  expect_equal(
+    rawToChar(content(resp_matched)),
+    "matched on including partial body!"
+  )
 
   stub_registry_clear()
 
@@ -190,18 +212,25 @@ test_that("exclude request body", {
     wi_th(body = excluding(list(fruit = "pear"))) %>%
     to_return(body = "matched on excluding partial body!")
 
-  resp_matched <- POST("https://hb.opencpu.org/post",
+  resp_matched <- POST(
+    "https://hb.opencpu.org/post",
     body = list(color = "blue")
   )
 
   expect_equal(resp_matched$status_code, 200)
-  expect_equal(rawToChar(content(resp_matched)), "matched on excluding partial body!")
+  expect_equal(
+    rawToChar(content(resp_matched)),
+    "matched on excluding partial body!"
+  )
 
   stub_registry_clear()
 
   ## doesn't match when request body does not include what the stub has
   expect_error(
-    POST("https://hb.opencpu.org/post", body = list(fruit = "pear", meat = "chicken")),
+    POST(
+      "https://hb.opencpu.org/post",
+      body = list(fruit = "pear", meat = "chicken")
+    ),
     "Real HTTP connections are disabled"
   )
 

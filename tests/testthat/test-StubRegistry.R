@@ -56,7 +56,6 @@ test_that("StubRegistry: bits are correct after having data", {
   expect_is(res[[1]], "StubbedRequest")
   expect_equal(res[[1]]$uri, "http://api.crossref.org")
 
-
   # is_registered
   expect_true(aa$is_registered(x = req1))
 
@@ -93,6 +92,9 @@ test_that("StubRegistry fails well", {
   expect_error(aa$is_registered(), "argument \"x\" is missing")
   expect_error(aa$register_stub(), "argument \"stub\" is missing")
   expect_error(aa$remove_request_stub(), "argument \"stub\" is missing")
-  expect_error(aa$request_stub_for(), "argument \"request_signature\" is missing")
+  expect_error(
+    aa$request_stub_for(),
+    "argument \"request_signature\" is missing"
+  )
   # expect_error(aa$response_for_request(), "argument \"request_signature\" is missing")
 })

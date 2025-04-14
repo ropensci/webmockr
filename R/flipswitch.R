@@ -32,17 +32,21 @@ enable <- function(adapter = NULL, options = list(), quiet = FALSE) {
     }
     http_lib_adapter_registry$adapters[[which(adnms == adapter)]]$enable(quiet)
   } else {
-    invisible(vapply(http_lib_adapter_registry$adapters, function(z) {
-      pkgname <- z$client
-      # check if package installed first
-      if (!requireNamespace(pkgname, quietly = TRUE)) {
-        message(pkgname, " not installed, skipping enable")
-        FALSE
-      } else {
-        # if instaled, enable
-        z$enable(quiet)
-      }
-    }, logical(1)))
+    invisible(vapply(
+      http_lib_adapter_registry$adapters,
+      function(z) {
+        pkgname <- z$client
+        # check if package installed first
+        if (!requireNamespace(pkgname, quietly = TRUE)) {
+          message(pkgname, " not installed, skipping enable")
+          FALSE
+        } else {
+          # if instaled, enable
+          z$enable(quiet)
+        }
+      },
+      logical(1)
+    ))
   }
 }
 
@@ -72,16 +76,20 @@ disable <- function(adapter = NULL, options = list(), quiet = FALSE) {
     }
     http_lib_adapter_registry$adapters[[which(adnms == adapter)]]$disable(quiet)
   } else {
-    invisible(vapply(http_lib_adapter_registry$adapters, function(z) {
-      pkgname <- z$client
-      # check if package installed first
-      if (!requireNamespace(pkgname, quietly = TRUE)) {
-        message(pkgname, " not installed, skipping disable")
-        FALSE
-      } else {
-        # if instaled, disable
-        z$disable(quiet)
-      }
-    }, logical(1)))
+    invisible(vapply(
+      http_lib_adapter_registry$adapters,
+      function(z) {
+        pkgname <- z$client
+        # check if package installed first
+        if (!requireNamespace(pkgname, quietly = TRUE)) {
+          message(pkgname, " not installed, skipping disable")
+          FALSE
+        } else {
+          # if instaled, disable
+          z$disable(quiet)
+        }
+      },
+      logical(1)
+    ))
   }
 }

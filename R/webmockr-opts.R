@@ -45,11 +45,12 @@
 #' webmockr_configure(show_body_diff = TRUE)
 #' }
 webmockr_configure <- function(
-    allow_net_connect = FALSE,
-    allow_localhost = FALSE,
-    allow = NULL,
-    show_stubbing_instructions = TRUE,
-    show_body_diff = FALSE) {
+  allow_net_connect = FALSE,
+  allow_localhost = FALSE,
+  allow = NULL,
+  show_stubbing_instructions = TRUE,
+  show_body_diff = FALSE
+) {
   opts <- list(
     allow_net_connect = allow_net_connect,
     allow_localhost = allow_localhost,
@@ -100,11 +101,10 @@ webmockr_net_connect_allowed <- function(uri = NULL) {
   }
   uri <- normalize_uri(uri)
   webmockr_conf_env$allow_net_connect ||
-    (
-      webmockr_conf_env$allow_localhost && is_localhost(uri) ||
-        `!!`(webmockr_conf_env$allow) &&
-          net_connect_explicit_allowed(webmockr_conf_env$allow, uri)
-    )
+    (webmockr_conf_env$allow_localhost &&
+      is_localhost(uri) ||
+      `!!`(webmockr_conf_env$allow) &&
+        net_connect_explicit_allowed(webmockr_conf_env$allow, uri))
 }
 
 net_connect_explicit_allowed <- function(allowed, uri = NULL) {

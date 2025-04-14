@@ -18,7 +18,9 @@ test_that("uri_regex with crul", {
   stub_request("get", uri_regex = "[Aa].+\\.io/apple/")
   invisible(
     lapply(c("Anounce", "apple", "Afar", "after"), function(z) {
-      expect_true(HttpClient$new(sprintf("https://%s.io", z))$get("apple")$success())
+      expect_true(HttpClient$new(sprintf("https://%s.io", z))$get(
+        "apple"
+      )$success())
       expect_error(
         HttpClient$new(sprintf("https://%s.io", z))$get("fruit"),
         "Real HTTP connections are disabled"

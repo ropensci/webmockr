@@ -20,7 +20,10 @@ test_that("RequestRegistry: behaves as expected", {
 
   expect_length(aa$request_signatures$hash, 0)
 
-  z1 <- RequestSignature$new(method = "post", uri = "https://www.wikipedia.org/")
+  z1 <- RequestSignature$new(
+    method = "post",
+    uri = "https://www.wikipedia.org/"
+  )
 
   aa$register_request(request = z1)
   aa$register_request(request = z1)
@@ -32,10 +35,12 @@ test_that("RequestRegistry: behaves as expected", {
   )
 
   expect_output(
-    print(aa), "Registered Requests"
+    print(aa),
+    "Registered Requests"
   )
   expect_output(
-    print(aa), "POST:  https://www.wikipedia.org/ was made"
+    print(aa),
+    "POST:  https://www.wikipedia.org/ was made"
   )
 
   # reset the request registry

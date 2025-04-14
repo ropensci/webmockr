@@ -35,10 +35,12 @@ test_that("stub_request works well: get requests", {
 
   # after a stub made
   stub_request("get", hb("/get?foo=bar&a=5")) %>%
-    wi_th(headers = list(
-      "Accept-Encoding" = "gzip, deflate",
-      "Accept" = "application/json, text/xml, application/xml, */*"
-    ))
+    wi_th(
+      headers = list(
+        "Accept-Encoding" = "gzip, deflate",
+        "Accept" = "application/json, text/xml, application/xml, */*"
+      )
+    )
   ## 1 stub
   expect_equal(length(stub_registry()$request_stubs), 1)
 
@@ -49,16 +51,21 @@ test_that("stub_request works well: get requests", {
 
   # but the others still do not work cause they dont match the stub
   ms2 <- get_err_mssg(x$get("get", query = list(foo = "bar", stuff = FALSE)))
-  expect_error(x$get("get", query = list(foo = "bar", stuff = FALSE)), re_escape(ms2))
+  expect_error(
+    x$get("get", query = list(foo = "bar", stuff = FALSE)),
+    re_escape(ms2)
+  )
   ms3 <- get_err_mssg(x$get("get", query = list(foo = "bar")))
   expect_error(x$get("get", query = list(foo = "bar")), re_escape(ms3))
 
   # a stub for the second request
   stub_request("get", hb("/get?foo=bar&stuff=FALSE")) %>%
-    wi_th(headers = list(
-      "Accept-Encoding" = "gzip, deflate",
-      "Accept" = "application/json, text/xml, application/xml, */*"
-    ))
+    wi_th(
+      headers = list(
+        "Accept-Encoding" = "gzip, deflate",
+        "Accept" = "application/json, text/xml, application/xml, */*"
+      )
+    )
   ## 2 stubs now
   expect_equal(length(stub_registry()$request_stubs), 2)
 
@@ -111,7 +118,10 @@ test_that("stub_request works well: post requests", {
 
   # but the others still do not work cause they dont match the stub
   ms2 <- get_err_mssg(x$post("post", query = list(foo = "bar", stuff = FALSE)))
-  expect_error(x$post("post", query = list(foo = "bar", stuff = FALSE)), re_escape(ms2))
+  expect_error(
+    x$post("post", query = list(foo = "bar", stuff = FALSE)),
+    re_escape(ms2)
+  )
   ms3 <- get_err_mssg(x$post("post", query = list(foo = "bar")))
   expect_error(x$post("post", query = list(foo = "bar")), re_escape(ms3))
 })

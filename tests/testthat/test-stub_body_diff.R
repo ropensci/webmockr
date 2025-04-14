@@ -48,7 +48,8 @@ test_that("stub_body_diff works when both stub AND request are found, & there's 
   library(crul)
   expect_error(
     HttpClient$new("https://hb.opencpu.org")$post(
-      path = "post", body = list(apple = "red")
+      path = "post",
+      body = list(apple = "red")
     ),
     "disabled"
   )

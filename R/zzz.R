@@ -19,10 +19,14 @@ hdl_nested <- function(x) {
 }
 
 subs <- function(x, n) {
-  unname(vapply(x, function(w) {
-    w <- as.character(w)
-    if (nchar(w) > n) paste0(substring(w, 1, n), "...") else w
-  }, ""))
+  unname(vapply(
+    x,
+    function(w) {
+      w <- as.character(w)
+      if (nchar(w) > n) paste0(substring(w, 1, n), "...") else w
+    },
+    ""
+  ))
 }
 
 l2c <- function(w) paste(names(w), as.character(w), sep = " = ", collapse = "")
@@ -48,7 +52,9 @@ hdl_lst <- function(x) {
     if (is_nested(x)) {
       subs(l2c(x), 80)
     } else {
-      txt <- paste(names(x), subs(unname(unlist(x)), 20),
+      txt <- paste(
+        names(x),
+        subs(unname(unlist(x)), 20),
         sep = "=",
         collapse = ", "
       )
@@ -56,10 +62,12 @@ hdl_lst <- function(x) {
       if (has_attr(x, "partial_match")) {
         txt <- sprintf(
           "%s(%s)",
-          switch(attr(x, "partial_type"),
+          switch(
+            attr(x, "partial_type"),
             include = "including",
             exclude = "excluding"
-          ), txt
+          ),
+          txt
         )
       }
       txt
@@ -70,7 +78,8 @@ hdl_lst <- function(x) {
 }
 
 upload_switch <- function(client, path, type) {
-  switch(client,
+  switch(
+    client,
     crul = sprintf("crul::upload(\"%s\", \"%s\")", path, type),
     httr = sprintf("httr::upload_file(\"%s\", \"%s\")", path, type),
     sprintf("curl::form_file(\"%s\", \"%s\")", path, type)
@@ -96,8 +105,10 @@ hdl_lst2 <- function(x, client) {
     out <- vector(mode = "character", length = length(x))
     for (i in seq_along(x)) {
       targ <- x[[i]]
-      out[[i]] <- paste(names(x)[i],
-        switch(class(targ)[1L],
+      out[[i]] <- paste(
+        names(x)[i],
+        switch(
+          class(targ)[1L],
           character = if (grepl("upload", targ)) {
             targ
           } else {
@@ -120,10 +131,14 @@ parseurl <- function(x) {
   tmp <- urltools::url_parse(x)
   tmp <- as.list(tmp)
   if (!is.na(tmp$parameter)) {
-    tmp$parameter <- sapply(strsplit(tmp$parameter, "&")[[1]], function(z) {
-      zz <- strsplit(z, split = "=")[[1]]
-      as.list(stats::setNames(zz[2], zz[1]))
-    }, USE.NAMES = FALSE)
+    tmp$parameter <- sapply(
+      strsplit(tmp$parameter, "&")[[1]],
+      function(z) {
+        zz <- strsplit(z, split = "=")[[1]]
+        as.list(stats::setNames(zz[2], zz[1]))
+      },
+      USE.NAMES = FALSE
+    )
   }
   tmp
 }
@@ -133,9 +148,7 @@ url_builder <- function(uri, regex) {
 }
 
 `%||%` <- function(x, y) {
-  if (
-    is_null(x) || length(x) == 0 || all(nchar(x) == 0) || all(is.na(x))
-  ) {
+  if (is_null(x) || length(x) == 0 || all(nchar(x) == 0) || all(is.na(x))) {
     y
   } else {
     x
@@ -148,9 +161,7 @@ url_builder <- function(uri, regex) {
   if (inherits(z, "error")) {
     return(y)
   }
-  if (
-    is_null(z) || length(z) == 0 || all(nchar(z) == 0) || all(is.na(z))
-  ) {
+  if (is_null(z) || length(z) == 0 || all(nchar(z) == 0) || all(is.na(z))) {
     y
   } else {
     x

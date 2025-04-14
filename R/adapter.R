@@ -47,7 +47,8 @@
 #'   # httr_mock(FALSE)
 #' }
 #' }
-Adapter <- R6::R6Class("Adapter",
+Adapter <- R6::R6Class(
+  "Adapter",
   public = list(
     #' @field client HTTP client package name
     client = NULL,
@@ -75,7 +76,8 @@ Adapter <- R6::R6Class("Adapter",
       if (!quiet) message(sprintf("%s enabled!", self$name))
       webmockr_lightswitch[[self$client]] <- TRUE
 
-      switch(self$client,
+      switch(
+        self$client,
         crul = crul::mock(on = TRUE),
         httr = httr_mock(on = TRUE),
         httr2 = httr2_mock(on = TRUE)
@@ -91,7 +93,8 @@ Adapter <- R6::R6Class("Adapter",
       webmockr_lightswitch[[self$client]] <- FALSE
       self$remove_stubs()
 
-      switch(self$client,
+      switch(
+        self$client,
         crul = crul::mock(on = FALSE),
         httr = httr_mock(on = FALSE),
         httr2 = httr2_mock(on = FALSE)
@@ -135,7 +138,6 @@ Adapter <- R6::R6Class("Adapter",
           # add to_return() elements if given
           resp <- private$add_response_sequences(ss, resp)
         }
-
 
         # request is not in cache but connections are allowed
       } else if (webmockr_net_connect_allowed(uri = private$pluck_url(req))) {
@@ -181,7 +183,8 @@ Adapter <- R6::R6Class("Adapter",
             all(m %in% c("method", "uri", "headers", "query")) && length(m) == 4
           ) {
             tmp <- stub_request(req$method, req_url)
-            wi_th(tmp,
+            wi_th(
+              tmp,
               .list = list(query = urip$parameter, headers = req$headers)
             )
           }
@@ -200,7 +203,8 @@ Adapter <- R6::R6Class("Adapter",
         }
 
         # no stubs found and net connect not allowed - STOP
-        x <- c("Real HTTP connections are disabled.",
+        x <- c(
+          "Real HTTP connections are disabled.",
           "!" = "Unregistered request:"
         )
         y <- "\nYou can stub this request with the following snippet:\n"
@@ -214,9 +218,16 @@ Adapter <- R6::R6Class("Adapter",
         if (length(webmockr_stub_registry$request_stubs)) {
           msgz <- paste(
             z,
-            paste0(vapply(webmockr_stub_registry$request_stubs, function(z) {
-              z$to_s()
-            }, ""), collapse = "\n ")
+            paste0(
+              vapply(
+                webmockr_stub_registry$request_stubs,
+                function(z) {
+                  z$to_s()
+                },
+                ""
+              ),
+              collapse = "\n "
+            )
           )
         }
         msg_diff <- ""
@@ -251,7 +262,8 @@ Adapter <- R6::R6Class("Adapter",
         if (!is.null(x$headers)) {
           hd <- x$headers
           hd_str <- paste0(
-            paste(sprintf("'%s'", names(hd)),
+            paste(
+              sprintf("'%s'", names(hd)),
               sprintf("'%s'", unlist(unname(hd))),
               sep = " = "
             ),
@@ -272,7 +284,8 @@ Adapter <- R6::R6Class("Adapter",
               " wi_th(\n       headers = list(%s),",
               "\n       body = list(%s)\n     )"
             ),
-            hd_str, bd_str
+            hd_str,
+            bd_str
           )
         } else if (nzchar(hd_str) && !nzchar(bd_str)) {
           with_str <- sprintf(

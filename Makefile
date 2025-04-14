@@ -45,11 +45,11 @@ readme:
 	${RSCRIPT} -e "rmarkdown::render('details.md')"
 	${RSCRIPT} -e "knitr::knit('README.Rmd')"
 
-lint_package:
-	${RSCRIPT} -e "lintr::lint_package()"
+lint_check:
+	air format --check .
 
-style_package:
-	${RSCRIPT} -e "styler::style_pkg()"
+lint_fix:
+	air format .
 
 # use: `make style_file FILE=stuff`
 # ("R/" is prepended); accepts 1 file only

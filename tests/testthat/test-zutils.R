@@ -89,7 +89,10 @@ test_that("webmockr_disable_net_connect", {
   expect_message(webmockr_disable_net_connect(), "net connect disabled")
 
   # single uri passed
-  expect_message(webmockr_disable_net_connect("google.com"), "net connect disabled")
+  expect_message(
+    webmockr_disable_net_connect("google.com"),
+    "net connect disabled"
+  )
   expect_is(sm(webmockr_disable_net_connect("google.com")), "character")
   expect_equal(sm(webmockr_disable_net_connect("google.com")), "google.com")
 
@@ -159,8 +162,11 @@ test_that("webmockr_configuration", {
   expect_named(
     webmockr_configuration(),
     c(
-      "show_stubbing_instructions", "show_body_diff", "allow",
-      "allow_net_connect", "allow_localhost"
+      "show_stubbing_instructions",
+      "show_body_diff",
+      "allow",
+      "allow_net_connect",
+      "allow_localhost"
     )
   )
 
@@ -217,7 +223,10 @@ test_that("hdl_lst2 works", {
   expect_equal(hdl_lst2(list(foo = "bar")), "foo=\"bar\"")
   expect_equal(hdl_lst2(list(foo = 5)), "foo=5")
   expect_equal(hdl_lst2(list(foo = 5, bar = "a")), "foo=5, bar=\"a\"")
-  expect_equal(hdl_lst2(list(foo = "bar", stuff = FALSE)), "foo=\"bar\", stuff=FALSE")
+  expect_equal(
+    hdl_lst2(list(foo = "bar", stuff = FALSE)),
+    "foo=\"bar\", stuff=FALSE"
+  )
 
   expect_equal(hdl_lst2(1.5), 1.5)
 })

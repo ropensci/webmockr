@@ -6,7 +6,8 @@ test_that("httr: without pipe", {
 
   dat_json <- '{"foo":"bar"}'
   stub <- stub_request("get", uri = hb("/get"))
-  to_return(stub,
+  to_return(
+    stub,
     body = dat_json,
     headers = list("Content-Type" = "application/json; charset=utf-8")
   )
@@ -42,7 +43,8 @@ test_that("crul works", {
   enable()
   dat_json <- '{"foo":"bar"}'
   stub <- stub_request("get", uri = hb("/get"))
-  to_return(stub,
+  to_return(
+    stub,
     body = dat_json,
     headers = list("Content-Type" = "application/json; howdy")
   )

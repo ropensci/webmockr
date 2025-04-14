@@ -58,15 +58,22 @@ StubRegistry <- R6::R6Class(
     #' @return logical, 1 or more
     request_stub_for = function(request_signature, count = TRUE) {
       stubs <- self$request_stubs
-      mtchs <- vapply(stubs, function(z) {
-        tmp <- RequestPattern$new(
-          method = z$method, uri = z$uri,
-          uri_regex = z$uri_regex, query = z$query,
-          body = z$body, headers = z$request_headers,
-          basic_auth = z$basic_auth
-        )
-        tmp$matches(request_signature)
-      }, logical(1))
+      mtchs <- vapply(
+        stubs,
+        function(z) {
+          tmp <- RequestPattern$new(
+            method = z$method,
+            uri = z$uri,
+            uri_regex = z$uri_regex,
+            query = z$query,
+            body = z$body,
+            headers = z$request_headers,
+            basic_auth = z$basic_auth
+          )
+          tmp$matches(request_signature)
+        },
+        logical(1)
+      )
       if (count) {
         for (i in seq_along(stubs)) {
           if (mtchs[i]) stubs[[i]]$counter$put(request_signature)
@@ -147,17 +154,21 @@ make_query <- function(x) {
   if (is.null(x)) {
     return("")
   }
-  txt <- paste(names(x), subs(unname(unlist(x)), 20),
+  txt <- paste(
+    names(x),
+    subs(unname(unlist(x)), 20),
     sep = "=",
     collapse = ", "
   )
   if (attr(x, "partial_match") %||% FALSE) {
     txt <- sprintf(
       "%s(%s)",
-      switch(attr(x, "partial_type"),
+      switch(
+        attr(x, "partial_type"),
         include = "including",
         exclude = "excluding"
-      ), txt
+      ),
+      txt
     )
   }
   paste0(" with query params ", txt)

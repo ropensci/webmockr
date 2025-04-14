@@ -209,7 +209,8 @@ StubbedRequest <- R6::R6Class(
         cat_line("    body: ")
       } else {
         cat_line(sprintf(
-          "    body (class: %s): %s", class(self$body)[1L],
+          "    body (class: %s): %s",
+          class(self$body)[1L],
           hdl_lst(self$body)
         ))
       }
@@ -240,7 +241,8 @@ StubbedRequest <- R6::R6Class(
         cat_line(paste0(
           "    should_raise: ",
           if (rs[[i]]$raise) {
-            paste0(vapply(rs[[i]]$exceptions, "[[", "", "classname"),
+            paste0(
+              vapply(rs[[i]]$exceptions, "[[", "", "classname"),
               collapse = ", "
             )
           } else {
@@ -257,8 +259,11 @@ StubbedRequest <- R6::R6Class(
     #' @param basic_auth (character) basic authentication. optional.
     #' @return nothing returned; sets only
     with = function(
-        query = NULL, body = NULL, headers = NULL,
-        basic_auth = NULL) {
+      query = NULL,
+      body = NULL,
+      headers = NULL,
+      basic_auth = NULL
+    ) {
       if (!is.null(query)) {
         query[] <- lapply(query, as.character)
       }
@@ -358,44 +363,49 @@ StubbedRequest <- R6::R6Class(
     #' @return (character) the response as a string
     to_s = function() {
       ret <- self$responses_sequences
-      gsub("^\\s+|\\s+$", "", sprintf(
-        "  %s: %s %s %s %s %s",
-        toupper(self$method),
-        url_builder(self$uri %||% self$uri_regex, self$regex),
-        make_query(self$query),
-        make_body(self$body),
-        make_headers(self$request_headers),
-        if (length(ret) > 0) {
-          strgs <- c()
-          for (i in seq_along(ret)) {
-            bd <- make_body(ret[[i]]$body)
-            stt <- make_status(ret[[i]]$status)
-            hed <- make_headers(ret[[i]]$headers)
-            strgs[i] <- sprintf(
-              "%s %s %s",
-              if (nzchar(paste0(bd, stt, hed))) {
-                paste("| to_return: ", bd, stt, hed)
-              } else {
-                ""
-              },
-              if (ret[[i]]$timeout) "| should_timeout: TRUE" else "",
-              if (ret[[i]]$raise) {
-                paste0(
-                  "| to_raise: ",
-                  paste0(vapply(ret[[i]]$exceptions, "[[", "", "classname"),
-                    collapse = ", "
+      gsub(
+        "^\\s+|\\s+$",
+        "",
+        sprintf(
+          "  %s: %s %s %s %s %s",
+          toupper(self$method),
+          url_builder(self$uri %||% self$uri_regex, self$regex),
+          make_query(self$query),
+          make_body(self$body),
+          make_headers(self$request_headers),
+          if (length(ret) > 0) {
+            strgs <- c()
+            for (i in seq_along(ret)) {
+              bd <- make_body(ret[[i]]$body)
+              stt <- make_status(ret[[i]]$status)
+              hed <- make_headers(ret[[i]]$headers)
+              strgs[i] <- sprintf(
+                "%s %s %s",
+                if (nzchar(paste0(bd, stt, hed))) {
+                  paste("| to_return: ", bd, stt, hed)
+                } else {
+                  ""
+                },
+                if (ret[[i]]$timeout) "| should_timeout: TRUE" else "",
+                if (ret[[i]]$raise) {
+                  paste0(
+                    "| to_raise: ",
+                    paste0(
+                      vapply(ret[[i]]$exceptions, "[[", "", "classname"),
+                      collapse = ", "
+                    )
                   )
-                )
-              } else {
-                ""
-              }
-            )
+                } else {
+                  ""
+                }
+              )
+            }
+            paste0(strgs, collapse = " ")
+          } else {
+            ""
           }
-          paste0(strgs, collapse = " ")
-        } else {
-          ""
-        }
-      ))
+        )
+      )
     },
 
     #' @description Reset the counter for the stub
@@ -408,9 +418,15 @@ StubbedRequest <- R6::R6Class(
     append_response = function(x) {
       self$responses_sequences <- cc(c(self$responses_sequences, list(x)))
     },
-    response = function(status = NULL, body = NULL, headers = NULL,
-                        body_raw = NULL, timeout = FALSE, raise = FALSE,
-                        exceptions = list()) {
+    response = function(
+      status = NULL,
+      body = NULL,
+      headers = NULL,
+      body_raw = NULL,
+      timeout = FALSE,
+      raise = FALSE,
+      exceptions = list()
+    ) {
       list(
         status = status,
         body = body,

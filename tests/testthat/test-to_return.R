@@ -30,8 +30,13 @@ test_that("stub_request bits are correct", {
   expect_identical(
     sort(names(aa$responses_sequences[[1]])),
     sort(c(
-      "status", "body", "headers", "body_raw",
-      "timeout", "raise", "exceptions"
+      "status",
+      "body",
+      "headers",
+      "body_raw",
+      "timeout",
+      "raise",
+      "exceptions"
     ))
   )
   expect_equal(aa$responses_sequences[[1]]$status, 200)
@@ -146,10 +151,15 @@ test_that("to_return response header values are all character, crul", {
 
   stub_registry_clear()
   stub_request(uri = hb("/get")) %>%
-    to_return(headers = list(
-      a = 10, b = 234233434, c = 2344.342342,
-      d = "brown", e = as.factor("blue")
-    ))
+    to_return(
+      headers = list(
+        a = 10,
+        b = 234233434,
+        c = 2344.342342,
+        d = "brown",
+        e = as.factor("blue")
+      )
+    )
   z <- cli$get("get")
 
   expect_is(z$response_headers, "list")
@@ -177,10 +187,15 @@ test_that("to_return response header values are all character, httr", {
 
   stub_registry_clear()
   stub_request(uri = hb("/get")) %>%
-    to_return(headers = list(
-      a = 10, b = 234233434, c = 2344.342342,
-      d = "brown", e = as.factor("blue")
-    ))
+    to_return(
+      headers = list(
+        a = 10,
+        b = 234233434,
+        c = 2344.342342,
+        d = "brown",
+        e = as.factor("blue")
+      )
+    )
   z <- httr::GET(hb("/get"))
 
   expect_is(z$headers, "list")
@@ -210,10 +225,15 @@ test_that("to_return response header values are all character, httr2", {
 
   stub_registry_clear()
   stub_request(uri = hb("/get")) %>%
-    to_return(headers = list(
-      a = 10, b = 234233434, c = 2344.342342,
-      d = "brown", e = as.factor("blue")
-    ))
+    to_return(
+      headers = list(
+        a = 10,
+        b = 234233434,
+        c = 2344.342342,
+        d = "brown",
+        e = as.factor("blue")
+      )
+    )
   req <- httr2::request(hb("/get"))
   z <- httr2::req_perform(req)
 
@@ -246,7 +266,10 @@ test_that("stub_request status accepts numeric or integer values", {
 
   stub_registry_clear()
   stub_status_type_b <- stub_request("get", hb("/get"))
-  expect_s3_class(to_return(stub_status_type_b, status = 200L), "StubbedRequest")
+  expect_s3_class(
+    to_return(stub_status_type_b, status = 200L),
+    "StubbedRequest"
+  )
   expect_type(stub_to_return_status_code(), "integer")
 })
 disable()

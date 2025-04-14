@@ -34,12 +34,18 @@ test_that("StubbedRequest: works", {
   aa$with(query = list(foo = "bar"))
   expect_is(aa$query, "list")
   expect_named(aa$query, "foo")
-  expect_equal(aa$to_s(), "GET: https://hb.opencpu.org/get  with query params foo=bar")
+  expect_equal(
+    aa$to_s(),
+    "GET: https://hb.opencpu.org/get  with query params foo=bar"
+  )
 
   ## >1 query param gets combined with "&" and not ","
   aa$with(query = list(foo = "bar", stuff = 567))
   expect_equal(sort(names(aa$query)), c("foo", "stuff"))
-  expect_equal(aa$to_s(), "GET: https://hb.opencpu.org/get  with query params foo=bar, stuff=567")
+  expect_equal(
+    aa$to_s(),
+    "GET: https://hb.opencpu.org/get  with query params foo=bar, stuff=567"
+  )
 
   # to_return
   expect_is(aa$to_return, "function")
@@ -148,20 +154,23 @@ test_that("StubbedRequest long string handling", {
   # with
   x$with(
     query = list(
-      foo = "Bar", a = 5, b = 8,
+      foo = "Bar",
+      a = 5,
+      b = 8,
       user = paste0(
         "asdfa asldfj asdfljas dflajsd fasldjf",
         " asldfja sdfljas dflajs fdlasjf aslfa fdfdsf"
       )
     ),
     body = list(
-      a = 5, b = 8, user = "asdfa asldfj asdfljas dflajsdfdfdsf",
+      a = 5,
+      b = 8,
+      user = "asdfa asldfj asdfljas dflajsdfdfdsf",
       foo = "Bar"
     ),
     headers = list(
       farm = "animal",
-      `User-Agent` =
-        "stuff things whasdlfj adsfla jsdflja sdflasj dflasj dfasljf asdf"
+      `User-Agent` = "stuff things whasdlfj adsfla jsdflja sdflasj dflasj dfasljf asdf"
     )
   )
   # with: long query
@@ -175,14 +184,14 @@ test_that("StubbedRequest long string handling", {
   x$to_return(
     status = 200,
     body = list(
-      name = "julia", title = "advanced user",
+      name = "julia",
+      title = "advanced user",
       location = "somewhere in the middle of the earth",
       foo = "Bar"
     ),
     headers = list(
       farm = "animal",
-      `User-Agent` =
-        "stuff things whasdlfj adsfla jsdflja sdflasj dflasj dfasljf asdf"
+      `User-Agent` = "stuff things whasdlfj adsfla jsdflja sdflasj dflasj dfasljf asdf"
     )
   )
   # to_return: status code
@@ -216,8 +225,9 @@ test_that("StubbedRequest nested lists in body", {
     body = list(
       apple = list(
         bears = list(
-          cheesecake =
-            list(foo_do_the_thing = "bar asdjlfas dfaljsdf asljdf slf")
+          cheesecake = list(
+            foo_do_the_thing = "bar asdjlfas dfaljsdf asljdf slf"
+          )
         )
       )
     )
