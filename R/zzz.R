@@ -275,7 +275,7 @@ last <- function(x) {
 
 
 vcr_loaded <- function() {
-  "package:vcr" %in% search()
+  isNamespaceLoaded("vcr")
 }
 
 # check whether a cassette is inserted without assuming vcr is installed
