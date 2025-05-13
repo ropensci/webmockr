@@ -40,7 +40,8 @@ Suggests:
     vcr,
     httr,
     httr2,
-    diffobj
+    diffobj,
+    withr
 Remotes: ropensci/vcr
 RoxygenNote: 7.3.2
 X-schema.org-applicationCategory: Web

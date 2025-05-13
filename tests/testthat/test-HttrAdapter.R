@@ -56,10 +56,9 @@ test_that("HttrAdapter: works when vcr is loaded but no cassette is inserted", {
   expect_is(x, "response")
 
   # # works when empty cassette is loaded
-  vcr::vcr_configure(dir = tempdir())
-  vcr::insert_cassette("empty")
+  vcr::local_vcr_configure(dir = withr::local_tempdir())
+  vcr::local_cassette("empty")
   expect_silent(x <- httr::GET(hb("/get")))
-  vcr::eject_cassette()
   expect_is(x, "response")
 })
 
@@ -74,13 +73,11 @@ test_that("HttrAdapter date slot works", {
   skip_if_not_installed("vcr")
   library("vcr")
 
-  path <- file.path(tempdir(), "foobar")
-  vcr::vcr_configure(dir = path)
-  vcr::use_cassette("test-date", httr::GET(hb("/get")))
-  # list.files(path)
-  # readLines(file.path(path, "test-date.yml"))
-  vcr::insert_cassette("test-date")
+  vcr::local_vcr_configure(dir = withr::local_tempdir())
 
+  vcr::use_cassette("test-date", httr::GET(hb("/get")))
+
+  vcr::local_cassette("test-date")
   x <- httr::GET(hb("/get"))
 
   # $date is of correct format
@@ -91,11 +88,6 @@ test_that("HttrAdapter date slot works", {
   # $headers$date is a different format
   expect_is(x$headers$date, "character")
   expect_error(format(x$headers$date, "%Y-%m-%d %H:%M"), "invalid 'trim'")
-
-  vcr::eject_cassette()
-
-  # cleanup
-  unlink(path, recursive = TRUE)
 })
 
 
@@ -128,8 +120,7 @@ test_that("HttrAdapter insensitive headers work, vcr flow", {
   skip_if_not_installed("vcr")
   library("vcr")
 
-  path <- file.path(tempdir(), "helloworld")
-  vcr::vcr_configure(dir = path)
+  vcr::local_vcr_configure(dir = withr::local_tempdir())
   vcr::use_cassette("test-date", GET(hb("/get")))
   vcr::insert_cassette("test-date")
 
@@ -138,11 +129,6 @@ test_that("HttrAdapter insensitive headers work, vcr flow", {
   expect_equal(x$headers[["content-type"]], "application/json")
   expect_is(httr::content(x), "list")
   expect_is(httr::content(x, "text", encoding = "UTF-8"), "character")
-
-  vcr::eject_cassette()
-
-  # cleanup
-  unlink(path, recursive = TRUE)
 })
 
 
