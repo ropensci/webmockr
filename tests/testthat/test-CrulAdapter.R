@@ -58,7 +58,7 @@ test_that("CrulAdapter: works when vcr is loaded but no cassette is inserted", {
   vcr::vcr_configure(dir = tempdir())
   vcr::insert_cassette("empty")
   expect_silent(x <- cli$get("get"))
-  vcr::eject_cassette("empty")
+  vcr::eject_cassette()
   expect_is(x, "HttpResponse")
 })
 

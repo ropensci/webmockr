@@ -59,7 +59,7 @@ test_that("Httr2Adapter: works when vcr is loaded but no cassette is inserted", 
   vcr::vcr_configure(dir = tempdir())
   vcr::insert_cassette("empty")
   expect_silent((x <- request(hb("/get")) %>% req_perform()))
-  vcr::eject_cassette("empty")
+  vcr::eject_cassette()
   expect_s3_class(x, "httr2_response")
 })
 
@@ -83,7 +83,7 @@ test_that("Httr2Adapter date slot works", {
   expect_is(x$headers$date, "character")
   expect_error(format(x$headers$date, "%Y-%m-%d %H:%M"), "invalid 'trim'")
 
-  vcr::eject_cassette("test-date")
+  vcr::eject_cassette()
 
   # cleanup
   unlink(path, recursive = TRUE)

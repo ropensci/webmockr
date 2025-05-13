@@ -84,11 +84,11 @@ test_that("with httr", {
   webmockr_net_connect_allowed()
 
   # path not set
-  expect_error(
-    suppressWarnings(use_cassette("write_disk_path_not_set_crul_error", {
+  # used to error in vcr v1 with: "write_disk_path must be given"
+  expect_no_error(
+    use_cassette("write_disk_path_not_set_crul_error", {
       out <- GET(hb("/get"), write_disk(f))
-    })),
-    "write_disk_path must be given"
+    })
   )
 
   # now set path

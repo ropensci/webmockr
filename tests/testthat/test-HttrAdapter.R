@@ -59,7 +59,7 @@ test_that("HttrAdapter: works when vcr is loaded but no cassette is inserted", {
   vcr::vcr_configure(dir = tempdir())
   vcr::insert_cassette("empty")
   expect_silent(x <- httr::GET(hb("/get")))
-  vcr::eject_cassette("empty")
+  vcr::eject_cassette()
   expect_is(x, "response")
 })
 
@@ -92,7 +92,7 @@ test_that("HttrAdapter date slot works", {
   expect_is(x$headers$date, "character")
   expect_error(format(x$headers$date, "%Y-%m-%d %H:%M"), "invalid 'trim'")
 
-  vcr::eject_cassette("test-date")
+  vcr::eject_cassette()
 
   # cleanup
   unlink(path, recursive = TRUE)
@@ -139,7 +139,7 @@ test_that("HttrAdapter insensitive headers work, vcr flow", {
   expect_is(httr::content(x), "list")
   expect_is(httr::content(x, "text", encoding = "UTF-8"), "character")
 
-  vcr::eject_cassette("test-date")
+  vcr::eject_cassette()
 
   # cleanup
   unlink(path, recursive = TRUE)
