@@ -70,23 +70,17 @@ test_that("Httr2Adapter date slot works", {
   skip_if_not_installed("vcr")
   library("vcr")
 
-  path <- file.path(tempdir(), "foobar")
-  vcr::vcr_configure(dir = path)
+  vcr::local_vcr_configure(dir = withr::local_tempdir())
   vcr::use_cassette("test-date", request(hb("/get")) %>% req_perform())
   # list.files(path)
   # readLines(file.path(path, "test-date.yml"))
-  vcr::insert_cassette("test-date")
+  vcr::local_cassette("test-date")
 
   x <- request(hb("/get")) %>% req_perform()
 
   # $headers$date is a different format
   expect_is(x$headers$date, "character")
   expect_error(format(x$headers$date, "%Y-%m-%d %H:%M"), "invalid 'trim'")
-
-  vcr::eject_cassette()
-
-  # cleanup
-  unlink(path, recursive = TRUE)
 })
 
 

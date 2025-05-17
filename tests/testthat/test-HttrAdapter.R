@@ -122,7 +122,7 @@ test_that("HttrAdapter insensitive headers work, vcr flow", {
 
   vcr::local_vcr_configure(dir = withr::local_tempdir())
   vcr::use_cassette("test-date", GET(hb("/get")))
-  vcr::insert_cassette("test-date")
+  vcr::local_cassette("test-date")
 
   x <- httr::GET(hb("/get"))
 
