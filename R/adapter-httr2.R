@@ -9,6 +9,7 @@ tryx <- function(exp, give = NULL) {
 
 #' Build a httr2 response (`httr2_response`)
 #' @export
+#' @keywords internal
 #' @param req a request
 #' @param resp a response
 #' @return an httr2 response (`httr2_response`)
@@ -68,6 +69,7 @@ req_method_get_w <- function(req) {
 
 #' Build an httr2 request
 #' @export
+#' @keywords internal
 #' @param x an unexecuted httr2 request object
 #' @return a `httr2_request`
 build_httr2_request <- function(x) {
@@ -111,6 +113,7 @@ httr2_mock <- function(on = TRUE) {
 
 #' @rdname Adapter
 #' @export
+#' @keywords internal
 Httr2Adapter <- R6::R6Class(
   "Httr2Adapter",
   inherit = Adapter,

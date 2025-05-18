@@ -6,68 +6,6 @@
 \description{
 body matcher
 }
-\examples{
-# make a request signature
-bb <- RequestSignature$new(
-  method = "get",
-  uri = "https:/httpbin.org/get",
-  options = list(
-    body = list(foo = "bar", a = 5)
-  )
-)
-
-# make body pattern object
-## FALSE
-z <- BodyPattern$new(pattern = list(foo = "bar"))
-z$pattern
-z$matches(bb$body)
-## TRUE
-z <- BodyPattern$new(pattern = list(foo = "bar", a = 5))
-z$pattern
-z$matches(bb$body)
-
-# uploads in bodies
-## upload NOT in a list
-bb <- RequestSignature$new(
-  method = "post", uri = "https:/httpbin.org/post",
-  options = list(body = crul::upload(system.file("CITATION")))
-)
-bb$body
-z <- BodyPattern$new(
-  pattern =
-    crul::upload(system.file("CITATION"))
-)
-z$pattern
-z$matches(bb$body)
-
-## upload in a list
-bb <- RequestSignature$new(
-  method = "post", uri = "https:/httpbin.org/post",
-  options = list(body = list(y = crul::upload(system.file("CITATION"))))
-)
-bb$body
-z <- BodyPattern$new(
-  pattern =
-    list(y = crul::upload(system.file("CITATION")))
-)
-z$pattern
-z$matches(bb$body)
-
-# partial matching
-## including
-partial_incl <- including(list(foo = "bar"))
-z <- BodyPattern$new(pattern = partial_incl)
-z$pattern
-z$matches(list(foo = "bar", a = 5)) # TRUE
-
-## excluding
-partial_excl <- excluding(list(hello = "world"))
-z <- BodyPattern$new(pattern = partial_excl)
-z$pattern
-z$matches(list(a = 5)) # TRUE
-z$matches(list(hello = "mars", a = 5)) # TRUE
-z$matches(list(hello = "world")) # FALSE
-}
 \keyword{internal}
 \section{Public fields}{
 \if{html}{\out{<div class="r6-fields">}}

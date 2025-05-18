@@ -6,13 +6,7 @@
 \description{
 http lib adapter registry
 }
-\examples{
-x <- HttpLibAdapaterRegistry$new()
-x$register(CrulAdapter$new())
-x
-x$adapters
-x$adapters[[1]]$name
-}
+\keyword{internal}
 \section{Public fields}{
 \if{html}{\out{<div class="r6-fields">}}
 \describe{

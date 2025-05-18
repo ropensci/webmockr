@@ -8,45 +8,7 @@
 #' * `Httr2Adapter` for \pkg{httr2}
 #' @details Note that the documented fields and methods are the same across all
 #'   client-specific adapters.
-#' @export
-#' @examples \dontrun{
-#' if (requireNamespace("httr", quietly = TRUE)) {
-#'   # library(httr)
-#'
-#'   # normal httr request, works fine
-#'   # real <- GET("https://httpbin.org/get")
-#'   # real
-#'
-#'   # with webmockr
-#'   # library(webmockr)
-#'   ## turn on httr mocking
-#'   # httr_mock()
-#'   ## now this request isn't allowed
-#'   # GET("https://httpbin.org/get")
-#'   ## stub the request
-#'   # stub_request('get', uri = 'https://httpbin.org/get') %>%
-#'   #   wi_th(
-#'   #     headers = list(
-#'   #      'Accept' = 'application/json, text/xml, application/xml, */*'
-#'   #     )
-#'   #   ) %>%
-#'   #   to_return(status = 418, body = "I'm a teapot!", headers = list(a = 5))
-#'   ## now the request succeeds and returns a mocked response
-#'   # (res <- GET("https://httpbin.org/get"))
-#'   # res$status_code
-#'   # rawToChar(res$content)
-#'
-#'   # allow real requests while webmockr is loaded
-#'   # webmockr_allow_net_connect()
-#'   # webmockr_net_connect_allowed()
-#'   # GET("https://httpbin.org/get?animal=chicken")
-#'   # webmockr_disable_net_connect()
-#'   # webmockr_net_connect_allowed()
-#'   # GET("https://httpbin.org/get?animal=chicken")
-#'
-#'   # httr_mock(FALSE)
-#' }
-#' }
+#' @keywords internal
 Adapter <- R6::R6Class(
   "Adapter",
   public = list(

@@ -1,12 +1,6 @@
 #' @title HttpLibAdapaterRegistry
 #' @description http lib adapter registry
-#' @export
-#' @examples
-#' x <- HttpLibAdapaterRegistry$new()
-#' x$register(CrulAdapter$new())
-#' x
-#' x$adapters
-#' x$adapters[[1]]$name
+#' @keywords internal
 HttpLibAdapaterRegistry <- R6::R6Class(
   "HttpLibAdapaterRegistry",
   public = list(

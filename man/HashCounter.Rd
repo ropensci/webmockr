@@ -7,22 +7,13 @@
 hash with counter, to store requests, and count each time
 it is used
 }
-\examples{
-x <- HashCounter$new()
-x$hash
-z <- RequestSignature$new(method = "get", uri = "https:/httpbin.org/get")
-x$put(z)
-x$hash
-x$get(z)
-x$put(z)
-x$get(z)
-}
 \seealso{
 Other request-registry: 
 \code{\link{RequestRegistry}},
 \code{\link{request_registry}()}
 }
 \concept{request-registry}
+\keyword{internal}
 \section{Public fields}{
 \if{html}{\out{<div class="r6-fields">}}
 \describe{

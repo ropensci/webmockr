@@ -51,6 +51,7 @@ bb
 bb$disk
 bb$to_s()
 }
+\keyword{internal}
 \section{Public fields}{
 \if{html}{\out{<div class="r6-fields">}}
 \describe{

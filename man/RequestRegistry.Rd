@@ -6,54 +6,6 @@
 \description{
 keeps track of HTTP requests
 }
-\examples{
-x <- RequestRegistry$new()
-z1 <- RequestSignature$new("get", "http://scottchamberlain.info")
-z2 <- RequestSignature$new("post", "https://httpbin.org/post")
-x$register_request(request = z1)
-x$register_request(request = z1)
-x$register_request(request = z2)
-# print method to list requests
-x
-
-# more complex requests
-w <- RequestSignature$new(
-  method = "get",
-  uri = "https:/httpbin.org/get",
-  options = list(headers = list(`User-Agent` = "foobar", stuff = "things"))
-)
-w$to_s()
-x$register_request(request = w)
-x
-
-
-# hashes, and number of times each requested
-x$request_signatures$hash
-
-# times_executed method
-pat <- RequestPattern$new(
-  method = "get",
-  uri = "https:/httpbin.org/get",
-  headers = list(`User-Agent` = "foobar", stuff = "things")
-)
-pat$to_s()
-x$times_executed(pat)
-z <- RequestPattern$new(method = "get", uri = "http://scottchamberlain.info")
-x$times_executed(z)
-w <- RequestPattern$new(method = "post", uri = "https://httpbin.org/post")
-x$times_executed(w)
-
-## pattern with no matches - returns 0 (zero)
-pat <- RequestPattern$new(
-  method = "get",
-  uri = "http://recology.info/"
-)
-pat$to_s()
-x$times_executed(pat)
-
-# reset the request registry
-x$reset()
-}
 \seealso{
 \code{\link[=stub_registry]{stub_registry()}} and \link{StubRegistry}
 
@@ -62,6 +14,7 @@ Other request-registry:
 \code{\link{request_registry}()}
 }
 \concept{request-registry}
+\keyword{internal}
 \section{Public fields}{
 \if{html}{\out{<div class="r6-fields">}}
 \describe{

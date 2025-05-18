@@ -15,3 +15,4 @@ a httr request
 \description{
 Build a httr request
 }
+\keyword{internal}

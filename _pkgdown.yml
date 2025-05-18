@@ -25,7 +25,6 @@ reference:
       - stub_registry
       - stub_registry_clear
       - starts_with("request_registry")
-      - RequestRegistry
       - webmockr_reset
   - title: "Stubbing requests"
     contents:
@@ -44,24 +43,3 @@ reference:
     contents:
       - starts_with("last")
       - stub_body_diff
-  - title: "HTTP package adapters and utilities"
-    desc: >
-      Internal use only most likely
-    contents:
-      - CrulAdapter
-      - HttrAdapter
-      - Httr2Adapter
-      - HttpLibAdapaterRegistry
-      - build_crul_request
-      - build_crul_response
-      - build_httr_request
-      - build_httr_response
-      - build_httr2_request
-      - build_httr2_response
-  - title: "Various Internal utilities"
-    contents:
-      - RequestPattern
-      - RequestSignature
-      - HashCounter
-      - pluck_body
-      - Response

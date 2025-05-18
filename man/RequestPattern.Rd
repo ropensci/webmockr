@@ -6,100 +6,11 @@
 \description{
 class handling all request matchers
 }
-\examples{
-\dontrun{
-(x <- RequestPattern$new(method = "get", uri = "httpbin.org/get"))
-x$body_pattern
-x$headers_pattern
-x$method_pattern
-x$uri_pattern
-x$to_s()
-
-# make a request signature
-rs <- RequestSignature$new(method = "get", uri = "http://httpbin.org/get")
-
-# check if it matches
-x$matches(rs)
-
-# regex uri
-(x <- RequestPattern$new(method = "get", uri_regex = ".+ossref.org"))
-x$uri_pattern
-x$uri_pattern$to_s()
-x$to_s()
-
-# uri with query parameters
-(x <- RequestPattern$new(
-  method = "get", uri = "https://httpbin.org/get",
-  query = list(foo = "bar")
-))
-x$to_s()
-## query params included in url, not separately
-(x <- RequestPattern$new(
-  method = "get", uri = "https://httpbin.org/get?stuff=things"
-))
-x$to_s()
-x$query_params
-
-# just headers (via setting method=any & uri_regex=.+)
-headers <- list(
-  "User-Agent" = "Apple",
-  "Accept-Encoding" = "gzip, deflate",
-  "Accept" = "application/json, text/xml, application/xml, */*"
-)
-x <- RequestPattern$new(
-  method = "any",
-  uri_regex = ".+",
-  headers = headers
-)
-x$to_s()
-rs <- RequestSignature$new(
-  method = "any", uri = "http://foo.bar",
-  options = list(headers = headers)
-)
-rs
-x$matches(rs)
-
-# body
-x <- RequestPattern$new(
-  method = "post", uri = "httpbin.org/post",
-  body = list(y = crul::upload(system.file("CITATION")))
-)
-x$to_s()
-rs <- RequestSignature$new(
-  method = "post", uri = "http://httpbin.org/post",
-  options = list(
-    body = list(y = crul::upload(system.file("CITATION")))
-  )
-)
-rs
-x$matches(rs)
-
-# basic auth
-x <- RequestPattern$new(
-  method = "post",
-  uri = "httpbin.org/post",
-  basic_auth = c("user", "pass")
-)
-x
-x$headers_pattern$to_s()
-x$to_s()
-rs <- RequestSignature$new(
-  method = "post", uri = "http://httpbin.org/post",
-  options = list(headers = prep_auth("user:pass"))
-)
-rs
-x$matches(rs) # TRUE
-rs <- RequestSignature$new(
-  method = "post", uri = "http://httpbin.org/post",
-  options = list(headers = prep_auth("user:longpassword"))
-)
-x$matches(rs) # FALSE
-}
-}
 \seealso{
 pattern classes for HTTP method \link{MethodPattern}, headers
 \link{HeadersPattern}, body \link{BodyPattern}, and URI/URL \link{UriPattern}
 }
+\keyword{internal}
 \section{Public fields}{
 \if{html}{\out{<div class="r6-fields">}}
 \describe{

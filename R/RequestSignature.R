@@ -1,6 +1,7 @@
 #' @title RequestSignature
 #' @description General purpose request signature builder
 #' @export
+#' @keywords internal
 #' @examples
 #' # make request signature
 #' x <- RequestSignature$new(method = "get", uri = "https:/httpbin.org/get")

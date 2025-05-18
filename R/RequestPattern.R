@@ -1,96 +1,8 @@
 #' @title RequestPattern class
 #' @description class handling all request matchers
-#' @export
+#' @keywords internal
 #' @seealso pattern classes for HTTP method [MethodPattern], headers
 #' [HeadersPattern], body [BodyPattern], and URI/URL [UriPattern]
-#' @examples \dontrun{
-#' (x <- RequestPattern$new(method = "get", uri = "httpbin.org/get"))
-#' x$body_pattern
-#' x$headers_pattern
-#' x$method_pattern
-#' x$uri_pattern
-#' x$to_s()
-#'
-#' # make a request signature
-#' rs <- RequestSignature$new(method = "get", uri = "http://httpbin.org/get")
-#'
-#' # check if it matches
-#' x$matches(rs)
-#'
-#' # regex uri
-#' (x <- RequestPattern$new(method = "get", uri_regex = ".+ossref.org"))
-#' x$uri_pattern
-#' x$uri_pattern$to_s()
-#' x$to_s()
-#'
-#' # uri with query parameters
-#' (x <- RequestPattern$new(
-#'   method = "get", uri = "https://httpbin.org/get",
-#'   query = list(foo = "bar")
-#' ))
-#' x$to_s()
-#' ## query params included in url, not separately
-#' (x <- RequestPattern$new(
-#'   method = "get", uri = "https://httpbin.org/get?stuff=things"
-#' ))
-#' x$to_s()
-#' x$query_params
-#'
-#' # just headers (via setting method=any & uri_regex=.+)
-#' headers <- list(
-#'   "User-Agent" = "Apple",
-#'   "Accept-Encoding" = "gzip, deflate",
-#'   "Accept" = "application/json, text/xml, application/xml, */*"
-#' )
-#' x <- RequestPattern$new(
-#'   method = "any",
-#'   uri_regex = ".+",
-#'   headers = headers
-#' )
-#' x$to_s()
-#' rs <- RequestSignature$new(
-#'   method = "any", uri = "http://foo.bar",
-#'   options = list(headers = headers)
-#' )
-#' rs
-#' x$matches(rs)
-#'
-#' # body
-#' x <- RequestPattern$new(
-#'   method = "post", uri = "httpbin.org/post",
-#'   body = list(y = crul::upload(system.file("CITATION")))
-#' )
-#' x$to_s()
-#' rs <- RequestSignature$new(
-#'   method = "post", uri = "http://httpbin.org/post",
-#'   options = list(
-#'     body = list(y = crul::upload(system.file("CITATION")))
-#'   )
-#' )
-#' rs
-#' x$matches(rs)
-#'
-#' # basic auth
-#' x <- RequestPattern$new(
-#'   method = "post",
-#'   uri = "httpbin.org/post",
-#'   basic_auth = c("user", "pass")
-#' )
-#' x
-#' x$headers_pattern$to_s()
-#' x$to_s()
-#' rs <- RequestSignature$new(
-#'   method = "post", uri = "http://httpbin.org/post",
-#'   options = list(headers = prep_auth("user:pass"))
-#' )
-#' rs
-#' x$matches(rs) # TRUE
-#' rs <- RequestSignature$new(
-#'   method = "post", uri = "http://httpbin.org/post",
-#'   options = list(headers = prep_auth("user:longpassword"))
-#' )
-#' x$matches(rs) # FALSE
-#' }
 RequestPattern <- R6::R6Class(
   "RequestPattern",
   public = list(
@@ -206,21 +118,8 @@ RequestPattern <- R6::R6Class(
 
 #' @title MethodPattern
 #' @description method matcher
-#' @export
 #' @keywords internal
 #' @details Matches regardless of case. e.g., POST will match to post
-#' @examples
-#' (x <- MethodPattern$new(pattern = "post"))
-#' x$pattern
-#' x$matches(method = "post")
-#' x$matches(method = "POST")
-#'
-#' # all matches() calls should be TRUE
-#' (x <- MethodPattern$new(pattern = "any"))
-#' x$pattern
-#' x$matches(method = "post")
-#' x$matches(method = "GET")
-#' x$matches(method = "HEAD")
 MethodPattern <- R6::R6Class(
   "MethodPattern",
   public = list(
@@ -249,7 +148,6 @@ MethodPattern <- R6::R6Class(
 
 #' @title HeadersPattern
 #' @description headers matcher
-#' @export
 #' @keywords internal
 #' @details
 #' `webmockr` normalises headers and treats all forms of same headers as equal:
@@ -257,32 +155,6 @@ MethodPattern <- R6::R6Class(
 #' `list(Header1 = "value1", content_length = 123, X_CuStOm_hEAder = "foo")`
 #' and
 #' `list(header1 = "value1", "Content-Length" = 123, "x-cuSTOM-HeAder" = "foo")`
-#' @examples
-#' (x <- HeadersPattern$new(pattern = list(a = 5)))
-#' x$pattern
-#' x$matches(list(a = 5))
-#'
-#' # different cases
-#' (x <- HeadersPattern$new(pattern = list(Header1 = "value1")))
-#' x$pattern
-#' x$matches(list(header1 = "value1"))
-#' x$matches(list(header1 = "value2"))
-#'
-#' # different symbols
-#' (x <- HeadersPattern$new(pattern = list(`Hello_World` = "yep")))
-#' x$pattern
-#' x$matches(list(`hello-world` = "yep"))
-#' x$matches(list(`hello-worlds` = "yep"))
-#'
-#' headers <- list(
-#'   "User-Agent" = "Apple",
-#'   "Accept-Encoding" = "gzip, deflate",
-#'   "Accept" = "application/json, text/xml, application/xml, */*"
-#' )
-#' (x <- HeadersPattern$new(pattern = headers))
-#' x$to_s()
-#' x$pattern
-#' x$matches(headers)
 HeadersPattern <- R6::R6Class(
   "HeadersPattern",
   public = list(
@@ -350,69 +222,7 @@ seems_like_json <- function(x) {
 
 #' @title BodyPattern
 #' @description body matcher
-#' @export
 #' @keywords internal
-#' @examples
-#' # make a request signature
-#' bb <- RequestSignature$new(
-#'   method = "get",
-#'   uri = "https:/httpbin.org/get",
-#'   options = list(
-#'     body = list(foo = "bar", a = 5)
-#'   )
-#' )
-#'
-#' # make body pattern object
-#' ## FALSE
-#' z <- BodyPattern$new(pattern = list(foo = "bar"))
-#' z$pattern
-#' z$matches(bb$body)
-#' ## TRUE
-#' z <- BodyPattern$new(pattern = list(foo = "bar", a = 5))
-#' z$pattern
-#' z$matches(bb$body)
-#'
-#' # uploads in bodies
-#' ## upload NOT in a list
-#' bb <- RequestSignature$new(
-#'   method = "post", uri = "https:/httpbin.org/post",
-#'   options = list(body = crul::upload(system.file("CITATION")))
-#' )
-#' bb$body
-#' z <- BodyPattern$new(
-#'   pattern =
-#'     crul::upload(system.file("CITATION"))
-#' )
-#' z$pattern
-#' z$matches(bb$body)
-#'
-#' ## upload in a list
-#' bb <- RequestSignature$new(
-#'   method = "post", uri = "https:/httpbin.org/post",
-#'   options = list(body = list(y = crul::upload(system.file("CITATION"))))
-#' )
-#' bb$body
-#' z <- BodyPattern$new(
-#'   pattern =
-#'     list(y = crul::upload(system.file("CITATION")))
-#' )
-#' z$pattern
-#' z$matches(bb$body)
-#'
-#' # partial matching
-#' ## including
-#' partial_incl <- including(list(foo = "bar"))
-#' z <- BodyPattern$new(pattern = partial_incl)
-#' z$pattern
-#' z$matches(list(foo = "bar", a = 5)) # TRUE
-#'
-#' ## excluding
-#' partial_excl <- excluding(list(hello = "world"))
-#' z <- BodyPattern$new(pattern = partial_excl)
-#' z$pattern
-#' z$matches(list(a = 5)) # TRUE
-#' z$matches(list(hello = "mars", a = 5)) # TRUE
-#' z$matches(list(hello = "world")) # FALSE
 BodyPattern <- R6::R6Class(
   "BodyPattern",
   public = list(
@@ -606,98 +416,7 @@ promote_attr <- function(ll) {
 
 #' @title UriPattern
 #' @description uri matcher
-#' @export
 #' @keywords internal
-#' @examples
-#' # trailing slash
-#' (z <- UriPattern$new(pattern = "http://foobar.com"))
-#' z$matches("http://foobar.com") # TRUE
-#' z$matches("http://foobar.com/") # TRUE
-#'
-#' # without scheme
-#' ## matches http by default: does not match https by default
-#' (z <- UriPattern$new(pattern = "foobar.com"))
-#' z$matches("http://foobar.com") # TRUE
-#' z$matches("http://foobar.com/") # TRUE
-#' z$matches("https://foobar.com") # FALSE
-#' z$matches("https://foobar.com/") # FALSE
-#' ## to match https, you'll have to give the complete url
-#' (z <- UriPattern$new(pattern = "https://foobar.com"))
-#' z$matches("https://foobar.com/") # TRUE
-#' z$matches("http://foobar.com/") # FALSE
-#'
-#' # default ports
-#' (z <- UriPattern$new(pattern = "http://foobar.com"))
-#' z$matches("http://foobar.com:80") # TRUE
-#' z$matches("http://foobar.com:80/") # TRUE
-#' z$matches("http://foobar.com:443") # TRUE
-#' z$matches("http://foobar.com:443/") # TRUE
-#'
-#' # user info - FIXME, not sure we support this yet
-#' (z <- UriPattern$new(pattern = "http://foobar.com"))
-#' z$matches("http://user:pass@foobar.com")
-#'
-#' # regex
-#' (z <- UriPattern$new(regex_pattern = ".+ample\\.."))
-#' z$matches("http://sample.org") # TRUE
-#' z$matches("http://example.com") # TRUE
-#' z$matches("http://tramples.net") # FALSE
-#'
-#' # add query parameters
-#' (z <- UriPattern$new(pattern = "http://foobar.com"))
-#' z$add_query_params(list(pizza = "cheese", cheese = "cheddar"))
-#' z
-#' z$pattern
-#' z$matches("http://foobar.com?pizza=cheese&cheese=cheddar") # TRUE
-#' z$matches("http://foobar.com?pizza=cheese&cheese=swiss") # FALSE
-#'
-#' # query parameters in the uri
-#' (z <- UriPattern$new(pattern = "https://httpbin.org/get?stuff=things"))
-#' z$add_query_params() # have to run this method to gather query params
-#' z$matches("https://httpbin.org/get?stuff=things") # TRUE
-#' z$matches("https://httpbin.org/get?stuff2=things") # FALSE
-#'
-#' # regex add query parameters
-#' (z <- UriPattern$new(regex_pattern = "https://foobar.com/.+/order"))
-#' z$add_query_params(list(pizza = "cheese"))
-#' z
-#' z$pattern
-#' z$matches("https://foobar.com/pizzas/order?pizza=cheese") # TRUE
-#' z$matches("https://foobar.com/pizzas?pizza=cheese") # FALSE
-#'
-#' # query parameters in the regex uri
-#' (z <- UriPattern$new(regex_pattern = "https://x.com/.+/order\\?fruit=apple"))
-#' z$add_query_params() # have to run this method to gather query params
-#' z$matches("https://x.com/a/order?fruit=apple") # TRUE
-#' z$matches("https://x.com/a?fruit=apple") # FALSE
-#'
-#' # any pattern
-#' (z <- UriPattern$new(regex_pattern = "stuff\\.com.+"))
-#' z$regex
-#' z$pattern
-#' z$matches("http://stuff.com") # FALSE
-#' z$matches("https://stuff.com/stff") # TRUE
-#' z$matches("https://stuff.com/apple?bears=brown&bats=grey") # TRUE
-#'
-#' # partial matching
-#' ## including
-#' z <- UriPattern$new(pattern = "http://foobar.com")
-#' z$add_query_params(including(list(hello = "world")))
-#' z$matches(uri = "http://foobar.com?hello=world&bye=mars") # TRUE
-#' z$matches("http://foobar.com?bye=mars") # FALSE
-#'
-#' ## excluding
-#' z <- UriPattern$new(pattern = "http://foobar.com")
-#' z$add_query_params(excluding(list(hello = "world")))
-#' z$matches(uri = "http://foobar.com?hello=world&bye=mars") # FALSE
-#' z$matches("http://foobar.com?bye=mars") # TRUE
-#'
-#' ## match on list keys (aka: names) only, ignore values 0
-#' z <- UriPattern$new(pattern = "http://foobar.com")
-#' z$add_query_params(including(list(hello = NULL)))
-#' z$matches(uri = "http://foobar.com?hello=world&bye=mars") # TRUE
-#' z$matches("http://foobar.com?hello=stuff") # TRUE
-#' z$matches("http://foobar.com?bye=stuff") # FALSE
 UriPattern <- R6::R6Class(
   "UriPattern",
   public = list(

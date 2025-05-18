@@ -3,14 +3,13 @@
 #' Returns an appropriate representation of the data contained within a request
 #' body based on its encoding.
 #'
-#' @export
 #' @param x an unexecuted crul, httr *or* httr2 request object
+#' @keywords internal
 #' @return one of the following:
 #' - `NULL` if the request is not associated with a body
 #' - `NULL` if an upload is used not in a list
 #' - list containing the multipart-encoded body
 #' - character vector with the JSON- or raw-encoded body, or upload form file
-
 pluck_body <- function(x) {
   assert_request(x)
   if (is_body_empty(x)) {

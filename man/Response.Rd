@@ -7,7 +7,6 @@
 custom webmockr http response class
 }
 \examples{
-\dontrun{
 (x <- Response$new())
 
 x$set_url("https://httpbin.org/get")
@@ -37,7 +36,7 @@ x$set_exception("exception")
 x
 x$get_exception()
 }
-}
+\keyword{internal}
 \section{Public fields}{
 \if{html}{\out{<div class="r6-fields">}}
 \describe{

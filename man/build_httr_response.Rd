@@ -17,3 +17,4 @@ a httr response
 \description{
 Build a httr response
 }
+\keyword{internal}

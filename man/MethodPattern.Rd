@@ -9,19 +9,6 @@ method matcher
 \details{
 Matches regardless of case. e.g., POST will match to post
 }
-\examples{
-(x <- MethodPattern$new(pattern = "post"))
-x$pattern
-x$matches(method = "post")
-x$matches(method = "POST")
-
-# all matches() calls should be TRUE
-(x <- MethodPattern$new(pattern = "any"))
-x$pattern
-x$matches(method = "post")
-x$matches(method = "GET")
-x$matches(method = "HEAD")
-}
 \keyword{internal}
 \section{Public fields}{
 \if{html}{\out{<div class="r6-fields">}}

@@ -1,7 +1,8 @@
 #' @title Response
 #' @description custom webmockr http response class
 #' @export
-#' @examples \dontrun{
+#' @keywords internal
+#' @examples
 #' (x <- Response$new())
 #'
 #' x$set_url("https://httpbin.org/get")
@@ -30,7 +31,6 @@
 #' x$set_exception("exception")
 #' x
 #' x$get_exception()
-#' }
 Response <- R6::R6Class(
   "Response",
   public = list(

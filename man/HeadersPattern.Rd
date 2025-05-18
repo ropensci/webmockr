@@ -13,33 +13,6 @@ i.e the following two sets of headers are equal:
 and
 \code{list(header1 = "value1", "Content-Length" = 123, "x-cuSTOM-HeAder" = "foo")}
 }
-\examples{
-(x <- HeadersPattern$new(pattern = list(a = 5)))
-x$pattern
-x$matches(list(a = 5))
-
-# different cases
-(x <- HeadersPattern$new(pattern = list(Header1 = "value1")))
-x$pattern
-x$matches(list(header1 = "value1"))
-x$matches(list(header1 = "value2"))
-
-# different symbols
-(x <- HeadersPattern$new(pattern = list(`Hello_World` = "yep")))
-x$pattern
-x$matches(list(`hello-world` = "yep"))
-x$matches(list(`hello-worlds` = "yep"))
-
-headers <- list(
-  "User-Agent" = "Apple",
-  "Accept-Encoding" = "gzip, deflate",
-  "Accept" = "application/json, text/xml, application/xml, */*"
-)
-(x <- HeadersPattern$new(pattern = headers))
-x$to_s()
-x$pattern
-x$matches(headers)
-}
 \keyword{internal}
 \section{Public fields}{
 \if{html}{\out{<div class="r6-fields">}}
