@@ -7,17 +7,7 @@
 hash with counter to store requests and count number
 of requests made against the stub
 }
-\examples{
-x <- StubCounter$new()
-x
-x$hash
-x$count()
-z <- RequestSignature$new(method = "get", uri = "https:/httpbin.org/get")
-x$put(z)
-x$count()
-x$put(z)
-x$count()
-}
+\keyword{internal}
 \section{Public fields}{
 \if{html}{\out{<div class="r6-fields">}}
 \describe{

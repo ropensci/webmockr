@@ -1,17 +1,7 @@
 #' @title StubCounter
 #' @description hash with counter to store requests and count number
 #' of requests made against the stub
-#' @export
-#' @examples
-#' x <- StubCounter$new()
-#' x
-#' x$hash
-#' x$count()
-#' z <- RequestSignature$new(method = "get", uri = "https:/httpbin.org/get")
-#' x$put(z)
-#' x$count()
-#' x$put(z)
-#' x$count()
+#' @keywords internal
 StubCounter <- R6::R6Class(
   "StubCounter",
   public = list(
@@ -42,103 +32,8 @@ StubCounter <- R6::R6Class(
 
 #' @title StubbedRequest
 #' @description stubbed request class underlying [stub_request()]
-#' @export
+#' @keywords internal
 #' @seealso [stub_request()]
-#' @examples \dontrun{
-#' x <- StubbedRequest$new(method = "get", uri = "api.crossref.org")
-#' x$method
-#' x$uri
-#' x$with(headers = list("User-Agent" = "R", apple = "good"))
-#' x$to_return(status = 200, body = "foobar", headers = list(a = 5))
-#' x
-#' x$to_s()
-#'
-#' # query
-#' x <- StubbedRequest$new(method = "get", uri = "httpbin.org")
-#' x$with(query = list(a = 5))
-#' x
-#' x$to_s()
-#' ## including
-#' x <- StubbedRequest$new(method = "get", uri = "httpbin.org")
-#' x$with(query = including(list(a = 5)))
-#' x
-#' x$to_s()
-#' x$with(query = including(list(a = 5, b = 7)))
-#' x$to_s()
-#' ## excluding
-#' x <- StubbedRequest$new(method = "get", uri = "httpbin.org")
-#' x$with(query = excluding(list(a = 5)))
-#' x
-#' x$to_s()
-#'
-#' # many to_return's
-#' x <- StubbedRequest$new(method = "get", uri = "httpbin.org")
-#' x$to_return(status = 200, body = "foobar", headers = list(a = 5))
-#' x$to_return(status = 200, body = "bears", headers = list(b = 6))
-#' x
-#' x$to_s()
-#'
-#' # raw body
-#' x <- StubbedRequest$new(method = "get", uri = "api.crossref.org")
-#' x$to_return(status = 200, body = raw(0), headers = list(a = 5))
-#' x$to_s()
-#' x
-#'
-#' x <- StubbedRequest$new(method = "get", uri = "api.crossref.org")
-#' x$to_return(
-#'   status = 200, body = charToRaw("foo bar"),
-#'   headers = list(a = 5)
-#' )
-#' x$to_s()
-#' x
-#'
-#' # basic auth
-#' x <- StubbedRequest$new(method = "get", uri = "api.crossref.org")
-#' x$with(basic_auth = c("foo", "bar"))
-#' x$to_s()
-#' x
-#'
-#' # file path
-#' x <- StubbedRequest$new(method = "get", uri = "api.crossref.org")
-#' f <- tempfile()
-#' x$to_return(status = 200, body = file(f), headers = list(a = 5))
-#' x
-#' x$to_s()
-#' unlink(f)
-#'
-#' # to_file(): file path and payload to go into the file
-#' #   payload written to file during mocked response creation
-#' x <- StubbedRequest$new(method = "get", uri = "api.crossref.org")
-#' f <- tempfile()
-#' x$to_return(
-#'   status = 200, body = mock_file(f, "{\"foo\": \"bar\"}"),
-#'   headers = list(a = 5)
-#' )
-#' x
-#' x$to_s()
-#' unlink(f)
-#'
-#' # uri_regex
-#' (x <- StubbedRequest$new(method = "get", uri_regex = ".+ossref.org"))
-#' x$method
-#' x$uri_regex
-#' x$to_s()
-#'
-#' # to timeout
-#' (x <- StubbedRequest$new(method = "get", uri_regex = ".+ossref.org"))
-#' x$to_s()
-#' x$to_timeout()
-#' x$to_s()
-#' x
-#'
-#' # to raise
-#' library(fauxpas)
-#' (x <- StubbedRequest$new(method = "get", uri_regex = ".+ossref.org"))
-#' x$to_s()
-#' x$to_raise(HTTPBadGateway)
-#' x$to_s()
-#' x
-#' }
 StubbedRequest <- R6::R6Class(
   "StubbedRequest",
   public = list(

@@ -28,7 +28,7 @@ docs:
 	${RSCRIPT} -e "pkgdown::build_site()"
 
 eg:
-	${RSCRIPT} -e "devtools::run_examples(run_dontrun = TRUE)"
+	${RSCRIPT} -e "devtools::run_examples()"
 
 test:
 	${RSCRIPT} -e "devtools::test()"

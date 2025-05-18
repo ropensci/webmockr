@@ -24,13 +24,11 @@ reference:
     contents:
       - stub_registry
       - stub_registry_clear
-      - StubRegistry
       - starts_with("request_registry")
       - RequestRegistry
       - webmockr_reset
   - title: "Stubbing requests"
     contents:
-      - StubbedRequest
       - stub_request
       - remove_request_stub
       - to_raise
@@ -65,6 +63,5 @@ reference:
       - RequestPattern
       - RequestSignature
       - HashCounter
-      - StubCounter
       - pluck_body
       - Response

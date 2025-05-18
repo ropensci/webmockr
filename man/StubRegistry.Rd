@@ -6,26 +6,6 @@
 \description{
 stub registry to keep track of \link{StubbedRequest} stubs
 }
-\examples{
-\dontrun{
-# Make a stub
-stub1 <- StubbedRequest$new(method = "get", uri = "api.crossref.org")
-stub1$with(headers = list("User-Agent" = "R"))
-stub1$to_return(status = 200, body = "foobar", headers = list())
-stub1
-
-# Make another stub
-stub2 <- StubbedRequest$new(method = "get", uri = "api.crossref.org")
-stub2
-
-# Put both stubs in the stub registry
-reg <- StubRegistry$new()
-reg$register_stub(stub = stub1)
-reg$register_stub(stub = stub2)
-reg
-reg$request_stubs
-}
-}
 \seealso{
 Other stub-registry: 
 \code{\link{remove_request_stub}()},
@@ -33,6 +13,7 @@ Other stub-registry:
 \code{\link{stub_registry_clear}()}
 }
 \concept{stub-registry}
+\keyword{internal}
 \section{Public fields}{
 \if{html}{\out{<div class="r6-fields">}}
 \describe{
