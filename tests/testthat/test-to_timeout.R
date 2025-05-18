@@ -1,5 +1,3 @@
-context("to_timeout")
-
 stub_registry()$remove_all_request_stubs()
 
 test_that("no stubs exist before stub_request called", {
@@ -9,18 +7,18 @@ test_that("no stubs exist before stub_request called", {
 aa <- stub_request("get", hb("/get")) %>% to_timeout()
 
 test_that("stub_request bits are correct", {
-  expect_is(aa, "StubbedRequest")
+  expect_s3_class(aa, "StubbedRequest")
   expect_null(aa$body)
   expect_null(aa$host)
   expect_null(aa$response)
   expect_null(aa$query)
   expect_null(aa$request_headers)
   expect_null(aa$response_headers)
-  expect_is(aa$responses_sequences, "list")
+  expect_type(aa$responses_sequences, "list")
 
-  expect_is(aa$method, "character")
+  expect_type(aa$method, "character")
   expect_equal(aa$method, "get")
-  expect_is(aa$uri, "character")
+  expect_type(aa$uri, "character")
   expect_equal(aa$uri, hb("/get"))
 
   # to_timeout expected stuff

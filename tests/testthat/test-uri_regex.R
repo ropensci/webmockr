@@ -1,12 +1,10 @@
-context("uri_regex")
-
 test_that("uri_regex with crul", {
   stub_request("get", uri_regex = "hb.opencpu.org/.+") %>%
     to_return(body = list(foo = "bar"))
 
-  library(crul)
-  enable(adapter = "crul")
-  webmockr_disable_net_connect()
+  library(crul, warn.conflicts = FALSE)
+  enable(adapter = "crul", quiet = TRUE)
+  suppressMessages(webmockr_disable_net_connect())
 
   invisible(
     lapply(c("elephants", "bears", "leaves", "foo", "bar"), function(z) {
@@ -37,7 +35,7 @@ test_that("uri_regex with crul", {
     lapply(c("Anounce", "apple", "Afar", "after"), function(z) {
       url <- sprintf("https://%s.io", z)
       res <- HttpClient$new(url)$get(z)
-      expect_is(res, "HttpResponse")
+      expect_s3_class(res, "HttpResponse")
       expect_true(grepl(res$url, file.path(url, z), ignore.case = TRUE))
     })
   )
@@ -49,8 +47,8 @@ test_that("uri_regex with httr", {
   stub_request("get", uri_regex = "hb.opencpu.org/.+") %>%
     to_return(body = list(foo = "bar"))
 
-  library(httr)
-  enable(adapter = "httr")
+  library(httr, warn.conflicts = FALSE)
+  enable(adapter = "httr", quiet = TRUE)
   invisible(
     lapply(c("elephants", "bears", "leaves", "foo", "bar"), function(z) {
       expect_false(http_error(GET(file.path(hb(), z))))
@@ -78,7 +76,7 @@ test_that("uri_regex with httr", {
     lapply(c("Anounce", "apple", "Afar", "after"), function(z) {
       url <- sprintf("https://%s.io", z)
       res <- GET(url, path = z)
-      expect_is(res, "response")
+      expect_s3_class(res, "response")
       expect_true(grepl(res$url, file.path(url, z), ignore.case = TRUE))
     })
   )
@@ -93,8 +91,8 @@ test_that("uri_regex with httr2", {
   stub_request("get", uri_regex = "hb.opencpu.org/.+") %>%
     to_return(body = list(foo = "bar"))
 
-  library(httr2)
-  enable(adapter = "httr2")
+  library(httr2, warn.conflicts = FALSE)
+  enable(adapter = "httr2", quiet = TRUE)
   invisible(
     lapply(c("elephants", "bears", "leaves", "foo", "bar"), function(z) {
       req <- request(file.path(hb(), z))
@@ -127,7 +125,7 @@ test_that("uri_regex with httr2", {
       # res <- GET(url, path = z)
       req <- request(url) %>% req_url_path_append(z)
       res <- req_perform(req)
-      expect_is(res, "httr2_response")
+      expect_s3_class(res, "httr2_response")
       expect_true(grepl(res$url, file.path(url, z), ignore.case = TRUE))
     })
   )

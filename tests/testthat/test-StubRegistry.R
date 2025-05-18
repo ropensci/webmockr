@@ -1,25 +1,23 @@
-context("StubRegistry")
-
 aa <- StubRegistry$new()
 
 test_that("StubRegistry: bits are correct prior to having data", {
-  expect_is(StubRegistry, "R6ClassGenerator")
+  expect_s3_class(StubRegistry, "R6ClassGenerator")
 
-  expect_is(aa, "StubRegistry")
+  expect_s3_class(aa, "StubRegistry")
 
-  expect_is(aa$request_stubs, "list")
+  expect_type(aa$request_stubs, "list")
   expect_equal(length(aa$request_stubs), 0)
 
   expect_null(aa$stub)
 
-  expect_is(aa$find_stubbed_request, "function")
-  expect_is(aa$is_registered, "function")
-  expect_is(aa$print, "function")
-  expect_is(aa$register_stub, "function")
-  expect_is(aa$remove_all_request_stubs, "function")
-  expect_is(aa$remove_request_stub, "function")
-  expect_is(aa$request_stub_for, "function")
-  # expect_is(aa$response_for_request, "function")
+  expect_type(aa$find_stubbed_request, "closure")
+  expect_type(aa$is_registered, "closure")
+  expect_type(aa$print, "closure")
+  expect_type(aa$register_stub, "closure")
+  expect_type(aa$remove_all_request_stubs, "closure")
+  expect_type(aa$remove_request_stub, "closure")
+  expect_type(aa$request_stub_for, "closure")
+  # expect_type(aa$response_for_request, "closure")
 })
 
 
@@ -31,13 +29,13 @@ test_that("StubRegistry: bits are correct after having data", {
   stub2 <- StubbedRequest$new(method = "get", uri = hb())
 
   aa <- StubRegistry$new()
-  expect_is(aa$register_stub(stub = stub1), "list")
-  expect_is(aa$register_stub(stub = stub2), "list")
+  expect_type(aa$register_stub(stub = stub1), "list")
+  expect_type(aa$register_stub(stub = stub2), "list")
 
-  expect_is(aa, "StubRegistry")
+  expect_s3_class(aa, "StubRegistry")
 
   # request stubs now length 2
-  expect_is(aa$request_stubs, "list")
+  expect_type(aa$request_stubs, "list")
   expect_equal(length(aa$request_stubs), 2)
 
   expect_null(aa$stub)
@@ -52,8 +50,8 @@ test_that("StubRegistry: bits are correct after having data", {
   )
 
   res <- aa$find_stubbed_request(req = req1)
-  expect_is(res, "list")
-  expect_is(res[[1]], "StubbedRequest")
+  expect_type(res, "list")
+  expect_s3_class(res[[1]], "StubbedRequest")
   expect_equal(res[[1]]$uri, "http://api.crossref.org")
 
   # is_registered
@@ -61,7 +59,7 @@ test_that("StubRegistry: bits are correct after having data", {
 
   # request_stub_for
   matches <- aa$request_stub_for(request_signature = req1)
-  expect_is(matches, "logical")
+  expect_type(matches, "logical")
   expect_equal(matches, c(TRUE, FALSE))
 
   # response_for_request
@@ -71,14 +69,14 @@ test_that("StubRegistry: bits are correct after having data", {
 
   # remove_request_stub
   res <- aa$remove_request_stub(stub = stub1)
-  expect_is(res, "list")
+  expect_type(res, "list")
   expect_equal(length(res), 1)
 
   # remove_all_request_stubs
   ## add another first
   aa$register_stub(stub = stub1)
   res <- aa$remove_all_request_stubs()
-  expect_is(res, "list")
+  expect_type(res, "list")
   expect_equal(length(res), 0)
 })
 
@@ -96,5 +94,4 @@ test_that("StubRegistry fails well", {
     aa$request_stub_for(),
     "argument \"request_signature\" is missing"
   )
-  # expect_error(aa$response_for_request(), "argument \"request_signature\" is missing")
 })

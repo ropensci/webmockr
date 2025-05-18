@@ -1,8 +1,6 @@
-context("webmockr_reset")
-
 stub_registry_clear()
 request_registry_clear()
-enable()
+enable(quiet = TRUE)
 
 test_that("webmockr_reset works", {
   # before any stubs creatd
@@ -26,4 +24,4 @@ test_that("webmockr_reset fails well", {
   expect_error(webmockr_reset(4), "unused argument")
 })
 
-disable()
+disable(quiet = TRUE)

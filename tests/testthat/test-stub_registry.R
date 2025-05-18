@@ -1,5 +1,3 @@
-context("stub_registry")
-
 test_that("stub_registry: works", {
   # before any stubs creatd
   expect_output(print(stub_registry()), "Registered Stubs")

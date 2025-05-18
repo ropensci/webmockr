@@ -27,7 +27,7 @@ test_that("stub_body_diff works when both stub AND request are found, no diff fo
   request_registry_clear()
   stub_registry_clear()
 
-  enable()
+  enable(quiet = TRUE)
   stub_request("head", "https://nytimes.com")
   crul::ok("https://nytimes.com")
 
@@ -41,11 +41,11 @@ test_that("stub_body_diff works when both stub AND request are found, & there's 
   request_registry_clear()
   stub_registry_clear()
 
-  enable()
+  enable(quiet = TRUE)
   stub_request("post", "https://hb.opencpu.org/post") %>%
     wi_th(body = list(apple = "green"))
 
-  library(crul)
+  library(crul, warn.conflicts = FALSE)
   expect_error(
     HttpClient$new("https://hb.opencpu.org")$post(
       path = "post",

@@ -1,5 +1,3 @@
-context("mock writing to disk")
-
 enable()
 
 test_that("Write to a file before mocked request: crul", {
@@ -10,16 +8,16 @@ test_that("Write to a file before mocked request: crul", {
   f <- tempfile(fileext = ".json")
   ## write something to the file
   cat("{\"hello\":\"world\"}\n", file = f)
-  expect_is(readLines(f), "character")
+  expect_type(readLines(f), "character")
   expect_match(readLines(f), "world")
   ## make the stub
   stub_request("get", hb("/get")) %>%
     to_return(body = file(f))
   ## make a request
   out <- HttpClient$new(hb("/get"))$get(disk = f)
-  expect_is(out$content, "character")
+  expect_type(out$content, "character")
   expect_equal(attr(out$content, "type"), "file")
-  expect_is(readLines(out$content), "character")
+  expect_type(readLines(out$content), "character")
   expect_match(readLines(out$content), "hello")
 
   # cleanup
@@ -35,7 +33,7 @@ test_that("Write to a file before mocked request: httr", {
   f <- tempfile(fileext = ".json")
   ## write something to the file
   cat("{\"hello\":\"world\"}\n", file = f)
-  expect_is(readLines(f), "character")
+  expect_type(readLines(f), "character")
   expect_match(readLines(f), "world")
   ## make the stub
   stub_request("get", hb("/get")) %>%
@@ -47,9 +45,9 @@ test_that("Write to a file before mocked request: httr", {
   ## with httr, you must set overwrite=TRUE or you'll get an errror
   out <- GET(hb("/get"), write_disk(f, overwrite = TRUE))
   content(out)
-  expect_is(out$content, "path")
+  expect_s3_class(out$content, "path")
   expect_equal(attr(out$content, "class"), "path")
-  expect_is(readLines(out$content), "character")
+  expect_type(readLines(out$content), "character")
   expect_match(readLines(out$content), "hello")
 
   # cleanup
@@ -66,7 +64,7 @@ test_that("Write to a file before mocked request: httr", {
   f <- tempfile(fileext = ".json")
   ## write something to the file
   cat("{\"hello\":\"world\"}\n", file = f)
-  expect_is(readLines(f), "character")
+  expect_type(readLines(f), "character")
   expect_match(readLines(f), "world")
   ## make the stub
   stub_request("get", hb("/get")) %>%
@@ -77,9 +75,9 @@ test_that("Write to a file before mocked request: httr", {
   ## make a request
   req <- request(hb("/get"))
   out <- req_perform(req, path = f)
-  expect_is(out$body, "httr2_path")
+  expect_s3_class(out$body, "httr2_path")
   expect_equal(attr(out$body, "class"), "httr2_path")
-  expect_is(readLines(out$body), "character")
+  expect_type(readLines(out$body), "character")
   expect_match(readLines(out$body), "hello")
 
   # cleanup
@@ -99,9 +97,9 @@ test_that("Use mock_file to have webmockr handle file and contents: crul", {
   ## make a request
   out <- crul::HttpClient$new(hb("/get"))$get(disk = f)
   out$content
-  expect_is(out$content, "character")
+  expect_type(out$content, "character")
   expect_match(out$content, "json")
-  expect_is(readLines(out$content), "character")
+  expect_type(readLines(out$content), "character")
   expect_true(any(grepl("hello", readLines(out$content))))
 
   # cleanup
@@ -124,9 +122,9 @@ test_that("Use mock_file to have webmockr handle file and contents: httr", {
   ## make a request
   out <- GET(hb("/get"), write_disk(f))
   ## view stubbed file content
-  expect_is(out$content, "path")
+  expect_s3_class(out$content, "path")
   expect_match(out$content, "json")
-  expect_is(readLines(out$content), "character")
+  expect_type(readLines(out$content), "character")
   expect_true(any(grepl("foo", readLines(out$content))))
 
   # cleanup
@@ -153,9 +151,9 @@ test_that("Use mock_file to have webmockr handle file and contents: httr", {
   out <- req_perform(req, path = f)
   # out <- GET(hb("/get"), write_disk(f))
   ## view stubbed file content
-  expect_is(out$body, "httr2_path")
+  expect_s3_class(out$body, "httr2_path")
   expect_match(out$body, "json")
-  expect_is(readLines(out$body), "character")
+  expect_type(readLines(out$body), "character")
   expect_true(any(grepl("foo", readLines(out$body))))
 
   # cleanup

@@ -1,5 +1,3 @@
-context("Httr2Adapter")
-
 skip_if_not_installed("httr2")
 library("httr2")
 
@@ -8,16 +6,16 @@ aa <- Httr2Adapter$new()
 test_that("Httr2Adapter bits are correct", {
   skip_on_cran()
 
-  expect_is(Httr2Adapter, "R6ClassGenerator")
+  expect_s3_class(Httr2Adapter, "R6ClassGenerator")
 
-  expect_is(aa, "Httr2Adapter")
+  expect_s3_class(aa, "Httr2Adapter")
   expect_null(aa$build_httr_request) # pulled out of object, so should be NULL
   expect_null(aa$build_httr_response) # pulled out of object, so should be NULL
-  expect_is(aa$disable, "function")
-  expect_is(aa$enable, "function")
-  expect_is(aa$handle_request, "function")
-  expect_is(aa$remove_stubs, "function")
-  expect_is(aa$name, "character")
+  expect_type(aa$disable, "closure")
+  expect_type(aa$enable, "closure")
+  expect_type(aa$handle_request, "closure")
+  expect_type(aa$remove_stubs, "closure")
+  expect_type(aa$name, "character")
 
   expect_equal(aa$name, "Httr2Adapter")
 })
@@ -64,7 +62,6 @@ test_that("Httr2Adapter: works when vcr is loaded but no cassette is inserted", 
 })
 
 
-context("Httr2Adapter: date slot")
 test_that("Httr2Adapter date slot works", {
   skip_on_cran()
   skip_if_not_installed("vcr")
@@ -79,7 +76,7 @@ test_that("Httr2Adapter date slot works", {
   x <- request(hb("/get")) %>% req_perform()
 
   # $headers$date is a different format
-  expect_is(x$headers$date, "character")
+  expect_type(x$headers$date, "character")
   expect_error(format(x$headers$date, "%Y-%m-%d %H:%M"), "invalid 'trim'")
 })
 
@@ -89,7 +86,6 @@ test_that("Httr2Adapter date slot works", {
 # httr2_obj <- z$request
 # save(httr2_obj, file = "tests/testthat/httr2_obj.rda", version = 2)
 
-context("Httr2Adapter: works with real data")
 test_that("Httr2Adapter works", {
   skip_on_cran()
   skip_if_not_installed("vcr")
@@ -117,8 +113,8 @@ test_that("Httr2Adapter works", {
 
   aa <- res$handle_request(httr2_obj)
 
-  expect_is(res, "Httr2Adapter")
-  expect_is(aa, "httr2_response")
+  expect_s3_class(res, "Httr2Adapter")
+  expect_s3_class(aa, "httr2_response")
   expect_null(aa$request$method)
   expect_equal(aa$url, hb("/get"))
 
@@ -135,8 +131,8 @@ test_that("Httr2Adapter works", {
 
   aa <- res$handle_request(httr2_obj)
 
-  expect_is(res, "Httr2Adapter")
-  expect_is(aa, "httr2_response")
+  expect_s3_class(res, "Httr2Adapter")
+  expect_s3_class(aa, "httr2_response")
   expect_null(aa$request$method)
   expect_equal(aa$url, hb("/get"))
 
@@ -191,7 +187,7 @@ test_that("Httr2Adapter works with req_auth_basic", {
   x <- request(hb("/basic-auth/foo/bar")) %>%
     req_auth_basic("foo", "bar") %>%
     req_perform()
-  expect_is(x, "httr2_response")
+  expect_s3_class(x, "httr2_response")
   expect_equal(
     jsonlite::fromJSON(rawToChar(x$body)),
     list(authenticated = TRUE, user = "foo")
@@ -209,7 +205,7 @@ test_that("Httr2Adapter works with req_auth_basic", {
   load("httr2_obj_auth.rda")
   zz <- Httr2Adapter$new()
   z <- zz$handle_request(httr2_obj_auth)
-  expect_is(z, "httr2_response")
+  expect_s3_class(z, "httr2_response")
   expect_equal(
     jsonlite::fromJSON(rawToChar(z$body)),
     list(foo = "bar")

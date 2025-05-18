@@ -1,16 +1,15 @@
-context("HttpLibAdapaterRegistry")
 
 test_that("HttpLibAdapaterRegistry: structure", {
-  expect_is(HttpLibAdapaterRegistry, "R6ClassGenerator")
+  expect_s3_class(HttpLibAdapaterRegistry, "R6ClassGenerator")
 
   aa <- HttpLibAdapaterRegistry$new()
 
-  expect_is(aa, "HttpLibAdapaterRegistry")
+  expect_s3_class(aa, "HttpLibAdapaterRegistry")
 
   expect_null(aa$adapters)
-  expect_is(aa$clone, "function")
-  expect_is(aa$print, "function")
-  expect_is(aa$register, "function")
+  expect_type(aa$clone, "closure")
+  expect_type(aa$print, "closure")
+  expect_type(aa$register, "closure")
 
   expect_output(print(aa), "HttpLibAdapaterRegistry")
 })
@@ -22,7 +21,7 @@ test_that("HttpLibAdapaterRegistry: behaves as expected", {
   aa$register(CrulAdapter$new())
 
   expect_length(aa$adapters, 1)
-  expect_is(aa$adapters[[1]], "CrulAdapter")
+  expect_s3_class(aa$adapters[[1]], "CrulAdapter")
   expect_equal(aa$adapters[[1]]$name, "CrulAdapter")
 
   expect_output(print(aa), "HttpLibAdapaterRegistry")
@@ -36,7 +35,7 @@ test_that("HttpLibAdapaterRegistry: behaves as expected", {
   aa$register(HttrAdapter$new())
 
   expect_length(aa$adapters, 1)
-  expect_is(aa$adapters[[1]], "HttrAdapter")
+  expect_s3_class(aa$adapters[[1]], "HttrAdapter")
   expect_equal(aa$adapters[[1]]$name, "HttrAdapter")
 
   expect_output(print(aa), "HttpLibAdapaterRegistry")
@@ -50,7 +49,7 @@ test_that("HttpLibAdapaterRegistry: behaves as expected", {
   aa$register(Httr2Adapter$new())
 
   expect_length(aa$adapters, 1)
-  expect_is(aa$adapters[[1]], "Httr2Adapter")
+  expect_s3_class(aa$adapters[[1]], "Httr2Adapter")
   expect_equal(aa$adapters[[1]]$name, "Httr2Adapter")
 
   expect_output(print(aa), "HttpLibAdapaterRegistry")

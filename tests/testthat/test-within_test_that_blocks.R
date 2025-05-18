@@ -1,8 +1,7 @@
-context("within test_that blocks: httr")
-library("httr")
+library("httr", warn.conflicts = FALSE)
 test_that("httr: without pipe", {
   httr_mock()
-  enable()
+  enable(quiet = TRUE)
 
   dat_json <- '{"foo":"bar"}'
   stub <- stub_request("get", uri = hb("/get"))
@@ -12,16 +11,16 @@ test_that("httr: without pipe", {
     headers = list("Content-Type" = "application/json; charset=utf-8")
   )
   res <- GET(hb("/get"))
-  expect_true(inherits(res, "response"))
-  expect_is(content(res), "list")
+  expect_s3_class(res, "response")
+  expect_type(content(res), "list")
   expect_named(content(res), "foo")
   expect_equal(content(res)$foo, "bar")
-  disable()
+  disable(quiet = TRUE)
   httr_mock(FALSE)
 })
 
 test_that("httr: with pipe", {
-  enable()
+  enable(quiet = TRUE)
   dat_json <- '{"foo":"bar"}'
   stub <- stub_request("get", uri = hb("/get")) %>%
     to_return(
@@ -29,18 +28,17 @@ test_that("httr: with pipe", {
       headers = list("Content-Type" = "application/json; charset=utf-8")
     )
   res <- GET(hb("/get"))
-  expect_true(inherits(res, "response"))
-  expect_is(content(res), "list")
+  expect_s3_class(res, "response")
+  expect_type(content(res), "list")
   expect_named(content(res), "foo")
   expect_equal(content(res)$foo, "bar")
-  disable()
+  disable(quiet = TRUE)
 })
 unloadNamespace("httr")
 
-context("within test_that blocks: crul")
 
 test_that("crul works", {
-  enable()
+  enable(quiet = TRUE)
   dat_json <- '{"foo":"bar"}'
   stub <- stub_request("get", uri = hb("/get"))
   to_return(
@@ -49,10 +47,10 @@ test_that("crul works", {
     headers = list("Content-Type" = "application/json; howdy")
   )
   res <- crul::HttpClient$new(hb())$get("get")
-  expect_true(inherits(res, "HttpResponse"))
-  expect_is(res$parse("UTF-8"), "character")
-  expect_is(jsonlite::fromJSON(res$parse("UTF-8")), "list")
+  expect_s3_class(res, "HttpResponse")
+  expect_type(res$parse("UTF-8"), "character")
+  expect_type(jsonlite::fromJSON(res$parse("UTF-8")), "list")
   expect_named(jsonlite::fromJSON(res$parse("UTF-8")), "foo")
   expect_equal(jsonlite::fromJSON(res$parse("UTF-8"))$foo, "bar")
-  disable()
+  disable(quiet = TRUE)
 })

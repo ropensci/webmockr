@@ -1,17 +1,15 @@
-context("RequestRegistry")
-
 test_that("RequestRegistry: structure", {
-  expect_is(RequestRegistry, "R6ClassGenerator")
+  expect_s3_class(RequestRegistry, "R6ClassGenerator")
 
   aa <- RequestRegistry$new()
 
-  expect_is(aa, "RequestRegistry")
-  expect_is(aa$clone, "function")
-  expect_is(aa$print, "function")
-  expect_is(aa$register_request, "function")
+  expect_s3_class(aa, "RequestRegistry")
+  expect_type(aa$clone, "closure")
+  expect_type(aa$print, "closure")
+  expect_type(aa$register_request, "closure")
   expect_null(aa$request)
-  expect_is(aa$request_signatures, "HashCounter")
-  expect_is(aa$reset, "function")
+  expect_s3_class(aa$request_signatures, "HashCounter")
+  expect_type(aa$reset, "closure")
 })
 
 test_that("RequestRegistry: behaves as expected", {

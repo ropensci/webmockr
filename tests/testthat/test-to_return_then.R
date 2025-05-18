@@ -1,6 +1,4 @@
-context("to_return: then")
-
-enable()
+enable(quiet = TRUE)
 webmockr_reset()
 
 test_that("to_return: then", {
@@ -56,4 +54,4 @@ test_that("to_return: webmockr_reset allows multiple requests to start from begi
 })
 
 webmockr_reset()
-disable()
+disable(quiet = TRUE)

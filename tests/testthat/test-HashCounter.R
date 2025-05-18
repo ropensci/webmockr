@@ -1,16 +1,16 @@
-context("HashCounter")
+
 
 test_that("HashCounter: structure", {
-  expect_is(HashCounter, "R6ClassGenerator")
+  expect_s3_class(HashCounter, "R6ClassGenerator")
 
   x <- HashCounter$new()
-  expect_is(x, "HashCounter")
+  expect_s3_class(x, "HashCounter")
 
-  expect_is(x$clone, "function")
-  expect_is(x$get, "function")
-  expect_is(x$put, "function")
+  expect_type(x$clone, "closure")
+  expect_type(x$get, "closure")
+  expect_type(x$put, "closure")
 
-  expect_is(x$hash, "list")
+  expect_type(x$hash, "list")
 })
 
 test_that("HashCounter: works as expected", {

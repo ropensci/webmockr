@@ -10,13 +10,13 @@ test_that("auth handling: httr", {
   stub_request("get", "http://stuff.com")
 
   # auth well-formed
-  expect_is(
+  expect_s3_class(
     GET("http://stuff.com", authenticate("adf", "adf")),
     "response"
   )
 
   # user name invalid according to RFC, but we can't know that
-  expect_is(
+  expect_s3_class(
     GET("http://stuff.com", authenticate("foo:bar", "adf")),
     "response"
   )
@@ -41,12 +41,12 @@ test_that("auth handling: httr", {
   # auth well-formed
   x <- HttpClient$new("http://stuff.com")
   x$auth <- auth("adf", "adf")
-  expect_is(x$get(), "HttpResponse")
+  expect_s3_class(x$get(), "HttpResponse")
 
   # user name invalid according to RFC, but we can't know that
   y <- HttpClient$new("http://stuff.com")
   y$auth <- auth("foo:bar", "adf")
-  expect_is(y$get(), "HttpResponse")
+  expect_s3_class(y$get(), "HttpResponse")
 
   # malformed: url as username
   z <- HttpClient$new("http://stuff.com")

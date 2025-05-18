@@ -1,6 +1,3 @@
-context("write_disk_path behavior")
-
-# crul
 test_that("with crul", {
   skip_on_cran()
   skip_if_not_installed("vcr")

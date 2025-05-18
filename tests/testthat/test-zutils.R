@@ -1,7 +1,6 @@
-context("util fxns: normalize_uri")
 test_that("normalize_uri", {
   # prunes trailing slash
-  expect_is(normalize_uri("example.com/"), "character")
+  expect_type(normalize_uri("example.com/"), "character")
   expect_match(normalize_uri("example.com/"), "example.com")
 
   # prunes ports 80 and 443
@@ -24,14 +23,13 @@ test_that("normalize_uri", {
 })
 
 
-context("util fxns: net_connect_explicit_allowed")
 test_that("net_connect_explicit_allowed", {
   aa <- net_connect_explicit_allowed(
     allowed = "example.com",
     uri = "http://example.com"
   )
 
-  expect_is(aa, "logical")
+  expect_type(aa, "logical")
   expect_equal(length(aa), 1)
 
   # works with lists
@@ -61,7 +59,6 @@ test_that("net_connect_explicit_allowed", {
   )
 })
 
-context("util fxns: webmockr_net_connect_allowed")
 test_that("webmockr_net_connect_allowed", {
   # works with character strings
   expect_false(webmockr_net_connect_allowed("example.com"))
@@ -82,7 +79,6 @@ test_that("webmockr_net_connect_allowed", {
   )
 })
 
-context("util fxns: webmockr_disable_net_connect")
 test_that("webmockr_disable_net_connect", {
   # nothing passed
   expect_null(sm(webmockr_disable_net_connect()))
@@ -93,7 +89,7 @@ test_that("webmockr_disable_net_connect", {
     webmockr_disable_net_connect("google.com"),
     "net connect disabled"
   )
-  expect_is(sm(webmockr_disable_net_connect("google.com")), "character")
+  expect_type(sm(webmockr_disable_net_connect("google.com")), "character")
   expect_equal(sm(webmockr_disable_net_connect("google.com")), "google.com")
 
   # many uri's passed
@@ -101,7 +97,7 @@ test_that("webmockr_disable_net_connect", {
     webmockr_disable_net_connect(c("google.com", "nytimes.com")),
     "net connect disabled"
   )
-  expect_is(
+  expect_type(
     sm(webmockr_disable_net_connect(c("google.com", "nytimes.com"))),
     "character"
   )
@@ -121,7 +117,6 @@ test_that("webmockr_disable_net_connect", {
   )
 })
 
-context("util fxns: webmockr_allow_net_connect")
 test_that("webmockr_allow_net_connect", {
   # first call, sets to TRUE, and returns message
 
@@ -136,7 +131,6 @@ test_that("webmockr_allow_net_connect", {
   expect_error(webmockr_allow_net_connect(5), "unused argument")
 })
 
-context("config options: show_stubbing_instructions")
 test_that("show_stubbing_instructions", {
   enable()
   x <- crul::HttpClient$new("https://hb.opencpu.org/get")
@@ -156,9 +150,8 @@ test_that("show_stubbing_instructions", {
   disable()
 })
 
-context("util fxns: webmockr_configuration")
 test_that("webmockr_configuration", {
-  expect_is(webmockr_configuration(), "webmockr_config")
+  expect_s3_class(webmockr_configuration(), "webmockr_config")
   expect_named(
     webmockr_configuration(),
     c(
@@ -174,7 +167,6 @@ test_that("webmockr_configuration", {
   expect_error(webmockr_configuration(5), "unused argument")
 })
 
-context("util fxns: webmockr_configure_reset")
 test_that("webmockr_configure_reset", {
   # webmockr_configure_reset does the same thing as webmockr_configure
   expect_identical(webmockr_configure(), webmockr_configure_reset())
@@ -183,7 +175,6 @@ test_that("webmockr_configure_reset", {
   expect_error(webmockr_configure_reset(5), "unused argument")
 })
 
-context("util fxns: defunct")
 test_that("webmockr_disable", {
   expect_error(webmockr_disable(), "disable", class = "error")
 })
@@ -192,7 +183,6 @@ test_that("webmockr_enable", {
 })
 
 
-context("util fxns: hdl_lst")
 test_that("hdl_lst works", {
   expect_equal(hdl_lst(NULL), "")
   expect_equal(hdl_lst(character(0)), "")
@@ -210,7 +200,6 @@ test_that("hdl_lst works", {
 })
 
 
-context("util fxns: hdl_lst2")
 test_that("hdl_lst2 works", {
   expect_equal(hdl_lst2(NULL), "")
   expect_equal(hdl_lst2(character(0)), "")
@@ -231,9 +220,8 @@ test_that("hdl_lst2 works", {
   expect_equal(hdl_lst2(1.5), 1.5)
 })
 
-context("query_mapper")
 test_that("query_mapper", {
-  expect_is(query_mapper, "function")
+  expect_type(query_mapper, "closure")
   expect_null(query_mapper(NULL))
   expect_equal(query_mapper(5), 5)
   expect_equal(query_mapper("aaa"), "aaa")

@@ -1,19 +1,17 @@
-context("RequestPattern")
-
 test_that("RequestPattern: structure is correct", {
-  expect_is(RequestPattern, "R6ClassGenerator")
+  expect_s3_class(RequestPattern, "R6ClassGenerator")
 
   aa <- RequestPattern$new(method = "get", uri = hb("/get"))
 
-  expect_is(aa, "RequestPattern")
+  expect_s3_class(aa, "RequestPattern")
   expect_null(aa$body_pattern)
   expect_null(aa$headers_pattern)
-  expect_is(aa$clone, "function")
-  expect_is(aa$initialize, "function")
-  expect_is(aa$matches, "function")
-  expect_is(aa$method_pattern, "MethodPattern")
-  expect_is(aa$to_s, "function")
-  expect_is(aa$uri_pattern, "UriPattern")
+  expect_type(aa$clone, "closure")
+  expect_type(aa$initialize, "closure")
+  expect_type(aa$matches, "closure")
+  expect_s3_class(aa$method_pattern, "MethodPattern")
+  expect_type(aa$to_s, "closure")
+  expect_s3_class(aa$uri_pattern, "UriPattern")
 })
 
 test_that("RequestPattern: behaves as expected", {
@@ -30,14 +28,14 @@ test_that("RequestPattern: behaves as expected", {
   expect_false(aa$matches(rs2))
   expect_false(aa$matches(rs3))
 
-  expect_is(aa$to_s(), "character")
+  expect_type(aa$to_s(), "character")
   expect_match(aa$to_s(), "GET")
   expect_match(aa$to_s(), "hb.opencpu.org/get")
 })
 
 test_that("RequestPattern: uri_regex", {
   x <- RequestPattern$new(method = "get", uri_regex = ".+ossref.org")
-  expect_is(x$uri_pattern, "UriPattern")
+  expect_s3_class(x$uri_pattern, "UriPattern")
   expect_equal(x$uri_pattern$to_s(), "https?://.+ossref.org")
   expect_equal(x$to_s(), "GET https?://.+ossref.org")
 })
@@ -273,33 +271,31 @@ test_that("should work with basic_auth", {
 })
 
 
-context("MethodPattern")
 test_that("MethodPattern: structure is correct", {
-  expect_is(MethodPattern, "R6ClassGenerator")
+  expect_s3_class(MethodPattern, "R6ClassGenerator")
 
   aa <- MethodPattern$new(pattern = "get")
 
-  expect_is(aa, "MethodPattern")
-  expect_is(aa$pattern, "character")
+  expect_s3_class(aa, "MethodPattern")
+  expect_type(aa$pattern, "character")
   expect_equal(aa$pattern, "get")
   expect_true(aa$matches(method = "get"))
   expect_false(aa$matches(method = "post"))
 
   expect_error(
-    expect_is(aa$matches(), "function"),
+    expect_type(aa$matches(), "closure"),
     "argument \"method\" is missing"
   )
 })
 
 
-context("HeadersPattern")
 test_that("HeadersPattern: structure is correct", {
-  expect_is(HeadersPattern, "R6ClassGenerator")
+  expect_s3_class(HeadersPattern, "R6ClassGenerator")
 
   aa <- HeadersPattern$new(pattern = list(a = 5))
 
-  expect_is(aa, "HeadersPattern")
-  expect_is(aa$pattern, "list")
+  expect_s3_class(aa, "HeadersPattern")
+  expect_type(aa$pattern, "list")
   expect_named(aa$pattern, "a")
   expect_true(aa$matches(headers = list(a = 5)))
   expect_false(aa$matches(headers = list(a = 6)))
@@ -310,7 +306,7 @@ test_that("HeadersPattern: structure is correct", {
   expect_true(bb$matches(list()))
 
   expect_error(
-    expect_is(aa$matches(), "function"),
+    expect_type(aa$matches(), "closure"),
     "argument \"headers\" is missing"
   )
 
@@ -318,9 +314,8 @@ test_that("HeadersPattern: structure is correct", {
 })
 
 
-context("BodyPattern")
 test_that("BodyPattern: structure is correct", {
-  expect_is(BodyPattern, "R6ClassGenerator")
+  expect_s3_class(BodyPattern, "R6ClassGenerator")
 
   bb <- RequestSignature$new(
     method = "get",
@@ -331,8 +326,8 @@ test_that("BodyPattern: structure is correct", {
   )
 
   aa <- BodyPattern$new(pattern = list(foo = "bar"))
-  expect_is(aa, "BodyPattern")
-  expect_is(aa$pattern, "list")
+  expect_s3_class(aa, "BodyPattern")
+  expect_type(aa$pattern, "list")
   expect_named(aa$pattern, "foo")
   expect_false(aa$matches(bb$body))
 
@@ -362,9 +357,9 @@ test_that("BodyPattern: structure is correct", {
 
 test_that("BodyPattern: converts json/character to list internally", {
   skip_if_not_installed("httr")
-  library("httr")
+  library("httr", warn.conflicts = FALSE)
 
-  enable()
+  enable(quiet = TRUE)
 
   # via https://github.com/ropensci/webmockr/issues/139
   # and https://github.com/mdneuzerling/lambdr/issues/40
@@ -381,17 +376,17 @@ test_that("BodyPattern: converts json/character to list internally", {
   expect_s3_class(res, "response")
   expect_equal(status_code(res), 200)
 
-  disable()
+  disable(quiet = TRUE)
 })
 
-context("UriPattern")
+
 test_that("UriPattern: structure is correct", {
-  expect_is(UriPattern, "R6ClassGenerator")
+  expect_s3_class(UriPattern, "R6ClassGenerator")
 
   aa <- UriPattern$new(pattern = "http://foobar.com")
 
-  expect_is(aa, "UriPattern")
-  expect_is(aa$pattern, "character")
+  expect_s3_class(aa, "UriPattern")
+  expect_type(aa$pattern, "character")
   expect_false(aa$regex)
   expect_match(aa$pattern, "foobar")
   # matches w/o slash
@@ -401,15 +396,15 @@ test_that("UriPattern: structure is correct", {
 
   # fails well
   expect_error(
-    expect_is(aa$matches(), "function"),
+    expect_type(aa$matches(), "closure"),
     "argument \"uri\" is missing"
   )
 
   # regex usage
   z <- UriPattern$new(regex_pattern = ".+ample\\..")
 
-  expect_is(z, "UriPattern")
-  expect_is(z$pattern, "character")
+  expect_s3_class(z, "UriPattern")
+  expect_type(z$pattern, "character")
   expect_true(z$regex)
   expect_true(z$matches("http://sample.org"))
   expect_true(z$matches("http://example.com"))
@@ -440,8 +435,8 @@ test_that("UriPattern: structure is correct", {
   # regex with query parameters
   z <- UriPattern$new(regex_pattern = "https://x.com/.+/order\\?fruit=apple")
 
-  expect_is(z, "UriPattern")
-  expect_is(z$pattern, "character")
+  expect_s3_class(z, "UriPattern")
+  expect_type(z$pattern, "character")
   expect_true(z$regex)
   expect_true(z$matches("https://x.com/a/order?fruit=apple"))
   expect_true(z$matches("https://x.com/b/order?fruit=apple"))

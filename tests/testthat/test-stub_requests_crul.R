@@ -1,6 +1,4 @@
-context("stub_request and crul: get")
-
-library(crul)
+library(crul, warn.conflicts = FALSE)
 crul::mock()
 
 # clear any stubs
@@ -46,7 +44,7 @@ test_that("stub_request works well: get requests", {
 
   # the matching request works
   z <- x$get("get", query = list(foo = "bar", a = 5))
-  expect_is(z, "HttpResponse")
+  expect_s3_class(z, "HttpResponse")
   expect_equal(z$url, hb("/get?foo=bar&a=5"))
 
   # but the others still do not work cause they dont match the stub
@@ -71,7 +69,7 @@ test_that("stub_request works well: get requests", {
 
   # the other request now works
   w <- x$get("get", query = list(foo = "bar", stuff = FALSE))
-  expect_is(w, "HttpResponse")
+  expect_s3_class(w, "HttpResponse")
   expect_equal(w$url, hb("/get?foo=bar&stuff=FALSE"))
 
   # but the others still do not work cause they dont match the stub
@@ -83,7 +81,6 @@ test_that("stub_request works well: get requests", {
 stub_registry_clear()
 
 
-context("stub_request and crul: post")
 test_that("stub_request works well: post requests", {
   skip_on_cran()
 
@@ -113,7 +110,7 @@ test_that("stub_request works well: post requests", {
 
   # the matching request works
   z <- x$post("post", body = list(foo = "bar", a = 5))
-  expect_is(z, "HttpResponse")
+  expect_s3_class(z, "HttpResponse")
   expect_equal(z$url, hb("/post"))
 
   # but the others still do not work cause they dont match the stub

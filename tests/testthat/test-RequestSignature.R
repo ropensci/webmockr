@@ -1,11 +1,10 @@
-context("RequestSignature")
 
 test_that("RequestSignature: works", {
-  expect_is(RequestSignature, "R6ClassGenerator")
+  expect_s3_class(RequestSignature, "R6ClassGenerator")
 
   aa <- RequestSignature$new(method = "get", uri = hb("/get"))
 
-  expect_is(aa, "RequestSignature")
+  expect_s3_class(aa, "RequestSignature")
 
   expect_null(aa$auth)
   expect_null(aa$body)
@@ -14,13 +13,13 @@ test_that("RequestSignature: works", {
   expect_null(aa$fields)
   expect_null(aa$output)
 
-  expect_is(aa$method, "character")
+  expect_type(aa$method, "character")
   expect_equal(aa$method, "get")
 
-  expect_is(aa$uri, "character")
+  expect_type(aa$uri, "character")
   expect_equal(aa$uri, hb("/get"))
 
-  expect_is(aa$to_s, "function")
+  expect_type(aa$to_s, "closure")
   expect_equal(aa$to_s(), sprintf("GET:  %s", hb("/get")))
 })
 
@@ -49,11 +48,11 @@ test_that("RequestSignature: different methods work", {
   aa$headers <- list(Accept = "application/json")
   aa$body <- list(foo = "bar")
 
-  expect_is(aa$method, "character")
-  expect_is(aa$uri, "character")
-  expect_is(aa$headers, "list")
-  expect_is(aa$body, "list")
-  expect_is(aa$fields, "list")
+  expect_type(aa$method, "character")
+  expect_type(aa$uri, "character")
+  expect_type(aa$headers, "list")
+  expect_type(aa$body, "list")
+  expect_type(aa$fields, "list")
   expect_named(aa$fields, "foo")
 })
 

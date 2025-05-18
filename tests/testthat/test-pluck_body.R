@@ -1,4 +1,3 @@
-context("pluck_body")
 
 test_that("pluck_body: crul", {
   # prep objects
@@ -20,11 +19,11 @@ test_that("pluck_body: crul", {
 
   # upload in a list
   load("crul_body_upload_list.rda")
-  expect_is(pluck_body(crul_body_upload_list), "list")
+  expect_type(pluck_body(crul_body_upload_list), "list")
 
   # upload not in a list
   load("crul_body_upload_no_list.rda")
-  expect_is(pluck_body(crul_body_upload_no_list), "character")
+  expect_type(pluck_body(crul_body_upload_no_list), "character")
   expect_match(pluck_body(crul_body_upload_no_list), "file size")
 })
 
@@ -44,11 +43,11 @@ test_that("pluck_body: httr", {
 
   # upload in a list
   load("httr_body_upload_list.rda")
-  expect_is(pluck_body(httr_body_upload_list), "list")
+  expect_type(pluck_body(httr_body_upload_list), "list")
 
   # upload not in a list
   load("httr_body_upload_no_list.rda")
-  expect_is(pluck_body(httr_body_upload_no_list), "character")
+  expect_type(pluck_body(httr_body_upload_no_list), "character")
   expect_match(pluck_body(httr_body_upload_no_list), "file size")
 })
 

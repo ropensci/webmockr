@@ -1,4 +1,3 @@
-context("remove_request_stub")
 # clear stubs before starting
 stub_registry_clear()
 
@@ -14,7 +13,7 @@ test_that("remove_request_stub", {
 
   # remove the stub
   w <- remove_request_stub(x)
-  expect_is(w, "list")
+  expect_type(w, "list")
   expect_equal(length(w), 0)
 
   # no there's no stubs

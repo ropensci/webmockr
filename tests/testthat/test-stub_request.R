@@ -1,5 +1,3 @@
-context("stub_request")
-
 stub_registry()$remove_all_request_stubs()
 
 test_that("no stubs exist before stub_request called", {
@@ -9,7 +7,7 @@ test_that("no stubs exist before stub_request called", {
 aa <- stub_request("get", hb("/get"))
 
 test_that("stub_request bits are correct", {
-  expect_is(aa, "StubbedRequest")
+  expect_s3_class(aa, "StubbedRequest")
   expect_null(aa$body)
   expect_null(aa$host)
   expect_null(aa$query)
@@ -18,24 +16,24 @@ test_that("stub_request bits are correct", {
   expect_null(aa$response_headers)
   expect_null(aa$responses_sequences)
 
-  expect_is(aa$method, "character")
+  expect_type(aa$method, "character")
   expect_equal(aa$method, "get")
-  expect_is(aa$uri, "character")
+  expect_type(aa$uri, "character")
   expect_equal(aa$uri, hb("/get"))
 
-  expect_is(aa$print, "function")
+  expect_type(aa$print, "closure")
   expect_output(aa$print(), "<webmockr stub>")
 
-  expect_is(aa$to_return, "function")
+  expect_type(aa$to_return, "closure")
   expect_error(aa$to_return(), "argument \"body\" is missing")
 
-  expect_is(aa$to_s, "function")
+  expect_type(aa$to_s, "closure")
   expect_equal(aa$to_s(), sprintf("GET: %s", hb("/get")))
 
-  expect_is(aa$with, "function")
+  expect_type(aa$with, "closure")
   expect_null(aa$with())
 
-  expect_is(aa$uri_parts, "list")
+  expect_type(aa$uri_parts, "list")
 })
 
 test_that("stubs exist after stub_request called", {

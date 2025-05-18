@@ -1,28 +1,26 @@
-context("Response")
-
 aa <- Response$new()
 
 test_that("Response: bits are correct prior to having data", {
-  expect_is(Response, "R6ClassGenerator")
+  expect_s3_class(Response, "R6ClassGenerator")
 
-  expect_is(aa, "Response")
-  expect_null(aa$body, "function")
-  expect_null(aa$content, "function")
-  expect_null(aa$exception, "function")
-  expect_is(aa$get_body, "function")
-  expect_is(aa$get_exception, "function")
-  expect_is(aa$get_request_headers, "function")
-  expect_is(aa$get_respone_headers, "function")
-  expect_is(aa$get_status, "function")
-  expect_is(aa$get_url, "function")
-  expect_is(aa$print, "function")
-  expect_is(aa$set_body, "function")
-  expect_is(aa$set_exception, "function")
-  expect_is(aa$set_request_headers, "function")
-  expect_is(aa$set_response_headers, "function")
-  expect_is(aa$set_status, "function")
-  expect_is(aa$set_url, "function")
-  expect_null(aa$should_timeout, "function")
+  expect_s3_class(aa, "Response")
+  expect_null(aa$body)
+  expect_null(aa$content)
+  expect_null(aa$exception)
+  expect_type(aa$get_body, "closure")
+  expect_type(aa$get_exception, "closure")
+  expect_type(aa$get_request_headers, "closure")
+  expect_type(aa$get_respone_headers, "closure")
+  expect_type(aa$get_status, "closure")
+  expect_type(aa$get_url, "closure")
+  expect_type(aa$print, "closure")
+  expect_type(aa$set_body, "closure")
+  expect_type(aa$set_exception, "closure")
+  expect_type(aa$set_request_headers, "closure")
+  expect_type(aa$set_response_headers, "closure")
+  expect_type(aa$set_status, "closure")
+  expect_type(aa$set_url, "closure")
+  expect_null(aa$should_timeout, "closure")
 
   expect_null(aa$request_headers)
   expect_null(aa$response_headers)
@@ -42,13 +40,13 @@ test_that("Response: bits are correct after having data", {
   aa$set_body("hello world")
   aa$set_exception("exception")
 
-  expect_is(aa, "Response")
+  expect_s3_class(aa, "Response")
 
   expect_null(aa$should_timeout)
 
-  expect_is(aa$request_headers, "list")
+  expect_type(aa$request_headers, "list")
   expect_named(aa$request_headers, "Content-Type")
-  expect_is(aa$response_headers, "list")
+  expect_type(aa$response_headers, "list")
   expect_named(aa$response_headers, "Host")
   # response_headers_all doesn't exist in Response, it's specific to crul
   expect_null(aa$response_headers_all)
@@ -58,7 +56,7 @@ test_that("Response: bits are correct after having data", {
   expect_null(aa$name)
 
   expect_equal(aa$body, charToRaw("hello world"))
-  expect_is(aa$content, "raw")
+  expect_type(aa$content, "raw")
   expect_equal(aa$exception, "exception")
   expect_equal(rawToChar(aa$get_body()), "hello world")
   expect_equal(aa$get_exception(), "exception")
@@ -73,21 +71,21 @@ test_that("Response: bits are correct after having data", {
 
   # set_body: char gets converted to raw in $content
   aa$set_body(body = "stuff")
-  expect_is(aa$body, "raw")
-  expect_is(aa$content, "raw")
+  expect_type(aa$body, "raw")
+  expect_type(aa$content, "raw")
   expect_length(aa$body, 5)
   expect_length(aa$content, 5)
 
   # set_body: raw remains as raw in $content
   aa$set_body(body = charToRaw("stuff"))
-  expect_is(aa$body, "raw")
-  expect_is(aa$content, "raw")
+  expect_type(aa$body, "raw")
+  expect_type(aa$content, "raw")
   expect_length(aa$content, 5)
 
   # set_body: other types return raw(0) in $content
   aa$set_body(body = NULL)
   expect_equal(aa$body, raw())
-  expect_is(aa$content, "raw")
+  expect_type(aa$content, "raw")
   expect_length(aa$content, 0)
 
   aa$set_exception(exception = "stop, wait, listen")

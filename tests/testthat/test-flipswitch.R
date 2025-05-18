@@ -1,8 +1,6 @@
-context("flipswitch (enable/disable)")
-
 test_that("flipswitch in default state", {
-  expect_is(webmockr_lightswitch, "environment")
-  expect_is(webmockr_lightswitch$crul, "logical")
+  expect_type(webmockr_lightswitch, "environment")
+  expect_type(webmockr_lightswitch$crul, "logical")
   expect_false(webmockr_lightswitch$crul)
 })
 
@@ -12,7 +10,7 @@ test_that("flipswitch - turn on with 'enable'", {
 
   aa <- enable()
 
-  expect_is(aa, "logical")
+  expect_type(aa, "logical")
   expect_equal(length(aa), 3)
   expect_true(all(aa))
 
@@ -30,7 +28,7 @@ test_that("flipswitch - turn on with 'enable' - one pkg", {
   # enable one pkg
   aa <- enable("crul")
 
-  expect_is(aa, "logical")
+  expect_type(aa, "logical")
   expect_equal(length(aa), 1)
   expect_true(aa)
 

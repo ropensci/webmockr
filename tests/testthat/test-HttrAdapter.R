@@ -1,4 +1,3 @@
-context("HttrAdapter")
 
 skip_if_not_installed("httr")
 library("httr")
@@ -8,16 +7,16 @@ aa <- HttrAdapter$new()
 test_that("HttrAdapter bits are correct", {
   skip_on_cran()
 
-  expect_is(HttrAdapter, "R6ClassGenerator")
+  expect_s3_class(HttrAdapter, "R6ClassGenerator")
 
-  expect_is(aa, "HttrAdapter")
+  expect_s3_class(aa, "HttrAdapter")
   expect_null(aa$build_httr_request) # pulled out of object, so should be NULL
   expect_null(aa$build_httr_response) # pulled out of object, so should be NULL
-  expect_is(aa$disable, "function")
-  expect_is(aa$enable, "function")
-  expect_is(aa$handle_request, "function")
-  expect_is(aa$remove_stubs, "function")
-  expect_is(aa$name, "character")
+  expect_type(aa$disable, "closure")
+  expect_type(aa$enable, "closure")
+  expect_type(aa$handle_request, "closure")
+  expect_type(aa$remove_stubs, "closure")
+  expect_type(aa$name, "character")
 
   expect_equal(aa$name, "HttrAdapter")
 })
@@ -53,13 +52,13 @@ test_that("HttrAdapter: works when vcr is loaded but no cassette is inserted", {
 
   # works when no cassette is loaded
   expect_silent(x <- httr::GET(hb("/get")))
-  expect_is(x, "response")
+  expect_s3_class(x, "response")
 
   # # works when empty cassette is loaded
   vcr::local_vcr_configure(dir = withr::local_tempdir())
   vcr::local_cassette("empty")
   expect_silent(x <- httr::GET(hb("/get")))
-  expect_is(x, "response")
+  expect_s3_class(x, "response")
 })
 
 # library(httr)
@@ -67,7 +66,6 @@ test_that("HttrAdapter: works when vcr is loaded but no cassette is inserted", {
 # httr_obj <- z$request
 # save(httr_obj, file = "tests/testthat/httr_obj.rda", version = 2)
 
-context("HttrAdapter: date slot")
 test_that("HttrAdapter date slot works", {
   skip_on_cran()
   skip_if_not_installed("vcr")
@@ -82,16 +80,15 @@ test_that("HttrAdapter date slot works", {
 
   # $date is of correct format
   expect_output(print(x), "Date")
-  expect_is(x$date, "POSIXct")
-  expect_is(format(x$date, "%Y-%m-%d %H:%M"), "character")
+  expect_s3_class(x$date, "POSIXct")
+  expect_type(format(x$date, "%Y-%m-%d %H:%M"), "character")
 
   # $headers$date is a different format
-  expect_is(x$headers$date, "character")
+  expect_type(x$headers$date, "character")
   expect_error(format(x$headers$date, "%Y-%m-%d %H:%M"), "invalid 'trim'")
 })
 
 
-context("HttrAdapter: insensitive headers, webmockr flow")
 test_that("HttrAdapter insensitive headers work, webmockr flow", {
   skip_on_cran()
   unloadNamespace("vcr")
@@ -107,14 +104,13 @@ test_that("HttrAdapter insensitive headers work, webmockr flow", {
   x <- httr::GET(hb("/get"))
 
   expect_equal(x$headers[["content-type"]], "application/json")
-  expect_is(httr::content(x), "list")
-  expect_is(httr::content(x, "text", encoding = "UTF-8"), "character")
+  expect_type(httr::content(x), "list")
+  expect_type(httr::content(x, "text", encoding = "UTF-8"), "character")
 
   stub_registry_clear()
   httr_mock(FALSE)
 })
 
-context("HttrAdapter: insensitive headers, vcr flow")
 test_that("HttrAdapter insensitive headers work, vcr flow", {
   skip_on_cran()
   skip_if_not_installed("vcr")
@@ -127,12 +123,11 @@ test_that("HttrAdapter insensitive headers work, vcr flow", {
   x <- httr::GET(hb("/get"))
 
   expect_equal(x$headers[["content-type"]], "application/json")
-  expect_is(httr::content(x), "list")
-  expect_is(httr::content(x, "text", encoding = "UTF-8"), "character")
+  expect_type(httr::content(x), "list")
+  expect_type(httr::content(x, "text", encoding = "UTF-8"), "character")
 })
 
 
-context("HttrAdapter: works with real data")
 test_that("HttrAdapter works", {
   skip_on_cran()
   skip_if_not_installed("vcr")
@@ -160,8 +155,8 @@ test_that("HttrAdapter works", {
 
   aa <- res$handle_request(httr_obj)
 
-  expect_is(res, "HttrAdapter")
-  expect_is(aa, "response")
+  expect_s3_class(res, "HttrAdapter")
+  expect_s3_class(aa, "response")
   expect_equal(aa$request$method, "GET")
   expect_equal(aa$url, hb("/get"))
 
@@ -179,17 +174,17 @@ test_that("HttrAdapter works", {
 
   aa <- res$handle_request(httr_obj)
 
-  expect_is(res, "HttrAdapter")
-  expect_is(aa, "response")
+  expect_s3_class(res, "HttrAdapter")
+  expect_s3_class(aa, "response")
   expect_equal(aa$request$method, "GET")
   expect_equal(aa$url, hb("/get"))
 
   # has headers and all_headers
   expect_equal(length(aa$headers), 1)
-  expect_is(aa$headers, "list")
+  expect_type(aa$headers, "list")
   expect_named(aa$headers, "user-agent")
   expect_equal(length(aa$all_headers), 1)
-  expect_is(aa$all_headers, "list")
+  expect_type(aa$all_headers, "list")
   expect_named(aa$all_headers, NULL)
   expect_named(aa$all_headers[[1]], c("status", "version", "headers"))
 
@@ -215,12 +210,12 @@ test_that("HttrAdapter works", {
 
   # has headers and all_headers
   expect_equal(length(aa$headers), 2)
-  expect_is(aa$headers, "list")
+  expect_type(aa$headers, "list")
   expect_equal(sort(names(aa$headers)), c("location", "status"))
   expect_equal(length(aa$all_headers), 1)
   expect_equal(length(aa$all_headers[[1]]), 3)
-  expect_is(aa$all_headers, "list")
-  expect_is(aa$all_headers[[1]], "list")
+  expect_type(aa$all_headers, "list")
+  expect_type(aa$all_headers[[1]], "list")
   expect_named(aa$all_headers, NULL)
   expect_equal(
     sort(names(aa$all_headers[[1]])),
@@ -252,7 +247,7 @@ test_that("HttrAdapter works with httr::authenticate", {
   # before the fixes in HttrAdapter: a real request through webmockr would
   #   not work with authenticate
   x <- httr::GET(hb("/basic-auth/foo/bar"), httr::authenticate("foo", "bar"))
-  expect_is(x, "response")
+  expect_s3_class(x, "response")
   expect_equal(httr::content(x), list(foo = "bar"))
   expect_equal(
     x$headers,
@@ -267,7 +262,7 @@ test_that("HttrAdapter works with httr::authenticate", {
   load("httr_obj_auth.rda")
   zz <- HttrAdapter$new()
   z <- zz$handle_request(httr_obj_auth)
-  expect_is(z, "response")
+  expect_s3_class(z, "response")
   expect_equal(httr::content(z), list(foo = "bar"))
   expect_equal(
     z$headers,

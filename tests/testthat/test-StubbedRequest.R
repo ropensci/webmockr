@@ -1,11 +1,9 @@
-context("StubbedRequest")
-
 test_that("StubbedRequest: works", {
-  expect_is(StubbedRequest, "R6ClassGenerator")
+  expect_s3_class(StubbedRequest, "R6ClassGenerator")
 
   aa <- StubbedRequest$new(method = "get", uri = "https://hb.opencpu.org/get")
 
-  expect_is(aa, "StubbedRequest")
+  expect_s3_class(aa, "StubbedRequest")
 
   expect_null(aa$host)
   expect_null(aa$query)
@@ -15,24 +13,24 @@ test_that("StubbedRequest: works", {
   expect_null(aa$response)
   expect_null(aa$response_sequences)
 
-  expect_is(aa$method, "character")
+  expect_type(aa$method, "character")
   expect_equal(aa$method, "get")
 
-  expect_is(aa$uri, "character")
+  expect_type(aa$uri, "character")
   expect_equal(aa$uri, "https://hb.opencpu.org/get")
 
-  expect_is(aa$uri_parts, "list")
+  expect_type(aa$uri_parts, "list")
   expect_equal(aa$uri_parts$domain, "hb.opencpu.org")
   expect_equal(aa$uri_parts$path, "get")
 
-  expect_is(aa$to_s, "function")
+  expect_type(aa$to_s, "closure")
   expect_equal(aa$to_s(), "GET: https://hb.opencpu.org/get")
 
   # with
-  expect_is(aa$with, "function")
+  expect_type(aa$with, "closure")
   expect_null(aa$query)
   aa$with(query = list(foo = "bar"))
-  expect_is(aa$query, "list")
+  expect_type(aa$query, "list")
   expect_named(aa$query, "foo")
   expect_equal(
     aa$to_s(),
@@ -48,15 +46,15 @@ test_that("StubbedRequest: works", {
   )
 
   # to_return
-  expect_is(aa$to_return, "function")
+  expect_type(aa$to_return, "closure")
   expect_null(aa$body)
   aa$to_return(
     status = 404,
     body = list(hello = "world"),
     headers = list(a = 5)
   )
-  expect_is(aa$responses_sequences, "list")
-  expect_is(aa$responses_sequences[[1]]$body, "list")
+  expect_type(aa$responses_sequences, "list")
+  expect_type(aa$responses_sequences[[1]]$body, "list")
   expect_named(aa$responses_sequences[[1]]$body, "hello")
 })
 
