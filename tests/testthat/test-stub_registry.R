@@ -1,4 +1,6 @@
 test_that("stub_registry: works", {
+  stub_registry_clear()
+
   # before any stubs creatd
   expect_output(print(stub_registry()), "Registered Stubs")
   expect_equal(length(stub_registry()$request_stubs), 0)
