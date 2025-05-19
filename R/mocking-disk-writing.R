@@ -1,12 +1,11 @@
 #' Mocking writing to disk
 #'
 #' @name mocking-disk-writing
-#' @examples \dontrun{
+#' @examples
 #' # enable mocking
 #' enable()
-#' # getOption('httr2_mock')
 #'
-#' # Write to a file before mocked request
+#' # Write to a file before mocked request -------------
 #'
 #' # crul
 #' library(crul)
@@ -22,6 +21,7 @@
 #' (out <- HttpClient$new("https://httpbin.org/get")$get(disk = f))
 #' out$content
 #' readLines(out$content)
+#' stub_registry_clear()
 #'
 #' # httr
 #' library(httr)
@@ -42,6 +42,7 @@
 #' out
 #' out$content
 #' content(out, "text", encoding = "UTF-8")
+#' stub_registry_clear()
 #'
 #' # httr2
 #' library(httr2)
@@ -61,12 +62,11 @@
 #' out <- req_perform(req, path = f)
 #' out
 #' out$body
-#' out
 #' out$headers
 #' readLines(out$body)
+#' stub_registry_clear()
 #'
-#'
-#' # Use mock_file to have webmockr handle file and contents
+#' # Use mock_file to have webmockr handle file and contents -------------
 #'
 #' # crul
 #' library(crul)
@@ -78,6 +78,7 @@
 #' (out <- crul::HttpClient$new("https://httpbin.org/get")$get(disk = f))
 #' out$content
 #' readLines(out$content)
+#' stub_registry_clear()
 #'
 #' # httr
 #' library(httr)
@@ -96,6 +97,7 @@
 #' out$content
 #' readLines(out$content)
 #' content(out, "text", encoding = "UTF-8")
+#' stub_registry_clear()
 #'
 #' # httr2
 #' library(httr2)
@@ -114,8 +116,8 @@
 #' ## view stubbed file content
 #' out$body
 #' readLines(out$body)
+#' stub_registry_clear()
 #'
 #' # disable mocking
 #' disable()
-#' }
 NULL

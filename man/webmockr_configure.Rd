@@ -59,7 +59,6 @@ are allowed, then a real HTTP request can be made.
 }
 
 \examples{
-\dontrun{
 webmockr_configure()
 webmockr_configure(
   allow_localhost = TRUE
@@ -81,5 +80,7 @@ webmockr_net_connect_allowed("google.com")
 
 # show body diff
 webmockr_configure(show_body_diff = TRUE)
-}
+
+# cleanup
+webmockr_configure_reset()
 }

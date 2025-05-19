@@ -21,7 +21,7 @@
 #' response will be returned. If no stub is found, and net connections
 #' are allowed, then a real HTTP request can be made.
 #'
-#' @examples \dontrun{
+#' @examples
 #' webmockr_configure()
 #' webmockr_configure(
 #'   allow_localhost = TRUE
@@ -43,7 +43,9 @@
 #'
 #' # show body diff
 #' webmockr_configure(show_body_diff = TRUE)
-#' }
+#'
+#' # cleanup
+#' webmockr_configure_reset()
 webmockr_configure <- function(
   allow_net_connect = FALSE,
   allow_localhost = FALSE,
