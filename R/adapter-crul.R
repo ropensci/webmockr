@@ -52,7 +52,6 @@ build_crul_response <- function(req, resp) {
 }
 
 #' Build a crul request
-#' @export
 #' @keywords internal
 #' @param x an unexecuted crul request object
 #' @return a crul request

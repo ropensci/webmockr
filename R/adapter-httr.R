@@ -72,7 +72,6 @@ check_user_pwd <- function(x) {
 }
 
 #' Build a httr request
-#' @export
 #' @keywords internal
 #' @param x an unexecuted httr request object
 #' @return a httr request
