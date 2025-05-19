@@ -67,7 +67,7 @@
 #'
 #' @seealso [wi_th()], [to_return()], [to_timeout()], [to_raise()],
 #' [mock_file()]
-#' @examples \dontrun{
+#' @examples
 #' # basic stubbing
 #' stub_request("get", "https://httpbin.org/get")
 #' stub_request("post", "https://httpbin.org/post")
@@ -81,6 +81,7 @@
 #' # request headers
 #' stub_request("get", "https://httpbin.org/get") %>%
 #'   wi_th(headers = list("User-Agent" = "R"))
+#' \dontshow{stub_registry_clear()}
 #'
 #' # request body
 #' stub_request("post", "https://httpbin.org/post") %>%
@@ -108,7 +109,8 @@
 #' # set stub an expectation to timeout
 #' stub_request("get", "https://httpbin.org/get") %>% to_timeout()
 #' x <- crul::HttpClient$new(url = "https://httpbin.org")
-#' res <- x$get("get")
+#' try(x$get("get"))
+#' \dontshow{stub_registry_clear()}
 #'
 #' # raise exception
 #' library(fauxpas)
@@ -119,11 +121,13 @@
 #' x <- crul::HttpClient$new(url = "https://httpbin.org")
 #' stub_request("get", "https://httpbin.org/get") %>% to_raise(HTTPBadGateway)
 #' crul::mock()
-#' x$get("get")
+#' try(x$get("get"))
+#' \dontshow{stub_registry_clear()}
 #'
 #' # pass a list to .list
 #' z <- stub_request("get", "https://httpbin.org/get")
 #' wi_th(z, .list = list(query = list(foo = "bar")))
+#' \dontshow{stub_registry_clear()}
 #'
 #' # just body
 #' stub_request("any", uri_regex = ".+") %>%
@@ -139,7 +143,7 @@
 #' httr_mock()
 #' POST("https://example.com", body = list(foo = "bar"))
 #' PUT("https://google.com", body = list(foo = "bar"))
-#'
+#' \dontshow{stub_registry_clear()}
 #'
 #' # just headers
 #' headers <- list(
@@ -152,7 +156,6 @@
 #' crul::mock()
 #' x$post("post")
 #' x$put("put", body = list(foo = "bar"))
-#' x$get("put", query = list(stuff = 3423234L))
 #'
 #' # many responses
 #' ## the first response matches the first to_return call, and so on
@@ -162,6 +165,7 @@
 #' con <- crul::HttpClient$new(url = "https://httpbin.org")
 #' con$get("get")$parse("UTF-8")
 #' con$get("get")$parse("UTF-8")
+#' \dontshow{stub_registry_clear()}
 #'
 #' ## OR, use times with to_return() to repeat the same response many times
 #' library(fauxpas)
@@ -171,12 +175,13 @@
 #' con <- crul::HttpClient$new(url = "https://httpbin.org")
 #' con$get("get")$parse("UTF-8")
 #' con$get("get")$parse("UTF-8")
-#' con$get("get")$parse("UTF-8")
+#' try(con$get("get")$parse("UTF-8"))
+#' \dontshow{stub_registry_clear()}
 #'
 #' # partial matching
 #' ## query parameters
 #' library(httr)
-#' enable()
+#' enable(adapter = "httr")
 #' ### matches
 #' stub_request("get", "https://hb.opencpu.org/get") %>%
 #'   wi_th(query = including(list(fruit = "pear"))) %>%
@@ -190,8 +195,11 @@
 #' stub_request("get", "https://hb.opencpu.org/get") %>%
 #'   wi_th(query = list(fruit = "pear")) %>%
 #'   to_return(body = "didn't match, ugh!")
-#' # GET("https://hb.opencpu.org/get",
-#' #  query = list(fruit = "pear", meat = "chicken"))
+#' try({
+#'   GET("https://hb.opencpu.org/get",
+#'     query = list(fruit = "pear", meat = "chicken"))
+#' })
+#' \dontshow{stub_registry_clear()}
 #'
 #' ## request body
 #' ### matches - including
@@ -210,13 +218,12 @@
 #'   body = list(color = "blue")
 #' )
 #' rawToChar(content(res))
-#' # POST("https://hb.opencpu.org/post",
-#' #  body = list(fruit = "pear", meat = "chicken"))
+#' POST("https://hb.opencpu.org/post",
+#'   body = list(fruit = "pear", meat = "chicken"))
 #'
 #' # clear all stubs
 #' stub_registry()
 #' stub_registry_clear()
-#' }
 stub_request <- function(method = "get", uri = NULL, uri_regex = NULL) {
   if (is_null(uri) && is_null(uri_regex)) {
     abort("one of uri or uri_regex is required")
