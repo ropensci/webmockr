@@ -175,7 +175,6 @@ x <- crul::HttpClient$new(url = "https://httpbin.org", headers = headers)
 crul::mock()
 x$post("post")
 x$put("put", body = list(foo = "bar"))
-# x$get("put", query = list(stuff = "things"))
 
 # many responses
 ## the first response matches the first to_return call, and so on
