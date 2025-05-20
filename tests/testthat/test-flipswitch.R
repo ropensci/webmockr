@@ -1,7 +1,7 @@
 test_that("flipswitch in default state", {
   expect_type(webmockr_lightswitch, "environment")
-  expect_type(webmockr_lightswitch$crul, "logical")
-  expect_false(webmockr_lightswitch$crul)
+  expect_type(webmockr_lightswitch$httr, "logical")
+  expect_false(webmockr_lightswitch$httr)
 })
 
 test_that("flipswitch - turn on with 'enable'", {
