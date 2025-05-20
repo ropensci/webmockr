@@ -9,6 +9,7 @@ webmockr (development version)
 ## MINOR IMPROVEMENTS
 
 * Update tests to use testthat edition 3, and run in parallel
+* Moved `crul` from Imports to Suggests
 
 
 webmockr 2.0.0
