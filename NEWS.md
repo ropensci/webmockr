@@ -1,4 +1,4 @@
-webmockr (development version)
+webmockr (2.1.0)
 =========
 
 ## CHANGES
