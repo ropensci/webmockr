@@ -1,4 +1,3 @@
-
 test_that("pluck_body: crul", {
   # prep objects
   # con <- crul::HttpClient$new("https://httpbin.org")

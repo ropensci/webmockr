@@ -1,4 +1,3 @@
-
 test_that("RequestSignature: works", {
   expect_s3_class(RequestSignature, "R6ClassGenerator")
 

@@ -1,4 +1,3 @@
-
 test_that("HttpLibAdapaterRegistry: structure", {
   expect_s3_class(HttpLibAdapaterRegistry, "R6ClassGenerator")
 

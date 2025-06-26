@@ -1,4 +1,3 @@
-
 test_that("onload: http_lib_adapter_registry", {
   expect_s3_class(http_lib_adapter_registry, "HttpLibAdapaterRegistry")
   expect_s3_class(http_lib_adapter_registry, "R6")
