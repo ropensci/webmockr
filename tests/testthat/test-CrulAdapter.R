@@ -37,9 +37,9 @@ test_that("CrulAdapter: works when vcr is loaded but no cassette is inserted", {
   skip_on_cran()
   skip_if_not_installed("vcr")
 
-  webmockr::enable(adapter = "crul")
+  webmockr::enable(adapter = "crul", quiet = TRUE)
   on.exit({
-    webmockr::disable(adapter = "crul")
+    webmockr::disable(adapter = "crul", quiet = TRUE)
     unloadNamespace("vcr")
   })
 
@@ -178,8 +178,8 @@ test_that("CrulAdapter works", {
 test_that("crul requests with JSON-encoded bodies work", {
   skip_on_cran()
 
-  on.exit(disable(adapter = "crul"))
-  enable(adapter = "crul")
+  on.exit(disable(adapter = "crul", quiet = TRUE))
+  enable(adapter = "crul", quiet = TRUE)
 
   body <- list(foo = "bar")
   url <- hb()

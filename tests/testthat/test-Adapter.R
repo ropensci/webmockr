@@ -22,7 +22,7 @@ test_that("show_body_diff configuration setting", {
   withr::defer(webmockr_configure(show_body_diff = FALSE))
 
   library(httr, warn.conflicts = FALSE)
-  enable(adapter = "httr")
+  enable(adapter = "httr", quiet = TRUE)
 
   stub_request("get", "https://hb.opencpu.org/post") %>%
     wi_th(body = list(apple = "green"))
@@ -38,7 +38,7 @@ test_that("show_body_diff configuration setting - > 1 stub", {
   withr::defer(webmockr_configure(show_body_diff = FALSE))
 
   library(httr, warn.conflicts = FALSE)
-  enable(adapter = "httr")
+  enable(adapter = "httr", quiet = TRUE)
 
   stub_request("get", "https://hb.opencpu.org/post") %>%
     wi_th(body = list(apple = "green"))

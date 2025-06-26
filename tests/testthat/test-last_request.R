@@ -7,7 +7,7 @@ test_that("last_request works when no requests found", {
 test_that("last_request works when requests are found", {
   request_registry_clear()
 
-  enable()
+  enable(quiet = TRUE)
   stub_request("head", "https://nytimes.com")
   crul::ok("https://nytimes.com")
   last_request()

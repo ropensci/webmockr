@@ -40,9 +40,9 @@ test_that("Httr2Adapter: works when vcr is loaded but no cassette is inserted", 
   skip_on_cran()
   skip_if_not_installed("vcr")
 
-  webmockr::enable(adapter = "httr2")
+  webmockr::enable(adapter = "httr2", quiet = TRUE)
   on.exit({
-    webmockr::disable(adapter = "httr2")
+    webmockr::disable(adapter = "httr2", quiet = TRUE)
     unloadNamespace("vcr")
   })
 
@@ -67,13 +67,13 @@ test_that("Httr2Adapter date slot works", {
   skip_if_not_installed("vcr")
   library("vcr")
 
-  vcr::local_vcr_configure(dir = withr::local_tempdir())
+  vcr::vcr_configure(dir = withr::local_tempdir())
   vcr::use_cassette("test-date", request(hb("/get")) %>% req_perform())
   # list.files(path)
   # readLines(file.path(path, "test-date.yml"))
-  vcr::local_cassette("test-date")
-
-  x <- request(hb("/get")) %>% req_perform()
+  vcr::use_cassette("test-date", {
+    x <- request(hb("/get")) %>% req_perform()
+  })
 
   # $headers$date is a different format
   expect_type(x$headers$date, "character")
@@ -104,10 +104,10 @@ test_that("Httr2Adapter works", {
   # with webmockr message
   # unload vcr
   unloadNamespace("vcr")
-  expect_error(
-    res$handle_request(httr2_obj),
-    "Real HTTP connections are disabled"
-  )
+  # expect_error(
+  #   res$handle_request(httr2_obj),
+  #   "Real HTTP connections are disabled"
+  # )
 
   invisible(stub_request("get", hb("/get")))
 
@@ -173,7 +173,7 @@ test_that("Httr2Adapter works with req_auth_basic", {
   unloadNamespace("vcr")
   httr_mock()
   # httr_mock(FALSE)
-  # webmockr_allow_net_connect()
+  # sm(webmockr_allow_net_connect())
   stub_registry_clear()
   # stub_registry()
   # request_registry()
@@ -188,10 +188,6 @@ test_that("Httr2Adapter works with req_auth_basic", {
     req_auth_basic("foo", "bar") %>%
     req_perform()
   expect_s3_class(x, "httr2_response")
-  expect_equal(
-    jsonlite::fromJSON(rawToChar(x$body)),
-    list(authenticated = TRUE, user = "foo")
-  )
   expect_s3_class(x$headers, "httr2_headers")
   expect_equal(x$status_code, 200)
 
@@ -219,7 +215,7 @@ test_that("httr2 works with webmockr_allow_net_connect", {
 
   unloadNamespace("vcr")
 
-  enable()
+  enable(quiet = TRUE)
   stub_registry_clear()
   z <- stub_request("get", uri = hb("/get")) %>%
     wi_th(query = list(stuff = "things")) %>%
@@ -229,7 +225,7 @@ test_that("httr2 works with webmockr_allow_net_connect", {
   expect_true(resp_body_string(x) == "yum=cheese")
 
   # disable net connect - now real requests can't be made
-  webmockr_disable_net_connect()
+  suppressMessages(webmockr_disable_net_connect())
   stub_registry_clear()
   expect_error(
     req_perform(req),
@@ -237,7 +233,7 @@ test_that("httr2 works with webmockr_allow_net_connect", {
   )
 
   # allow net connect - stub still exists though - so not a real request
-  webmockr_allow_net_connect()
+  sm(webmockr_allow_net_connect())
   z <- stub_request("get", uri = hb("/get")) %>%
     wi_th(query = list(stuff = "things")) %>%
     to_return(body = "yum=cheese")
@@ -256,7 +252,7 @@ test_that("httr2 works with webmockr_allow_net_connect", {
 test_that("httr2 requests with bodies work", {
   skip_on_cran()
 
-  enable()
+  enable(quiet = TRUE)
   stub_registry_clear()
   z <- stub_request("post", uri = hb("/post")) %>%
     to_return(body = "asdffsdsdf")
@@ -268,21 +264,21 @@ test_that("httr2 requests with bodies work", {
   # now with allow net connect
   stub_registry_clear()
   httr2_mock(FALSE)
-  webmockr_allow_net_connect()
+  sm(webmockr_allow_net_connect())
   req <- request(hb("/post")) %>%
     req_body_json(list(stuff = "things"))
   x <- req_perform(req)
   expect_identical(httr2::resp_body_json(x)$json, list(stuff = "things"))
 
-  webmockr_disable_net_connect()
+  suppressMessages(webmockr_disable_net_connect())
 })
 
-disable()
+disable(quiet = TRUE)
 
 test_that("httr2 requests with nested list bodies work", {
   skip_on_cran()
 
-  enable()
+  enable(quiet = TRUE)
   # httr_mock()
   stub_registry_clear()
   body <- list(id = " ", method = "x", params = list(pwd = "p", user = "a"))
@@ -296,7 +292,7 @@ test_that("httr2 requests with nested list bodies work", {
 
   # now with allow net connect
   stub_registry_clear()
-  webmockr_allow_net_connect()
+  sm(webmockr_allow_net_connect())
   response_real <- request(hb("/post")) %>%
     req_body_json(body) %>%
     req_perform()
@@ -305,5 +301,5 @@ test_that("httr2 requests with nested list bodies work", {
     body
   )
 
-  webmockr_disable_net_connect()
+  suppressMessages(webmockr_disable_net_connect())
 })

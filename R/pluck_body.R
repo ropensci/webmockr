@@ -4,6 +4,7 @@
 #' body based on its encoding.
 #'
 #' @param x an unexecuted crul, httr *or* httr2 request object
+#' @export
 #' @keywords internal
 #' @return one of the following:
 #' - `NULL` if the request is not associated with a body

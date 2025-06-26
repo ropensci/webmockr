@@ -4,13 +4,13 @@ test_that("request_registry: structure", {
   expect_type(request_registry, "closure")
   expect_s3_class(request_registry(), "RequestRegistry")
 
-  enable()
+  enable(quiet = TRUE)
   stub_request("get", hb("/get")) %>%
     to_return(body = "success!", status = 200)
   invisible(
     crul::HttpClient$new(url = hb())$get("get")
   )
-  disable()
+  disable(quiet = TRUE)
 
   x <- request_registry()
   expect_s3_class(x, "RequestRegistry")

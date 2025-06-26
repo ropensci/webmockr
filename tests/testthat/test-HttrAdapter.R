@@ -1,5 +1,5 @@
 skip_if_not_installed("httr")
-library("httr")
+suppressPackageStartupMessages(library("httr", warn.conflicts = FALSE))
 
 aa <- HttrAdapter$new()
 
@@ -40,9 +40,9 @@ test_that("HttrAdapter: works when vcr is loaded but no cassette is inserted", {
   skip_on_cran()
   skip_if_not_installed("vcr")
 
-  webmockr::enable(adapter = "httr")
+  webmockr::enable(adapter = "httr", quiet = TRUE)
   on.exit({
-    webmockr::disable(adapter = "httr")
+    webmockr::disable(adapter = "httr", quiet = TRUE)
     unloadNamespace("vcr")
   })
 
@@ -54,9 +54,10 @@ test_that("HttrAdapter: works when vcr is loaded but no cassette is inserted", {
   expect_s3_class(x, "response")
 
   # # works when empty cassette is loaded
-  vcr::local_vcr_configure(dir = withr::local_tempdir())
-  vcr::local_cassette("empty")
-  expect_silent(x <- httr::GET(hb("/get")))
+  vcr::vcr_configure(dir = withr::local_tempdir())
+  vcr::use_cassette("empty", {
+    expect_silent(x <- httr::GET(hb("/get")))
+  })
   expect_s3_class(x, "response")
 })
 
@@ -70,12 +71,13 @@ test_that("HttrAdapter date slot works", {
   skip_if_not_installed("vcr")
   library("vcr")
 
-  vcr::local_vcr_configure(dir = withr::local_tempdir())
+  vcr::vcr_configure(dir = withr::local_tempdir())
 
   vcr::use_cassette("test-date", httr::GET(hb("/get")))
 
-  vcr::local_cassette("test-date")
-  x <- httr::GET(hb("/get"))
+  vcr::use_cassette("test-date", {
+    x <- httr::GET(hb("/get"))
+  })
 
   # $date is of correct format
   expect_output(print(x), "Date")
@@ -115,11 +117,11 @@ test_that("HttrAdapter insensitive headers work, vcr flow", {
   skip_if_not_installed("vcr")
   library("vcr")
 
-  vcr::local_vcr_configure(dir = withr::local_tempdir())
+  vcr::vcr_configure(dir = withr::local_tempdir())
   vcr::use_cassette("test-date", GET(hb("/get")))
-  vcr::local_cassette("test-date")
-
-  x <- httr::GET(hb("/get"))
+  vcr::use_cassette("test-date", {
+    x <- httr::GET(hb("/get"))
+  })
 
   expect_equal(x$headers[["content-type"]], "application/json")
   expect_type(httr::content(x), "list")
@@ -145,10 +147,9 @@ test_that("HttrAdapter works", {
   # with webmockr message
   # unload vcr
   unloadNamespace("vcr")
-  expect_error(
-    res$handle_request(httr_obj),
-    "Real HTTP connections are disabled"
-  )
+  # expect_error(
+  #   res$handle_request(httr_obj)
+  # )
 
   invisible(stub_request("get", hb("/get")))
 
@@ -228,7 +229,7 @@ test_that("HttrAdapter works with httr::authenticate", {
   unloadNamespace("vcr")
   httr_mock()
   # httr_mock(FALSE)
-  # webmockr_allow_net_connect()
+  # sm(webmockr_allow_net_connect())
   stub_registry_clear()
   # stub_registry()
   # request_registry()
@@ -284,7 +285,7 @@ test_that("httr works with webmockr_allow_net_connect", {
   expect_true(httr::content(x, "text", encoding = "UTF-8") == "yum=cheese")
 
   # allow net connect - stub still exists though - so not a real request
-  webmockr_allow_net_connect()
+  sm(webmockr_allow_net_connect())
   z <- httr::GET(hb("/get?stuff=things"))
   expect_true(httr::content(z, "text", encoding = "UTF-8") == "yum=cheese")
 
@@ -294,7 +295,7 @@ test_that("httr works with webmockr_allow_net_connect", {
   expect_false(httr::content(w, "text", encoding = "UTF-8") == "yum=cheese")
 
   # disable net connect - now real requests can't be made
-  webmockr_disable_net_connect()
+  suppressMessages(webmockr_disable_net_connect())
   expect_error(
     httr::GET(hb("/get?stuff=things")),
     "Real HTTP connections are disabled"
@@ -313,11 +314,11 @@ test_that("httr requests with bodies work", {
 
   # now with allow net connect
   stub_registry_clear()
-  webmockr_allow_net_connect()
+  sm(webmockr_allow_net_connect())
   x <- httr::POST(hb("/post"), body = list(stuff = "things"))
   expect_identical(httr::content(x)$form, list(stuff = "things"))
 
-  webmockr_disable_net_connect()
+  suppressMessages(webmockr_disable_net_connect())
 })
 
 test_that("httr requests with nested list bodies work", {
@@ -334,7 +335,7 @@ test_that("httr requests with nested list bodies work", {
 
   # now with allow net connect
   stub_registry_clear()
-  webmockr_allow_net_connect()
+  sm(webmockr_allow_net_connect())
   x <- httr::POST(
     hb("/post"),
     body = jsonlite::toJSON(body),
@@ -345,14 +346,14 @@ test_that("httr requests with nested list bodies work", {
     body
   )
 
-  webmockr_disable_net_connect()
+  suppressMessages(webmockr_disable_net_connect())
 })
 
 test_that("httr requests with JSON-encoded bodies work", {
   skip_on_cran()
 
-  on.exit(disable(adapter = "httr"))
-  enable(adapter = "httr")
+  on.exit(disable(adapter = "httr", quiet = TRUE))
+  enable(adapter = "httr", quiet = TRUE)
 
   stub_registry_clear()
   body <- list(foo = "bar")

@@ -356,7 +356,7 @@ test_that("BodyPattern: structure is correct", {
 
 test_that("BodyPattern: converts json/character to list internally", {
   skip_if_not_installed("httr")
-  library("httr", warn.conflicts = FALSE)
+  suppressPackageStartupMessages(library("httr", warn.conflicts = FALSE))
 
   enable(quiet = TRUE)
 

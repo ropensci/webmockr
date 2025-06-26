@@ -74,7 +74,7 @@ test_that("webmockr_net_connect_allowed", {
 
   # errors when of wrong class
   expect_error(
-    webmockr_net_connect_allowed(mtcars),
+    sm(webmockr_net_connect_allowed(mtcars)),
     "class character or list"
   )
 })
@@ -125,14 +125,14 @@ test_that("webmockr_allow_net_connect", {
   expect_true(z)
 
   # check if net collect allowed afterwards, should be TRUE
-  expect_true(webmockr_net_connect_allowed())
+  expect_true(sm(webmockr_net_connect_allowed()))
 
   # errors when an argument passed
-  expect_error(webmockr_allow_net_connect(5), "unused argument")
+  expect_error(sm(webmockr_allow_net_connect(5)), "unused argument")
 })
 
 test_that("show_stubbing_instructions", {
-  enable()
+  enable(quiet = TRUE)
   x <- crul::HttpClient$new("https://hb.opencpu.org/get")
 
   # DO show stubbing instructions
@@ -147,7 +147,7 @@ test_that("show_stubbing_instructions", {
 
   # reset to default
   webmockr_configure(show_stubbing_instructions = TRUE)
-  disable()
+  disable(quiet = TRUE)
 })
 
 test_that("webmockr_configuration", {

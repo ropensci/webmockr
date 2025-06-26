@@ -1,4 +1,4 @@
-enable()
+enable(quiet = TRUE)
 
 test_that("Write to a file before mocked request: crul", {
   skip_on_cran()

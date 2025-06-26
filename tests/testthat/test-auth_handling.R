@@ -3,8 +3,8 @@
 # httr
 stub_registry()$remove_all_request_stubs()
 skip_if_not_installed("httr")
-library("httr")
-enable("httr")
+suppressPackageStartupMessages(library("httr", warn.conflicts = FALSE))
+enable("httr", quiet = TRUE)
 
 test_that("auth handling: httr", {
   stub_request("get", "http://stuff.com")
@@ -29,11 +29,11 @@ test_that("auth handling: httr", {
 
 
 # crul
-disable()
+disable(quiet = TRUE)
 stub_registry()$remove_all_request_stubs()
 skip_if_not_installed("crul")
 library("crul")
-enable("crul")
+enable("crul", quiet = TRUE)
 
 test_that("auth handling: httr", {
   stub_request("get", "http://stuff.com")
@@ -55,4 +55,4 @@ test_that("auth handling: httr", {
 })
 
 stub_registry()$remove_all_request_stubs()
-disable()
+disable(quiet = TRUE)

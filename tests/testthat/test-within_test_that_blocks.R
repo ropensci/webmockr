@@ -1,4 +1,4 @@
-library("httr", warn.conflicts = FALSE)
+suppressPackageStartupMessages(library("httr", warn.conflicts = FALSE))
 test_that("httr: without pipe", {
   httr_mock()
   enable(quiet = TRUE)

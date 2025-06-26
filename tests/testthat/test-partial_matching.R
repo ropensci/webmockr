@@ -32,9 +32,9 @@ skip_if_not_installed("httr")
 library(httr)
 
 test_that("include query parameters", {
-  enable(adapter = "httr")
+  enable(adapter = "httr", quiet = TRUE)
   on.exit({
-    disable(adapter = "httr")
+    disable(adapter = "httr", quiet = TRUE)
     unloadNamespace("vcr")
   })
 
@@ -67,9 +67,9 @@ test_that("include query parameters", {
 })
 
 test_that("exclude query parameters", {
-  enable(adapter = "httr")
+  enable(adapter = "httr", quiet = TRUE)
   on.exit({
-    disable(adapter = "httr")
+    disable(adapter = "httr", quiet = TRUE)
     unloadNamespace("vcr")
   })
 
@@ -101,9 +101,9 @@ test_that("exclude query parameters", {
 
 
 test_that("include query parameters, just keys", {
-  enable(adapter = "httr")
+  enable(adapter = "httr", quiet = TRUE)
   on.exit({
-    disable(adapter = "httr")
+    disable(adapter = "httr", quiet = TRUE)
     unloadNamespace("vcr")
   })
 
@@ -133,9 +133,9 @@ test_that("include query parameters, just keys", {
 })
 
 test_that("exclude query parameters, just keys", {
-  enable(adapter = "httr")
+  enable(adapter = "httr", quiet = TRUE)
   on.exit({
-    disable(adapter = "httr")
+    disable(adapter = "httr", quiet = TRUE)
     unloadNamespace("vcr")
   })
 
@@ -166,9 +166,9 @@ test_that("exclude query parameters, just keys", {
 
 
 test_that("include request body", {
-  enable(adapter = "httr")
+  enable(adapter = "httr", quiet = TRUE)
   on.exit({
-    disable(adapter = "httr")
+    disable(adapter = "httr", quiet = TRUE)
     unloadNamespace("vcr")
   })
 
@@ -201,9 +201,9 @@ test_that("include request body", {
 })
 
 test_that("exclude request body", {
-  enable(adapter = "httr")
+  enable(adapter = "httr", quiet = TRUE)
   on.exit({
-    disable(adapter = "httr")
+    disable(adapter = "httr", quiet = TRUE)
     unloadNamespace("vcr")
   })
 

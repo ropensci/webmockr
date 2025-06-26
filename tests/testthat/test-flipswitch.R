@@ -7,7 +7,7 @@ test_that("flipswitch - turn on with 'enable'", {
   skip_if_not_installed("httr")
   skip_if_not_installed("httr2")
 
-  aa <- enable()
+  aa <- enable(quiet = TRUE)
 
   expect_type(aa, "logical")
   expect_equal(length(aa), 3)
@@ -22,10 +22,10 @@ test_that("flipswitch - turn on with 'enable'", {
 
 test_that("flipswitch - turn on with 'enable' - one pkg", {
   # disable all
-  disable()
+  disable(quiet = TRUE)
 
   # enable one pkg
-  aa <- enable("crul")
+  aa <- enable("crul", quiet = TRUE)
 
   expect_type(aa, "logical")
   expect_equal(length(aa), 1)
@@ -39,7 +39,7 @@ test_that("flipswitch - turn on with 'enable' - one pkg", {
 })
 
 test_that("flipswitch - turn off with 'disable'", {
-  aa <- disable()
+  aa <- disable(quiet = TRUE)
 
   # all are FALSE
   expect_true(!all(aa))
@@ -52,15 +52,15 @@ test_that("flipswitch - turn off with 'disable'", {
 })
 
 test_that("enable and disable fail well", {
-  expect_error(enable(wasp = 5), "unused argument")
-  expect_error(disable(bee = 5), "unused argument")
+  expect_error(enable(wasp = 5, quiet = TRUE), "unused argument")
+  expect_error(disable(bee = 5, quiet = TRUE), "unused argument")
 
   expect_error(
-    enable(adapter = "stuff"),
+    enable(adapter = "stuff", quiet = TRUE),
     "adapter must be one of"
   )
   expect_error(
-    disable(adapter = "stuff"),
+    disable(adapter = "stuff", quiet = TRUE),
     "adapter must be one of"
   )
 
@@ -70,7 +70,7 @@ test_that("enable and disable fail well", {
 
 test_that("enabled works", {
   # disable all
-  disable()
+  disable(quiet = TRUE)
 
   expect_false(enabled())
   expect_false(enabled("crul"))
