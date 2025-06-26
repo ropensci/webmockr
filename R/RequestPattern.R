@@ -63,7 +63,9 @@ RequestPattern <- R6::R6Class(
       c_type <- if (!is.null(request_signature$headers)) {
         request_signature$headers$`Content-Type`
       }
-      if (!is.null(c_type)) c_type <- strsplit(c_type, ";")[[1]][1]
+      if (!is.null(c_type)) {
+        c_type <- strsplit(c_type, ";")[[1]][1]
+      }
       self$method_pattern$matches(request_signature$method) &&
         self$uri_pattern$matches(request_signature$uri) &&
         (is.null(self$body_pattern) ||
@@ -330,8 +332,12 @@ BodyPattern <- R6::R6Class(
       return(TRUE)
     },
     body_as_hash = function(body, content_type) {
-      if (inherits(body, "form_file")) body <- unclass(body)
-      if (is_empty(content_type)) content_type <- ""
+      if (inherits(body, "form_file")) {
+        body <- unclass(body)
+      }
+      if (is_empty(content_type)) {
+        content_type <- ""
+      }
       bctype <- BODY_FORMATS[[content_type]] %||% ""
       if (grepl("json", content_type)) {
         bctype <- "json"
@@ -440,9 +446,13 @@ UriPattern <- R6::R6Class(
     #' @return A new `UriPattern` object
     initialize = function(pattern = NULL, regex_pattern = NULL) {
       stopifnot(xor(is.null(pattern), is.null(regex_pattern)))
-      if (!is.null(regex_pattern)) self$regex <- TRUE
+      if (!is.null(regex_pattern)) {
+        self$regex <- TRUE
+      }
       pattern <- if (!is.null(pattern)) pattern else regex_pattern
-      if (self$regex) pattern <- add_scheme(pattern)
+      if (self$regex) {
+        pattern <- add_scheme(pattern)
+      }
       self$pattern <- normalize_uri(pattern, self$regex)
     },
 
@@ -568,7 +578,9 @@ normalize_uri <- function(x, regex = FALSE) {
   if (is.na(tmp$path)) {
     return(x)
   }
-  if (!regex) tmp$path <- esc(tmp$path)
+  if (!regex) {
+    tmp$path <- esc(tmp$path)
+  }
   urltools::url_compose(tmp)
 }
 

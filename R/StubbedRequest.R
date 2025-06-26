@@ -86,8 +86,12 @@ StubbedRequest <- R6::R6Class(
       }
       self$uri <- uri
       self$uri_regex <- uri_regex
-      if (!is.null(uri_regex)) self$regex <- TRUE
-      if (!is.null(uri)) self$uri_parts <- parseurl(self$uri)
+      if (!is.null(uri_regex)) {
+        self$regex <- TRUE
+      }
+      if (!is.null(uri)) {
+        self$uri_parts <- parseurl(self$uri)
+      }
       self$counter <- StubCounter$new()
     },
 

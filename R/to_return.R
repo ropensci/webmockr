@@ -81,7 +81,9 @@ to_return <- function(.data, ..., .list = list(), times = 1) {
     assert_is(times, c("integer", "numeric"))
     assert_gte(times, 1)
     z <- list(...)
-    if (length(z) == 0) z <- NULL
+    if (length(z) == 0) {
+      z <- NULL
+    }
     z <- c(z, .list)
     if (
       !any(c("status", "body", "headers") %in% names(z)) &&
@@ -91,7 +93,9 @@ to_return <- function(.data, ..., .list = list(), times = 1) {
     }
     assert_is(z$status, c("numeric", "integer"))
     assert_is(z$headers, "list")
-    if (!all(hz_namez(z$headers))) abort("'headers' must be a named list")
+    if (!all(hz_namez(z$headers))) {
+      abort("'headers' must be a named list")
+    }
     replicate(
       times,
       .data$to_return(status = z$status, body = z$body, headers = z$headers)

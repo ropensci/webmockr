@@ -119,10 +119,18 @@ make_body <- function(x) {
   if (is.null(x)) {
     return("")
   }
-  if (inherits(x, "mock_file")) x <- x$payload
-  if (inherits(x, c("form_file", "partial"))) x <- unclass(x)
+  if (inherits(x, "mock_file")) {
+    x <- x$payload
+  }
+  if (inherits(x, c("form_file", "partial"))) {
+    x <- unclass(x)
+  }
   clzzes <- vapply(x, function(z) inherits(z, "form_file"), logical(1))
-  if (any(clzzes)) for (i in seq_along(x)) x[[i]] <- unclass(x[[i]])
+  if (any(clzzes)) {
+    for (i in seq_along(x)) {
+      x[[i]] <- unclass(x[[i]])
+    }
+  }
   if (json_validate(x)) {
     body <- x
   } else {

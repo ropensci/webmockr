@@ -101,7 +101,9 @@ wi_th <- function(.data, ..., .list = list()) {
     assert_stub_registered(.data)
     assert_is(.list, "list")
     z <- list(...)
-    if (length(z) == 0) z <- NULL
+    if (length(z) == 0) {
+      z <- NULL
+    }
     z <- c(z, .list)
     if (
       !any(c("query", "body", "headers", "basic_auth") %in% names(z)) &&
@@ -109,11 +111,17 @@ wi_th <- function(.data, ..., .list = list()) {
     ) {
       abort("'wi_th' only accepts query, body, headers, basic_auth")
     }
-    if (any(duplicated(names(z)))) abort("can not have duplicated names")
+    if (any(duplicated(names(z)))) {
+      abort("can not have duplicated names")
+    }
     assert_is(z$query, c("list", "partial"))
-    if (!all(hz_namez(z$query))) abort("'query' must be a named list")
+    if (!all(hz_namez(z$query))) {
+      abort("'query' must be a named list")
+    }
     assert_is(z$headers, "list")
-    if (!all(hz_namez(z$headers))) abort("'headers' must be a named list")
+    if (!all(hz_namez(z$headers))) {
+      abort("'headers' must be a named list")
+    }
     assert_is(z$basic_auth, "character")
     assert_length(z$basic_auth, 2)
     assert_not_function(z)

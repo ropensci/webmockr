@@ -78,8 +78,7 @@ test_that("should match if request body and body pattern are the same with multl
 })
 
 # FIXME: regex in bodies not supported yet
-test_that("regex", {
-})
+test_that("regex", {})
 
 test_that("should match if pattern is missing body but is in signature", {
   cc <- RequestPattern$new(method = "get", uri = hb("/get"))
