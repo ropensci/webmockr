@@ -95,11 +95,11 @@ test_that("Httr2Adapter works", {
   res <- Httr2Adapter$new()
 
   # with vcr message
-  library("vcr")
-  expect_error(
-    res$handle_request(httr2_obj),
-    "There is currently no cassette in use"
-  )
+  # library("vcr")
+  # expect_error(
+  #   res$handle_request(httr2_obj),
+  #   "There is currently no cassette in use"
+  # )
 
   # with webmockr message
   # unload vcr

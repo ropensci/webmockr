@@ -84,7 +84,7 @@ test_that("with httr", {
   # FIXME for vcr v2 - should no longer error
   expect_error(
     suppressWarnings(
-      use_cassette("write_disk_path_not_set_crul_error", {
+      use_cassette("write_disk_path_not_set_httr_error", {
         out <- GET(hb("/get"), write_disk(f))
       })
     ),
@@ -96,7 +96,7 @@ test_that("with httr", {
   wdp <- file.path(dir, "files")
   invisible(vcr_configure(dir = dir, write_disk_path = wdp))
   expect_error(
-    use_cassette("write_disk_path_not_set_crul_noerror", {
+    use_cassette("write_disk_path_not_set_httr_noerror", {
       out <- GET(hb("/get"), write_disk(f))
     }),
     NA
@@ -105,8 +105,8 @@ test_that("with httr", {
   # cleanup
   unlink(f)
   unlink(wdp, TRUE)
-  unlink(file.path(dir, "write_disk_path_not_set_crul_error.yml"))
-  unlink(file.path(dir, "write_disk_path_not_set_crul_noerror.yml"))
+  unlink(file.path(dir, "write_disk_path_not_set_httr_error.yml"))
+  unlink(file.path(dir, "write_disk_path_not_set_httr_noerror.yml"))
   suppressMessages(webmockr_disable_net_connect())
   unloadNamespace("vcr")
 })

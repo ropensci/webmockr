@@ -274,6 +274,7 @@ test_that("wi_th basic_auth, httr", {
 })
 
 test_that("wi_th basic_auth, httr2", {
+  unloadNamespace("vcr")
   skip_if_not_installed("httr2")
   library(httr2, warn.conflicts = FALSE)
   enable("httr2", quiet = TRUE)
@@ -282,12 +283,20 @@ test_that("wi_th basic_auth, httr2", {
   stub_request("get", "https://x.com") %>%
     wi_th(basic_auth = c("user", "passwd"))
   req <- request("https://x.com") %>% req_auth_basic("user", "passwd")
+  print(req$headers)
+  print(class(req$headers))
+  print(names(req$headers))
+  print(req$headers$Authorization)
   expect_s3_class(req_perform(req), "httr2_response")
   # fail
   stub_registry_clear()
   stub_request("get", "https://x.com") %>%
     wi_th(basic_auth = c("user", "passwd"))
-  req2 <- request("https://x.com") %>% req_auth_basic("user", "password")
+  req2 <- request("https://x.com") %>% req_auth_basic("user", "nomatch")
+  # FIXME: this should fail
+  # expect_no_error(
+  #   req_perform(req2)
+  # )
   expect_error(
     req_perform(req2),
     "Unregistered"

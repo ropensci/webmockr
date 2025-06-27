@@ -183,12 +183,17 @@ HeadersPattern <- R6::R6Class(
         if (self$empty_headers(headers)) {
           return(FALSE)
         }
+
         headers <- private$normalize_headers(headers)
+        self_pattern_for_matching <- headers_flatten(self$pattern)
+        headers <- headers_flatten(headers)
+
         out <- c()
-        for (i in seq_along(self$pattern)) {
-          out[i] <- names(self$pattern)[i] %in%
+        for (i in seq_along(self_pattern_for_matching)) {
+          out[i] <- names(self_pattern_for_matching)[i] %in%
             names(headers) &&
-            self$pattern[[i]] == headers[[names(self$pattern)[i]]]
+            self_pattern_for_matching[[i]] ==
+              headers[[names(self_pattern_for_matching)[i]]]
         }
         all(out)
       }
@@ -639,4 +644,31 @@ drop_query_params <- function(x) {
   x <- urltools::url_compose(x)
   # prune trailing slash
   sub("\\/$", "", x)
+}
+
+# adapted from httr2:::headers_flatten
+# headers_flatten(req$headers)
+headers_flatten <- function(x) {
+  is_redacted <- wm_is_redacted(x)
+  out <- vector("list", length(x))
+  names(out) <- names(x)
+  out[!is_redacted] <- lapply(x[!is_redacted], paste, collapse = ",")
+  out[is_redacted] <- lapply(x[is_redacted], rlang::wref_value)
+  out[is_redacted] <- lapply(out[is_redacted], function(x) {
+    if (!is.null(x)) {
+      paste(x, collapse = ",")
+    }
+  })
+  Filter(length, out)
+}
+
+wm_is_redacted <- function(x) {
+  if (rlang::is_weakref(x)) {
+    return(TRUE)
+  }
+  if (is.list(x)) {
+    vapply(x, rlang::is_weakref, logical(1))
+  } else {
+    rlang::is_weakref(x)
+  }
 }

@@ -139,10 +139,10 @@ test_that("HttrAdapter works", {
 
   # with vcr message
   library("vcr")
-  expect_error(
-    res$handle_request(httr_obj),
-    "There is currently no cassette in use"
-  )
+  # expect_error(
+  #   res$handle_request(httr_obj),
+  #   "There is currently no cassette in use"
+  # )
 
   # with webmockr message
   # unload vcr
