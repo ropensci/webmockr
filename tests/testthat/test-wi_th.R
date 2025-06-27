@@ -283,10 +283,6 @@ test_that("wi_th basic_auth, httr2", {
   stub_request("get", "https://x.com") %>%
     wi_th(basic_auth = c("user", "passwd"))
   req <- request("https://x.com") %>% req_auth_basic("user", "passwd")
-  print(req$headers)
-  print(class(req$headers))
-  print(names(req$headers))
-  print(req$headers$Authorization)
   expect_s3_class(req_perform(req), "httr2_response")
   # fail
   stub_registry_clear()
