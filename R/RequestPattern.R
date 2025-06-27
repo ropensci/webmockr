@@ -1,10 +1,6 @@
 #' @title RequestPattern class
-#' @description
-#' `r lifecycle::badge("deprecated")`
-#'
-#' Class handling all request matchers
+#' @description Class handling all request matchers
 #' @export
-#' @keywords internal
 #' @seealso pattern classes for HTTP method [MethodPattern], headers
 #' [HeadersPattern], body [BodyPattern], and URI/URL [UriPattern]
 RequestPattern <- R6::R6Class(
@@ -39,8 +35,6 @@ RequestPattern <- R6::R6Class(
       headers = NULL,
       basic_auth = NULL
     ) {
-      lifecycle::deprecate_warn("2.1.0", "RequestPattern()")
-
       if (is.null(uri) && is.null(uri_regex)) {
         abort("one of uri or uri_regex is required")
       }

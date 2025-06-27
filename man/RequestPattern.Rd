@@ -4,15 +4,12 @@
 \alias{RequestPattern}
 \title{RequestPattern class}
 \description{
-\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}}
-
 Class handling all request matchers
 }
 \seealso{
 pattern classes for HTTP method \link{MethodPattern}, headers
 \link{HeadersPattern}, body \link{BodyPattern}, and URI/URL \link{UriPattern}
 }
-\keyword{internal}
 \section{Public fields}{
 \if{html}{\out{<div class="r6-fields">}}
 \describe{

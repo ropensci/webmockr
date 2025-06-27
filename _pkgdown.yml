@@ -43,3 +43,8 @@ reference:
     contents:
       - starts_with("last")
       - stub_body_diff
+  - title: "Deprecated"
+    contents:
+      - RequestPattern
+      
+

@@ -3,7 +3,7 @@ webmockr (2.1.0)
 
 ## CHANGES
 
-* Many previously exported R6 classes that are internal use only are no longer exported
+* Many previously exported R6 classes that are internal use only are no longer exported. `RequestPattern` is still exported in this version, but will not be in the next version
 * Five other functions (four prefixed with `build_`, and `pluck_body`) are no longer exported, internal use only
 
 ## MINOR IMPROVEMENTS

@@ -3,10 +3,6 @@
     Code
       POST("https://hb.opencpu.org/post", body = list(apple = "red"))
     Condition
-      Warning:
-      `RequestPattern()` was deprecated in webmockr 2.1.0.
-      i The deprecated feature was likely used in the R6 package.
-        Please report the issue at <https://github.com/r-lib/R6/issues>.
       Error:
       ! Real HTTP connections are disabled.
       ! Unregistered request:

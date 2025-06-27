@@ -20,7 +20,6 @@
 ## usethis namespace: start
 #' @importFrom cli cli_abort ansi_collapse format_error cat_line
 #' @importFrom fauxpas HTTPRequestTimeout
-#' @importFrom lifecycle deprecated
 #' @importFrom R6 R6Class
 #' @importFrom rlang abort warn check_installed is_list is_function is_error
 #' caller_arg try_fetch caller_env

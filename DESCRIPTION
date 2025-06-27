@@ -32,8 +32,7 @@ Imports:
     urltools (>= 1.6.0),
     fauxpas,
     rlang,
-    cli,
-    lifecycle
+    cli
 Suggests:
     testthat,
     xml2,
