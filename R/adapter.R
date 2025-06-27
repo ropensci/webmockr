@@ -130,7 +130,8 @@ Adapter <- R6::R6Class(
 
           # stub request so next time we match it
           req_url <- private$pluck_url(req)
-          urip <- crul::url_parse(req_url)
+          urip <- curl::curl_parse_url(req_url)
+          urip$params <- as.list(urip$params)
           m <- vcr::vcr_configuration()$match_requests_on
 
           if (all(m %in% c("method", "uri")) && length(m) == 2) {
@@ -139,7 +140,7 @@ Adapter <- R6::R6Class(
             all(m %in% c("method", "uri", "query")) && length(m) == 3
           ) {
             tmp <- stub_request(req$method, req_url)
-            wi_th(tmp, .list = list(query = urip$parameter))
+            wi_th(tmp, .list = list(query = urip$params))
           } else if (
             all(m %in% c("method", "uri", "headers")) && length(m) == 3
           ) {
@@ -151,7 +152,7 @@ Adapter <- R6::R6Class(
             tmp <- stub_request(req$method, req_url)
             wi_th(
               tmp,
-              .list = list(query = urip$parameter, headers = req$headers)
+              .list = list(query = urip$params, headers = req$headers)
             )
           }
         } else {
