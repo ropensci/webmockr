@@ -4,7 +4,9 @@
 \alias{RequestPattern}
 \title{RequestPattern class}
 \description{
-class handling all request matchers
+\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}}
+
+Class handling all request matchers
 }
 \seealso{
 pattern classes for HTTP method \link{MethodPattern}, headers
