@@ -1,7 +1,7 @@
 ## Test environments
 
-* local macOS install, R 4.4.2
-* ubuntu (on GitHub Actions), R 4.4.2
+* local macOS install, R 4.5.1
+* ubuntu (on GitHub Actions), R 4.5.1
 * win-builder (devel and release)
 
 ## R CMD check results
@@ -10,21 +10,12 @@
 
 ## revdepcheck results
 
-We checked the 20 reverse dependencies, comparing R CMD check results across CRAN and dev versions of this package.
-
- * We saw 1 new problem: 
- 
-* connectwidgets
-  checking installed package size ... NOTE
-
-Which is unrelated to changes in webmockr.
-
- * We failed to check 0 packages
+We checked the 18 reverse dependencies, comparing R CMD check results across CRAN and dev versions of this package, and saw no issues.
 
 
 ---
 
-This version includes many improvements and breaking changes, thus the major version bump.
+This version includes many minor improvements.
 
 Thanks!
 Scott Chamberlain

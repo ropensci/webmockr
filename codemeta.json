@@ -8,13 +8,13 @@
   "codeRepository": "https://github.com/ropensci/webmockr",
   "issueTracker": "https://github.com/ropensci/webmockr/issues",
   "license": "https://spdx.org/licenses/MIT",
-  "version": "2.0.0",
+  "version": "2.1.0",
   "programmingLanguage": {
     "@type": "ComputerLanguage",
     "name": "R",
     "url": "https://r-project.org"
   },
-  "runtimePlatform": "R version 4.4.2 (2024-10-31)",
+  "runtimePlatform": "R version 4.5.1 (2025-06-13)",
   "provider": {
     "@id": "https://cran.r-project.org",
     "@type": "Organization",
@@ -92,6 +92,18 @@
     },
     {
       "@type": "SoftwareApplication",
+      "identifier": "crul",
+      "name": "crul",
+      "provider": {
+        "@id": "https://cran.r-project.org",
+        "@type": "Organization",
+        "name": "Comprehensive R Archive Network (CRAN)",
+        "url": "https://cran.r-project.org"
+      },
+      "sameAs": "https://CRAN.R-project.org/package=crul"
+    },
+    {
+      "@type": "SoftwareApplication",
       "identifier": "httr",
       "name": "httr",
       "provider": {
@@ -125,10 +137,28 @@
         "url": "https://cran.r-project.org"
       },
       "sameAs": "https://CRAN.R-project.org/package=diffobj"
+    },
+    {
+      "@type": "SoftwareApplication",
+      "identifier": "withr",
+      "name": "withr",
+      "provider": {
+        "@id": "https://cran.r-project.org",
+        "@type": "Organization",
+        "name": "Comprehensive R Archive Network (CRAN)",
+        "url": "https://cran.r-project.org"
+      },
+      "sameAs": "https://CRAN.R-project.org/package=withr"
     }
   ],
   "softwareRequirements": {
     "1": {
+      "@type": "SoftwareApplication",
+      "identifier": "R",
+      "name": "R",
+      "version": ">= 4.1.0"
+    },
+    "2": {
       "@type": "SoftwareApplication",
       "identifier": "curl",
       "name": "curl",
@@ -140,7 +170,7 @@
       },
       "sameAs": "https://CRAN.R-project.org/package=curl"
     },
-    "2": {
+    "3": {
       "@type": "SoftwareApplication",
       "identifier": "jsonlite",
       "name": "jsonlite",
@@ -152,7 +182,7 @@
       },
       "sameAs": "https://CRAN.R-project.org/package=jsonlite"
     },
-    "3": {
+    "4": {
       "@type": "SoftwareApplication",
       "identifier": "magrittr",
       "name": "magrittr",
@@ -165,7 +195,7 @@
       },
       "sameAs": "https://CRAN.R-project.org/package=magrittr"
     },
-    "4": {
+    "5": {
       "@type": "SoftwareApplication",
       "identifier": "R6",
       "name": "R6",
@@ -178,7 +208,7 @@
       },
       "sameAs": "https://CRAN.R-project.org/package=R6"
     },
-    "5": {
+    "6": {
       "@type": "SoftwareApplication",
       "identifier": "urltools",
       "name": "urltools",
@@ -191,7 +221,7 @@
       },
       "sameAs": "https://CRAN.R-project.org/package=urltools"
     },
-    "6": {
+    "7": {
       "@type": "SoftwareApplication",
       "identifier": "fauxpas",
       "name": "fauxpas",
@@ -202,19 +232,6 @@
         "url": "https://cran.r-project.org"
       },
       "sameAs": "https://CRAN.R-project.org/package=fauxpas"
-    },
-    "7": {
-      "@type": "SoftwareApplication",
-      "identifier": "crul",
-      "name": "crul",
-      "version": ">= 0.7.0",
-      "provider": {
-        "@id": "https://cran.r-project.org",
-        "@type": "Organization",
-        "name": "Comprehensive R Archive Network (CRAN)",
-        "url": "https://cran.r-project.org"
-      },
-      "sameAs": "https://CRAN.R-project.org/package=crul"
     },
     "8": {
       "@type": "SoftwareApplication",
@@ -245,5 +262,5 @@
   "applicationCategory": "Web",
   "isPartOf": "https://ropensci.org",
   "keywords": ["http", "https", "API", "web-services", "curl", "mock", "mocking", "fakeweb", "http-mocking", "testing", "testing-tools", "tdd"],
-  "fileSize": "429.648KB"
+  "fileSize": "415.729KB"
 }
