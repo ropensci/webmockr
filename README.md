@@ -212,7 +212,7 @@ x$get('get')
 #> <crul response> 
 #>   url: https://httpbin.org/get
 #>   request_headers: 
-#>     User-Agent: libcurl/8.11.1 r-curl/6.2.0 crul/1.5.0.91
+#>     User-Agent: libcurl/8.14.1 r-curl/6.4.0 crul/1.5.0
 #>     Accept-Encoding: gzip, deflate
 #>     Accept: application/json, text/xml, application/xml, */*
 #>   response_headers: 
@@ -249,7 +249,7 @@ x$get('get', query = list(hello = "world"))
 #> <crul response> 
 #>   url: https://httpbin.org/get
 #>   request_headers: 
-#>     User-Agent: libcurl/8.11.1 r-curl/6.2.0 crul/1.5.0.91
+#>     User-Agent: libcurl/8.14.1 r-curl/6.4.0 crul/1.5.0
 #>     Accept-Encoding: gzip, deflate
 #>     Accept: application/json, text/xml, application/xml, */*
 #>   response_headers: 
@@ -292,7 +292,7 @@ x$get('get', query = list(hello = "world"))
 #> <crul response> 
 #>   url: https://httpbin.org/get
 #>   request_headers: 
-#>     User-Agent: libcurl/8.11.1 r-curl/6.2.0 crul/1.5.0.91
+#>     User-Agent: libcurl/8.14.1 r-curl/6.4.0 crul/1.5.0
 #>     Accept-Encoding: gzip, deflate
 #>     Accept: application/json, text/xml, application/xml, */*
 #>   response_headers: 
