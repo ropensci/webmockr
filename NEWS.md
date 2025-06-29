@@ -1,15 +1,13 @@
 webmockr (2.1.0)
 =========
 
-## CHANGES
-
-* Many previously exported R6 classes that are internal use only are no longer exported. `RequestPattern` is still exported in this version, but will not be in the next version
-* Five other functions (four prefixed with `build_`, and `pluck_body`) are no longer exported, internal use only
-
 ## MINOR IMPROVEMENTS
 
+* Many previously exported R6 classes that are internal use only are no longer exported. `RequestPattern` is still exported in this version, but will not be in the next version
+* Improve how httr2 mocking is set (#114) thanks @hadley
+* Correctly check that vcr is loaded, not attached (#142) thanks @hadley
 * Update tests to use testthat edition 3, and run in parallel
-* Moved `crul` from Imports to Suggests
+* Moved `crul` from Imports to Suggests. replace use of a `crul` function with an equivalent from `curl` so `crul` is truly not needed to run `wemockr` unless using `crul`
 
 
 webmockr 2.0.0
