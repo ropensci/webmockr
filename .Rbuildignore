@@ -20,3 +20,5 @@ details.*
 ^LICENSE\.md$
 ^\.lintr$
 air.toml
+^[\.]?air\.toml$
+^\.vscode$
