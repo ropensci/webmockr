@@ -79,3 +79,16 @@ test_that("enabled works", {
 
   expect_error(enabled("foobar"), "'adapter' must be in the set")
 })
+
+test_that("can enable and disable quietly", {
+  local_mocked_bindings(is_installed = function(pkg) pkg != "crul")
+
+  expect_snapshot({
+    enable(quiet = TRUE)
+    disable(quiet = TRUE)
+  })
+  expect_snapshot({
+    enable("crul", quiet = TRUE)
+    disable("crul", quiet = TRUE)
+  })
+})
