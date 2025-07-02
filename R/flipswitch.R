@@ -38,7 +38,9 @@ enable <- function(adapter = NULL, options = list(), quiet = FALSE) {
         pkgname <- z$client
         # check if package installed first
         if (!requireNamespace(pkgname, quietly = TRUE)) {
-          message(pkgname, " not installed, skipping enable")
+          if (!quiet) {
+            message(pkgname, " not installed, skipping enable")
+          }
           FALSE
         } else {
           # if instaled, enable
