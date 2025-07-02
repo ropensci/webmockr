@@ -29,7 +29,7 @@ enable <- function(adapter = NULL, options = list(), quiet = FALSE) {
     if (!is_installed(adapter)) {
       if (!quiet) {
         message(adapter, " not installed, skipping enable")
-      }      
+      }
       return(invisible(FALSE))
     }
     http_lib_adapter_registry$adapters[[which(adnms == adapter)]]$enable(quiet)
@@ -76,7 +76,7 @@ disable <- function(adapter = NULL, options = list(), quiet = FALSE) {
     }
     if (!is_installed(adapter)) {
       if (!quiet) {
-        message(adapter, " not installed, skipping disable")  
+        message(adapter, " not installed, skipping disable")
       }
       return(invisible(FALSE))
     }

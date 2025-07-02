@@ -22,7 +22,9 @@ pluck_body <- function(x) {
     return(x$fields)
 
     # json/raw-encoded body
-  } else if (has_name(x$options, "postfields") && is.raw(x$options$postfields)) {
+  } else if (
+    has_name(x$options, "postfields") && is.raw(x$options$postfields)
+  ) {
     return(rawToChar(x$options$postfields))
 
     # upload not in a list
@@ -49,6 +51,7 @@ assert_request <- function(x) {
 
 is_body_empty <- function(x) {
   is.null(x$fields) &&
-    (!has_name(x$options, "postfieldsize_large") || x$options$postfieldsize_large == 0L) &&
+    (!has_name(x$options, "postfieldsize_large") ||
+      x$options$postfieldsize_large == 0L) &&
     (!has_name(x$options, "postfieldsize") || x$options$postfieldsize == 0L)
 }
