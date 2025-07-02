@@ -26,8 +26,10 @@ enable <- function(adapter = NULL, options = list(), quiet = FALSE) {
     if (!adapter %in% webmockr_adapters) {
       abort("adapter must be one of 'crul', 'httr', or 'httr2'")
     }
-    if (!requireNamespace(adapter, quietly = TRUE)) {
-      message(adapter, " not installed, skipping enable")
+    if (!is_installed(adapter)) {
+      if (!quiet) {
+        message(adapter, " not installed, skipping enable")
+      }      
       return(invisible(FALSE))
     }
     http_lib_adapter_registry$adapters[[which(adnms == adapter)]]$enable(quiet)
@@ -37,8 +39,10 @@ enable <- function(adapter = NULL, options = list(), quiet = FALSE) {
       function(z) {
         pkgname <- z$client
         # check if package installed first
-        if (!requireNamespace(pkgname, quietly = TRUE)) {
-          message(pkgname, " not installed, skipping enable")
+        if (!is_installed(pkgname)) {
+          if (!quiet) {
+            message(pkgname, " not installed, skipping enable")
+          }
           FALSE
         } else {
           # if instaled, enable
@@ -70,8 +74,10 @@ disable <- function(adapter = NULL, options = list(), quiet = FALSE) {
     if (!adapter %in% webmockr_adapters) {
       abort("adapter must be one of 'crul', 'httr', or 'httr2'")
     }
-    if (!requireNamespace(adapter, quietly = TRUE)) {
-      message(adapter, " not installed, skipping disable")
+    if (!is_installed(adapter)) {
+      if (!quiet) {
+        message(adapter, " not installed, skipping disable")  
+      }
       return(invisible(FALSE))
     }
     http_lib_adapter_registry$adapters[[which(adnms == adapter)]]$disable(quiet)
@@ -81,8 +87,10 @@ disable <- function(adapter = NULL, options = list(), quiet = FALSE) {
       function(z) {
         pkgname <- z$client
         # check if package installed first
-        if (!requireNamespace(pkgname, quietly = TRUE)) {
-          message(pkgname, " not installed, skipping disable")
+        if (!is_installed(pkgname)) {
+          if (!quiet) {
+            message(pkgname, " not installed, skipping disable")
+          }
           FALSE
         } else {
           # if instaled, disable
