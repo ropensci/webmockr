@@ -73,7 +73,9 @@ disable <- function(adapter = NULL, options = list(), quiet = FALSE) {
       abort("adapter must be one of 'crul', 'httr', or 'httr2'")
     }
     if (!requireNamespace(adapter, quietly = TRUE)) {
-      message(adapter, " not installed, skipping disable")
+      if (!quiet) {
+        message(adapter, " not installed, skipping disable")  
+      }
       return(invisible(FALSE))
     }
     http_lib_adapter_registry$adapters[[which(adnms == adapter)]]$disable(quiet)
