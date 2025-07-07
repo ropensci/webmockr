@@ -75,6 +75,18 @@ build_crul_request <- function(x) {
   )
 }
 
+crul_mock <- function(on = TRUE) {
+  check_installed("crul")
+  if (on) {
+    options(crul_mock = function(req) {
+      webmockr::CrulAdapter$new()$handle_request(req)
+    })
+  } else {
+    options(crul_mock = NULL)
+  }
+  invisible(on)
+}
+
 #' @rdname Adapter
 #' @export
 #' @keywords internal
@@ -89,7 +101,8 @@ CrulAdapter <- R6::R6Class(
   ),
   private = list(
     pluck_url = function(request) request$url$url,
-    mock = function(on) crul::mock(on),
+    # mock = function(on) crul::mock(on),
+    mock = function(on) crul_mock(on),
     build_request = build_crul_request,
     build_response = build_crul_response,
     fetch_request = function(request) {

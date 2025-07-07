@@ -42,6 +42,7 @@ Suggests:
     httr2,
     diffobj,
     withr
+Remotes: ropensci/crul@change-mocking, ropensci/vcr@remove-webmockr
 RoxygenNote: 7.3.2
 Config/testthat/edition: 3
 X-schema.org-applicationCategory: Web

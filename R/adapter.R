@@ -42,7 +42,7 @@ Adapter <- R6::R6Class(
 
       switch(
         self$client,
-        crul = crul::mock(on = TRUE),
+        crul = crul_mock(on = TRUE),
         httr = httr_mock(on = TRUE),
         httr2 = httr2_mock(on = TRUE)
       )
@@ -61,7 +61,7 @@ Adapter <- R6::R6Class(
 
       switch(
         self$client,
-        crul = crul::mock(on = FALSE),
+        crul = crul_mock(on = FALSE),
         httr = httr_mock(on = FALSE),
         httr2 = httr2_mock(on = FALSE)
       )
