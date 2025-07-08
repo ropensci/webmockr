@@ -274,7 +274,6 @@ test_that("wi_th basic_auth, httr", {
 })
 
 test_that("wi_th basic_auth, httr2", {
-  unloadNamespace("vcr")
   skip_if_not_installed("httr2")
   library(httr2, warn.conflicts = FALSE)
   enable("httr2", quiet = TRUE)

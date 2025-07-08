@@ -16,7 +16,6 @@ Stubbing and setting expectations on 'HTTP' requests. Includes tools for stubbin
 \item Matching requests based on method, URI, headers and body
 \item Supports multiple HTTP libraries, including \pkg{crul},
 \pkg{httr}, and \pkg{httr2}
-\item Integration with HTTP test caching library \pkg{vcr}
 \item Supports async http request mocking with \pkg{crul} only
 }
 }

@@ -147,7 +147,7 @@ test_that("Use mock_file to have webmockr handle file and contents: httr", {
     )
   ## make a request
   req <- request(hb("/get"))
-  # req <- request("https://hb.opencpu.org/get")
+  # req <- request("https://hb.cran.dev/get")
   out <- req_perform(req, path = f)
   # out <- GET(hb("/get"), write_disk(f))
   ## view stubbed file content

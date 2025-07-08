@@ -35,16 +35,15 @@ test_that("include query parameters", {
   enable(adapter = "httr", quiet = TRUE)
   on.exit({
     disable(adapter = "httr", quiet = TRUE)
-    unloadNamespace("vcr")
   })
 
   ## matches
-  stub_request("get", "https://hb.opencpu.org/get") %>%
+  stub_request("get", "https://hb.cran.dev/get") %>%
     wi_th(query = including(list(fruit = "pear"))) %>%
     to_return(body = "matched on including partial query!")
 
   resp_matched <- GET(
-    "https://hb.opencpu.org/get",
+    "https://hb.cran.dev/get",
     query = list(fruit = "pear")
   )
 
@@ -58,7 +57,7 @@ test_that("include query parameters", {
 
   ## doesn't match when query params dont include what the stub has
   expect_error(
-    GET("https://hb.opencpu.org/get", query = list(meat = "chicken")),
+    GET("https://hb.cran.dev/get", query = list(meat = "chicken")),
     "Real HTTP connections are disabled"
   )
 
@@ -70,16 +69,15 @@ test_that("exclude query parameters", {
   enable(adapter = "httr", quiet = TRUE)
   on.exit({
     disable(adapter = "httr", quiet = TRUE)
-    unloadNamespace("vcr")
   })
 
   ## matches
-  stub_request("get", "https://hb.opencpu.org/get") %>%
+  stub_request("get", "https://hb.cran.dev/get") %>%
     wi_th(query = excluding(list(fruit = "pear"))) %>%
     to_return(body = "matched on excluding partial query!")
 
   resp_matched <- GET(
-    "https://hb.opencpu.org/get",
+    "https://hb.cran.dev/get",
     query = list(fruit = "apple")
   )
 
@@ -91,7 +89,7 @@ test_that("exclude query parameters", {
 
   ## doesn't match when query params include what's excluded
   expect_error(
-    GET("https://hb.opencpu.org/get", query = list(fruit = "pear")),
+    GET("https://hb.cran.dev/get", query = list(fruit = "pear")),
     "Real HTTP connections are disabled"
   )
 
@@ -104,16 +102,15 @@ test_that("include query parameters, just keys", {
   enable(adapter = "httr", quiet = TRUE)
   on.exit({
     disable(adapter = "httr", quiet = TRUE)
-    unloadNamespace("vcr")
   })
 
   ## matches
-  stub_request("get", "https://hb.opencpu.org/get") %>%
+  stub_request("get", "https://hb.cran.dev/get") %>%
     wi_th(query = including(list(fruit = NULL))) %>%
     to_return(body = "matched on including key!")
 
   resp_matched <- GET(
-    "https://hb.opencpu.org/get",
+    "https://hb.cran.dev/get",
     query = list(fruit = "pear")
   )
 
@@ -124,7 +121,7 @@ test_that("include query parameters, just keys", {
 
   ## doesn't match when no query param keys match the include
   expect_error(
-    GET("https://hb.opencpu.org/get", query = list(meat = "chicken")),
+    GET("https://hb.cran.dev/get", query = list(meat = "chicken")),
     "Real HTTP connections are disabled"
   )
 
@@ -136,16 +133,15 @@ test_that("exclude query parameters, just keys", {
   enable(adapter = "httr", quiet = TRUE)
   on.exit({
     disable(adapter = "httr", quiet = TRUE)
-    unloadNamespace("vcr")
   })
 
   ## matches
-  stub_request("get", "https://hb.opencpu.org/get") %>%
+  stub_request("get", "https://hb.cran.dev/get") %>%
     wi_th(query = excluding(list(fruit = NULL))) %>%
     to_return(body = "matched on excluding key!")
 
   resp_matched <- GET(
-    "https://hb.opencpu.org/get",
+    "https://hb.cran.dev/get",
     query = list(stuff = "things")
   )
 
@@ -156,7 +152,7 @@ test_that("exclude query parameters, just keys", {
 
   ## doesn't match when there's a query param key that matches the exclude
   expect_error(
-    GET("https://hb.opencpu.org/get", query = list(fruit = "pineapple")),
+    GET("https://hb.cran.dev/get", query = list(fruit = "pineapple")),
     "Real HTTP connections are disabled"
   )
 
@@ -169,16 +165,15 @@ test_that("include request body", {
   enable(adapter = "httr", quiet = TRUE)
   on.exit({
     disable(adapter = "httr", quiet = TRUE)
-    unloadNamespace("vcr")
   })
 
   ## matches
-  stub_request("post", "https://hb.opencpu.org/post") %>%
+  stub_request("post", "https://hb.cran.dev/post") %>%
     wi_th(body = including(list(fruit = "pear"))) %>%
     to_return(body = "matched on including partial body!")
 
   resp_matched <- POST(
-    "https://hb.opencpu.org/post",
+    "https://hb.cran.dev/post",
     body = list(fruit = "pear", meat = "chicken")
   )
 
@@ -192,7 +187,7 @@ test_that("include request body", {
 
   ## doesn't match when request body does not include what the stub has
   expect_error(
-    POST("https://hb.opencpu.org/post", query = list(meat = "chicken")),
+    POST("https://hb.cran.dev/post", query = list(meat = "chicken")),
     "Real HTTP connections are disabled"
   )
 
@@ -204,16 +199,15 @@ test_that("exclude request body", {
   enable(adapter = "httr", quiet = TRUE)
   on.exit({
     disable(adapter = "httr", quiet = TRUE)
-    unloadNamespace("vcr")
   })
 
   ## matches
-  stub_request("post", "https://hb.opencpu.org/post") %>%
+  stub_request("post", "https://hb.cran.dev/post") %>%
     wi_th(body = excluding(list(fruit = "pear"))) %>%
     to_return(body = "matched on excluding partial body!")
 
   resp_matched <- POST(
-    "https://hb.opencpu.org/post",
+    "https://hb.cran.dev/post",
     body = list(color = "blue")
   )
 
@@ -228,7 +222,7 @@ test_that("exclude request body", {
   ## doesn't match when request body does not include what the stub has
   expect_error(
     POST(
-      "https://hb.opencpu.org/post",
+      "https://hb.cran.dev/post",
       body = list(fruit = "pear", meat = "chicken")
     ),
     "Real HTTP connections are disabled"

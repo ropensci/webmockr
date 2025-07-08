@@ -1,22 +1,22 @@
 # show_body_diff configuration setting
 
     Code
-      POST("https://hb.opencpu.org/post", body = list(apple = "red"))
+      POST("https://hb.cran.dev/post", body = list(apple = "red"))
     Condition
       Error:
       ! Real HTTP connections are disabled.
       ! Unregistered request:
-      i POST:  https://hb.opencpu.org/post  with body {apple: red}  with headers {Accept: application/json, text/xml, application/xml, */*}
+      i POST:  https://hb.cran.dev/post  with body {apple: red}  with headers {Accept: application/json, text/xml, application/xml, */*}
       
       You can stub this request with the following snippet:
-       stub_request('post', uri = 'https://hb.opencpu.org/post') %>%
+       stub_request('post', uri = 'https://hb.cran.dev/post') %>%
            wi_th(
              headers = list('Accept' = 'application/json, text/xml, application/xml, */*'),
              body = list(apple="red")
            )
       
       registered request stubs:
-       GET: https://hb.opencpu.org/post   with body {"apple":"green"}
+       GET: https://hb.cran.dev/post   with body {"apple":"green"}
       
       
       Body diff:
@@ -31,24 +31,24 @@
 # show_body_diff configuration setting - > 1 stub
 
     Code
-      POST("https://hb.opencpu.org/post", body = list(apple = "red"))
+      POST("https://hb.cran.dev/post", body = list(apple = "red"))
     Condition
       Error:
       ! Real HTTP connections are disabled.
       ! Unregistered request:
-      i POST:  https://hb.opencpu.org/post  with body {apple: red}  with headers {Accept: application/json, text/xml, application/xml, */*}
+      i POST:  https://hb.cran.dev/post  with body {apple: red}  with headers {Accept: application/json, text/xml, application/xml, */*}
       
       You can stub this request with the following snippet:
-       stub_request('post', uri = 'https://hb.opencpu.org/post') %>%
+       stub_request('post', uri = 'https://hb.cran.dev/post') %>%
            wi_th(
              headers = list('Accept' = 'application/json, text/xml, application/xml, */*'),
              body = list(apple="red")
            )
       
       registered request stubs:
-       GET: https://hb.opencpu.org/post   with body {"apple":"green"}
-       GET: https://hb.opencpu.org/post   with body {"apple":"green"}
-       GET: https://hb.opencpu.org/post   with body {"pear":"purple"}
+       GET: https://hb.cran.dev/post   with body {"apple":"green"}
+       GET: https://hb.cran.dev/post   with body {"apple":"green"}
+       GET: https://hb.cran.dev/post   with body {"pear":"purple"}
       
       
       Body diff:

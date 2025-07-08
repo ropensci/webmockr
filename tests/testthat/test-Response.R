@@ -35,7 +35,7 @@ test_that("Response: bits are correct after having data", {
   aa <- Response$new()
   aa$set_url(hb("/get"))
   aa$set_request_headers(list("Content-Type" = "application/json"))
-  aa$set_response_headers(list("Host" = "hb.opencpu.org"))
+  aa$set_response_headers(list("Host" = "hb.cran.dev"))
   aa$set_status(404)
   aa$set_body("hello world")
   aa$set_exception("exception")
@@ -61,7 +61,7 @@ test_that("Response: bits are correct after having data", {
   expect_equal(rawToChar(aa$get_body()), "hello world")
   expect_equal(aa$get_exception(), "exception")
   expect_equal(aa$get_request_headers()[[1]], "application/json")
-  expect_equal(aa$get_respone_headers()[[1]], "hb.opencpu.org")
+  expect_equal(aa$get_respone_headers()[[1]], "hb.cran.dev")
   expect_equal(aa$get_status(), 404)
   expect_equal(aa$get_url(), hb("/get"))
 

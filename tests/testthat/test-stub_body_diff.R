@@ -9,7 +9,7 @@ test_that("stub_body_diff throws error when a stub is found but a request is not
   request_registry_clear()
   stub_registry_clear()
 
-  stub_request("get", "https://hb.opencpu.org/get")
+  stub_request("get", "https://hb.cran.dev/get")
 
   expect_error(stub_body_diff())
 })
@@ -42,12 +42,12 @@ test_that("stub_body_diff works when both stub AND request are found, & there's 
   stub_registry_clear()
 
   enable(quiet = TRUE)
-  stub_request("post", "https://hb.opencpu.org/post") %>%
+  stub_request("post", "https://hb.cran.dev/post") %>%
     wi_th(body = list(apple = "green"))
 
   library(crul, warn.conflicts = FALSE)
   expect_error(
-    HttpClient$new("https://hb.opencpu.org")$post(
+    HttpClient$new("https://hb.cran.dev")$post(
       path = "post",
       body = list(apple = "red")
     ),

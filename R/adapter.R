@@ -88,87 +88,20 @@ Adapter <- R6::R6Class(
         #   get stub with response and return that
         resp <- private$build_stub_response(ss)
 
-        # generate response / vcr: recordable/ignored
-        if (vcr_cassette_inserted()) {
-          # use RequestHandler - gets current cassette & record interaction
-          resp <- private$request_handler(req)$handle()
-
-          # if written to disk, see if we should modify file path
-          if (self$client == "crul" && is.character(resp$content)) {
-            resp <- private$update_vcr_disk_path(resp)
-          }
-
-          # no vcr
-        } else {
-          resp <- private$build_response(req, resp)
-          # add to_return() elements if given
-          resp <- private$add_response_sequences(ss, resp)
-        }
+        resp <- private$build_response(req, resp)
+        # add to_return() elements if given
+        resp <- private$add_response_sequences(ss, resp)
 
         # request is not in cache but connections are allowed
       } else if (webmockr_net_connect_allowed(uri = private$pluck_url(req))) {
         # if real requests || localhost || certain exceptions ARE
         #   allowed && nothing found above
-
-        # if vcr loaded: record http interaction into vcr namespace
-        # VCR: recordable
-        if (vcr_loaded()) {
-          # FIXME: maybe use RequestHandler instead?
-          #   which gets current cassette for us
-          resp <- private$request_handler(req)$handle()
-
-          # if written to disk, see if we should modify file path
-          if (self$client == "crul" && is.character(resp$content)) {
-            if (file.exists(resp$content)) {
-              resp <- private$update_vcr_disk_path(resp)
-            }
-          }
-
-          if (self$client == "httr2") {
-            req$method <- req_method_get_w(req)
-          }
-
-          # stub request so next time we match it
-          req_url <- private$pluck_url(req)
-          urip <- curl::curl_parse_url(req_url)
-          urip$params <- as.list(urip$params)
-          m <- vcr::vcr_configuration()$match_requests_on
-
-          if (all(m %in% c("method", "uri")) && length(m) == 2) {
-            stub_request(req$method, req_url)
-          } else if (
-            all(m %in% c("method", "uri", "query")) && length(m) == 3
-          ) {
-            tmp <- stub_request(req$method, req_url)
-            wi_th(tmp, .list = list(query = urip$params))
-          } else if (
-            all(m %in% c("method", "uri", "headers")) && length(m) == 3
-          ) {
-            tmp <- stub_request(req$method, req_url)
-            wi_th(tmp, .list = list(headers = req$headers))
-          } else if (
-            all(m %in% c("method", "uri", "headers", "query")) && length(m) == 4
-          ) {
-            tmp <- stub_request(req$method, req_url)
-            wi_th(
-              tmp,
-              .list = list(query = urip$params, headers = req$headers)
-            )
-          }
-        } else {
-          private$mock(on = FALSE)
-          resp <- private$fetch_request(req)
-          private$mock(on = TRUE)
-        }
+        private$mock(on = FALSE)
+        resp <- private$fetch_request(req)
+        private$mock(on = TRUE)
 
         # request is not in cache and connections are not allowed
       } else {
-        # throw vcr error: should happen when user not using
-        #  use_cassette or insert_cassette
-        if (vcr_loaded()) {
-          private$request_handler(req)$handle()
-        }
-
         # no stubs found and net connect not allowed - STOP
         x <- c(
           "Real HTTP connections are disabled.",

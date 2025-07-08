@@ -36,50 +36,6 @@ test_that("build_httr_request/response fail well", {
   expect_error(build_httr_response(), "argument \"req\" is missing")
 })
 
-test_that("Httr2Adapter: works when vcr is loaded but no cassette is inserted", {
-  skip_on_cran()
-  skip_if_not_installed("vcr")
-
-  webmockr::enable(adapter = "httr2", quiet = TRUE)
-  on.exit({
-    webmockr::disable(adapter = "httr2", quiet = TRUE)
-    unloadNamespace("vcr")
-  })
-
-  stub_request("get", hb("/get"))
-  library("vcr")
-
-  # works when no cassette is loaded
-  expect_silent((x <- request(hb("/get")) %>% req_perform()))
-  expect_s3_class(x, "httr2_response")
-
-  # # works when empty cassette is loaded
-  vcr::vcr_configure(dir = tempdir())
-  vcr::insert_cassette("empty")
-  expect_silent((x <- request(hb("/get")) %>% req_perform()))
-  vcr::eject_cassette()
-  expect_s3_class(x, "httr2_response")
-})
-
-
-test_that("Httr2Adapter date slot works", {
-  skip_on_cran()
-  skip_if_not_installed("vcr")
-  library("vcr")
-
-  vcr::vcr_configure(dir = withr::local_tempdir())
-  vcr::use_cassette("test-date", request(hb("/get")) %>% req_perform())
-  # list.files(path)
-  # readLines(file.path(path, "test-date.yml"))
-  vcr::use_cassette("test-date", {
-    x <- request(hb("/get")) %>% req_perform()
-  })
-
-  # $headers$date is a different format
-  expect_type(x$headers$date, "character")
-  expect_error(format(x$headers$date, "%Y-%m-%d %H:%M"), "invalid 'trim'")
-})
-
 
 # library(httr2)
 # z <- request(hb("/get")) %>% req_perform()
@@ -88,27 +44,12 @@ test_that("Httr2Adapter date slot works", {
 
 test_that("Httr2Adapter works", {
   skip_on_cran()
-  skip_if_not_installed("vcr")
 
   load("httr2_obj.rda")
   # load("tests/testthat/httr2_obj.rda")
   res <- Httr2Adapter$new()
 
-  # with vcr message
-  # library("vcr")
-  # expect_error(
-  #   res$handle_request(httr2_obj),
-  #   "There is currently no cassette in use"
-  # )
-
   # with webmockr message
-  # unload vcr
-  unloadNamespace("vcr")
-  # expect_error(
-  #   res$handle_request(httr2_obj),
-  #   "Real HTTP connections are disabled"
-  # )
-
   invisible(stub_request("get", hb("/get")))
 
   aa <- res$handle_request(httr2_obj)
@@ -170,7 +111,6 @@ test_that("Httr2Adapter works", {
 test_that("Httr2Adapter works with req_auth_basic", {
   skip_on_cran()
 
-  unloadNamespace("vcr")
   httr_mock()
   # httr_mock(FALSE)
   # sm(webmockr_allow_net_connect())
@@ -196,7 +136,7 @@ test_that("Httr2Adapter works with req_auth_basic", {
   #   req_auth_basic("foo", "bar") %>%
   #   req_perform()
   # httr2_obj_auth <- x$request
-  # save(httr2_obj_auth, file = "tests/testthat/httr2_obj_auth.rda", version = 2)
+  # save(httr2_obj_auth, file = "tests/testthat/httr2_obj_auth.rda", version = 3)
   # load("tests/testthat/httr2_obj_auth.rda")
   load("httr2_obj_auth.rda")
   zz <- Httr2Adapter$new()
@@ -212,8 +152,6 @@ test_that("Httr2Adapter works with req_auth_basic", {
 
 test_that("httr2 works with webmockr_allow_net_connect", {
   skip_on_cran()
-
-  unloadNamespace("vcr")
 
   enable(quiet = TRUE)
   stub_registry_clear()

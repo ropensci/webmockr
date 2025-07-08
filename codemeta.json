@@ -80,18 +80,6 @@
     },
     {
       "@type": "SoftwareApplication",
-      "identifier": "vcr",
-      "name": "vcr",
-      "provider": {
-        "@id": "https://cran.r-project.org",
-        "@type": "Organization",
-        "name": "Comprehensive R Archive Network (CRAN)",
-        "url": "https://cran.r-project.org"
-      },
-      "sameAs": "https://CRAN.R-project.org/package=vcr"
-    },
-    {
-      "@type": "SoftwareApplication",
       "identifier": "crul",
       "name": "crul",
       "provider": {
@@ -262,5 +250,5 @@
   "applicationCategory": "Web",
   "isPartOf": "https://ropensci.org",
   "keywords": ["http", "https", "API", "web-services", "curl", "mock", "mocking", "fakeweb", "http-mocking", "testing", "testing-tools", "tdd"],
-  "fileSize": "415.729KB"
+  "fileSize": "404.358KB"
 }
