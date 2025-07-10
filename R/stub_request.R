@@ -89,7 +89,7 @@
 #' stub_registry()
 #' library(crul)
 #' x <- crul::HttpClient$new(url = "https://httpbin.org")
-#' crul::mock()
+#' enable(adapter = "crul")
 #' x$post("post", body = list(foo = "bar"))
 #'
 #' # add expectation with to_return
@@ -120,7 +120,7 @@
 #'
 #' x <- crul::HttpClient$new(url = "https://httpbin.org")
 #' stub_request("get", "https://httpbin.org/get") %>% to_raise(HTTPBadGateway)
-#' crul::mock()
+#' enable(adapter = "crul")
 #' try(x$get("get"))
 #' \dontshow{stub_registry_clear()}
 #'
@@ -135,7 +135,7 @@
 #' ## with crul
 #' library(crul)
 #' x <- crul::HttpClient$new(url = "https://httpbin.org")
-#' crul::mock()
+#' enable(adapter = "crul")
 #' x$post("post", body = list(foo = "bar"))
 #' x$put("put", body = list(foo = "bar"))
 #' ## with httr
@@ -153,7 +153,7 @@
 #' stub_request("any", uri_regex = ".+") %>% wi_th(headers = headers)
 #' library(crul)
 #' x <- crul::HttpClient$new(url = "https://httpbin.org", headers = headers)
-#' crul::mock()
+#' enable(adapter = "crul")
 #' x$post("post")
 #' x$put("put", body = list(foo = "bar"))
 #'

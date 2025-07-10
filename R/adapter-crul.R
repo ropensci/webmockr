@@ -101,7 +101,6 @@ CrulAdapter <- R6::R6Class(
   ),
   private = list(
     pluck_url = function(request) request$url$url,
-    # mock = function(on) crul::mock(on),
     mock = function(on) crul_mock(on),
     build_request = build_crul_request,
     build_response = build_crul_response,
