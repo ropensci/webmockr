@@ -34,7 +34,7 @@ Imports:
     rlang,
     cli
 Suggests:
-    testthat,
+    testthat (>= 3.0.0),
     xml2,
     crul,
     httr,
@@ -44,6 +44,7 @@ Suggests:
 Remotes: ropensci/crul
 RoxygenNote: 7.3.2
 Config/testthat/edition: 3
+Config/testthat/parallel: true
 X-schema.org-applicationCategory: Web
 X-schema.org-keywords: http, https, API, web-services, curl, mock, mocking, fakeweb, http-mocking, testing, testing-tools, tdd
 X-schema.org-isPartOf: https://ropensci.org
