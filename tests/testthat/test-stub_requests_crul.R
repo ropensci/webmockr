@@ -1,11 +1,9 @@
-library(crul, warn.conflicts = FALSE)
-crul::mock()
-
-# clear any stubs
-stub_registry_clear()
-
 test_that("stub_request works well: get requests", {
   skip_on_cran()
+  library(crul, warn.conflicts = FALSE)
+  stub_registry_clear()
+  enable(adapter = "crul")
+  withr::defer(disable(adapter = "crul"))
 
   # before any stubs made
   ## 0 stubs
@@ -77,12 +75,12 @@ test_that("stub_request works well: get requests", {
   expect_error(x$get("get", query = list(foo = "bar")), re_escape(ms4))
 })
 
-# clear any stubs again
-stub_registry_clear()
-
-
 test_that("stub_request works well: post requests", {
   skip_on_cran()
+  library(crul, warn.conflicts = FALSE)
+  stub_registry_clear()
+  enable(adapter = "crul")
+  withr::defer(disable(adapter = "crul"))
 
   # before any stubs made
   ## 0 stubs
