@@ -111,7 +111,6 @@ Httr2Adapter <- R6::R6Class(
     mock = function(on) httr2_mock(on),
     build_request = build_httr2_request,
     build_response = build_httr2_response,
-    request_handler = function(request) vcr::RequestHandlerHttr2$new(request),
     fetch_request = function(request) httr2::req_perform(request)
   )
 )

@@ -20,7 +20,7 @@ test_that("RequestPattern: behaves as expected", {
   rs2 <- RequestSignature$new(method = "post", uri = hb("/get"))
   rs3 <- RequestSignature$new(
     method = "get",
-    uri = "https:/hb.opencpu.org",
+    uri = "https:/hb.cran.dev",
     options = list(headers = list(`User-Agent` = "foobar", stuff = "things"))
   )
 
@@ -30,7 +30,7 @@ test_that("RequestPattern: behaves as expected", {
 
   expect_type(aa$to_s(), "character")
   expect_match(aa$to_s(), "GET")
-  expect_match(aa$to_s(), "hb.opencpu.org/get")
+  expect_match(aa$to_s(), "hb.cran.dev/get")
 })
 
 test_that("RequestPattern: uri_regex", {

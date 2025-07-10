@@ -33,56 +33,14 @@ test_that("build_crul_request/response fail well", {
   expect_error(build_crul_response(), "argument \"resp\" is missing")
 })
 
-test_that("CrulAdapter: works when vcr is loaded but no cassette is inserted", {
-  skip_on_cran()
-  skip_if_not_installed("vcr")
-
-  webmockr::enable(adapter = "crul", quiet = TRUE)
-  on.exit({
-    webmockr::disable(adapter = "crul", quiet = TRUE)
-    unloadNamespace("vcr")
-  })
-
-  stub_request("get", hb("/get"))
-  library("vcr")
-
-  # works when no cassette is loaded
-  cli <- crul::HttpClient$new(hb())
-
-  expect_silent(x <- cli$get("get"))
-  expect_s3_class(x, "HttpResponse")
-
-  # works when empty cassette is loaded
-  vcr::vcr_configure(dir = tempdir())
-  vcr::insert_cassette("empty")
-  expect_silent(x <- cli$get("get"))
-  vcr::eject_cassette()
-  expect_s3_class(x, "HttpResponse")
-})
-
 test_that("CrulAdapter works", {
   skip_on_cran()
-  skip_if_not_installed("vcr")
 
   load("crul_obj.rda")
   crul_obj$url$handle <- curl::new_handle()
   res <- CrulAdapter$new()
 
-  # with vcr message
-  # library(vcr)
-  # expect_error(
-  #   res$handle_request(crul_obj),
-  #   "There is currently no cassette in use"
-  # )
-
   # with webmockr message
-  # unload vcr
-  unloadNamespace("vcr")
-  # expect_error(
-  #   res$handle_request(crul_obj),
-  #   "Real HTTP connections are disabled"
-  # )
-
   invisible(stub_request("get", "http://localhost:9000/get"))
 
   aa <- res$handle_request(crul_obj)

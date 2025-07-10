@@ -272,16 +272,3 @@ last <- function(x) {
   }
   x[[length(x)]]
 }
-
-
-vcr_loaded <- function() {
-  isNamespaceLoaded("vcr")
-}
-
-# check whether a cassette is inserted without assuming vcr is installed
-vcr_cassette_inserted <- function() {
-  if (vcr_loaded()) {
-    return(length(vcr::current_cassette()) > 0)
-  }
-  return(FALSE)
-}

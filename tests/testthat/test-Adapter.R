@@ -24,11 +24,11 @@ test_that("show_body_diff configuration setting", {
   library(httr, warn.conflicts = FALSE)
   enable(adapter = "httr", quiet = TRUE)
 
-  stub_request("get", "https://hb.opencpu.org/post") %>%
+  stub_request("get", "https://hb.cran.dev/post") %>%
     wi_th(body = list(apple = "green"))
 
   expect_snapshot(
-    POST("https://hb.opencpu.org/post", body = list(apple = "red")),
+    POST("https://hb.cran.dev/post", body = list(apple = "red")),
     error = TRUE
   )
 })
@@ -40,13 +40,13 @@ test_that("show_body_diff configuration setting - > 1 stub", {
   library(httr, warn.conflicts = FALSE)
   enable(adapter = "httr", quiet = TRUE)
 
-  stub_request("get", "https://hb.opencpu.org/post") %>%
+  stub_request("get", "https://hb.cran.dev/post") %>%
     wi_th(body = list(apple = "green"))
-  stub_request("get", "https://hb.opencpu.org/post") %>%
+  stub_request("get", "https://hb.cran.dev/post") %>%
     wi_th(body = list(pear = "purple"))
 
   expect_snapshot(
-    POST("https://hb.opencpu.org/post", body = list(apple = "red")),
+    POST("https://hb.cran.dev/post", body = list(apple = "red")),
     error = TRUE
   )
 })

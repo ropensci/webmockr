@@ -1,7 +1,7 @@
 test_that("StubbedRequest: works", {
   expect_s3_class(StubbedRequest, "R6ClassGenerator")
 
-  aa <- StubbedRequest$new(method = "get", uri = "https://hb.opencpu.org/get")
+  aa <- StubbedRequest$new(method = "get", uri = "https://hb.cran.dev/get")
 
   expect_s3_class(aa, "StubbedRequest")
 
@@ -17,14 +17,14 @@ test_that("StubbedRequest: works", {
   expect_equal(aa$method, "get")
 
   expect_type(aa$uri, "character")
-  expect_equal(aa$uri, "https://hb.opencpu.org/get")
+  expect_equal(aa$uri, "https://hb.cran.dev/get")
 
   expect_type(aa$uri_parts, "list")
-  expect_equal(aa$uri_parts$domain, "hb.opencpu.org")
+  expect_equal(aa$uri_parts$domain, "hb.cran.dev")
   expect_equal(aa$uri_parts$path, "get")
 
   expect_type(aa$to_s, "closure")
-  expect_equal(aa$to_s(), "GET: https://hb.opencpu.org/get")
+  expect_equal(aa$to_s(), "GET: https://hb.cran.dev/get")
 
   # with
   expect_type(aa$with, "closure")
@@ -34,7 +34,7 @@ test_that("StubbedRequest: works", {
   expect_named(aa$query, "foo")
   expect_equal(
     aa$to_s(),
-    "GET: https://hb.opencpu.org/get  with query params foo=bar"
+    "GET: https://hb.cran.dev/get  with query params foo=bar"
   )
 
   ## >1 query param gets combined with "&" and not ","
@@ -42,7 +42,7 @@ test_that("StubbedRequest: works", {
   expect_equal(sort(names(aa$query)), c("foo", "stuff"))
   expect_equal(
     aa$to_s(),
-    "GET: https://hb.opencpu.org/get  with query params foo=bar, stuff=567"
+    "GET: https://hb.cran.dev/get  with query params foo=bar, stuff=567"
   )
 
   # to_return
@@ -60,7 +60,7 @@ test_that("StubbedRequest: works", {
 
 
 test_that("StubbedRequest: to_timeout", {
-  x <- StubbedRequest$new(method = "get", uri = "https:/hb.opencpu.org/get")
+  x <- StubbedRequest$new(method = "get", uri = "https:/hb.ocran.dev/get")
   expect_false(grepl("should_timeout: TRUE", x$to_s()))
   x$to_timeout()
   expect_true(grepl("should_timeout: TRUE", x$to_s()))
@@ -68,7 +68,7 @@ test_that("StubbedRequest: to_timeout", {
 
 library("fauxpas")
 test_that("StubbedRequest: to_raise", {
-  x <- StubbedRequest$new(method = "get", uri = "https:/hb.opencpu.org/get")
+  x <- StubbedRequest$new(method = "get", uri = "https:/hb.ocran.dev/get")
   expect_false(grepl("to_raise: HTTPBadGateway", x$to_s()))
   x$to_raise(HTTPBadGateway)
   expect_true(grepl("to_raise: HTTPBadGateway", x$to_s()))
@@ -87,49 +87,49 @@ test_that("StubbedRequest: different methods work", {
   expect_equal(
     StubbedRequest$new(
       method = "any",
-      uri = "https:/hb.opencpu.org/get"
+      uri = "https:/hb.ocran.dev/get"
     )$method,
     "any"
   )
   expect_equal(
     StubbedRequest$new(
       method = "get",
-      uri = "https:/hb.opencpu.org/get"
+      uri = "https:/hb.ocran.dev/get"
     )$method,
     "get"
   )
   expect_equal(
     StubbedRequest$new(
       method = "head",
-      uri = "https:/hb.opencpu.org/get"
+      uri = "https:/hb.ocran.dev/get"
     )$method,
     "head"
   )
   expect_equal(
     StubbedRequest$new(
       method = "post",
-      uri = "https:/hb.opencpu.org/get"
+      uri = "https:/hb.ocran.dev/get"
     )$method,
     "post"
   )
   expect_equal(
     StubbedRequest$new(
       method = "put",
-      uri = "https:/hb.opencpu.org/get"
+      uri = "https:/hb.ocran.dev/get"
     )$method,
     "put"
   )
   expect_equal(
     StubbedRequest$new(
       method = "patch",
-      uri = "https:/hb.opencpu.org/get"
+      uri = "https:/hb.ocran.dev/get"
     )$method,
     "patch"
   )
   expect_equal(
     StubbedRequest$new(
       method = "delete",
-      uri = "https:/hb.opencpu.org/get"
+      uri = "https:/hb.ocran.dev/get"
     )$method,
     "delete"
   )
@@ -239,7 +239,7 @@ test_that("StubbedRequest nested lists in body", {
 test_that("StubbedRequest w/ >1 to_return()", {
   stub_registry_clear()
 
-  x <- StubbedRequest$new(method = "get", uri = "hb.opencpu.org")
+  x <- StubbedRequest$new(method = "get", uri = "hb.cran.dev")
   x$to_return(status = 200, body = "foobar", headers = list(a = 5))
   x$to_return(status = 200, body = "bears", headers = list(b = 6))
   x$to_s()

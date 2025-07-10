@@ -133,7 +133,7 @@ test_that("webmockr_allow_net_connect", {
 
 test_that("show_stubbing_instructions", {
   enable(quiet = TRUE)
-  x <- crul::HttpClient$new("https://hb.opencpu.org/get")
+  x <- crul::HttpClient$new("https://hb.cran.dev/get")
 
   # DO show stubbing instructions
   webmockr_configure(show_stubbing_instructions = TRUE)

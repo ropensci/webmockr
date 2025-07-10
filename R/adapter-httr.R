@@ -135,7 +135,6 @@ HttrAdapter <- R6::R6Class(
     mock = function(on) httr_mock(on),
     build_request = build_httr_request,
     build_response = build_httr_response,
-    request_handler = function(request) vcr::RequestHandlerHttr$new(request),
     fetch_request = function(request) {
       METHOD <- eval(parse(text = paste0("httr::", request$method)))
       METHOD(

@@ -36,63 +36,26 @@ test_that("build_httr_request/response fail well", {
   expect_error(build_httr_response(), "argument \"req\" is missing")
 })
 
-test_that("HttrAdapter: works when vcr is loaded but no cassette is inserted", {
-  skip_on_cran()
-  skip_if_not_installed("vcr")
-
-  webmockr::enable(adapter = "httr", quiet = TRUE)
-  on.exit({
-    webmockr::disable(adapter = "httr", quiet = TRUE)
-    unloadNamespace("vcr")
-  })
-
-  stub_request("get", hb("/get"))
-  library("vcr")
-
-  # works when no cassette is loaded
-  expect_silent(x <- httr::GET(hb("/get")))
-  expect_s3_class(x, "response")
-
-  # # works when empty cassette is loaded
-  vcr::vcr_configure(dir = withr::local_tempdir())
-  vcr::use_cassette("empty", {
-    expect_silent(x <- httr::GET(hb("/get")))
-  })
-  expect_s3_class(x, "response")
-})
-
 # library(httr)
 # z <- GET(hb("/get"))
 # httr_obj <- z$request
 # save(httr_obj, file = "tests/testthat/httr_obj.rda", version = 2)
 
-test_that("HttrAdapter date slot works", {
-  skip_on_cran()
-  skip_if_not_installed("vcr")
-  library("vcr")
+# test_that("HttrAdapter date slot works", {
+#   skip_on_cran()
 
-  vcr::vcr_configure(dir = withr::local_tempdir())
+#   # $date is of correct format
+#   expect_output(print(x), "Date")
+#   expect_s3_class(x$date, "POSIXct")
+#   expect_type(format(x$date, "%Y-%m-%d %H:%M"), "character")
 
-  vcr::use_cassette("test-date", httr::GET(hb("/get")))
-
-  vcr::use_cassette("test-date", {
-    x <- httr::GET(hb("/get"))
-  })
-
-  # $date is of correct format
-  expect_output(print(x), "Date")
-  expect_s3_class(x$date, "POSIXct")
-  expect_type(format(x$date, "%Y-%m-%d %H:%M"), "character")
-
-  # $headers$date is a different format
-  expect_type(x$headers$date, "character")
-  expect_error(format(x$headers$date, "%Y-%m-%d %H:%M"), "invalid 'trim'")
-})
-
+#   # $headers$date is a different format
+#   expect_type(x$headers$date, "character")
+#   expect_error(format(x$headers$date, "%Y-%m-%d %H:%M"), "invalid 'trim'")
+# })
 
 test_that("HttrAdapter insensitive headers work, webmockr flow", {
   skip_on_cran()
-  unloadNamespace("vcr")
   httr_mock()
   stub_registry_clear()
   invisible(
@@ -112,45 +75,14 @@ test_that("HttrAdapter insensitive headers work, webmockr flow", {
   httr_mock(FALSE)
 })
 
-test_that("HttrAdapter insensitive headers work, vcr flow", {
-  skip_on_cran()
-  skip_if_not_installed("vcr")
-  library("vcr")
-
-  vcr::vcr_configure(dir = withr::local_tempdir())
-  vcr::use_cassette("test-date", GET(hb("/get")))
-  vcr::use_cassette("test-date", {
-    x <- httr::GET(hb("/get"))
-  })
-
-  expect_equal(x$headers[["content-type"]], "application/json")
-  expect_type(httr::content(x), "list")
-  expect_type(httr::content(x, "text", encoding = "UTF-8"), "character")
-})
-
-
 test_that("HttrAdapter works", {
   skip_on_cran()
-  skip_if_not_installed("vcr")
 
   load("httr_obj.rda")
   # load("tests/testthat/httr_obj.rda")
   res <- HttrAdapter$new()
 
-  # with vcr message
-  library("vcr")
-  # expect_error(
-  #   res$handle_request(httr_obj),
-  #   "There is currently no cassette in use"
-  # )
-
   # with webmockr message
-  # unload vcr
-  unloadNamespace("vcr")
-  # expect_error(
-  #   res$handle_request(httr_obj)
-  # )
-
   invisible(stub_request("get", hb("/get")))
 
   aa <- res$handle_request(httr_obj)
@@ -226,7 +158,6 @@ test_that("HttrAdapter works", {
 test_that("HttrAdapter works with httr::authenticate", {
   skip_on_cran()
 
-  unloadNamespace("vcr")
   httr_mock()
   # httr_mock(FALSE)
   # sm(webmockr_allow_net_connect())
@@ -240,7 +171,7 @@ test_that("HttrAdapter works with httr::authenticate", {
     )
   # x <- httr::GET(hb("/basic-auth/foo/bar"), httr::authenticate("foo", "bar"))
   # httr_obj_auth <- x$request
-  # save(httr_obj_auth, file = "tests/testthat/httr_obj_auth.rda", version = 2)
+  # save(httr_obj_auth, file = "tests/testthat/httr_obj_auth.rda", version = 3)
   # load("tests/testthat/httr_obj_auth.rda")
 
   # mocked httr requests with auth work

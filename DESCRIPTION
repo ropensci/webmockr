@@ -36,12 +36,12 @@ Imports:
 Suggests:
     testthat,
     xml2,
-    vcr,
     crul,
     httr,
     httr2,
     diffobj,
     withr
+Remotes: ropensci/crul@change-mocking
 RoxygenNote: 7.3.2
 Config/testthat/edition: 3
 X-schema.org-applicationCategory: Web
