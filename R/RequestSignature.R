@@ -123,6 +123,23 @@ RequestSignature <- R6::R6Class(
       }
     },
 
+    #' @description Request a named list with all data
+    #' @return a named list
+    as_list = function() {
+      list(
+        method = self$method %||% NA_character_,
+        uri = self$uri %||% NA_character_,
+        body = self$body %||% NA_character_,
+        headers = self$headers %||% NA_character_,
+        proxies = self$proxies %||% NA_character_,
+        auth = self$auth %||% NA_character_,
+        url = self$url %||% NA_character_,
+        disk = self$disk %||% NA_character_,
+        fields = self$fields %||% NA_character_,
+        output = self$output %||% NA_character_
+      )
+    },
+
     #' @description Request signature to a string
     #' @return a character string representation of the request signature
     to_s = function() {

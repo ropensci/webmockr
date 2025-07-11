@@ -82,6 +82,7 @@ bb$to_s()
 \itemize{
 \item \href{#method-RequestSignature-new}{\code{RequestSignature$new()}}
 \item \href{#method-RequestSignature-print}{\code{RequestSignature$print()}}
+\item \href{#method-RequestSignature-as_list}{\code{RequestSignature$as_list()}}
 \item \href{#method-RequestSignature-to_s}{\code{RequestSignature$to_s()}}
 \item \href{#method-RequestSignature-clone}{\code{RequestSignature$clone()}}
 }
@@ -128,6 +129,19 @@ print method for the \code{RequestSignature} class
 \item{\code{...}}{ignored}
 }
 \if{html}{\out{</div>}}
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-RequestSignature-as_list"></a>}}
+\if{latex}{\out{\hypertarget{method-RequestSignature-as_list}{}}}
+\subsection{Method \code{as_list()}}{
+Request a named list with all data
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{RequestSignature$as_list()}\if{html}{\out{</div>}}
+}
+
+\subsection{Returns}{
+a named list
 }
 }
 \if{html}{\out{<hr>}}

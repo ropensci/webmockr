@@ -104,3 +104,58 @@ RequestRegistry <- R6::R6Class(
     }
   )
 )
+
+#' Request registry filter
+#'
+#' If not filters are given, returns all requests
+#'
+#' @export
+#' @param method (character) http method
+#' @param url (character) a url
+#' @param body (character) a request body
+#' @return list, length of number of unique requests recorded, or
+#' those requests matching filters supplied by parameters
+#' @examples
+#' enable()
+#'
+#' stub_request("any", uri_regex = ".+")
+#'
+#' library(httr)
+#' GET("http://example.com")
+#' GET("https://hb.cran.dev/get")
+#' POST("https://hb.cran.dev/post", body = list(fruit = "apple"))
+#' POST("https://hb.cran.dev/post", body = list(cheese = "swiss"))
+#'
+#' request_registry_filter()
+#' request_registry_filter(method="get")
+#' request_registry_filter(method="post")
+#' request_registry_filter(method="get", url="http://example.com")
+#' request_registry_filter(method="post", body=list(fruit = "apple"))
+#' request_registry_filter(method="post", body=list(cheese = "swiss"))
+#' request_registry_filter(method="post", body=list(cheese = "cheddar"))
+#'
+#' match <- request_registry_filter(method="post")[[1]]
+#' match$request
+#' match$request$to_s()
+#' match$count
+request_registry_filter <- function(method = NULL, url = NULL, body = NULL) {
+  data <- request_registry()
+  reqs <- unname(data$request_signatures$hash)
+  out <- lapply(reqs, \(x) {
+    tmp <- c(key = x$key, count = x$count, x$sig$as_list(), x)
+    names(tmp)[names(tmp) == "sig"] <- "request"
+    tmp
+  })
+
+  if (!is.null(method)) {
+    out <- Filter(\(x) MethodPattern$new(x$method)$matches(method), out)
+  }
+  if (!is.null(url)) {
+    out <- Filter(\(x) UriPattern$new(x$uri)$matches(url), out)
+  }
+  if (!is.null(body)) {
+    out <- Filter(\(x) BodyPattern$new(x$body)$matches(body), out)
+  }
+
+  out
+}
