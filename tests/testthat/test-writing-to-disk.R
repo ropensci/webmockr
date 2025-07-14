@@ -55,7 +55,7 @@ test_that("Write to a file before mocked request: httr", {
   stub_registry_clear()
 })
 
-test_that("Write to a file before mocked request: httr", {
+test_that("Write to a file before mocked request: httr2", {
   skip_on_cran()
   skip_if_not_installed("httr2")
 
@@ -132,7 +132,7 @@ test_that("Use mock_file to have webmockr handle file and contents: httr", {
   stub_registry_clear()
 })
 
-test_that("Use mock_file to have webmockr handle file and contents: httr", {
+test_that("Use mock_file to have webmockr handle file and contents: httr2", {
   skip_on_cran()
   skip_if_not_installed("httr2")
 
@@ -147,9 +147,7 @@ test_that("Use mock_file to have webmockr handle file and contents: httr", {
     )
   ## make a request
   req <- request(hb("/get"))
-  # req <- request("https://hb.cran.dev/get")
   out <- req_perform(req, path = f)
-  # out <- GET(hb("/get"), write_disk(f))
   ## view stubbed file content
   expect_s3_class(out$body, "httr2_path")
   expect_match(out$body, "json")
