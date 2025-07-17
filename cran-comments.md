@@ -10,12 +10,12 @@
 
 ## revdepcheck results
 
-We checked the 18 reverse dependencies, comparing R CMD check results across CRAN and dev versions of this package, and saw no issues.
+We checked the 21 reverse dependencies, comparing R CMD check results across CRAN and dev versions of this package, and saw no issues.
 
 
 ---
 
-This version includes many minor improvements.
+This version includes many minor improvements, and removes dependency on vcr, which will also be submitted to CRAN soon.
 
 Thanks!
 Scott Chamberlain
