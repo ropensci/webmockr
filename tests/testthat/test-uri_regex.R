@@ -1,4 +1,5 @@
 test_that("uri_regex with crul", {
+  skip_on_cran()
   stub_request("get", uri_regex = "hb.cran.dev/.+") %>%
     to_return(body = list(foo = "bar"))
 

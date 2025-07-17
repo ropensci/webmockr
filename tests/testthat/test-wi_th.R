@@ -221,6 +221,8 @@ test_that("wi_th handles HEADERS with varied input classes", {
 disable("httr", quiet = TRUE)
 
 test_that("wi_th basic_auth, crul", {
+  skip_on_cran()
+
   # crul
   library(crul, warn.conflicts = FALSE)
   enable("crul", quiet = TRUE)

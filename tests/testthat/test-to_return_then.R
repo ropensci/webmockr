@@ -2,6 +2,8 @@ enable(quiet = TRUE)
 webmockr_reset()
 
 test_that("to_return: then", {
+  skip_on_cran()
+
   stub <- stub_request("get", hb("/get?stuff=things"))
   to_return(stub, status = 200, body = "foobar", headers = list(a = 5))
   to_return(stub, status = 200, body = "bears", headers = list(b = 6))
@@ -22,6 +24,8 @@ test_that("to_return: then", {
 webmockr_reset()
 
 test_that("to_return: webmockr_reset allows multiple requests to start from beginning", {
+  skip_on_cran()
+
   stub <- stub_request("get", hb("/get?stuff=things"))
   to_return(stub, status = 200, body = "foobar", headers = list(a = 5))
   to_return(stub, status = 200, body = "bears", headers = list(b = 6))

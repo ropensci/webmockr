@@ -5,6 +5,7 @@ test_that("last_request works when no requests found", {
 })
 
 test_that("last_request works when requests are found", {
+  skip_on_cran()
   request_registry_clear()
 
   enable(quiet = TRUE)

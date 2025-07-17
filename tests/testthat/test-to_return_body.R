@@ -1,4 +1,6 @@
 test_that("to_return: setting body behaves correctly", {
+  skip_on_cran()
+
   enable(quiet = TRUE)
   stub_registry_clear()
 
