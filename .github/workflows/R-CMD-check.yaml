@@ -34,7 +34,7 @@ jobs:
           extra-packages: any::rcmdcheck
           needs: check
       
-      - uses: temporary fix, need dev crul
+      - name: temporary fix, need dev crul
         run: |
           install.packages("pak")
           pak::pak("ropensci/crul")
