@@ -107,16 +107,19 @@ RequestRegistry <- R6::R6Class(
 
 #' Request registry filter
 #'
-#' If not filters are given, returns all requests
+#' If no filters are given, returns all requests
 #'
 #' @export
-#' @param method (character) http method
-#' @param url (character) a url
-#' @param body (character) a request body
+#' @param method (character) http method. default: `NULL`
+#' @param url (character) a url. default: `NULL`
+#' @param body (various) a request body. default: `NULL`.
+#' Can be any of: `character`, `json`, `list`, `raw`, `numeric`,
+#' `NULL`, `FALSE`
+#' @param headers (list) if given, must be a named list. default: `NULL`
 #' @return list, length of number of unique requests recorded, or
 #' those requests matching filters supplied by parameters
 #' @examples
-#' enable()
+#' enable(adapter="httr")
 #'
 #' stub_request("any", uri_regex = ".+")
 #'
@@ -125,6 +128,7 @@ RequestRegistry <- R6::R6Class(
 #' GET("https://hb.cran.dev/get")
 #' POST("https://hb.cran.dev/post", body = list(fruit = "apple"))
 #' POST("https://hb.cran.dev/post", body = list(cheese = "swiss"))
+#' GET("https://hb.cran.dev/get", add_headers(Accept = "application/json"))
 #'
 #' request_registry_filter()
 #' request_registry_filter(method="get")
@@ -133,12 +137,26 @@ RequestRegistry <- R6::R6Class(
 #' request_registry_filter(method="post", body=list(fruit = "apple"))
 #' request_registry_filter(method="post", body=list(cheese = "swiss"))
 #' request_registry_filter(method="post", body=list(cheese = "cheddar"))
+#' request_registry_filter(method="get", headers=list(Accept = "application/json"))
 #'
 #' match <- request_registry_filter(method="post")[[1]]
 #' match$request
 #' match$request$to_s()
 #' match$count
-request_registry_filter <- function(method = NULL, url = NULL, body = NULL) {
+#'
+#' disable()
+request_registry_filter <- function(
+  method = NULL,
+  url = NULL,
+  body = NULL,
+  headers = NULL
+) {
+  assert_is(url, "character")
+  assert_is(method, "character")
+  assert_is(headers, "list")
+  if (!all(hz_namez(headers))) {
+    abort("'headers' must be a named list")
+  }
   data <- request_registry()
   reqs <- unname(data$request_signatures$hash)
   out <- lapply(reqs, \(x) {
@@ -155,6 +173,9 @@ request_registry_filter <- function(method = NULL, url = NULL, body = NULL) {
   }
   if (!is.null(body)) {
     out <- Filter(\(x) BodyPattern$new(x$body)$matches(body), out)
+  }
+  if (!is.null(headers)) {
+    out <- Filter(\(x) HeadersPattern$new(x$headers)$matches(headers), out)
   }
 
   out

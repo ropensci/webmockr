@@ -4,24 +4,28 @@
 \alias{request_registry_filter}
 \title{Request registry filter}
 \usage{
-request_registry_filter(method = NULL, url = NULL, body = NULL)
+request_registry_filter(method = NULL, url = NULL, body = NULL, headers = NULL)
 }
 \arguments{
-\item{method}{(character) http method}
+\item{method}{(character) http method. default: \code{NULL}}
 
-\item{url}{(character) a url}
+\item{url}{(character) a url. default: \code{NULL}}
 
-\item{body}{(character) a request body}
+\item{body}{(various) a request body. default: \code{NULL}.
+Can be any of: \code{character}, \code{json}, \code{list}, \code{raw}, \code{numeric},
+\code{NULL}, \code{FALSE}}
+
+\item{headers}{(list) if given, must be a named list. default: \code{NULL}}
 }
 \value{
 list, length of number of unique requests recorded, or
 those requests matching filters supplied by parameters
 }
 \description{
-If not filters are given, returns all requests
+If no filters are given, returns all requests
 }
 \examples{
-enable()
+enable(adapter="httr")
 
 stub_request("any", uri_regex = ".+")
 
@@ -30,6 +34,7 @@ GET("http://example.com")
 GET("https://hb.cran.dev/get")
 POST("https://hb.cran.dev/post", body = list(fruit = "apple"))
 POST("https://hb.cran.dev/post", body = list(cheese = "swiss"))
+GET("https://hb.cran.dev/get", add_headers(Accept = "application/json"))
 
 request_registry_filter()
 request_registry_filter(method="get")
@@ -38,9 +43,12 @@ request_registry_filter(method="get", url="http://example.com")
 request_registry_filter(method="post", body=list(fruit = "apple"))
 request_registry_filter(method="post", body=list(cheese = "swiss"))
 request_registry_filter(method="post", body=list(cheese = "cheddar"))
+request_registry_filter(method="get", headers=list(Accept = "application/json"))
 
 match <- request_registry_filter(method="post")[[1]]
 match$request
 match$request$to_s()
 match$count
+
+disable()
 }
