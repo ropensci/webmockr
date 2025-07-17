@@ -7,6 +7,7 @@
 Mocking writing to disk
 }
 \examples{
+\dontshow{if (interactive()) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
 # enable mocking
 enable()
 
@@ -125,4 +126,5 @@ stub_registry_clear()
 
 # disable mocking
 disable()
+\dontshow{\}) # examplesIf}
 }

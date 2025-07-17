@@ -1,7 +1,7 @@
 #' Mocking writing to disk
 #'
 #' @name mocking-disk-writing
-#' @examples
+#' @examplesIf interactive()
 #' # enable mocking
 #' enable()
 #'
