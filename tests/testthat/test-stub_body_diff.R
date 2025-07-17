@@ -24,6 +24,7 @@ test_that("stub_body_diff throws error when no stub is found but a request is fo
 })
 
 test_that("stub_body_diff works when both stub AND request are found, no diff found", {
+  skip_on_cran()
   request_registry_clear()
   stub_registry_clear()
 

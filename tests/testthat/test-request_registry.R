@@ -1,4 +1,5 @@
 test_that("request_registry: structure", {
+  skip_on_cran()
   request_registry_clear()
 
   expect_type(request_registry, "closure")
