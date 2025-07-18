@@ -1,5 +1,5 @@
-webmockr (2.2.0)
-=========
+webmockr 2.2.0
+==============
 
 ## MINOR IMPROVEMENTS
 
@@ -8,8 +8,8 @@ webmockr (2.2.0)
 * eliminate partial match warnings (#147) thanks @hadley
 
 
-webmockr (2.1.0)
-=========
+webmockr 2.1.0
+==============
 
 ## MINOR IMPROVEMENTS
 
