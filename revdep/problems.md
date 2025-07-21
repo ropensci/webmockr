@@ -32,7 +32,7 @@ Run `revdepcheck::revdep_details(, "archiveRetriever")` for more info
        3. └─archiveRetriever::scrape_urls(...) at test_scrape_urls.R:687:5
        4.   └─base::`colnames<-`(`*tmp*`, value = cnames)
       
-      [ FAIL 9 | WARN 8 | SKIP 16 | PASS 62 ]
+      [ FAIL 10 | WARN 8 | SKIP 16 | PASS 61 ]
       Error: Test failures
       Execution halted
     ```
