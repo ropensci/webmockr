@@ -38,6 +38,8 @@ unloadNamespace("httr")
 
 
 test_that("crul works", {
+  skip_on_cran()
+
   enable(quiet = TRUE)
   dat_json <- '{"foo":"bar"}'
   stub <- stub_request("get", uri = hb("/get"))

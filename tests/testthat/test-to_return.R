@@ -81,6 +81,8 @@ stub_registry_clear()
 enable(quiet = TRUE)
 
 test_that("to_return (response) headers are all lowercase, crul", {
+  skip_on_cran()
+
   stub <- stub_request(uri = hb("/get")) %>%
     to_return(headers = list("Foo-Bar" = "baz"))
   cli <- crul::HttpClient$new(url = hb())
@@ -137,6 +139,8 @@ stub_registry_clear()
 enable(quiet = TRUE)
 
 test_that("to_return response header values are all character, crul", {
+  skip_on_cran()
+
   cli <- crul::HttpClient$new(url = hb())
 
   stub_request(uri = hb("/get")) %>%

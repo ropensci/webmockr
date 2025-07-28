@@ -35,7 +35,9 @@ skip_if_not_installed("crul")
 library("crul")
 enable("crul", quiet = TRUE)
 
-test_that("auth handling: httr", {
+test_that("auth handling: crul", {
+  skip_on_cran()
+
   stub_request("get", "http://stuff.com")
 
   # auth well-formed

@@ -3,6 +3,8 @@ request_registry_clear()
 enable(quiet = TRUE)
 
 test_that("webmockr_reset works", {
+  skip_on_cran()
+
   # before any stubs creatd
   expect_equal(length(stub_registry()$request_stubs), 0)
   expect_equal(length(request_registry()$request_signatures$hash), 0)

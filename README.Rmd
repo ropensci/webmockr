@@ -11,7 +11,7 @@ knitr::opts_chunk$set(
 
 <!-- NOTE: run `make readme` to generate the README.md -->
 
-[![cran checks](https://badges.cranchecks.info/worst/webmockr.svg)](https://cloud.r-project.org/web/checks/check_results_webmockr.html)
+[![cran checks](https://badges.cranchecks.info/worst/webmockr.svg)](https://CRAN.R-project.org/package=webmockr)
 [![Project Status: Active - The project has reached a stable, usable state and is being actively developed.](https://www.repostatus.org/badges/latest/active.svg)](https://www.repostatus.org/#active)
 [![R-CMD-check](https://github.com/ropensci/webmockr/workflows/R-CMD-check/badge.svg)](https://github.com/ropensci/webmockr/actions/)
 [![codecov](https://codecov.io/gh/ropensci/webmockr/branch/main/graph/badge.svg?token=1zWlEQbaEh)](https://app.codecov.io/gh/ropensci/webmockr)

@@ -33,6 +33,12 @@ jobs:
         with:
           extra-packages: any::rcmdcheck
           needs: check
+      
+      - name: temporary fix, need dev crul
+        run: |
+          install.packages("pak")
+          pak::pak("ropensci/crul")
+        shell: Rscript {0}  
 
       - name: Session info
         run: |

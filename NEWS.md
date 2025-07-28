@@ -1,5 +1,17 @@
-webmockr (2.1.0)
-=========
+# webmockr (development version)
+
+webmockr 2.2.0
+==============
+
+## MINOR IMPROVEMENTS
+
+* webmockr is no longer integrated with vcr; the two packages used to depend on one another, but no longer do. this should not impact your usage of `webmockr`  (#149) (#150)
+* better implementation of quiet in `enable()`/`disable()` (#146) thanks @hadley
+* eliminate partial match warnings (#147) thanks @hadley
+
+
+webmockr 2.1.0
+==============
 
 ## MINOR IMPROVEMENTS
 
