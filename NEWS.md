@@ -1,7 +1,8 @@
 webmockr (development version)
 ==============
 
-* Gains new function `request_registry_filter()` to filter requests that have matched stubs. can be used to introspect requests made during tests, or outside of tests (#145)
+* `RequestPattern` is no longer exported (#145)
+* Gains new function `request_registry_filter()` to filter requests that have matched stubs. can be used to introspect requests made during tests, or outside of tests (#154)
 
 webmockr 2.2.0
 ==============

@@ -1,6 +1,6 @@
 #' @title RequestPattern class
 #' @description Class handling all request matchers
-#' @export
+#' @keywords internal
 #' @seealso pattern classes for HTTP method [MethodPattern], headers
 #' [HeadersPattern], body [BodyPattern], and URI/URL [UriPattern]
 RequestPattern <- R6::R6Class(

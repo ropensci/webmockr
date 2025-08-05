@@ -10,6 +10,7 @@ Class handling all request matchers
 pattern classes for HTTP method \link{MethodPattern}, headers
 \link{HeadersPattern}, body \link{BodyPattern}, and URI/URL \link{UriPattern}
 }
+\keyword{internal}
 \section{Public fields}{
 \if{html}{\out{<div class="r6-fields">}}
 \describe{
