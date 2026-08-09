@@ -21,6 +21,6 @@
 #' @importFrom fauxpas HTTPRequestTimeout
 #' @importFrom R6 R6Class
 #' @importFrom rlang abort warn check_installed is_list is_function is_error
-#' caller_arg try_fetch caller_env is_installed has_name
+#'   caller_arg try_fetch caller_env is_installed has_name
 ## usethis namespace: end
 NULL

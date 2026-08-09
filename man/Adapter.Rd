@@ -24,264 +24,276 @@ client-specific adapters.
 }
 \keyword{internal}
 \section{Super class}{
-\code{\link[webmockr:Adapter]{webmockr::Adapter}} -> \code{CrulAdapter}
+\code{\link[webmockr:Adapter]{Adapter}} -> \code{CrulAdapter}
 }
 \section{Public fields}{
-\if{html}{\out{<div class="r6-fields">}}
-\describe{
-\item{\code{client}}{HTTP client package name}
+  \if{html}{\out{<div class="r6-fields">}}
+  \describe{
+    \item{\code{client}}{HTTP client package name}
 
-\item{\code{name}}{adapter name}
-}
-\if{html}{\out{</div>}}
+    \item{\code{name}}{adapter name}
+  }
+  \if{html}{\out{</div>}}
 }
 \section{Methods}{
 \subsection{Public methods}{
-\itemize{
-\item \href{#method-CrulAdapter-clone}{\code{CrulAdapter$clone()}}
+  \itemize{
+    \item \href{#method-CrulAdapter-clone}{\code{CrulAdapter$clone()}}
+  }
 }
-}
-\if{html}{\out{
-<details open><summary>Inherited methods</summary>
+\if{html}{\out{<details open><summary>Inherited methods</summary>
 <ul>
-<li><span class="pkg-link" data-pkg="webmockr" data-topic="Adapter" data-id="disable"><a href='../../webmockr/html/Adapter.html#method-Adapter-disable'><code>webmockr::Adapter$disable()</code></a></span></li>
-<li><span class="pkg-link" data-pkg="webmockr" data-topic="Adapter" data-id="enable"><a href='../../webmockr/html/Adapter.html#method-Adapter-enable'><code>webmockr::Adapter$enable()</code></a></span></li>
-<li><span class="pkg-link" data-pkg="webmockr" data-topic="Adapter" data-id="handle_request"><a href='../../webmockr/html/Adapter.html#method-Adapter-handle_request'><code>webmockr::Adapter$handle_request()</code></a></span></li>
-<li><span class="pkg-link" data-pkg="webmockr" data-topic="Adapter" data-id="initialize"><a href='../../webmockr/html/Adapter.html#method-Adapter-initialize'><code>webmockr::Adapter$initialize()</code></a></span></li>
-<li><span class="pkg-link" data-pkg="webmockr" data-topic="Adapter" data-id="remove_stubs"><a href='../../webmockr/html/Adapter.html#method-Adapter-remove_stubs'><code>webmockr::Adapter$remove_stubs()</code></a></span></li>
+  <li><span class="pkg-link" data-pkg="webmockr" data-topic="Adapter" data-id="disable"><a href='../../webmockr/html/Adapter.html#method-Adapter-disable'><code>Adapter$disable()</code></a></span></li>
+  <li><span class="pkg-link" data-pkg="webmockr" data-topic="Adapter" data-id="enable"><a href='../../webmockr/html/Adapter.html#method-Adapter-enable'><code>Adapter$enable()</code></a></span></li>
+  <li><span class="pkg-link" data-pkg="webmockr" data-topic="Adapter" data-id="handle_request"><a href='../../webmockr/html/Adapter.html#method-Adapter-handle_request'><code>Adapter$handle_request()</code></a></span></li>
+  <li><span class="pkg-link" data-pkg="webmockr" data-topic="Adapter" data-id="initialize"><a href='../../webmockr/html/Adapter.html#method-Adapter-initialize'><code>Adapter$initialize()</code></a></span></li>
+  <li><span class="pkg-link" data-pkg="webmockr" data-topic="Adapter" data-id="remove_stubs"><a href='../../webmockr/html/Adapter.html#method-Adapter-remove_stubs'><code>Adapter$remove_stubs()</code></a></span></li>
 </ul>
-</details>
-}}
+</details>}}
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-CrulAdapter-clone"></a>}}
 \if{latex}{\out{\hypertarget{method-CrulAdapter-clone}{}}}
-\subsection{Method \code{clone()}}{
-The objects of this class are cloneable with this method.
-\subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{CrulAdapter$clone(deep = FALSE)}\if{html}{\out{</div>}}
+\subsection{\code{CrulAdapter$clone()}}{
+  The objects of this class are cloneable with this method.
+  \subsection{Usage}{
+    \if{html}{\out{<div class="r">}}
+    \preformatted{CrulAdapter$clone(deep = FALSE)}
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Arguments}{
+    \if{html}{\out{<div class="arguments">}}
+    \describe{
+      \item{\code{deep}}{Whether to make a deep clone.}
+    }
+    \if{html}{\out{</div>}}
+  }
 }
 
-\subsection{Arguments}{
-\if{html}{\out{<div class="arguments">}}
-\describe{
-\item{\code{deep}}{Whether to make a deep clone.}
-}
-\if{html}{\out{</div>}}
-}
-}
 }
 \section{Super class}{
-\code{\link[webmockr:Adapter]{webmockr::Adapter}} -> \code{HttrAdapter}
+\code{\link[webmockr:Adapter]{Adapter}} -> \code{HttrAdapter}
 }
 \section{Public fields}{
-\if{html}{\out{<div class="r6-fields">}}
-\describe{
-\item{\code{client}}{HTTP client package name}
+  \if{html}{\out{<div class="r6-fields">}}
+  \describe{
+    \item{\code{client}}{HTTP client package name}
 
-\item{\code{name}}{adapter name}
-}
-\if{html}{\out{</div>}}
+    \item{\code{name}}{adapter name}
+  }
+  \if{html}{\out{</div>}}
 }
 \section{Methods}{
 \subsection{Public methods}{
-\itemize{
-\item \href{#method-HttrAdapter-clone}{\code{HttrAdapter$clone()}}
+  \itemize{
+    \item \href{#method-HttrAdapter-clone}{\code{HttrAdapter$clone()}}
+  }
 }
-}
-\if{html}{\out{
-<details open><summary>Inherited methods</summary>
+\if{html}{\out{<details open><summary>Inherited methods</summary>
 <ul>
-<li><span class="pkg-link" data-pkg="webmockr" data-topic="Adapter" data-id="disable"><a href='../../webmockr/html/Adapter.html#method-Adapter-disable'><code>webmockr::Adapter$disable()</code></a></span></li>
-<li><span class="pkg-link" data-pkg="webmockr" data-topic="Adapter" data-id="enable"><a href='../../webmockr/html/Adapter.html#method-Adapter-enable'><code>webmockr::Adapter$enable()</code></a></span></li>
-<li><span class="pkg-link" data-pkg="webmockr" data-topic="Adapter" data-id="handle_request"><a href='../../webmockr/html/Adapter.html#method-Adapter-handle_request'><code>webmockr::Adapter$handle_request()</code></a></span></li>
-<li><span class="pkg-link" data-pkg="webmockr" data-topic="Adapter" data-id="initialize"><a href='../../webmockr/html/Adapter.html#method-Adapter-initialize'><code>webmockr::Adapter$initialize()</code></a></span></li>
-<li><span class="pkg-link" data-pkg="webmockr" data-topic="Adapter" data-id="remove_stubs"><a href='../../webmockr/html/Adapter.html#method-Adapter-remove_stubs'><code>webmockr::Adapter$remove_stubs()</code></a></span></li>
+  <li><span class="pkg-link" data-pkg="webmockr" data-topic="Adapter" data-id="disable"><a href='../../webmockr/html/Adapter.html#method-Adapter-disable'><code>Adapter$disable()</code></a></span></li>
+  <li><span class="pkg-link" data-pkg="webmockr" data-topic="Adapter" data-id="enable"><a href='../../webmockr/html/Adapter.html#method-Adapter-enable'><code>Adapter$enable()</code></a></span></li>
+  <li><span class="pkg-link" data-pkg="webmockr" data-topic="Adapter" data-id="handle_request"><a href='../../webmockr/html/Adapter.html#method-Adapter-handle_request'><code>Adapter$handle_request()</code></a></span></li>
+  <li><span class="pkg-link" data-pkg="webmockr" data-topic="Adapter" data-id="initialize"><a href='../../webmockr/html/Adapter.html#method-Adapter-initialize'><code>Adapter$initialize()</code></a></span></li>
+  <li><span class="pkg-link" data-pkg="webmockr" data-topic="Adapter" data-id="remove_stubs"><a href='../../webmockr/html/Adapter.html#method-Adapter-remove_stubs'><code>Adapter$remove_stubs()</code></a></span></li>
 </ul>
-</details>
-}}
+</details>}}
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-HttrAdapter-clone"></a>}}
 \if{latex}{\out{\hypertarget{method-HttrAdapter-clone}{}}}
-\subsection{Method \code{clone()}}{
-The objects of this class are cloneable with this method.
-\subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{HttrAdapter$clone(deep = FALSE)}\if{html}{\out{</div>}}
+\subsection{\code{HttrAdapter$clone()}}{
+  The objects of this class are cloneable with this method.
+  \subsection{Usage}{
+    \if{html}{\out{<div class="r">}}
+    \preformatted{HttrAdapter$clone(deep = FALSE)}
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Arguments}{
+    \if{html}{\out{<div class="arguments">}}
+    \describe{
+      \item{\code{deep}}{Whether to make a deep clone.}
+    }
+    \if{html}{\out{</div>}}
+  }
 }
 
-\subsection{Arguments}{
-\if{html}{\out{<div class="arguments">}}
-\describe{
-\item{\code{deep}}{Whether to make a deep clone.}
-}
-\if{html}{\out{</div>}}
-}
-}
 }
 \section{Super class}{
-\code{\link[webmockr:Adapter]{webmockr::Adapter}} -> \code{Httr2Adapter}
+\code{\link[webmockr:Adapter]{Adapter}} -> \code{Httr2Adapter}
 }
 \section{Public fields}{
-\if{html}{\out{<div class="r6-fields">}}
-\describe{
-\item{\code{client}}{HTTP client package name}
+  \if{html}{\out{<div class="r6-fields">}}
+  \describe{
+    \item{\code{client}}{HTTP client package name}
 
-\item{\code{name}}{adapter name}
-}
-\if{html}{\out{</div>}}
+    \item{\code{name}}{adapter name}
+  }
+  \if{html}{\out{</div>}}
 }
 \section{Methods}{
 \subsection{Public methods}{
-\itemize{
-\item \href{#method-Httr2Adapter-clone}{\code{Httr2Adapter$clone()}}
+  \itemize{
+    \item \href{#method-Httr2Adapter-clone}{\code{Httr2Adapter$clone()}}
+  }
 }
-}
-\if{html}{\out{
-<details open><summary>Inherited methods</summary>
+\if{html}{\out{<details open><summary>Inherited methods</summary>
 <ul>
-<li><span class="pkg-link" data-pkg="webmockr" data-topic="Adapter" data-id="disable"><a href='../../webmockr/html/Adapter.html#method-Adapter-disable'><code>webmockr::Adapter$disable()</code></a></span></li>
-<li><span class="pkg-link" data-pkg="webmockr" data-topic="Adapter" data-id="enable"><a href='../../webmockr/html/Adapter.html#method-Adapter-enable'><code>webmockr::Adapter$enable()</code></a></span></li>
-<li><span class="pkg-link" data-pkg="webmockr" data-topic="Adapter" data-id="handle_request"><a href='../../webmockr/html/Adapter.html#method-Adapter-handle_request'><code>webmockr::Adapter$handle_request()</code></a></span></li>
-<li><span class="pkg-link" data-pkg="webmockr" data-topic="Adapter" data-id="initialize"><a href='../../webmockr/html/Adapter.html#method-Adapter-initialize'><code>webmockr::Adapter$initialize()</code></a></span></li>
-<li><span class="pkg-link" data-pkg="webmockr" data-topic="Adapter" data-id="remove_stubs"><a href='../../webmockr/html/Adapter.html#method-Adapter-remove_stubs'><code>webmockr::Adapter$remove_stubs()</code></a></span></li>
+  <li><span class="pkg-link" data-pkg="webmockr" data-topic="Adapter" data-id="disable"><a href='../../webmockr/html/Adapter.html#method-Adapter-disable'><code>Adapter$disable()</code></a></span></li>
+  <li><span class="pkg-link" data-pkg="webmockr" data-topic="Adapter" data-id="enable"><a href='../../webmockr/html/Adapter.html#method-Adapter-enable'><code>Adapter$enable()</code></a></span></li>
+  <li><span class="pkg-link" data-pkg="webmockr" data-topic="Adapter" data-id="handle_request"><a href='../../webmockr/html/Adapter.html#method-Adapter-handle_request'><code>Adapter$handle_request()</code></a></span></li>
+  <li><span class="pkg-link" data-pkg="webmockr" data-topic="Adapter" data-id="initialize"><a href='../../webmockr/html/Adapter.html#method-Adapter-initialize'><code>Adapter$initialize()</code></a></span></li>
+  <li><span class="pkg-link" data-pkg="webmockr" data-topic="Adapter" data-id="remove_stubs"><a href='../../webmockr/html/Adapter.html#method-Adapter-remove_stubs'><code>Adapter$remove_stubs()</code></a></span></li>
 </ul>
-</details>
-}}
+</details>}}
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-Httr2Adapter-clone"></a>}}
 \if{latex}{\out{\hypertarget{method-Httr2Adapter-clone}{}}}
-\subsection{Method \code{clone()}}{
-The objects of this class are cloneable with this method.
-\subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{Httr2Adapter$clone(deep = FALSE)}\if{html}{\out{</div>}}
+\subsection{\code{Httr2Adapter$clone()}}{
+  The objects of this class are cloneable with this method.
+  \subsection{Usage}{
+    \if{html}{\out{<div class="r">}}
+    \preformatted{Httr2Adapter$clone(deep = FALSE)}
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Arguments}{
+    \if{html}{\out{<div class="arguments">}}
+    \describe{
+      \item{\code{deep}}{Whether to make a deep clone.}
+    }
+    \if{html}{\out{</div>}}
+  }
 }
 
-\subsection{Arguments}{
-\if{html}{\out{<div class="arguments">}}
-\describe{
-\item{\code{deep}}{Whether to make a deep clone.}
-}
-\if{html}{\out{</div>}}
-}
-}
 }
 \section{Public fields}{
-\if{html}{\out{<div class="r6-fields">}}
-\describe{
-\item{\code{client}}{HTTP client package name}
+  \if{html}{\out{<div class="r6-fields">}}
+  \describe{
+    \item{\code{client}}{HTTP client package name}
 
-\item{\code{name}}{adapter name}
-}
-\if{html}{\out{</div>}}
+    \item{\code{name}}{adapter name}
+  }
+  \if{html}{\out{</div>}}
 }
 \section{Methods}{
 \subsection{Public methods}{
-\itemize{
-\item \href{#method-Adapter-new}{\code{Adapter$new()}}
-\item \href{#method-Adapter-enable}{\code{Adapter$enable()}}
-\item \href{#method-Adapter-disable}{\code{Adapter$disable()}}
-\item \href{#method-Adapter-handle_request}{\code{Adapter$handle_request()}}
-\item \href{#method-Adapter-remove_stubs}{\code{Adapter$remove_stubs()}}
-\item \href{#method-Adapter-clone}{\code{Adapter$clone()}}
-}
+  \itemize{
+    \item \href{#method-Adapter-initialize}{\code{Adapter$new()}}
+    \item \href{#method-Adapter-enable}{\code{Adapter$enable()}}
+    \item \href{#method-Adapter-disable}{\code{Adapter$disable()}}
+    \item \href{#method-Adapter-handle_request}{\code{Adapter$handle_request()}}
+    \item \href{#method-Adapter-remove_stubs}{\code{Adapter$remove_stubs()}}
+    \item \href{#method-Adapter-clone}{\code{Adapter$clone()}}
+  }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-Adapter-new"></a>}}
-\if{latex}{\out{\hypertarget{method-Adapter-new}{}}}
-\subsection{Method \code{new()}}{
-Create a new Adapter object
-\subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{Adapter$new()}\if{html}{\out{</div>}}
+\if{html}{\out{<a id="method-Adapter-initialize"></a>}}
+\if{latex}{\out{\hypertarget{method-Adapter-initialize}{}}}
+\subsection{\code{Adapter$new()}}{
+  Create a new Adapter object
+  \subsection{Usage}{
+    \if{html}{\out{<div class="r">}}
+    \preformatted{Adapter$new()}
+    \if{html}{\out{</div>}}
+  }
 }
 
-}
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-Adapter-enable"></a>}}
 \if{latex}{\out{\hypertarget{method-Adapter-enable}{}}}
-\subsection{Method \code{enable()}}{
-Enable the adapter
-\subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{Adapter$enable(quiet = FALSE)}\if{html}{\out{</div>}}
+\subsection{\code{Adapter$enable()}}{
+  Enable the adapter
+  \subsection{Usage}{
+    \if{html}{\out{<div class="r">}}
+    \preformatted{Adapter$enable(quiet = FALSE)}
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Arguments}{
+    \if{html}{\out{<div class="arguments">}}
+    \describe{
+      \item{\code{quiet}}{(logical) suppress messages? default: \code{FALSE}}
+    }
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Returns}{
+    \code{TRUE}, invisibly
+  }
 }
 
-\subsection{Arguments}{
-\if{html}{\out{<div class="arguments">}}
-\describe{
-\item{\code{quiet}}{(logical) suppress messages? default: \code{FALSE}}
-}
-\if{html}{\out{</div>}}
-}
-\subsection{Returns}{
-\code{TRUE}, invisibly
-}
-}
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-Adapter-disable"></a>}}
 \if{latex}{\out{\hypertarget{method-Adapter-disable}{}}}
-\subsection{Method \code{disable()}}{
-Disable the adapter
-\subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{Adapter$disable(quiet = FALSE)}\if{html}{\out{</div>}}
+\subsection{\code{Adapter$disable()}}{
+  Disable the adapter
+  \subsection{Usage}{
+    \if{html}{\out{<div class="r">}}
+    \preformatted{Adapter$disable(quiet = FALSE)}
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Arguments}{
+    \if{html}{\out{<div class="arguments">}}
+    \describe{
+      \item{\code{quiet}}{(logical) suppress messages? default: \code{FALSE}}
+    }
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Returns}{
+    \code{FALSE}, invisibly
+  }
 }
 
-\subsection{Arguments}{
-\if{html}{\out{<div class="arguments">}}
-\describe{
-\item{\code{quiet}}{(logical) suppress messages? default: \code{FALSE}}
-}
-\if{html}{\out{</div>}}
-}
-\subsection{Returns}{
-\code{FALSE}, invisibly
-}
-}
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-Adapter-handle_request"></a>}}
 \if{latex}{\out{\hypertarget{method-Adapter-handle_request}{}}}
-\subsection{Method \code{handle_request()}}{
-All logic for handling a request
-\subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{Adapter$handle_request(req)}\if{html}{\out{</div>}}
+\subsection{\code{Adapter$handle_request()}}{
+  All logic for handling a request
+  \subsection{Usage}{
+    \if{html}{\out{<div class="r">}}
+    \preformatted{Adapter$handle_request(req)}
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Arguments}{
+    \if{html}{\out{<div class="arguments">}}
+    \describe{
+      \item{\code{req}}{a request}
+    }
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Returns}{
+    various outcomes
+  }
 }
 
-\subsection{Arguments}{
-\if{html}{\out{<div class="arguments">}}
-\describe{
-\item{\code{req}}{a request}
-}
-\if{html}{\out{</div>}}
-}
-\subsection{Returns}{
-various outcomes
-}
-}
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-Adapter-remove_stubs"></a>}}
 \if{latex}{\out{\hypertarget{method-Adapter-remove_stubs}{}}}
-\subsection{Method \code{remove_stubs()}}{
-Remove all stubs
-\subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{Adapter$remove_stubs()}\if{html}{\out{</div>}}
+\subsection{\code{Adapter$remove_stubs()}}{
+  Remove all stubs
+  \subsection{Usage}{
+    \if{html}{\out{<div class="r">}}
+    \preformatted{Adapter$remove_stubs()}
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Returns}{
+    nothing returned; removes all request stubs
+  }
 }
 
-\subsection{Returns}{
-nothing returned; removes all request stubs
-}
-}
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-Adapter-clone"></a>}}
 \if{latex}{\out{\hypertarget{method-Adapter-clone}{}}}
-\subsection{Method \code{clone()}}{
-The objects of this class are cloneable with this method.
-\subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{Adapter$clone(deep = FALSE)}\if{html}{\out{</div>}}
+\subsection{\code{Adapter$clone()}}{
+  The objects of this class are cloneable with this method.
+  \subsection{Usage}{
+    \if{html}{\out{<div class="r">}}
+    \preformatted{Adapter$clone(deep = FALSE)}
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Arguments}{
+    \if{html}{\out{<div class="arguments">}}
+    \describe{
+      \item{\code{deep}}{Whether to make a deep clone.}
+    }
+    \if{html}{\out{</div>}}
+  }
 }
 
-\subsection{Arguments}{
-\if{html}{\out{<div class="arguments">}}
-\describe{
-\item{\code{deep}}{Whether to make a deep clone.}
-}
-\if{html}{\out{</div>}}
-}
-}
 }

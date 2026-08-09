@@ -8,74 +8,79 @@ http lib adapter registry
 }
 \keyword{internal}
 \section{Public fields}{
-\if{html}{\out{<div class="r6-fields">}}
-\describe{
-\item{\code{adapters}}{list}
-}
-\if{html}{\out{</div>}}
+  \if{html}{\out{<div class="r6-fields">}}
+  \describe{
+    \item{\code{adapters}}{list}
+  }
+  \if{html}{\out{</div>}}
 }
 \section{Methods}{
 \subsection{Public methods}{
-\itemize{
-\item \href{#method-HttpLibAdapaterRegistry-print}{\code{HttpLibAdapaterRegistry$print()}}
-\item \href{#method-HttpLibAdapaterRegistry-register}{\code{HttpLibAdapaterRegistry$register()}}
-\item \href{#method-HttpLibAdapaterRegistry-clone}{\code{HttpLibAdapaterRegistry$clone()}}
-}
+  \itemize{
+    \item \href{#method-HttpLibAdapaterRegistry-print}{\code{HttpLibAdapaterRegistry$print()}}
+    \item \href{#method-HttpLibAdapaterRegistry-register}{\code{HttpLibAdapaterRegistry$register()}}
+    \item \href{#method-HttpLibAdapaterRegistry-clone}{\code{HttpLibAdapaterRegistry$clone()}}
+  }
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-HttpLibAdapaterRegistry-print"></a>}}
 \if{latex}{\out{\hypertarget{method-HttpLibAdapaterRegistry-print}{}}}
-\subsection{Method \code{print()}}{
-print method for the \code{HttpLibAdapaterRegistry} class
-\subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{HttpLibAdapaterRegistry$print(x, ...)}\if{html}{\out{</div>}}
+\subsection{\code{HttpLibAdapaterRegistry$print()}}{
+  print method for the \code{HttpLibAdapaterRegistry} class
+  \subsection{Usage}{
+    \if{html}{\out{<div class="r">}}
+    \preformatted{HttpLibAdapaterRegistry$print(x, ...)}
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Arguments}{
+    \if{html}{\out{<div class="arguments">}}
+    \describe{
+      \item{\code{x}}{self}
+      \item{\code{...}}{ignored}
+    }
+    \if{html}{\out{</div>}}
+  }
 }
 
-\subsection{Arguments}{
-\if{html}{\out{<div class="arguments">}}
-\describe{
-\item{\code{x}}{self}
-
-\item{\code{...}}{ignored}
-}
-\if{html}{\out{</div>}}
-}
-}
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-HttpLibAdapaterRegistry-register"></a>}}
 \if{latex}{\out{\hypertarget{method-HttpLibAdapaterRegistry-register}{}}}
-\subsection{Method \code{register()}}{
-Register an http library adapter
-\subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{HttpLibAdapaterRegistry$register(x)}\if{html}{\out{</div>}}
+\subsection{\code{HttpLibAdapaterRegistry$register()}}{
+  Register an http library adapter
+  \subsection{Usage}{
+    \if{html}{\out{<div class="r">}}
+    \preformatted{HttpLibAdapaterRegistry$register(x)}
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Arguments}{
+    \if{html}{\out{<div class="arguments">}}
+    \describe{
+      \item{\code{x}}{an http lib adapter, e.g., \link{CrulAdapter}}
+    }
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Returns}{
+    nothing, registers the library adapter
+  }
 }
 
-\subsection{Arguments}{
-\if{html}{\out{<div class="arguments">}}
-\describe{
-\item{\code{x}}{an http lib adapter, e.g., \link{CrulAdapter}}
-}
-\if{html}{\out{</div>}}
-}
-\subsection{Returns}{
-nothing, registers the library adapter
-}
-}
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-HttpLibAdapaterRegistry-clone"></a>}}
 \if{latex}{\out{\hypertarget{method-HttpLibAdapaterRegistry-clone}{}}}
-\subsection{Method \code{clone()}}{
-The objects of this class are cloneable with this method.
-\subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{HttpLibAdapaterRegistry$clone(deep = FALSE)}\if{html}{\out{</div>}}
+\subsection{\code{HttpLibAdapaterRegistry$clone()}}{
+  The objects of this class are cloneable with this method.
+  \subsection{Usage}{
+    \if{html}{\out{<div class="r">}}
+    \preformatted{HttpLibAdapaterRegistry$clone(deep = FALSE)}
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Arguments}{
+    \if{html}{\out{<div class="arguments">}}
+    \describe{
+      \item{\code{deep}}{Whether to make a deep clone.}
+    }
+    \if{html}{\out{</div>}}
+  }
 }
 
-\subsection{Arguments}{
-\if{html}{\out{<div class="arguments">}}
-\describe{
-\item{\code{deep}}{Whether to make a deep clone.}
-}
-\if{html}{\out{</div>}}
-}
-}
 }

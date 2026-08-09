@@ -40,10 +40,15 @@ Useful links:
 \author{
 \strong{Maintainer}: Scott Chamberlain \email{myrmecocystus+r@gmail.com} (\href{https://orcid.org/0000-0003-1444-9135}{ORCID})
 
+Authors:
+\itemize{
+  \item Scott Chamberlain \email{myrmecocystus+r@gmail.com} (\href{https://orcid.org/0000-0003-1444-9135}{ORCID})
+}
+
 Other contributors:
 \itemize{
   \item Aaron Wolen (\href{https://orcid.org/0000-0003-2542-2202}{ORCID}) [contributor]
-  \item rOpenSci (019jywm96) [funder]
+  \item rOpenSci (\href{https://ror.org/019jywm96}{ROR}) [funder]
 }
 
 }

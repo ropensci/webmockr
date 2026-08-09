@@ -49,27 +49,33 @@ export(webmockr_reset)
 export(wi_th)
 export(wi_th_)
 importFrom(R6,R6Class)
-importFrom(cli,ansi_collapse)
-importFrom(cli,cat_line)
-importFrom(cli,cli_abort)
-importFrom(cli,format_error)
+importFrom(cli,
+  ansi_collapse,
+  cat_line,
+  cli_abort,
+  format_error
+)
 importFrom(fauxpas,HTTPRequestTimeout)
-importFrom(jsonlite,base64_enc)
-importFrom(jsonlite,fromJSON)
-importFrom(jsonlite,toJSON)
-importFrom(jsonlite,validate)
+importFrom(jsonlite,
+  base64_enc,
+  fromJSON,
+  toJSON,
+  validate
+)
 importFrom(magrittr,"%>%")
-importFrom(rlang,abort)
-importFrom(rlang,caller_arg)
-importFrom(rlang,caller_env)
-importFrom(rlang,check_installed)
-importFrom(rlang,has_name)
-importFrom(rlang,is_empty)
-importFrom(rlang,is_error)
-importFrom(rlang,is_function)
-importFrom(rlang,is_installed)
-importFrom(rlang,is_list)
-importFrom(rlang,is_na)
-importFrom(rlang,is_null)
-importFrom(rlang,try_fetch)
-importFrom(rlang,warn)
+importFrom(rlang,
+  abort,
+  caller_arg,
+  caller_env,
+  check_installed,
+  has_name,
+  is_empty,
+  is_error,
+  is_function,
+  is_installed,
+  is_list,
+  is_na,
+  is_null,
+  try_fetch,
+  warn
+)

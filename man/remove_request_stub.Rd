@@ -22,9 +22,9 @@ remove_request_stub(x)
 stub_registry()
 }
 \seealso{
-Other stub-registry: 
+Other stub-registry:
 \code{\link{StubRegistry}},
-\code{\link{stub_registry}()},
-\code{\link{stub_registry_clear}()}
+\code{\link[=stub_registry]{stub_registry()}},
+\code{\link[=stub_registry_clear]{stub_registry_clear()}}
 }
 \concept{stub-registry}

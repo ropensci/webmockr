@@ -8,84 +8,90 @@ hash with counter, to store requests, and count each time
 it is used
 }
 \seealso{
-Other request-registry: 
+Other request-registry:
 \code{\link{RequestRegistry}},
-\code{\link{request_registry}()}
+\code{\link[=request_registry]{request_registry()}}
 }
 \concept{request-registry}
 \keyword{internal}
 \section{Public fields}{
-\if{html}{\out{<div class="r6-fields">}}
-\describe{
-\item{\code{hash}}{(list) a list for internal use only, with elements
+  \if{html}{\out{<div class="r6-fields">}}
+  \describe{
+    \item{\code{hash}}{(list) a list for internal use only, with elements
 \code{key}, \code{sig}, and \code{count}}
-}
-\if{html}{\out{</div>}}
+  }
+  \if{html}{\out{</div>}}
 }
 \section{Methods}{
 \subsection{Public methods}{
-\itemize{
-\item \href{#method-HashCounter-put}{\code{HashCounter$put()}}
-\item \href{#method-HashCounter-get}{\code{HashCounter$get()}}
-\item \href{#method-HashCounter-clone}{\code{HashCounter$clone()}}
-}
+  \itemize{
+    \item \href{#method-HashCounter-put}{\code{HashCounter$put()}}
+    \item \href{#method-HashCounter-get}{\code{HashCounter$get()}}
+    \item \href{#method-HashCounter-clone}{\code{HashCounter$clone()}}
+  }
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-HashCounter-put"></a>}}
 \if{latex}{\out{\hypertarget{method-HashCounter-put}{}}}
-\subsection{Method \code{put()}}{
-Register a request by it's key
-\subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{HashCounter$put(req_sig)}\if{html}{\out{</div>}}
+\subsection{\code{HashCounter$put()}}{
+  Register a request by it's key
+  \subsection{Usage}{
+    \if{html}{\out{<div class="r">}}
+    \preformatted{HashCounter$put(req_sig)}
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Arguments}{
+    \if{html}{\out{<div class="arguments">}}
+    \describe{
+      \item{\code{req_sig}}{an object of class \code{RequestSignature}}
+    }
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Returns}{
+    nothing returned; registers request and iterates
+internal counter
+  }
 }
 
-\subsection{Arguments}{
-\if{html}{\out{<div class="arguments">}}
-\describe{
-\item{\code{req_sig}}{an object of class \code{RequestSignature}}
-}
-\if{html}{\out{</div>}}
-}
-\subsection{Returns}{
-nothing returned; registers request and iterates
-internal counter
-}
-}
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-HashCounter-get"></a>}}
 \if{latex}{\out{\hypertarget{method-HashCounter-get}{}}}
-\subsection{Method \code{get()}}{
-Get a request by key
-\subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{HashCounter$get(req_sig)}\if{html}{\out{</div>}}
+\subsection{\code{HashCounter$get()}}{
+  Get a request by key
+  \subsection{Usage}{
+    \if{html}{\out{<div class="r">}}
+    \preformatted{HashCounter$get(req_sig)}
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Arguments}{
+    \if{html}{\out{<div class="arguments">}}
+    \describe{
+      \item{\code{req_sig}}{an object of class \code{RequestSignature}}
+    }
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Returns}{
+    (integer) the count of how many times the request has been made
+  }
 }
 
-\subsection{Arguments}{
-\if{html}{\out{<div class="arguments">}}
-\describe{
-\item{\code{req_sig}}{an object of class \code{RequestSignature}}
-}
-\if{html}{\out{</div>}}
-}
-\subsection{Returns}{
-(integer) the count of how many times the request has been made
-}
-}
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-HashCounter-clone"></a>}}
 \if{latex}{\out{\hypertarget{method-HashCounter-clone}{}}}
-\subsection{Method \code{clone()}}{
-The objects of this class are cloneable with this method.
-\subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{HashCounter$clone(deep = FALSE)}\if{html}{\out{</div>}}
+\subsection{\code{HashCounter$clone()}}{
+  The objects of this class are cloneable with this method.
+  \subsection{Usage}{
+    \if{html}{\out{<div class="r">}}
+    \preformatted{HashCounter$clone(deep = FALSE)}
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Arguments}{
+    \if{html}{\out{<div class="arguments">}}
+    \describe{
+      \item{\code{deep}}{Whether to make a deep clone.}
+    }
+    \if{html}{\out{</div>}}
+  }
 }
 
-\subsection{Arguments}{
-\if{html}{\out{<div class="arguments">}}
-\describe{
-\item{\code{deep}}{Whether to make a deep clone.}
-}
-\if{html}{\out{</div>}}
-}
-}
 }

@@ -9,67 +9,73 @@ of requests made against the stub
 }
 \keyword{internal}
 \section{Public fields}{
-\if{html}{\out{<div class="r6-fields">}}
-\describe{
-\item{\code{hash}}{(list) a list for internal use only, with elements
+  \if{html}{\out{<div class="r6-fields">}}
+  \describe{
+    \item{\code{hash}}{(list) a list for internal use only, with elements
 \code{key}, \code{sig}, and \code{count}}
-}
-\if{html}{\out{</div>}}
+  }
+  \if{html}{\out{</div>}}
 }
 \section{Methods}{
 \subsection{Public methods}{
-\itemize{
-\item \href{#method-StubCounter-put}{\code{StubCounter$put()}}
-\item \href{#method-StubCounter-count}{\code{StubCounter$count()}}
-\item \href{#method-StubCounter-clone}{\code{StubCounter$clone()}}
-}
+  \itemize{
+    \item \href{#method-StubCounter-put}{\code{StubCounter$put()}}
+    \item \href{#method-StubCounter-count}{\code{StubCounter$count()}}
+    \item \href{#method-StubCounter-clone}{\code{StubCounter$clone()}}
+  }
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-StubCounter-put"></a>}}
 \if{latex}{\out{\hypertarget{method-StubCounter-put}{}}}
-\subsection{Method \code{put()}}{
-Register a request by it's key
-\subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{StubCounter$put(x)}\if{html}{\out{</div>}}
+\subsection{\code{StubCounter$put()}}{
+  Register a request by it's key
+  \subsection{Usage}{
+    \if{html}{\out{<div class="r">}}
+    \preformatted{StubCounter$put(x)}
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Arguments}{
+    \if{html}{\out{<div class="arguments">}}
+    \describe{
+      \item{\code{x}}{an object of class \code{RequestSignature}}
+    }
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Returns}{
+    nothing returned; registers request & iterates internal counter
+  }
 }
 
-\subsection{Arguments}{
-\if{html}{\out{<div class="arguments">}}
-\describe{
-\item{\code{x}}{an object of class \code{RequestSignature}}
-}
-\if{html}{\out{</div>}}
-}
-\subsection{Returns}{
-nothing returned; registers request & iterates internal counter
-}
-}
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-StubCounter-count"></a>}}
 \if{latex}{\out{\hypertarget{method-StubCounter-count}{}}}
-\subsection{Method \code{count()}}{
-Get the count of number of times any matching request has
+\subsection{\code{StubCounter$count()}}{
+  Get the count of number of times any matching request has
 been made against this stub
-\subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{StubCounter$count()}\if{html}{\out{</div>}}
+  \subsection{Usage}{
+    \if{html}{\out{<div class="r">}}
+    \preformatted{StubCounter$count()}
+    \if{html}{\out{</div>}}
+  }
 }
 
-}
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-StubCounter-clone"></a>}}
 \if{latex}{\out{\hypertarget{method-StubCounter-clone}{}}}
-\subsection{Method \code{clone()}}{
-The objects of this class are cloneable with this method.
-\subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{StubCounter$clone(deep = FALSE)}\if{html}{\out{</div>}}
+\subsection{\code{StubCounter$clone()}}{
+  The objects of this class are cloneable with this method.
+  \subsection{Usage}{
+    \if{html}{\out{<div class="r">}}
+    \preformatted{StubCounter$clone(deep = FALSE)}
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Arguments}{
+    \if{html}{\out{<div class="arguments">}}
+    \describe{
+      \item{\code{deep}}{Whether to make a deep clone.}
+    }
+    \if{html}{\out{</div>}}
+  }
 }
 
-\subsection{Arguments}{
-\if{html}{\out{<div class="arguments">}}
-\describe{
-\item{\code{deep}}{Whether to make a deep clone.}
-}
-\if{html}{\out{</div>}}
-}
-}
 }

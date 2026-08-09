@@ -8,186 +8,201 @@ uri matcher
 }
 \keyword{internal}
 \section{Public fields}{
-\if{html}{\out{<div class="r6-fields">}}
-\describe{
-\item{\code{pattern}}{(character) pattern holder}
+  \if{html}{\out{<div class="r6-fields">}}
+  \describe{
+    \item{\code{pattern}}{(character) pattern holder}
 
-\item{\code{regex}}{a logical}
+    \item{\code{regex}}{a logical}
 
-\item{\code{query_params}}{a list, or \code{NULL} if empty}
+    \item{\code{query_params}}{a list, or \code{NULL} if empty}
 
-\item{\code{partial}}{bool, default: \code{FALSE}}
+    \item{\code{partial}}{bool, default: \code{FALSE}}
 
-\item{\code{partial_type}}{a string, default: NULL}
-}
-\if{html}{\out{</div>}}
+    \item{\code{partial_type}}{a string, default: NULL}
+  }
+  \if{html}{\out{</div>}}
 }
 \section{Methods}{
 \subsection{Public methods}{
-\itemize{
-\item \href{#method-UriPattern-new}{\code{UriPattern$new()}}
-\item \href{#method-UriPattern-matches}{\code{UriPattern$matches()}}
-\item \href{#method-UriPattern-pattern_matches}{\code{UriPattern$pattern_matches()}}
-\item \href{#method-UriPattern-query_params_matches}{\code{UriPattern$query_params_matches()}}
-\item \href{#method-UriPattern-extract_query}{\code{UriPattern$extract_query()}}
-\item \href{#method-UriPattern-add_query_params}{\code{UriPattern$add_query_params()}}
-\item \href{#method-UriPattern-to_s}{\code{UriPattern$to_s()}}
-\item \href{#method-UriPattern-clone}{\code{UriPattern$clone()}}
-}
+  \itemize{
+    \item \href{#method-UriPattern-initialize}{\code{UriPattern$new()}}
+    \item \href{#method-UriPattern-matches}{\code{UriPattern$matches()}}
+    \item \href{#method-UriPattern-pattern_matches}{\code{UriPattern$pattern_matches()}}
+    \item \href{#method-UriPattern-query_params_matches}{\code{UriPattern$query_params_matches()}}
+    \item \href{#method-UriPattern-extract_query}{\code{UriPattern$extract_query()}}
+    \item \href{#method-UriPattern-add_query_params}{\code{UriPattern$add_query_params()}}
+    \item \href{#method-UriPattern-to_s}{\code{UriPattern$to_s()}}
+    \item \href{#method-UriPattern-clone}{\code{UriPattern$clone()}}
+  }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-UriPattern-new"></a>}}
-\if{latex}{\out{\hypertarget{method-UriPattern-new}{}}}
-\subsection{Method \code{new()}}{
-Create a new \code{UriPattern} object
-\subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{UriPattern$new(pattern = NULL, regex_pattern = NULL)}\if{html}{\out{</div>}}
-}
-
-\subsection{Arguments}{
-\if{html}{\out{<div class="arguments">}}
-\describe{
-\item{\code{pattern}}{(character) a uri, as a character string. if scheme
+\if{html}{\out{<a id="method-UriPattern-initialize"></a>}}
+\if{latex}{\out{\hypertarget{method-UriPattern-initialize}{}}}
+\subsection{\code{UriPattern$new()}}{
+  Create a new \code{UriPattern} object
+  \subsection{Usage}{
+    \if{html}{\out{<div class="r">}}
+    \preformatted{UriPattern$new(pattern = NULL, regex_pattern = NULL)}
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Arguments}{
+    \if{html}{\out{<div class="arguments">}}
+    \describe{
+      \item{\code{pattern}}{(character) a uri, as a character string. if scheme
 is missing, it is added (we assume http)}
-
-\item{\code{regex_pattern}}{(character) a uri as a regex character string,
+      \item{\code{regex_pattern}}{(character) a uri as a regex character string,
 see \link[base:regex]{base::regex}. if scheme is missing, it is added (we assume
 http)}
+    }
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Returns}{
+    A new \code{UriPattern} object
+  }
 }
-\if{html}{\out{</div>}}
-}
-\subsection{Returns}{
-A new \code{UriPattern} object
-}
-}
+
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-UriPattern-matches"></a>}}
 \if{latex}{\out{\hypertarget{method-UriPattern-matches}{}}}
-\subsection{Method \code{matches()}}{
-Match a uri against a pattern
-\subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{UriPattern$matches(uri)}\if{html}{\out{</div>}}
+\subsection{\code{UriPattern$matches()}}{
+  Match a uri against a pattern
+  \subsection{Usage}{
+    \if{html}{\out{<div class="r">}}
+    \preformatted{UriPattern$matches(uri)}
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Arguments}{
+    \if{html}{\out{<div class="arguments">}}
+    \describe{
+      \item{\code{uri}}{(character) a uri}
+    }
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Returns}{
+    a boolean
+  }
 }
 
-\subsection{Arguments}{
-\if{html}{\out{<div class="arguments">}}
-\describe{
-\item{\code{uri}}{(character) a uri}
-}
-\if{html}{\out{</div>}}
-}
-\subsection{Returns}{
-a boolean
-}
-}
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-UriPattern-pattern_matches"></a>}}
 \if{latex}{\out{\hypertarget{method-UriPattern-pattern_matches}{}}}
-\subsection{Method \code{pattern_matches()}}{
-Match a URI
-\subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{UriPattern$pattern_matches(uri)}\if{html}{\out{</div>}}
+\subsection{\code{UriPattern$pattern_matches()}}{
+  Match a URI
+  \subsection{Usage}{
+    \if{html}{\out{<div class="r">}}
+    \preformatted{UriPattern$pattern_matches(uri)}
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Arguments}{
+    \if{html}{\out{<div class="arguments">}}
+    \describe{
+      \item{\code{uri}}{(character) a uri}
+    }
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Returns}{
+    a boolean
+  }
 }
 
-\subsection{Arguments}{
-\if{html}{\out{<div class="arguments">}}
-\describe{
-\item{\code{uri}}{(character) a uri}
-}
-\if{html}{\out{</div>}}
-}
-\subsection{Returns}{
-a boolean
-}
-}
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-UriPattern-query_params_matches"></a>}}
 \if{latex}{\out{\hypertarget{method-UriPattern-query_params_matches}{}}}
-\subsection{Method \code{query_params_matches()}}{
-Match query parameters of a URI
-\subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{UriPattern$query_params_matches(uri)}\if{html}{\out{</div>}}
+\subsection{\code{UriPattern$query_params_matches()}}{
+  Match query parameters of a URI
+  \subsection{Usage}{
+    \if{html}{\out{<div class="r">}}
+    \preformatted{UriPattern$query_params_matches(uri)}
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Arguments}{
+    \if{html}{\out{<div class="arguments">}}
+    \describe{
+      \item{\code{uri}}{(character) a uri}
+    }
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Returns}{
+    a boolean
+  }
 }
 
-\subsection{Arguments}{
-\if{html}{\out{<div class="arguments">}}
-\describe{
-\item{\code{uri}}{(character) a uri}
-}
-\if{html}{\out{</div>}}
-}
-\subsection{Returns}{
-a boolean
-}
-}
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-UriPattern-extract_query"></a>}}
 \if{latex}{\out{\hypertarget{method-UriPattern-extract_query}{}}}
-\subsection{Method \code{extract_query()}}{
-Extract query parameters as a named list
-\subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{UriPattern$extract_query(uri)}\if{html}{\out{</div>}}
+\subsection{\code{UriPattern$extract_query()}}{
+  Extract query parameters as a named list
+  \subsection{Usage}{
+    \if{html}{\out{<div class="r">}}
+    \preformatted{UriPattern$extract_query(uri)}
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Arguments}{
+    \if{html}{\out{<div class="arguments">}}
+    \describe{
+      \item{\code{uri}}{(character) a uri}
+    }
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Returns}{
+    named list, or \code{NULL} if no query parameters
+  }
 }
 
-\subsection{Arguments}{
-\if{html}{\out{<div class="arguments">}}
-\describe{
-\item{\code{uri}}{(character) a uri}
-}
-\if{html}{\out{</div>}}
-}
-\subsection{Returns}{
-named list, or \code{NULL} if no query parameters
-}
-}
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-UriPattern-add_query_params"></a>}}
 \if{latex}{\out{\hypertarget{method-UriPattern-add_query_params}{}}}
-\subsection{Method \code{add_query_params()}}{
-Add query parameters to the URI
-\subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{UriPattern$add_query_params(query_params)}\if{html}{\out{</div>}}
+\subsection{\code{UriPattern$add_query_params()}}{
+  Add query parameters to the URI
+  \subsection{Usage}{
+    \if{html}{\out{<div class="r">}}
+    \preformatted{UriPattern$add_query_params(query_params)}
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Arguments}{
+    \if{html}{\out{<div class="arguments">}}
+    \describe{
+      \item{\code{query_params}}{(list|character) list or character}
+    }
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Returns}{
+    nothing returned, updates uri pattern
+  }
 }
 
-\subsection{Arguments}{
-\if{html}{\out{<div class="arguments">}}
-\describe{
-\item{\code{query_params}}{(list|character) list or character}
-}
-\if{html}{\out{</div>}}
-}
-\subsection{Returns}{
-nothing returned, updates uri pattern
-}
-}
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-UriPattern-to_s"></a>}}
 \if{latex}{\out{\hypertarget{method-UriPattern-to_s}{}}}
-\subsection{Method \code{to_s()}}{
-Print pattern for easy human consumption
-\subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{UriPattern$to_s()}\if{html}{\out{</div>}}
+\subsection{\code{UriPattern$to_s()}}{
+  Print pattern for easy human consumption
+  \subsection{Usage}{
+    \if{html}{\out{<div class="r">}}
+    \preformatted{UriPattern$to_s()}
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Returns}{
+    a string
+  }
 }
 
-\subsection{Returns}{
-a string
-}
-}
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-UriPattern-clone"></a>}}
 \if{latex}{\out{\hypertarget{method-UriPattern-clone}{}}}
-\subsection{Method \code{clone()}}{
-The objects of this class are cloneable with this method.
-\subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{UriPattern$clone(deep = FALSE)}\if{html}{\out{</div>}}
+\subsection{\code{UriPattern$clone()}}{
+  The objects of this class are cloneable with this method.
+  \subsection{Usage}{
+    \if{html}{\out{<div class="r">}}
+    \preformatted{UriPattern$clone(deep = FALSE)}
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Arguments}{
+    \if{html}{\out{<div class="arguments">}}
+    \describe{
+      \item{\code{deep}}{Whether to make a deep clone.}
+    }
+    \if{html}{\out{</div>}}
+  }
 }
 
-\subsection{Arguments}{
-\if{html}{\out{<div class="arguments">}}
-\describe{
-\item{\code{deep}}{Whether to make a deep clone.}
-}
-\if{html}{\out{</div>}}
-}
-}
 }

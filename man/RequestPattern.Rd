@@ -12,34 +12,35 @@ pattern classes for HTTP method \link{MethodPattern}, headers
 }
 \keyword{internal}
 \section{Public fields}{
-\if{html}{\out{<div class="r6-fields">}}
-\describe{
-\item{\code{method_pattern}}{xxx}
+  \if{html}{\out{<div class="r6-fields">}}
+  \describe{
+    \item{\code{method_pattern}}{xxx}
 
-\item{\code{uri_pattern}}{xxx}
+    \item{\code{uri_pattern}}{xxx}
 
-\item{\code{body_pattern}}{xxx}
+    \item{\code{body_pattern}}{xxx}
 
-\item{\code{headers_pattern}}{xxx}
-}
-\if{html}{\out{</div>}}
+    \item{\code{headers_pattern}}{xxx}
+  }
+  \if{html}{\out{</div>}}
 }
 \section{Methods}{
 \subsection{Public methods}{
-\itemize{
-\item \href{#method-RequestPattern-new}{\code{RequestPattern$new()}}
-\item \href{#method-RequestPattern-matches}{\code{RequestPattern$matches()}}
-\item \href{#method-RequestPattern-to_s}{\code{RequestPattern$to_s()}}
-\item \href{#method-RequestPattern-clone}{\code{RequestPattern$clone()}}
-}
+  \itemize{
+    \item \href{#method-RequestPattern-initialize}{\code{RequestPattern$new()}}
+    \item \href{#method-RequestPattern-matches}{\code{RequestPattern$matches()}}
+    \item \href{#method-RequestPattern-to_s}{\code{RequestPattern$to_s()}}
+    \item \href{#method-RequestPattern-clone}{\code{RequestPattern$clone()}}
+  }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-RequestPattern-new"></a>}}
-\if{latex}{\out{\hypertarget{method-RequestPattern-new}{}}}
-\subsection{Method \code{new()}}{
-Create a new \code{RequestPattern} object
-\subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{RequestPattern$new(
+\if{html}{\out{<a id="method-RequestPattern-initialize"></a>}}
+\if{latex}{\out{\hypertarget{method-RequestPattern-initialize}{}}}
+\subsection{\code{RequestPattern$new()}}{
+  Create a new \code{RequestPattern} object
+  \subsection{Usage}{
+    \if{html}{\out{<div class="r">}}
+    \preformatted{RequestPattern$new(
   method,
   uri = NULL,
   uri_regex = NULL,
@@ -47,82 +48,83 @@ Create a new \code{RequestPattern} object
   body = NULL,
   headers = NULL,
   basic_auth = NULL
-)}\if{html}{\out{</div>}}
-}
-
-\subsection{Arguments}{
-\if{html}{\out{<div class="arguments">}}
-\describe{
-\item{\code{method}}{the HTTP method (any, head, options, get, post, put,
+)}
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Arguments}{
+    \if{html}{\out{<div class="arguments">}}
+    \describe{
+      \item{\code{method}}{the HTTP method (any, head, options, get, post, put,
 patch, trace, or delete). "any" matches any HTTP method. required.}
-
-\item{\code{uri}}{(character) request URI. required or uri_regex}
-
-\item{\code{uri_regex}}{(character) request URI as regex. required or uri}
-
-\item{\code{query}}{(list) query parameters, optional}
-
-\item{\code{body}}{(list) body request, optional}
-
-\item{\code{headers}}{(list) headers, optional}
-
-\item{\code{basic_auth}}{(list) vector of length 2 (username, password),
+      \item{\code{uri}}{(character) request URI. required or uri_regex}
+      \item{\code{uri_regex}}{(character) request URI as regex. required or uri}
+      \item{\code{query}}{(list) query parameters, optional}
+      \item{\code{body}}{(list) body request, optional}
+      \item{\code{headers}}{(list) headers, optional}
+      \item{\code{basic_auth}}{(list) vector of length 2 (username, password),
 optional}
+    }
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Returns}{
+    A new \code{RequestPattern} object
+  }
 }
-\if{html}{\out{</div>}}
-}
-\subsection{Returns}{
-A new \code{RequestPattern} object
-}
-}
+
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-RequestPattern-matches"></a>}}
 \if{latex}{\out{\hypertarget{method-RequestPattern-matches}{}}}
-\subsection{Method \code{matches()}}{
-does a request signature match the selected matchers?
-\subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{RequestPattern$matches(request_signature)}\if{html}{\out{</div>}}
+\subsection{\code{RequestPattern$matches()}}{
+  does a request signature match the selected matchers?
+  \subsection{Usage}{
+    \if{html}{\out{<div class="r">}}
+    \preformatted{RequestPattern$matches(request_signature)}
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Arguments}{
+    \if{html}{\out{<div class="arguments">}}
+    \describe{
+      \item{\code{request_signature}}{a \link{RequestSignature} object}
+    }
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Returns}{
+    a boolean
+  }
 }
 
-\subsection{Arguments}{
-\if{html}{\out{<div class="arguments">}}
-\describe{
-\item{\code{request_signature}}{a \link{RequestSignature} object}
-}
-\if{html}{\out{</div>}}
-}
-\subsection{Returns}{
-a boolean
-}
-}
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-RequestPattern-to_s"></a>}}
 \if{latex}{\out{\hypertarget{method-RequestPattern-to_s}{}}}
-\subsection{Method \code{to_s()}}{
-Print pattern for easy human consumption
-\subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{RequestPattern$to_s()}\if{html}{\out{</div>}}
+\subsection{\code{RequestPattern$to_s()}}{
+  Print pattern for easy human consumption
+  \subsection{Usage}{
+    \if{html}{\out{<div class="r">}}
+    \preformatted{RequestPattern$to_s()}
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Returns}{
+    a string
+  }
 }
 
-\subsection{Returns}{
-a string
-}
-}
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-RequestPattern-clone"></a>}}
 \if{latex}{\out{\hypertarget{method-RequestPattern-clone}{}}}
-\subsection{Method \code{clone()}}{
-The objects of this class are cloneable with this method.
-\subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{RequestPattern$clone(deep = FALSE)}\if{html}{\out{</div>}}
+\subsection{\code{RequestPattern$clone()}}{
+  The objects of this class are cloneable with this method.
+  \subsection{Usage}{
+    \if{html}{\out{<div class="r">}}
+    \preformatted{RequestPattern$clone(deep = FALSE)}
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Arguments}{
+    \if{html}{\out{<div class="arguments">}}
+    \describe{
+      \item{\code{deep}}{Whether to make a deep clone.}
+    }
+    \if{html}{\out{</div>}}
+  }
 }
 
-\subsection{Arguments}{
-\if{html}{\out{<div class="arguments">}}
-\describe{
-\item{\code{deep}}{Whether to make a deep clone.}
-}
-\if{html}{\out{</div>}}
-}
-}
 }

@@ -8,96 +8,103 @@ body matcher
 }
 \keyword{internal}
 \section{Public fields}{
-\if{html}{\out{<div class="r6-fields">}}
-\describe{
-\item{\code{pattern}}{a list}
+  \if{html}{\out{<div class="r6-fields">}}
+  \describe{
+    \item{\code{pattern}}{a list}
 
-\item{\code{partial}}{bool, default: \code{FALSE}}
+    \item{\code{partial}}{bool, default: \code{FALSE}}
 
-\item{\code{partial_type}}{a string, default: NULL}
-}
-\if{html}{\out{</div>}}
+    \item{\code{partial_type}}{a string, default: NULL}
+  }
+  \if{html}{\out{</div>}}
 }
 \section{Methods}{
 \subsection{Public methods}{
-\itemize{
-\item \href{#method-BodyPattern-new}{\code{BodyPattern$new()}}
-\item \href{#method-BodyPattern-matches}{\code{BodyPattern$matches()}}
-\item \href{#method-BodyPattern-to_s}{\code{BodyPattern$to_s()}}
-\item \href{#method-BodyPattern-clone}{\code{BodyPattern$clone()}}
-}
+  \itemize{
+    \item \href{#method-BodyPattern-initialize}{\code{BodyPattern$new()}}
+    \item \href{#method-BodyPattern-matches}{\code{BodyPattern$matches()}}
+    \item \href{#method-BodyPattern-to_s}{\code{BodyPattern$to_s()}}
+    \item \href{#method-BodyPattern-clone}{\code{BodyPattern$clone()}}
+  }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-BodyPattern-new"></a>}}
-\if{latex}{\out{\hypertarget{method-BodyPattern-new}{}}}
-\subsection{Method \code{new()}}{
-Create a new \code{BodyPattern} object
-\subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{BodyPattern$new(pattern)}\if{html}{\out{</div>}}
+\if{html}{\out{<a id="method-BodyPattern-initialize"></a>}}
+\if{latex}{\out{\hypertarget{method-BodyPattern-initialize}{}}}
+\subsection{\code{BodyPattern$new()}}{
+  Create a new \code{BodyPattern} object
+  \subsection{Usage}{
+    \if{html}{\out{<div class="r">}}
+    \preformatted{BodyPattern$new(pattern)}
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Arguments}{
+    \if{html}{\out{<div class="arguments">}}
+    \describe{
+      \item{\code{pattern}}{(list) a body object - from a request stub (i.e.,
+the mock)}
+    }
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Returns}{
+    A new \code{BodyPattern} object
+  }
 }
 
-\subsection{Arguments}{
-\if{html}{\out{<div class="arguments">}}
-\describe{
-\item{\code{pattern}}{(list) a body object - from a request stub (i.e.,
-the mock)}
-}
-\if{html}{\out{</div>}}
-}
-\subsection{Returns}{
-A new \code{BodyPattern} object
-}
-}
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-BodyPattern-matches"></a>}}
 \if{latex}{\out{\hypertarget{method-BodyPattern-matches}{}}}
-\subsection{Method \code{matches()}}{
-Match a request body pattern against a pattern
-\subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{BodyPattern$matches(body, content_type = "")}\if{html}{\out{</div>}}
+\subsection{\code{BodyPattern$matches()}}{
+  Match a request body pattern against a pattern
+  \subsection{Usage}{
+    \if{html}{\out{<div class="r">}}
+    \preformatted{BodyPattern$matches(body, content_type = "")}
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Arguments}{
+    \if{html}{\out{<div class="arguments">}}
+    \describe{
+      \item{\code{body}}{(list) the body, i.e., from the HTTP request}
+      \item{\code{content_type}}{(character) content type}
+    }
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Returns}{
+    a boolean
+  }
 }
 
-\subsection{Arguments}{
-\if{html}{\out{<div class="arguments">}}
-\describe{
-\item{\code{body}}{(list) the body, i.e., from the HTTP request}
-
-\item{\code{content_type}}{(character) content type}
-}
-\if{html}{\out{</div>}}
-}
-\subsection{Returns}{
-a boolean
-}
-}
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-BodyPattern-to_s"></a>}}
 \if{latex}{\out{\hypertarget{method-BodyPattern-to_s}{}}}
-\subsection{Method \code{to_s()}}{
-Print pattern for easy human consumption
-\subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{BodyPattern$to_s()}\if{html}{\out{</div>}}
+\subsection{\code{BodyPattern$to_s()}}{
+  Print pattern for easy human consumption
+  \subsection{Usage}{
+    \if{html}{\out{<div class="r">}}
+    \preformatted{BodyPattern$to_s()}
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Returns}{
+    a string
+  }
 }
 
-\subsection{Returns}{
-a string
-}
-}
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-BodyPattern-clone"></a>}}
 \if{latex}{\out{\hypertarget{method-BodyPattern-clone}{}}}
-\subsection{Method \code{clone()}}{
-The objects of this class are cloneable with this method.
-\subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{BodyPattern$clone(deep = FALSE)}\if{html}{\out{</div>}}
+\subsection{\code{BodyPattern$clone()}}{
+  The objects of this class are cloneable with this method.
+  \subsection{Usage}{
+    \if{html}{\out{<div class="r">}}
+    \preformatted{BodyPattern$clone(deep = FALSE)}
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Arguments}{
+    \if{html}{\out{<div class="arguments">}}
+    \describe{
+      \item{\code{deep}}{Whether to make a deep clone.}
+    }
+    \if{html}{\out{</div>}}
+  }
 }
 
-\subsection{Arguments}{
-\if{html}{\out{<div class="arguments">}}
-\describe{
-\item{\code{deep}}{Whether to make a deep clone.}
-}
-\if{html}{\out{</div>}}
-}
-}
 }

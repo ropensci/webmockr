@@ -11,89 +11,97 @@ Matches regardless of case. e.g., POST will match to post
 }
 \keyword{internal}
 \section{Public fields}{
-\if{html}{\out{<div class="r6-fields">}}
-\describe{
-\item{\code{pattern}}{(character) an http method}
-}
-\if{html}{\out{</div>}}
+  \if{html}{\out{<div class="r6-fields">}}
+  \describe{
+    \item{\code{pattern}}{(character) an http method}
+  }
+  \if{html}{\out{</div>}}
 }
 \section{Methods}{
 \subsection{Public methods}{
-\itemize{
-\item \href{#method-MethodPattern-new}{\code{MethodPattern$new()}}
-\item \href{#method-MethodPattern-matches}{\code{MethodPattern$matches()}}
-\item \href{#method-MethodPattern-to_s}{\code{MethodPattern$to_s()}}
-\item \href{#method-MethodPattern-clone}{\code{MethodPattern$clone()}}
-}
+  \itemize{
+    \item \href{#method-MethodPattern-initialize}{\code{MethodPattern$new()}}
+    \item \href{#method-MethodPattern-matches}{\code{MethodPattern$matches()}}
+    \item \href{#method-MethodPattern-to_s}{\code{MethodPattern$to_s()}}
+    \item \href{#method-MethodPattern-clone}{\code{MethodPattern$clone()}}
+  }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-MethodPattern-new"></a>}}
-\if{latex}{\out{\hypertarget{method-MethodPattern-new}{}}}
-\subsection{Method \code{new()}}{
-Create a new \code{MethodPattern} object
-\subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{MethodPattern$new(pattern)}\if{html}{\out{</div>}}
+\if{html}{\out{<a id="method-MethodPattern-initialize"></a>}}
+\if{latex}{\out{\hypertarget{method-MethodPattern-initialize}{}}}
+\subsection{\code{MethodPattern$new()}}{
+  Create a new \code{MethodPattern} object
+  \subsection{Usage}{
+    \if{html}{\out{<div class="r">}}
+    \preformatted{MethodPattern$new(pattern)}
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Arguments}{
+    \if{html}{\out{<div class="arguments">}}
+    \describe{
+      \item{\code{pattern}}{(character) a HTTP method, lowercase}
+    }
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Returns}{
+    A new \code{MethodPattern} object
+  }
 }
 
-\subsection{Arguments}{
-\if{html}{\out{<div class="arguments">}}
-\describe{
-\item{\code{pattern}}{(character) a HTTP method, lowercase}
-}
-\if{html}{\out{</div>}}
-}
-\subsection{Returns}{
-A new \code{MethodPattern} object
-}
-}
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-MethodPattern-matches"></a>}}
 \if{latex}{\out{\hypertarget{method-MethodPattern-matches}{}}}
-\subsection{Method \code{matches()}}{
-test if the pattern matches a given http method
-\subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{MethodPattern$matches(method)}\if{html}{\out{</div>}}
+\subsection{\code{MethodPattern$matches()}}{
+  test if the pattern matches a given http method
+  \subsection{Usage}{
+    \if{html}{\out{<div class="r">}}
+    \preformatted{MethodPattern$matches(method)}
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Arguments}{
+    \if{html}{\out{<div class="arguments">}}
+    \describe{
+      \item{\code{method}}{(character) a HTTP method, lowercase}
+    }
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Returns}{
+    a boolean
+  }
 }
 
-\subsection{Arguments}{
-\if{html}{\out{<div class="arguments">}}
-\describe{
-\item{\code{method}}{(character) a HTTP method, lowercase}
-}
-\if{html}{\out{</div>}}
-}
-\subsection{Returns}{
-a boolean
-}
-}
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-MethodPattern-to_s"></a>}}
 \if{latex}{\out{\hypertarget{method-MethodPattern-to_s}{}}}
-\subsection{Method \code{to_s()}}{
-Print pattern for easy human consumption
-\subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{MethodPattern$to_s()}\if{html}{\out{</div>}}
+\subsection{\code{MethodPattern$to_s()}}{
+  Print pattern for easy human consumption
+  \subsection{Usage}{
+    \if{html}{\out{<div class="r">}}
+    \preformatted{MethodPattern$to_s()}
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Returns}{
+    a string
+  }
 }
 
-\subsection{Returns}{
-a string
-}
-}
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-MethodPattern-clone"></a>}}
 \if{latex}{\out{\hypertarget{method-MethodPattern-clone}{}}}
-\subsection{Method \code{clone()}}{
-The objects of this class are cloneable with this method.
-\subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{MethodPattern$clone(deep = FALSE)}\if{html}{\out{</div>}}
+\subsection{\code{MethodPattern$clone()}}{
+  The objects of this class are cloneable with this method.
+  \subsection{Usage}{
+    \if{html}{\out{<div class="r">}}
+    \preformatted{MethodPattern$clone(deep = FALSE)}
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Arguments}{
+    \if{html}{\out{<div class="arguments">}}
+    \describe{
+      \item{\code{deep}}{Whether to make a deep clone.}
+    }
+    \if{html}{\out{</div>}}
+  }
 }
 
-\subsection{Arguments}{
-\if{html}{\out{<div class="arguments">}}
-\describe{
-\item{\code{deep}}{Whether to make a deep clone.}
-}
-\if{html}{\out{</div>}}
-}
-}
 }

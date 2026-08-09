@@ -35,8 +35,8 @@ Values for query, body, headers, and basic_auth:
 class in the recorded stub. You can pass numeric, integer, etc., but
 all will be coerced to character.
 \item body: various, including character string, list, raw, numeric,
-upload (\code{\link[crul:upload]{crul::upload()}}, \code{\link[httr:upload_file]{httr::upload_file()}}, \code{\link[curl:multipart]{curl::form_file()}}, or
-\code{\link[curl:multipart]{curl::form_data()}} they both create the same object in the end). for the
+upload (\code{\link[crul:upload]{crul::upload()}}, \code{\link[httr:upload_file]{httr::upload_file()}}, \code{\link[curl:form_file]{curl::form_file()}}, or
+\code{\link[curl:form_data]{curl::form_data()}} they both create the same object in the end). for the
 special case of an empty request body use \code{NA} instead of \code{NULL} because
 with \code{NULL} we can't determine if the user did not supply a body or
 they supplied \code{NULL} to indicate an empty body.

@@ -11,231 +11,241 @@ stubbed request class underlying \code{\link[=stub_request]{stub_request()}}
 }
 \keyword{internal}
 \section{Public fields}{
-\if{html}{\out{<div class="r6-fields">}}
-\describe{
-\item{\code{method}}{(xx) xx}
+  \if{html}{\out{<div class="r6-fields">}}
+  \describe{
+    \item{\code{method}}{(xx) xx}
 
-\item{\code{uri}}{(xx) xx}
+    \item{\code{uri}}{(xx) xx}
 
-\item{\code{uri_regex}}{(xx) xx}
+    \item{\code{uri_regex}}{(xx) xx}
 
-\item{\code{regex}}{a logical}
+    \item{\code{regex}}{a logical}
 
-\item{\code{uri_parts}}{(xx) xx}
+    \item{\code{uri_parts}}{(xx) xx}
 
-\item{\code{host}}{(xx) xx}
+    \item{\code{host}}{(xx) xx}
 
-\item{\code{query}}{(xx) xx}
+    \item{\code{query}}{(xx) xx}
 
-\item{\code{body}}{(xx) xx}
+    \item{\code{body}}{(xx) xx}
 
-\item{\code{basic_auth}}{(xx) xx}
+    \item{\code{basic_auth}}{(xx) xx}
 
-\item{\code{request_headers}}{(xx) xx}
+    \item{\code{request_headers}}{(xx) xx}
 
-\item{\code{response_headers}}{(xx) xx}
+    \item{\code{response_headers}}{(xx) xx}
 
-\item{\code{responses_sequences}}{(xx) xx}
+    \item{\code{responses_sequences}}{(xx) xx}
 
-\item{\code{status_code}}{(xx) xx}
+    \item{\code{status_code}}{(xx) xx}
 
-\item{\code{counter}}{a StubCounter object}
-}
-\if{html}{\out{</div>}}
+    \item{\code{counter}}{a StubCounter object}
+  }
+  \if{html}{\out{</div>}}
 }
 \section{Methods}{
 \subsection{Public methods}{
-\itemize{
-\item \href{#method-StubbedRequest-new}{\code{StubbedRequest$new()}}
-\item \href{#method-StubbedRequest-print}{\code{StubbedRequest$print()}}
-\item \href{#method-StubbedRequest-with}{\code{StubbedRequest$with()}}
-\item \href{#method-StubbedRequest-to_return}{\code{StubbedRequest$to_return()}}
-\item \href{#method-StubbedRequest-to_timeout}{\code{StubbedRequest$to_timeout()}}
-\item \href{#method-StubbedRequest-to_raise}{\code{StubbedRequest$to_raise()}}
-\item \href{#method-StubbedRequest-to_s}{\code{StubbedRequest$to_s()}}
-\item \href{#method-StubbedRequest-reset}{\code{StubbedRequest$reset()}}
-\item \href{#method-StubbedRequest-clone}{\code{StubbedRequest$clone()}}
-}
+  \itemize{
+    \item \href{#method-StubbedRequest-initialize}{\code{StubbedRequest$new()}}
+    \item \href{#method-StubbedRequest-print}{\code{StubbedRequest$print()}}
+    \item \href{#method-StubbedRequest-with}{\code{StubbedRequest$with()}}
+    \item \href{#method-StubbedRequest-to_return}{\code{StubbedRequest$to_return()}}
+    \item \href{#method-StubbedRequest-to_timeout}{\code{StubbedRequest$to_timeout()}}
+    \item \href{#method-StubbedRequest-to_raise}{\code{StubbedRequest$to_raise()}}
+    \item \href{#method-StubbedRequest-to_s}{\code{StubbedRequest$to_s()}}
+    \item \href{#method-StubbedRequest-reset}{\code{StubbedRequest$reset()}}
+    \item \href{#method-StubbedRequest-clone}{\code{StubbedRequest$clone()}}
+  }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-StubbedRequest-new"></a>}}
-\if{latex}{\out{\hypertarget{method-StubbedRequest-new}{}}}
-\subsection{Method \code{new()}}{
-Create a new \code{StubbedRequest} object
-\subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{StubbedRequest$new(method, uri = NULL, uri_regex = NULL)}\if{html}{\out{</div>}}
-}
-
-\subsection{Arguments}{
-\if{html}{\out{<div class="arguments">}}
-\describe{
-\item{\code{method}}{the HTTP method (any, head, get, post, put,
+\if{html}{\out{<a id="method-StubbedRequest-initialize"></a>}}
+\if{latex}{\out{\hypertarget{method-StubbedRequest-initialize}{}}}
+\subsection{\code{StubbedRequest$new()}}{
+  Create a new \code{StubbedRequest} object
+  \subsection{Usage}{
+    \if{html}{\out{<div class="r">}}
+    \preformatted{StubbedRequest$new(method, uri = NULL, uri_regex = NULL)}
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Arguments}{
+    \if{html}{\out{<div class="arguments">}}
+    \describe{
+      \item{\code{method}}{the HTTP method (any, head, get, post, put,
 patch, or delete). "any" matches any HTTP method. required.}
-
-\item{\code{uri}}{(character) request URI. either this or \code{uri_regex}
+      \item{\code{uri}}{(character) request URI. either this or \code{uri_regex}
 required. \pkg{webmockr} can match uri's without the "http" scheme,
 but does not match if the scheme is "https". required, unless
 \code{uri_regex} given. See \link{UriPattern} for more.}
-
-\item{\code{uri_regex}}{(character) request URI as regex. either this or \code{uri}
+      \item{\code{uri_regex}}{(character) request URI as regex. either this or \code{uri}
 required}
+    }
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Returns}{
+    A new \code{StubbedRequest} object
+  }
 }
-\if{html}{\out{</div>}}
-}
-\subsection{Returns}{
-A new \code{StubbedRequest} object
-}
-}
+
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-StubbedRequest-print"></a>}}
 \if{latex}{\out{\hypertarget{method-StubbedRequest-print}{}}}
-\subsection{Method \code{print()}}{
-print method for the \code{StubbedRequest} class
-\subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{StubbedRequest$print(x, ...)}\if{html}{\out{</div>}}
+\subsection{\code{StubbedRequest$print()}}{
+  print method for the \code{StubbedRequest} class
+  \subsection{Usage}{
+    \if{html}{\out{<div class="r">}}
+    \preformatted{StubbedRequest$print(x, ...)}
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Arguments}{
+    \if{html}{\out{<div class="arguments">}}
+    \describe{
+      \item{\code{x}}{self}
+      \item{\code{...}}{ignored}
+    }
+    \if{html}{\out{</div>}}
+  }
 }
 
-\subsection{Arguments}{
-\if{html}{\out{<div class="arguments">}}
-\describe{
-\item{\code{x}}{self}
-
-\item{\code{...}}{ignored}
-}
-\if{html}{\out{</div>}}
-}
-}
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-StubbedRequest-with"></a>}}
 \if{latex}{\out{\hypertarget{method-StubbedRequest-with}{}}}
-\subsection{Method \code{with()}}{
-Set expectations for what's given in HTTP request
-\subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{StubbedRequest$with(
+\subsection{\code{StubbedRequest$with()}}{
+  Set expectations for what's given in HTTP request
+  \subsection{Usage}{
+    \if{html}{\out{<div class="r">}}
+    \preformatted{StubbedRequest$with(
   query = NULL,
   body = NULL,
   headers = NULL,
   basic_auth = NULL
-)}\if{html}{\out{</div>}}
+)}
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Arguments}{
+    \if{html}{\out{<div class="arguments">}}
+    \describe{
+      \item{\code{query}}{(list) request query params, as a named list. optional}
+      \item{\code{body}}{(list) request body, as a named list. optional}
+      \item{\code{headers}}{(list) request headers as a named list. optional.}
+      \item{\code{basic_auth}}{(character) basic authentication. optional.}
+    }
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Returns}{
+    nothing returned; sets only
+  }
 }
 
-\subsection{Arguments}{
-\if{html}{\out{<div class="arguments">}}
-\describe{
-\item{\code{query}}{(list) request query params, as a named list. optional}
-
-\item{\code{body}}{(list) request body, as a named list. optional}
-
-\item{\code{headers}}{(list) request headers as a named list. optional.}
-
-\item{\code{basic_auth}}{(character) basic authentication. optional.}
-}
-\if{html}{\out{</div>}}
-}
-\subsection{Returns}{
-nothing returned; sets only
-}
-}
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-StubbedRequest-to_return"></a>}}
 \if{latex}{\out{\hypertarget{method-StubbedRequest-to_return}{}}}
-\subsection{Method \code{to_return()}}{
-Set expectations for what's returned in HTTP response
-\subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{StubbedRequest$to_return(status, body, headers)}\if{html}{\out{</div>}}
-}
-
-\subsection{Arguments}{
-\if{html}{\out{<div class="arguments">}}
-\describe{
-\item{\code{status}}{(numeric) an HTTP status code}
-
-\item{\code{body}}{(list) response body, one of: \code{character}, \code{json},
+\subsection{\code{StubbedRequest$to_return()}}{
+  Set expectations for what's returned in HTTP response
+  \subsection{Usage}{
+    \if{html}{\out{<div class="r">}}
+    \preformatted{StubbedRequest$to_return(status, body, headers)}
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Arguments}{
+    \if{html}{\out{<div class="arguments">}}
+    \describe{
+      \item{\code{status}}{(numeric) an HTTP status code}
+      \item{\code{body}}{(list) response body, one of: \code{character}, \code{json},
 \code{list}, \code{raw}, \code{numeric}, \code{NULL}, \code{FALSE}, or a file connection
 (other connection types not supported)}
+      \item{\code{headers}}{(list) named list, response headers. optional.}
+    }
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Returns}{
+    nothing returned; sets whats to be returned
+  }
+}
 
-\item{\code{headers}}{(list) named list, response headers. optional.}
-}
-\if{html}{\out{</div>}}
-}
-\subsection{Returns}{
-nothing returned; sets whats to be returned
-}
-}
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-StubbedRequest-to_timeout"></a>}}
 \if{latex}{\out{\hypertarget{method-StubbedRequest-to_timeout}{}}}
-\subsection{Method \code{to_timeout()}}{
-Response should time out
-\subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{StubbedRequest$to_timeout()}\if{html}{\out{</div>}}
+\subsection{\code{StubbedRequest$to_timeout()}}{
+  Response should time out
+  \subsection{Usage}{
+    \if{html}{\out{<div class="r">}}
+    \preformatted{StubbedRequest$to_timeout()}
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Returns}{
+    nothing returned
+  }
 }
 
-\subsection{Returns}{
-nothing returned
-}
-}
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-StubbedRequest-to_raise"></a>}}
 \if{latex}{\out{\hypertarget{method-StubbedRequest-to_raise}{}}}
-\subsection{Method \code{to_raise()}}{
-Response should raise an exception \code{x}
-\subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{StubbedRequest$to_raise(x)}\if{html}{\out{</div>}}
+\subsection{\code{StubbedRequest$to_raise()}}{
+  Response should raise an exception \code{x}
+  \subsection{Usage}{
+    \if{html}{\out{<div class="r">}}
+    \preformatted{StubbedRequest$to_raise(x)}
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Arguments}{
+    \if{html}{\out{<div class="arguments">}}
+    \describe{
+      \item{\code{x}}{(character) an exception message}
+    }
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Returns}{
+    nothing returned
+  }
 }
 
-\subsection{Arguments}{
-\if{html}{\out{<div class="arguments">}}
-\describe{
-\item{\code{x}}{(character) an exception message}
-}
-\if{html}{\out{</div>}}
-}
-\subsection{Returns}{
-nothing returned
-}
-}
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-StubbedRequest-to_s"></a>}}
 \if{latex}{\out{\hypertarget{method-StubbedRequest-to_s}{}}}
-\subsection{Method \code{to_s()}}{
-Response as a character string
-\subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{StubbedRequest$to_s()}\if{html}{\out{</div>}}
+\subsection{\code{StubbedRequest$to_s()}}{
+  Response as a character string
+  \subsection{Usage}{
+    \if{html}{\out{<div class="r">}}
+    \preformatted{StubbedRequest$to_s()}
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Returns}{
+    (character) the response as a string
+  }
 }
 
-\subsection{Returns}{
-(character) the response as a string
-}
-}
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-StubbedRequest-reset"></a>}}
 \if{latex}{\out{\hypertarget{method-StubbedRequest-reset}{}}}
-\subsection{Method \code{reset()}}{
-Reset the counter for the stub
-\subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{StubbedRequest$reset()}\if{html}{\out{</div>}}
+\subsection{\code{StubbedRequest$reset()}}{
+  Reset the counter for the stub
+  \subsection{Usage}{
+    \if{html}{\out{<div class="r">}}
+    \preformatted{StubbedRequest$reset()}
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Returns}{
+    nothing returned; resets stub counter to no requests
+  }
 }
 
-\subsection{Returns}{
-nothing returned; resets stub counter to no requests
-}
-}
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-StubbedRequest-clone"></a>}}
 \if{latex}{\out{\hypertarget{method-StubbedRequest-clone}{}}}
-\subsection{Method \code{clone()}}{
-The objects of this class are cloneable with this method.
-\subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{StubbedRequest$clone(deep = FALSE)}\if{html}{\out{</div>}}
+\subsection{\code{StubbedRequest$clone()}}{
+  The objects of this class are cloneable with this method.
+  \subsection{Usage}{
+    \if{html}{\out{<div class="r">}}
+    \preformatted{StubbedRequest$clone(deep = FALSE)}
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Arguments}{
+    \if{html}{\out{<div class="arguments">}}
+    \describe{
+      \item{\code{deep}}{Whether to make a deep clone.}
+    }
+    \if{html}{\out{</div>}}
+  }
 }
 
-\subsection{Arguments}{
-\if{html}{\out{<div class="arguments">}}
-\describe{
-\item{\code{deep}}{Whether to make a deep clone.}
-}
-\if{html}{\out{</div>}}
-}
-}
 }

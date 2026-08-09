@@ -53,125 +53,124 @@ bb$to_s()
 }
 \keyword{internal}
 \section{Public fields}{
-\if{html}{\out{<div class="r6-fields">}}
-\describe{
-\item{\code{method}}{(character) an http method}
+  \if{html}{\out{<div class="r6-fields">}}
+  \describe{
+    \item{\code{method}}{(character) an http method}
 
-\item{\code{uri}}{(character) a uri}
+    \item{\code{uri}}{(character) a uri}
 
-\item{\code{body}}{(various) request body}
+    \item{\code{body}}{(various) request body}
 
-\item{\code{headers}}{(list) named list of headers}
+    \item{\code{headers}}{(list) named list of headers}
 
-\item{\code{proxies}}{(list) proxies as a named list}
+    \item{\code{proxies}}{(list) proxies as a named list}
 
-\item{\code{auth}}{(list) authentication details, as a named list}
+    \item{\code{auth}}{(list) authentication details, as a named list}
 
-\item{\code{url}}{internal use}
+    \item{\code{url}}{internal use}
 
-\item{\code{disk}}{(character) if writing to disk, the path}
+    \item{\code{disk}}{(character) if writing to disk, the path}
 
-\item{\code{fields}}{(various) request body details}
+    \item{\code{fields}}{(various) request body details}
 
-\item{\code{output}}{(various) request output details, disk, memory, etc}
-}
-\if{html}{\out{</div>}}
+    \item{\code{output}}{(various) request output details, disk, memory, etc}
+  }
+  \if{html}{\out{</div>}}
 }
 \section{Methods}{
 \subsection{Public methods}{
-\itemize{
-\item \href{#method-RequestSignature-new}{\code{RequestSignature$new()}}
-\item \href{#method-RequestSignature-print}{\code{RequestSignature$print()}}
-\item \href{#method-RequestSignature-as_list}{\code{RequestSignature$as_list()}}
-\item \href{#method-RequestSignature-to_s}{\code{RequestSignature$to_s()}}
-\item \href{#method-RequestSignature-clone}{\code{RequestSignature$clone()}}
-}
+  \itemize{
+    \item \href{#method-RequestSignature-initialize}{\code{RequestSignature$new()}}
+    \item \href{#method-RequestSignature-print}{\code{RequestSignature$print()}}
+    \item \href{#method-RequestSignature-as_list}{\code{RequestSignature$as_list()}}
+    \item \href{#method-RequestSignature-to_s}{\code{RequestSignature$to_s()}}
+    \item \href{#method-RequestSignature-clone}{\code{RequestSignature$clone()}}
+  }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-RequestSignature-new"></a>}}
-\if{latex}{\out{\hypertarget{method-RequestSignature-new}{}}}
-\subsection{Method \code{new()}}{
-Create a new \code{RequestSignature} object
-\subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{RequestSignature$new(method, uri, options = list())}\if{html}{\out{</div>}}
-}
-
-\subsection{Arguments}{
-\if{html}{\out{<div class="arguments">}}
-\describe{
-\item{\code{method}}{the HTTP method (any, head, options, get, post, put,
+\if{html}{\out{<a id="method-RequestSignature-initialize"></a>}}
+\if{latex}{\out{\hypertarget{method-RequestSignature-initialize}{}}}
+\subsection{\code{RequestSignature$new()}}{
+  Create a new \code{RequestSignature} object
+  \subsection{Usage}{
+    \if{html}{\out{<div class="r">}}
+    \preformatted{RequestSignature$new(method, uri, options = list())}
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Arguments}{
+    \if{html}{\out{<div class="arguments">}}
+    \describe{
+      \item{\code{method}}{the HTTP method (any, head, options, get, post, put,
 patch, trace, or delete). "any" matches any HTTP method. required.}
+      \item{\code{uri}}{(character) request URI. required.}
+      \item{\code{options}}{(list) options. optional. See Details.}
+    }
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Returns}{
+    A new \code{RequestSignature} object
+  }
+}
 
-\item{\code{uri}}{(character) request URI. required.}
-
-\item{\code{options}}{(list) options. optional. See Details.}
-}
-\if{html}{\out{</div>}}
-}
-\subsection{Returns}{
-A new \code{RequestSignature} object
-}
-}
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-RequestSignature-print"></a>}}
 \if{latex}{\out{\hypertarget{method-RequestSignature-print}{}}}
-\subsection{Method \code{print()}}{
-print method for the \code{RequestSignature} class
-\subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{RequestSignature$print()}\if{html}{\out{</div>}}
+\subsection{\code{RequestSignature$print()}}{
+  print method for the \code{RequestSignature} class
+  \subsection{Usage}{
+    \if{html}{\out{<div class="r">}}
+    \preformatted{RequestSignature$print()}
+    \if{html}{\out{</div>}}
+  }
 }
 
-\subsection{Arguments}{
-\if{html}{\out{<div class="arguments">}}
-\describe{
-\item{\code{x}}{self}
-
-\item{\code{...}}{ignored}
-}
-\if{html}{\out{</div>}}
-}
-}
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-RequestSignature-as_list"></a>}}
 \if{latex}{\out{\hypertarget{method-RequestSignature-as_list}{}}}
-\subsection{Method \code{as_list()}}{
-Request a named list with all data
-\subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{RequestSignature$as_list()}\if{html}{\out{</div>}}
+\subsection{\code{RequestSignature$as_list()}}{
+  Request a named list with all data
+  \subsection{Usage}{
+    \if{html}{\out{<div class="r">}}
+    \preformatted{RequestSignature$as_list()}
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Returns}{
+    a named list
+  }
 }
 
-\subsection{Returns}{
-a named list
-}
-}
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-RequestSignature-to_s"></a>}}
 \if{latex}{\out{\hypertarget{method-RequestSignature-to_s}{}}}
-\subsection{Method \code{to_s()}}{
-Request signature to a string
-\subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{RequestSignature$to_s()}\if{html}{\out{</div>}}
+\subsection{\code{RequestSignature$to_s()}}{
+  Request signature to a string
+  \subsection{Usage}{
+    \if{html}{\out{<div class="r">}}
+    \preformatted{RequestSignature$to_s()}
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Returns}{
+    a character string representation of the request signature
+  }
 }
 
-\subsection{Returns}{
-a character string representation of the request signature
-}
-}
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-RequestSignature-clone"></a>}}
 \if{latex}{\out{\hypertarget{method-RequestSignature-clone}{}}}
-\subsection{Method \code{clone()}}{
-The objects of this class are cloneable with this method.
-\subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{RequestSignature$clone(deep = FALSE)}\if{html}{\out{</div>}}
+\subsection{\code{RequestSignature$clone()}}{
+  The objects of this class are cloneable with this method.
+  \subsection{Usage}{
+    \if{html}{\out{<div class="r">}}
+    \preformatted{RequestSignature$clone(deep = FALSE)}
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Arguments}{
+    \if{html}{\out{<div class="arguments">}}
+    \describe{
+      \item{\code{deep}}{Whether to make a deep clone.}
+    }
+    \if{html}{\out{</div>}}
+  }
 }
 
-\subsection{Arguments}{
-\if{html}{\out{<div class="arguments">}}
-\describe{
-\item{\code{deep}}{Whether to make a deep clone.}
-}
-\if{html}{\out{</div>}}
-}
-}
 }

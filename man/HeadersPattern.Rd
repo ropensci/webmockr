@@ -15,111 +15,121 @@ and
 }
 \keyword{internal}
 \section{Public fields}{
-\if{html}{\out{<div class="r6-fields">}}
-\describe{
-\item{\code{pattern}}{a list}
-}
-\if{html}{\out{</div>}}
+  \if{html}{\out{<div class="r6-fields">}}
+  \describe{
+    \item{\code{pattern}}{a list}
+  }
+  \if{html}{\out{</div>}}
 }
 \section{Methods}{
 \subsection{Public methods}{
-\itemize{
-\item \href{#method-HeadersPattern-new}{\code{HeadersPattern$new()}}
-\item \href{#method-HeadersPattern-matches}{\code{HeadersPattern$matches()}}
-\item \href{#method-HeadersPattern-empty_headers}{\code{HeadersPattern$empty_headers()}}
-\item \href{#method-HeadersPattern-to_s}{\code{HeadersPattern$to_s()}}
-\item \href{#method-HeadersPattern-clone}{\code{HeadersPattern$clone()}}
-}
+  \itemize{
+    \item \href{#method-HeadersPattern-initialize}{\code{HeadersPattern$new()}}
+    \item \href{#method-HeadersPattern-matches}{\code{HeadersPattern$matches()}}
+    \item \href{#method-HeadersPattern-empty_headers}{\code{HeadersPattern$empty_headers()}}
+    \item \href{#method-HeadersPattern-to_s}{\code{HeadersPattern$to_s()}}
+    \item \href{#method-HeadersPattern-clone}{\code{HeadersPattern$clone()}}
+  }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-HeadersPattern-new"></a>}}
-\if{latex}{\out{\hypertarget{method-HeadersPattern-new}{}}}
-\subsection{Method \code{new()}}{
-Create a new \code{HeadersPattern} object
-\subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{HeadersPattern$new(pattern)}\if{html}{\out{</div>}}
+\if{html}{\out{<a id="method-HeadersPattern-initialize"></a>}}
+\if{latex}{\out{\hypertarget{method-HeadersPattern-initialize}{}}}
+\subsection{\code{HeadersPattern$new()}}{
+  Create a new \code{HeadersPattern} object
+  \subsection{Usage}{
+    \if{html}{\out{<div class="r">}}
+    \preformatted{HeadersPattern$new(pattern)}
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Arguments}{
+    \if{html}{\out{<div class="arguments">}}
+    \describe{
+      \item{\code{pattern}}{(list) a pattern, as a named list, must be named,
+e.g,. \code{list(a = 5, b = 6)}}
+    }
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Returns}{
+    A new \code{HeadersPattern} object
+  }
 }
 
-\subsection{Arguments}{
-\if{html}{\out{<div class="arguments">}}
-\describe{
-\item{\code{pattern}}{(list) a pattern, as a named list, must be named,
-e.g,. \code{list(a = 5, b = 6)}}
-}
-\if{html}{\out{</div>}}
-}
-\subsection{Returns}{
-A new \code{HeadersPattern} object
-}
-}
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-HeadersPattern-matches"></a>}}
 \if{latex}{\out{\hypertarget{method-HeadersPattern-matches}{}}}
-\subsection{Method \code{matches()}}{
-Match a list of headers against that stored
-\subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{HeadersPattern$matches(headers)}\if{html}{\out{</div>}}
+\subsection{\code{HeadersPattern$matches()}}{
+  Match a list of headers against that stored
+  \subsection{Usage}{
+    \if{html}{\out{<div class="r">}}
+    \preformatted{HeadersPattern$matches(headers)}
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Arguments}{
+    \if{html}{\out{<div class="arguments">}}
+    \describe{
+      \item{\code{headers}}{(list) named list of headers, e.g,. \code{list(a = 5, b = 6)}}
+    }
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Returns}{
+    a boolean
+  }
 }
 
-\subsection{Arguments}{
-\if{html}{\out{<div class="arguments">}}
-\describe{
-\item{\code{headers}}{(list) named list of headers, e.g,. \code{list(a = 5, b = 6)}}
-}
-\if{html}{\out{</div>}}
-}
-\subsection{Returns}{
-a boolean
-}
-}
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-HeadersPattern-empty_headers"></a>}}
 \if{latex}{\out{\hypertarget{method-HeadersPattern-empty_headers}{}}}
-\subsection{Method \code{empty_headers()}}{
-Are headers empty? tests if null or length==0
-\subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{HeadersPattern$empty_headers(headers)}\if{html}{\out{</div>}}
+\subsection{\code{HeadersPattern$empty_headers()}}{
+  Are headers empty? tests if null or length==0
+  \subsection{Usage}{
+    \if{html}{\out{<div class="r">}}
+    \preformatted{HeadersPattern$empty_headers(headers)}
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Arguments}{
+    \if{html}{\out{<div class="arguments">}}
+    \describe{
+      \item{\code{headers}}{named list of headers}
+    }
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Returns}{
+    a boolean
+  }
 }
 
-\subsection{Arguments}{
-\if{html}{\out{<div class="arguments">}}
-\describe{
-\item{\code{headers}}{named list of headers}
-}
-\if{html}{\out{</div>}}
-}
-\subsection{Returns}{
-a boolean
-}
-}
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-HeadersPattern-to_s"></a>}}
 \if{latex}{\out{\hypertarget{method-HeadersPattern-to_s}{}}}
-\subsection{Method \code{to_s()}}{
-Print pattern for easy human consumption
-\subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{HeadersPattern$to_s()}\if{html}{\out{</div>}}
+\subsection{\code{HeadersPattern$to_s()}}{
+  Print pattern for easy human consumption
+  \subsection{Usage}{
+    \if{html}{\out{<div class="r">}}
+    \preformatted{HeadersPattern$to_s()}
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Returns}{
+    a string
+  }
 }
 
-\subsection{Returns}{
-a string
-}
-}
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-HeadersPattern-clone"></a>}}
 \if{latex}{\out{\hypertarget{method-HeadersPattern-clone}{}}}
-\subsection{Method \code{clone()}}{
-The objects of this class are cloneable with this method.
-\subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{HeadersPattern$clone(deep = FALSE)}\if{html}{\out{</div>}}
+\subsection{\code{HeadersPattern$clone()}}{
+  The objects of this class are cloneable with this method.
+  \subsection{Usage}{
+    \if{html}{\out{<div class="r">}}
+    \preformatted{HeadersPattern$clone(deep = FALSE)}
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Arguments}{
+    \if{html}{\out{<div class="arguments">}}
+    \describe{
+      \item{\code{deep}}{Whether to make a deep clone.}
+    }
+    \if{html}{\out{</div>}}
+  }
 }
 
-\subsection{Arguments}{
-\if{html}{\out{<div class="arguments">}}
-\describe{
-\item{\code{deep}}{Whether to make a deep clone.}
-}
-\if{html}{\out{</div>}}
-}
-}
 }

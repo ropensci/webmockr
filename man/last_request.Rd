@@ -14,7 +14,7 @@ registered request made as a \code{RequestSignature} class
 Get the last HTTP request made
 }
 \examples{
-\dontshow{if (interactive()) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
+\dontshow{if (interactive()) withAutoprint(\{ # examplesIf}
 # no requests
 request_registry_clear()
 last_request()

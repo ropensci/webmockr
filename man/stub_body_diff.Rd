@@ -27,7 +27,7 @@ of \code{\link[=last_stub]{last_stub()}} and \code{\link[=last_request]{last_req
 Under the hood the Suggested package \code{diffobj} is used to do the comparison.
 }
 \examples{
-\dontshow{if (interactive()) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
+\dontshow{if (interactive()) withAutoprint(\{ # examplesIf}
 # stops with error if no stub and request
 request_registry_clear()
 stub_registry_clear()

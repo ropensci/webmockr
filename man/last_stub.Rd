@@ -14,7 +14,7 @@ as a \code{StubbedRequest} class
 Get the last stub created
 }
 \examples{
-\dontshow{if (interactive()) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
+\dontshow{if (interactive()) withAutoprint(\{ # examplesIf}
 # no requests
 stub_registry_clear()
 last_stub()
