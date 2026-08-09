@@ -1,0 +1,10 @@
+{
+  "permission": {
+    "bash": {
+      "ls *": "allow",
+      "echo *": "allow",
+      "whoami *": "allow",
+      "find *": "allow"
+    }
+  }
+}
