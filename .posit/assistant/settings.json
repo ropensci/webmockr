@@ -4,7 +4,9 @@
       "ls *": "allow",
       "echo *": "allow",
       "whoami *": "allow",
-      "find *": "allow"
+      "find *": "allow",
+      "Rscript *": "allow",
+      "tail *": "allow"
     }
   }
 }
