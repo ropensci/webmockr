@@ -12,3 +12,4 @@ write_disk_path-changes.R
 ^docs$
 notes.R
 inst/doc
+docs
