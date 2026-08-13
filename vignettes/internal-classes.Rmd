@@ -1,0 +1,16 @@
+---
+title: "internal-classes"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{internal-classes}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+resource_files:
+  - figures/class-diagram.png
+---
+
+Mermaid diagram of the many internal R6 classes in `webmockr` to help orient potential contributors.
+
+```{r, echo=FALSE, out.width="100%"}
+knitr::include_graphics("figures/class-diagram.png")
+```

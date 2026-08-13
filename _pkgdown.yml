@@ -43,3 +43,10 @@ reference:
     contents:
       - starts_with("last")
       - stub_body_diff
+
+articles:
+  - title: All vignettes
+    desc: ~
+    navbar: ~
+    contents:
+      - internal-classes
