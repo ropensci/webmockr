@@ -11,9 +11,15 @@ reference:
       - webmockr
       - webmockr-package
       - webmockr-defunct
-  - title: "Configuration"
+  - title: "Stubbing requests"
     contents:
-      - webmockr_configure
+      - stub_request
+      - remove_request_stub
+      - to_raise
+      - to_return
+      - to_timeout
+      - wi_th
+      - including
   - title: "Enable/Disable webmockr"
     contents:
       - starts_with("enable")
@@ -26,15 +32,9 @@ reference:
       - stub_registry_clear
       - starts_with("request_registry")
       - webmockr_reset
-  - title: "Stubbing requests"
+  - title: "Configuration"
     contents:
-      - stub_request
-      - remove_request_stub
-      - to_raise
-      - to_return
-      - to_timeout
-      - wi_th
-      - including
+      - webmockr_configure
   - title: "Mocking writing to disk"
     contents:
       - mock_file
@@ -45,8 +45,12 @@ reference:
       - stub_body_diff
 
 articles:
-  - title: All vignettes
-    desc: ~
+  - title: Getting started
     navbar: ~
     contents:
-      - internal-classes
+      - articles/getting-started
+  - title: The details
+    navbar: The details
+    contents:
+      - articles/how-webmockr-works
+      - articles/internal-classes

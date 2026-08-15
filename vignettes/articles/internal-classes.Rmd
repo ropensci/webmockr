@@ -1,8 +1,8 @@
 ---
-title: "internal-classes"
+title: "Internal classes"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{internal-classes}
+  %\VignetteIndexEntry{Internal classes}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 resource_files:
