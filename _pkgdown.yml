@@ -45,10 +45,6 @@ reference:
       - stub_body_diff
 
 articles:
-  - title: Getting started
-    navbar: ~
-    contents:
-      - articles/getting-started
   - title: The details
     navbar: The details
     contents:
