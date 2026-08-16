@@ -34,7 +34,7 @@ test_that("httr: with pipe", {
   expect_equal(content(res)$foo, "bar")
   disable(quiet = TRUE)
 })
-unloadNamespace("httr")
+try(unloadNamespace("httr"), silent = TRUE)
 
 
 test_that("crul works", {
