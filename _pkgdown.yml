@@ -46,7 +46,7 @@ reference:
 
 articles:
   - title: The details
-    navbar: The details
+    navbar: ~
     contents:
       - articles/how-webmockr-works
       - articles/internal-classes
